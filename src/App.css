@@ -1,0 +1,19 @@
+.square-radio {
+    border: 1px solid black;
+    margin: 2px;
+    width: 40px;
+    height: 40px;
+    position: relative;
+
+}
+.square-radio--clicked .square-radio--content{
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: black;
+    width: 20px;
+    height: 20px;
+}

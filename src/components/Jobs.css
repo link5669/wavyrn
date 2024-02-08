@@ -1,0 +1,45 @@
+.parent {
+  overflow: hidden;
+  cursor: pointer;
+  height: 100%;
+  padding: 0px
+}
+
+.child {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+p {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) bottom / 0 .1em no-repeat;
+  transition: 1s background-size;
+}
+
+.parent:hover p {
+  background-size: 100% .1em;
+}
+
+/* .parent:hover .child,
+.parent:focus .child {
+  -ms-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+} */
+
+.child:before {
+  /* content: ""; */
+  /* display: none; */
+  height: 100%;
+  background-color: rgba(52, 73, 94, 0.75);
+}
