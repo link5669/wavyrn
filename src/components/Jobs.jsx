@@ -1,13 +1,12 @@
 import { Col, Container, Row } from "react-bootstrap";
 import "./Jobs.css";
-import { useEffect, useState } from "react";
 import BoxCell from "./BoxCell";
 
 const Jobs = ({ selected }) => {
   return (
     <>
-      <Container>
-        <Row style={{ height: "25vh" }}>
+      <Container style={{margin: '0px'}}>
+        <Row style={{ height: "10em", width: '100vw' }}>
           <Col className="parent" style={{ padding: "0" }}>
             <BoxCell
               selected={selected == 0 ? true : false}
@@ -24,8 +23,8 @@ const Jobs = ({ selected }) => {
           </Col>
         </Row>
       </Container>
-      <Container>
-        <Row style={{ height: "25vh" }}>
+      <Container style={{margin: '0px'}}>
+        <Row style={{ height: "10em", width: '100vw' }}>
           <Col className="parent" style={{ padding: "0" }}>
             <BoxCell
               selected={selected == 2 ? true : false}

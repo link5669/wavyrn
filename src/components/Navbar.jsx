@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 
 const WavNavbar = () => {
@@ -28,28 +29,26 @@ const WavNavbar = () => {
           </Row>
         </Container>
       </div>
-      <Navbar style={{ background: "white" }}>
-        <Container style={{ margin: "0" }}>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-        </Container>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Nav className="justify-content-end" activeKey="/home">
-          <Nav.Item>
-            <Nav.Link href="/home">Active</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link-1">Link</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="link-2">Link</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="disabled" disabled>
-              Disabled
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-      </Navbar>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "flex-start" }}>
+          <image />
+          <p>Wavyrn</p>
+        </div>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Link to="/about-us">
+            <p style={{ paddingRight: "10px" }}>About Us</p>
+          </Link>
+          <Link to="/services">
+            <p style={{ paddingRight: "10px" }}>Services</p>
+          </Link>
+          <Link to="/portfolio">
+            <p style={{ paddingRight: "10px" }}>Portfolio</p>
+          </Link>
+          <Link to="/contact">
+            <p style={{ paddingRight: "30px" }}>Contact</p>
+          </Link>
+        </div>
+      </div>
     </div>
   );
 };

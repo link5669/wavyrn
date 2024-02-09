@@ -1,19 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "react-router-dom";
+import { Route } from "react-router-dom";
+import Home from "./pages/Home"
 import "./App.css";
-import WavNavbar from "./components/Navbar";
-import Jobs from "./components/Jobs";
-import { Container, Form, Row } from "react-bootstrap";
-import SelectBoxes from "./components/SelectBoxes";
+
+import Services from "./pages/Services";
+import Portfolio from "./pages/Portfolio";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
-  const [selected, setSelected] = useState(0);
   return (
     <>
-      <WavNavbar />
-      <Jobs selected={selected} />
-      <SelectBoxes selected={selected} setSelected={setSelected} style={{paddingTop: '1%'}}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/portfolio" element={<Portfolio/>} />
+          <Route path="/about-us" element={<AboutUs/>} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
