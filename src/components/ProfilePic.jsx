@@ -1,5 +1,6 @@
 import { Col } from "react-bootstrap";
-const ProfilePic = ({ name, title }) => {
+import "./ProfilePic.css";
+const ProfilePic = ({ name, title, setSelectedUser }) => {
   const parentStyle = {
     width: "6em",
     height: "6em",
@@ -17,66 +18,39 @@ const ProfilePic = ({ name, title }) => {
     width: "10em",
     textAlign: "center",
   };
-
-  if (name == "spacer") {
-    return (
-      <Col style={{visibility: 'hidden'}}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={parentStyle}>
-            <img src="https://via.placeholder.com/150" style={imgStyle} />
-          </div>
+  return (
+    <Col style={{ paddingBottom: "1%" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div className="parent" style={parentStyle}>
+          <img
+            onClick={() => setSelectedUser({ name: name, title: title })}
+            src="https://via.placeholder.com/150"
+            className="child"
+            style={imgStyle}
+          />
         </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <p style={textStyle}>
-            <b>{name}</b>
-          </p>
-          <p style={textStyle}>{title}</p>
-        </div>
-      </Col>
-    );
-  } else {
-    return (
-      <Col style={{paddingBottom: '1%'}}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div style={parentStyle}>
-            <img src="https://via.placeholder.com/150" style={imgStyle} />
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-        >
-          <p style={textStyle}>
-            <b>{name}</b>
-          </p>
-          <p style={textStyle}>{title}</p>
-        </div>
-      </Col>
-    );
-  }
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <p style={textStyle}>
+          <b>{name}</b>
+        </p>
+        <p style={textStyle}>{title}</p>
+      </div>
+    </Col>
+  );
 };
 
 export default ProfilePic;

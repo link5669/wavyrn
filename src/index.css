@@ -1,5 +1,10 @@
+@font-face {
+  font-family: Quicksand;
+  src: url(../assets/fonts/Quicksand-VariableFont_wght.ttf);
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Quicksand' !important;
   line-height: 1.5;
   font-weight: 400;
 

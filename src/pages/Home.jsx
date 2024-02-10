@@ -1,9 +1,11 @@
-import WavNavbar from "../components/Navbar"
+import WavNavbar from "../components/Navbar";
 
 const Home = () => {
-    return (
-        <WavNavbar/>
-    )
-}
+  return (
+    <div style={{ minHeight: "100vh" }}>
+      <WavNavbar />
+    </div>
+  );
+};
 
-export default Home
+export default Home;

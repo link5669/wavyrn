@@ -12,6 +12,7 @@ import {
   dialogue,
   allUsers,
 } from "../utilities/users";
+import UserCategory from "../components/UserCategory";
 
 const AboutUs = () => {
   const [parent, enableAnimations] = useAutoAnimate({
@@ -19,12 +20,9 @@ const AboutUs = () => {
     easing: "ease-in-out",
     disrespectUserMotionPreference: false,
   });
-  const categoryStyle = {
-    paddingRight: "1em",
-    color: "red",
-    textDecoration: "underline",
-  };
 
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedCat, setSelectedCat] = useState("All");
   const [visibleUsers, setVisibleUsers] = useState(allUsers);
 
   return (
@@ -57,6 +55,7 @@ const AboutUs = () => {
           est.
         </p>
       </div>
+      <hr style={{ width: "33%", marginLeft: "33%" }} />
       <div
         style={{
           display: "flex",
@@ -64,49 +63,87 @@ const AboutUs = () => {
           alignItems: "center",
         }}
       >
-        <p onClick={() => setVisibleUsers(allUsers)} style={categoryStyle}>
-          All
-        </p>
-        <p
-          onClick={() => setVisibleUsers(projectManagement)}
-          style={categoryStyle}
-        >
-          Project Management
-        </p>
-        <p
-          onClick={() => setVisibleUsers(audioDirecting)}
-          style={categoryStyle}
-        >
-          Audio Directing
-        </p>
-        <p onClick={() => setVisibleUsers(production)} style={categoryStyle}>
-          Production
-        </p>
-        <p onClick={() => setVisibleUsers(soundDesign)} style={categoryStyle}>
-          Sound Design
-        </p>
-        <p onClick={() => setVisibleUsers(music)} style={categoryStyle}>
-          Music
-        </p>
-        <p onClick={() => setVisibleUsers(dialogue)} style={categoryStyle}>
-          Dialogue
-        </p>
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={allUsers}
+          category={"All"}
+          selectedCat={selectedCat}
+        />
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={projectManagement}
+          category={"Project Management"}
+          selectedCat={selectedCat}
+        />
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={audioDirecting}
+          category={"Audio Directing"}
+          selectedCat={selectedCat}
+        />
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={production}
+          category={"Production"}
+          selectedCat={selectedCat}
+        />
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={soundDesign}
+          category={"Sound Design"}
+          selectedCat={selectedCat}
+        />
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={music}
+          category={"Music"}
+          selectedCat={selectedCat}
+        />
+        <UserCategory
+          setVisibleUsers={setVisibleUsers}
+          setSelectedCat={setSelectedCat}
+          categoryList={dialogue}
+          category={"Dialogue"}
+          selectedCat={selectedCat}
+        />
       </div>
-      <Container
-        style={{
-          display: "flex",
-          flexFlow: "row wrap",
-          paddingLeft: "15%",
-          paddingRight: "15%",
-        }}
-        ref={parent}
-      >
-        {visibleUsers.map((user) => {
-          return (
-            <ProfilePic key={user.name} name={user.name} title={user.title} />
-          );
-        })}
-      </Container>
+      <div ref={parent}>
+        {selectedUser == null ? (
+          <Container
+            style={{
+              display: "flex",
+              flexFlow: "row wrap",
+              paddingLeft: "15%",
+              paddingRight: "15%",
+            }}
+            ref={parent}
+          >
+            {visibleUsers.map((user) => {
+              return (
+                <ProfilePic
+                  key={user.name}
+                  name={user.name}
+                  title={user.title}
+                  setSelectedUser={setSelectedUser}
+                />
+              );
+            })}
+          </Container>
+        ) : (
+          <ProfilePic
+            key={selectedUser.name}
+            name={selectedUser.name}
+            title={selectedUser.title}
+          />
+        //   <p>{selectedUser.bio}</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ import SoundDesign from "../components/Services/SoundDesign";
 const Services = () => {
   const [selected, setSelected] = useState(0);
   return (
-    <>
+    <div style={{ minHeight: "100vh" }}>
       <WavNavbar />
       <Jobs selected={selected} />
       <SelectBoxes
@@ -24,7 +24,7 @@ const Services = () => {
       {selected === 2 && <SoundDesign />}
       {selected === 3 && <Music />}
       {selected === 4 && <Dialogue />}
-    </>
+    </div>
   );
 };
 

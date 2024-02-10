@@ -3,7 +3,7 @@ import WavNavbar from "../components/Navbar";
 
 const Portfolio = () => {
   return (
-    <>
+    <div style={{ minHeight: "100vh" }}>
       <WavNavbar />
       <div
         style={{
@@ -61,7 +61,7 @@ const Portfolio = () => {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 
