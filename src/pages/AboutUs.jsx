@@ -113,35 +113,31 @@ const AboutUs = () => {
           selectedCat={selectedCat}
         />
       </div>
-      <div ref={parent}>
+      <div
+        ref={parent}
+        style={{
+          display: "flex",
+          flexFlow: "row wrap",
+          paddingLeft: "15%",
+          paddingRight: "15%",
+        }}
+      >
         {selectedUser == null ? (
-          <Container
-            style={{
-              display: "flex",
-              flexFlow: "row wrap",
-              paddingLeft: "15%",
-              paddingRight: "15%",
-            }}
-            ref={parent}
-          >
-            {visibleUsers.map((user) => {
-              return (
-                <ProfilePic
-                  key={user.name}
-                  name={user.name}
-                  title={user.title}
-                  setSelectedUser={setSelectedUser}
-                />
-              );
-            })}
-          </Container>
+          visibleUsers.map((user) => (
+            <ProfilePic
+              key={user.name}
+              name={user.name}
+              title={user.title}
+              setSelectedUser={setSelectedUser}
+            />
+          ))
         ) : (
           <ProfilePic
             key={selectedUser.name}
             name={selectedUser.name}
             title={selectedUser.title}
           />
-        //   <p>{selectedUser.bio}</p>
+          // <p>{selectedUser.bio}</p>
         )}
       </div>
     </div>
