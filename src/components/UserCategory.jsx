@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 
-const UserCategory = ({setVisibleUsers, setSelectedCat, categoryList, category, selectedCat}) => {
+const UserCategory = ({
+  setVisibleUsers,
+  setSelectedCat,
+  categoryList,
+  category,
+  selectedCat,
+}) => {
   return (
     <p
       onClick={() => {
@@ -10,8 +16,7 @@ const UserCategory = ({setVisibleUsers, setSelectedCat, categoryList, category, 
       style={{
         paddingRight: "1em",
         color: selectedCat == category ? "red" : "black",
-        textDecoration:
-          selectedCat == category ? "underline" : "none",
+        textDecoration: selectedCat == category ? "underline" : "none",
       }}
     >
       {category}
@@ -19,4 +24,4 @@ const UserCategory = ({setVisibleUsers, setSelectedCat, categoryList, category, 
   );
 };
 
-export default UserCategory
+export default UserCategory;

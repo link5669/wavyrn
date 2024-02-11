@@ -1,18 +1,11 @@
 import WavNavbar from "../components/Navbar";
 import ProfilePic from "../components/ProfilePic";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Col } from "react-bootstrap";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useState } from "react";
-import {
-  projectManagement,
-  audioDirecting,
-  production,
-  soundDesign,
-  music,
-  dialogue,
-  allUsers,
-} from "../utilities/users";
+import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
+import { X_svg } from "../utilities/svgs";
 
 const AboutUs = () => {
   const [parent, enableAnimations] = useAutoAnimate({
@@ -63,55 +56,18 @@ const AboutUs = () => {
           alignItems: "center",
         }}
       >
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={allUsers}
-          category={"All"}
-          selectedCat={selectedCat}
-        />
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={projectManagement}
-          category={"Project Management"}
-          selectedCat={selectedCat}
-        />
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={audioDirecting}
-          category={"Audio Directing"}
-          selectedCat={selectedCat}
-        />
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={production}
-          category={"Production"}
-          selectedCat={selectedCat}
-        />
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={soundDesign}
-          category={"Sound Design"}
-          selectedCat={selectedCat}
-        />
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={music}
-          category={"Music"}
-          selectedCat={selectedCat}
-        />
-        <UserCategory
-          setVisibleUsers={setVisibleUsers}
-          setSelectedCat={setSelectedCat}
-          categoryList={dialogue}
-          category={"Dialogue"}
-          selectedCat={selectedCat}
-        />
+        {categories.map((category) => {
+          return (
+            <UserCategory
+              key={category.category}
+              setVisibleUsers={setVisibleUsers}
+              setSelectedCat={setSelectedCat}
+              categoryList={category.categoryList}
+              category={category.category}
+              selectedCat={selectedCat}
+            />
+          );
+        })}
       </div>
       <div
         ref={parent}
@@ -132,12 +88,64 @@ const AboutUs = () => {
             />
           ))
         ) : (
-          <ProfilePic
-            key={selectedUser.name}
-            name={selectedUser.name}
-            title={selectedUser.title}
-          />
-          // <p>{selectedUser.bio}</p>
+          <>
+            <Container
+              style={{
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Col xs={2}></Col>
+              <Col xs={2}>
+                <ProfilePic
+                  key={selectedUser.name}
+                  name={selectedUser.name}
+                  title={selectedUser.title}
+                />
+              </Col>
+              <Col xs={2}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-x"
+                  viewBox="0 0 16 16"
+                  onClick={() => setSelectedUser(null)}
+                >
+                  <X_svg />
+                </svg>
+              </Col>
+            </Container>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+              pharetra erat leo. Suspendisse nec magna ac massa pellentesque
+              mollis. Nullam nec lectus enim. Curabitur dictum justo quis quam
+              mollis tempus. Morbi viverra, ligula id porttitor interdum, turpis
+              nunc porta dui, eget malesuada augue lacus non sem. Nulla ac
+              accumsan justo. Nulla facilisi. Suspendisse potenti. Mauris nec
+              tincidunt dui. Nunc semper ac eros ut tincidunt. Mauris vitae
+              porttitor diam. Phasellus augue odio, tincidunt vel gravida sit
+              amet, egestas non ante. Suspendisse faucibus erat sit amet nisi
+              vehicula suscipit. Nullam convallis leo nec nisi interdum
+              condimentum. Donec auctor nulla pellentesque, tempor nisl
+              lobortis, mollis arcu. Aenean purus tortor, vulputate in lobortis
+              vitae, convallis ut sem. Quisque malesuada sit amet nisl sit amet
+              tempus. Praesent malesuada magna non metus tristique eleifend.
+              Pellentesque imperdiet pulvinar purus. Curabitur et felis quis
+              nunc sodales sodales. Vestibulum sodales metus velit, eu pulvinar
+              ex malesuada ut. Vivamus dui elit, commodo vitae vehicula quis,
+              consectetur at ligula. Etiam accumsan nibh ipsum, a dignissim
+              augue efficitur eget. Nunc vehicula dolor leo, pretium sodales
+              lorem mollis vel. Cras lorem tortor, ultrices nec euismod eu,
+              accumsan at diam. Donec tincidunt lectus ut tortor finibus, a
+              sagittis eros maximus. Quisque dolor turpis, commodo ut est
+              fermentum, pretium sagittis quam. Nullam euismod ullamcorper nisl
+              vel mollis. Suspendisse potenti. Etiam elementum quis est quis
+              suscipit.{" "}
+            </p>
+          </>
         )}
       </div>
     </div>

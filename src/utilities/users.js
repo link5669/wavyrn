@@ -69,6 +69,16 @@ const allUsers = [
   { name: "Ela Morana", title: "Technical Sound Designer, Composer" },
 ];
 
+const categories = [
+    { categoryList: allUsers, category: "All" },
+    { categoryList: projectManagement, category: "Project Management" },
+    { categoryList: audioDirecting, category: "Audio Directing" },
+    { categoryList: production, category: "Production" },
+    { categoryList: soundDesign, category: "Sound Design" },
+    { categoryList: music, category: "Music" },
+    { categoryList: dialogue, category: "Dialogue" },
+  ];
+
 export {
   projectManagement,
   audioDirecting,
@@ -77,4 +87,5 @@ export {
   music,
   dialogue,
   allUsers,
+  categories
 };
