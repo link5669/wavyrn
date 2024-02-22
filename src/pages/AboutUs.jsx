@@ -48,7 +48,6 @@ const AboutUs = () => {
           est.
         </p>
       </div>
-      <hr style={{ width: "33%", marginLeft: "33%" }} />
       <div
         style={{
           display: "flex",
@@ -69,6 +68,7 @@ const AboutUs = () => {
           );
         })}
       </div>
+      <hr style={{ width: "33%", marginLeft: "33%" }} />
       <div
         ref={parent}
         style={{

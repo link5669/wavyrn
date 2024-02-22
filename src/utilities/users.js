@@ -54,7 +54,7 @@ const allUsers = [
   { name: "Ananta Arora", title: "Co-Founder, Business Manager" },
   { name: "Austin Burkett", title: "Sound Designer, Composer" },
   { name: "Gret Price", title: "Sound Designer, Foley Artist" },
-  { name: "Paul May", title: "Sound Designer, Voice Actor" },
+  { name: "Paul Edward May", title: "Sound Designer, Voice Actor" },
   { name: "Caleb Skelly", title: "Sound Designer, VO Producer" },
   { name: "Michelle Lai", title: "Composer, Voice Actor" },
   {

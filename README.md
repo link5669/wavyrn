@@ -1,8 +1,39 @@
-# React + Vite
+TODO
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+mailto: contact@wavyrn in navbar
+red navbar icons
 
-Currently, two official plugins are available:
+navbar styling as here: https://www.ictus-audio.com/portfolio-masonry/
+more padding underneath titles
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+left align profiles <-
+line breaks after every title
+paul may - paul edward may
+
+more padding above profiles
+more spacing between categories - fade to color as doc says, turn cursor to glove
+update formatting
+box around the x
+
+delete audio directing
+
+check order of people in categories
+
+speed up animation
+
+CONTACT
+fill page vertically
+make input box titles top aligned and lighter gray
+
+bring font back to quicksand
+
+no asterisk 
+
+##SERVICES
+no padding between boxes
+no zoom text
+smaller buttons
+make color - #CE0036
+fade to color onclick
+make text/title into carousel - take shortest path
+
