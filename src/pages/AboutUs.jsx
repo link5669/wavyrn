@@ -23,8 +23,11 @@ const AboutUs = () => {
       <WavNavbar />
       <div
         style={{
-          backgroundImage: "url('../../assets/images/temp_background.png?url')",
-          height: "10em",
+          backgroundImage:
+            "url('../../assets/images/About Us - Banner.JPG?url')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100%",
+          height: "15em",
           position: "relative",
           display: "flex",
           flexDirection: "column",
@@ -32,7 +35,7 @@ const AboutUs = () => {
           alignItems: "center",
         }}
       >
-        <h2 style={{ marginBottom: ".5em", marginTop: "1em" }}>
+        <h2 style={{ marginBottom: ".5em", marginTop: "1em", color: "white" }}>
           Stuff we've made
         </h2>
         <p
@@ -40,6 +43,7 @@ const AboutUs = () => {
             paddingLeft: "10em",
             paddingRight: "10em",
             paddingBottom: "3em",
+            color: "white",
           }}
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
@@ -53,6 +57,7 @@ const AboutUs = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          paddingTop: '1.2%'
         }}
       >
         {categories.map((category) => {
@@ -68,86 +73,147 @@ const AboutUs = () => {
           );
         })}
       </div>
-      <hr style={{ width: "33%", marginLeft: "33%" }} />
-      <div
-        ref={parent}
-        style={{
-          display: "flex",
-          flexFlow: "row wrap",
-          paddingLeft: "15%",
-          paddingRight: "15%",
-        }}
-      >
-        {selectedUser == null ? (
-          visibleUsers.map((user) => (
+      <hr style={{ width: "20%", marginLeft: "40%" , marginTop: '.6%'}} />
+      {selectedUser == null ? (
+        <div
+          ref={parent}
+          style={{
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "flex-start",
+            paddingLeft: "15%",
+            paddingRight: "15%",
+          }}
+        >
+          {visibleUsers.map((user) => (
             <ProfilePic
               key={user.name}
               name={user.name}
               title={user.title}
               setSelectedUser={setSelectedUser}
             />
-          ))
-        ) : (
-          <>
-            <Container
-              style={{
-                display: "flex",
-                alignContent: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Col xs={2}></Col>
-              <Col xs={2}>
-                <ProfilePic
-                  key={selectedUser.name}
-                  name={selectedUser.name}
-                  title={selectedUser.title}
-                />
-              </Col>
-              <Col xs={2}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-x"
-                  viewBox="0 0 16 16"
-                  onClick={() => setSelectedUser(null)}
-                >
-                  <X_svg />
-                </svg>
-              </Col>
-            </Container>
+          ))}
+        </div>
+      ) : (
+        <div
+          ref={parent}
+          style={{
+            display: "flex",
+            flexFlow: "row wrap",
+            justifyContent: "flex-start",
+            paddingLeft: "15%",
+            paddingRight: "15%",
+          }}
+        >
+          <Container
+            style={{
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Col xs={2}></Col>
+            <Col xs={2}>
+              <ProfilePic
+                key={selectedUser.name}
+                name={selectedUser.name}
+                title={selectedUser.title}
+              />
+            </Col>
+            <Col xs={2}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-x"
+                viewBox="0 0 16 16"
+                onClick={() => setSelectedUser(null)}
+              >
+                <X_svg />
+              </svg>
+            </Col>
+          </Container>
+          {selectedUser.name == "Sam Leigh" ? (
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
-              pharetra erat leo. Suspendisse nec magna ac massa pellentesque
-              mollis. Nullam nec lectus enim. Curabitur dictum justo quis quam
-              mollis tempus. Morbi viverra, ligula id porttitor interdum, turpis
-              nunc porta dui, eget malesuada augue lacus non sem. Nulla ac
-              accumsan justo. Nulla facilisi. Suspendisse potenti. Mauris nec
-              tincidunt dui. Nunc semper ac eros ut tincidunt. Mauris vitae
-              porttitor diam. Phasellus augue odio, tincidunt vel gravida sit
-              amet, egestas non ante. Suspendisse faucibus erat sit amet nisi
-              vehicula suscipit. Nullam convallis leo nec nisi interdum
-              condimentum. Donec auctor nulla pellentesque, tempor nisl
-              lobortis, mollis arcu. Aenean purus tortor, vulputate in lobortis
-              vitae, convallis ut sem. Quisque malesuada sit amet nisl sit amet
-              tempus. Praesent malesuada magna non metus tristique eleifend.
-              Pellentesque imperdiet pulvinar purus. Curabitur et felis quis
-              nunc sodales sodales. Vestibulum sodales metus velit, eu pulvinar
-              ex malesuada ut. Vivamus dui elit, commodo vitae vehicula quis,
-              consectetur at ligula. Etiam accumsan nibh ipsum, a dignissim
-              augue efficitur eget. Nunc vehicula dolor leo, pretium sodales
-              lorem mollis vel. Cras lorem tortor, ultrices nec euismod eu,
-              accumsan at diam. Donec tincidunt lectus ut tortor finibus, a
-              sagittis eros maximus. Quisque dolor turpis, commodo ut est
-              fermentum, pretium sagittis quam. Nullam euismod ullamcorper nisl
-              vel mollis. Suspendisse potenti. Etiam elementum quis est quis
-              suscipit.{" "}
+              Sam Rindfuss (aka Sam Leigh) is an actor, vocalist, percussionist,
+              and pianist working out of the Boston area. They are passionate
+              about helping to bring the creative visions of others to life.
             </p>
-          </>
-        )}
-      </div>
+          ) : selectedUser.name == "Max Jaime" ? (
+            <p>
+              Social Media Link: https://soundcloud.com/maxjaime101 Bio:
+              Maximiliano Jaime is a composer, sound designer, producer, music
+              editor, mixing and mastering engineer from Bogotá, Colombia.
+              Inspired by versatility and curiosity, Max enjoys learning all
+              kinds of new resources in the music spectrum, allowing him to
+              create his own voice as an artist. Max’s journey started with
+              playing drums at the age of 11. At 17, he started his music career
+              studying Contemporary Music at EMMAT, a Berklee Global Partner in
+              Bogotá. At 19, Max was granted the Berklee World Tour Scholarship
+              and the opportunity to move to Boston to study Film Scoring with a
+              specialization in Video Game Scoring at Berklee College of Music.
+              During his time in the United States, he was also awarded a
+              scholarship by the Latin Grammy Cultural Foundation to complete
+              his degree. Currently living in his hometown of Bogotá, Max Jaime
+              work as a music editor, composer, mixing and mastering engineer
+              for post-production audio, and teaches film and video game scoring
+              at EMMAT. Media: Include several tracks using the Soundcloud
+              player from Max’s Soundcloud: https://soundcloud.com/maxjaime101
+            </p>
+          ) : selectedUser.name == "Marc Yu" ? (
+            <p>
+              Website: marcyumusic.com Social Media: Copy everything from
+              marcyumusic.com Bio: Born in California, Marc has toured as a
+              concert pianist and made media appearances including The Tonight
+              Show, The Oprah Winfrey Show, and The Ellen DeGeneres Show,
+              becoming the focus of print media worldwide including cover
+              stories for both The L.A. Times and The New York Times Magazine.
+              Marc has performed at festivals and on television internationally,
+              has been featured in multiple documentaries, including National
+              Geographic's My Brilliant Brain, and is the subject of multiple
+              books: NY Times Best Seller Far From The Tree by Andrew Solomon
+              and Off the Charts by Ann Hulbert. Marc has also performed with
+              acclaimed pianist Lang Lang at the GRAMMY Salute To Classical
+              Music at Walt Disney Concert Hall, the BBC Proms at the Royal
+              Albert Hall, and Carnegie Hall. Since graduating from Berklee
+              College of Music, Marc has acted as composer, arranger,
+              orchestrator, music editor, copyist, and coordinator on a number
+              of projects, notably assisting on Netflix’s Ridley Jones, Marvel’s
+              Avengers Campus, and Hallmark’s An American in Austen, and also
+              arranging music for Nightingale’s Piano Bar on Disney’s Wish
+              cruise and Disneyland’s new Zootopia attraction. In 2020, Marc
+              co-founded Game Audio Workshop, an organization dedicated to
+              bringing educational game development opportunities to game audio
+              students, co-organizing the annual Game/Music Jam with
+              participants from 50+ colleges.
+            </p>
+          ) : selectedUser.name == "Austin Leshock" ? (
+            <p>
+              Social Media Links: https://www.instagram.com/au_shock/
+              https://www.facebook.com/profile.php?id=100008654137201
+            </p>
+          ) : selectedUser.name == "Austin Burkett" ? (
+            <p>
+              Austin Burkett (he/him) is a sound designer/composer pursuing
+              Electronic Production and Jazz Composition at Berklee College of
+              Music in Boston. He specializes in weaving out of this world
+              evocative sound tapestries, and works to capture the unique voice
+              of every project. Along with his studies, Austin most recently has
+              worked as a sound designer and composer on the game Starweave.
+              Austin is passionate about the teams that he works with,
+              experimentation as innovation, and creating incredible
+              experiences, and hopes to bring a spirit of exploration to
+              everything he touches. He believes that every story deserves to be
+              told, and is always working towards bringing more to life. When he
+              isn't in his studio surrounded by synths and dark mood lighting,
+              Austin enjoys ttrpg's, volleyball, and history.
+            </p>
+          ) : (
+            <p>No bio yet!</p>
+          )}
+        </div>
+      )}
     </div>
   );
 };

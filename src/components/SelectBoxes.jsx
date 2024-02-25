@@ -3,11 +3,12 @@ import { useState } from "react";
 const SelectBoxes = ({ style, selected, setSelected }) => {
   const getStyle = (index) => {
     return {
-      height: "20px",
+      height: "15px",
       marginRight: "10px",
-      width: "20px",
+      width: "15px",
       border: "2px solid black",
-      backgroundColor: selected == index ? "red" : "white",
+      backgroundColor: selected == index ? "#CE0036" : "white",
+      transition: 'background-color 0.5s ease'
     };
   };
   return (

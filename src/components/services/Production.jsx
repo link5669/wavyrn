@@ -3,7 +3,7 @@ import "./Service.css";
 const Production = () => {
   return (
     <>
-      <h1>Production</h1>
+      <h1 style={{fontWeight: 'bold'}}><em>Production</em></h1>
       <h5>
         At Wavyrn, we’re committed to bringing you the best audio experience.
         We’ll produce, manage, and realize the audio process in its entirety for

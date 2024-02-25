@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const BoxCell = ({ title, subtitle, selected }) => {
+const BoxCell = ({ title, subtitle, selected, imageName }) => {
   const [underlineAnimation, setUnderlineAnimation] = useState(false);
 
   useEffect(() => {
@@ -24,10 +24,10 @@ const BoxCell = ({ title, subtitle, selected }) => {
 
   return (
     <div
-      className="child"
       style={{
-        backgroundImage: "url('../../assets/images/temp_background.png?url')",
+        backgroundImage: "url('../../assets/images/" + imageName + "?url')",
       }}
+      id="animate-area"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >

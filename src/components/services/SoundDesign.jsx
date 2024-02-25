@@ -3,7 +3,7 @@ import "./Service.css";
 const SoundDesign = () => {
   return (
     <>
-      <h1>Sound Design</h1>
+      <h1 style={{fontWeight: 'bold'}}><em>Sound Design</em></h1>
       <h5>
         At Wavyrn, we’re committed to bringing you the best audio experience.
         We’ll produce, manage, and realize the audio process in its entirety for
