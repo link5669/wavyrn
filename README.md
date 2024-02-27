@@ -1,7 +1,6 @@
 TODO
 
 mailto: contact@wavyrn in navbar
-red navbar icons
 
 navbar styling as here: https://www.ictus-audio.com/portfolio-masonry/
 more padding underneath titles

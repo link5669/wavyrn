@@ -6,6 +6,7 @@ import { useState } from "react";
 import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
 import { X_svg } from "../utilities/svgs";
+import HRDiv from "../components/HRDiv";
 
 const AboutUs = () => {
   const [parent, enableAnimations] = useAutoAnimate({
@@ -57,7 +58,7 @@ const AboutUs = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          paddingTop: '1.2%'
+          paddingTop: "1.2%",
         }}
       >
         {categories.map((category) => {
@@ -73,7 +74,7 @@ const AboutUs = () => {
           );
         })}
       </div>
-      <hr style={{ width: "20%", marginLeft: "40%" , marginTop: '.6%'}} />
+      <HRDiv />
       {selectedUser == null ? (
         <div
           ref={parent}
@@ -208,6 +209,22 @@ const AboutUs = () => {
               told, and is always working towards bringing more to life. When he
               isn't in his studio surrounded by synths and dark mood lighting,
               Austin enjoys ttrpg's, volleyball, and history.
+            </p>
+          ) : selectedUser.name == "Ananta Arora" ? (
+            <p>
+              Socials: @rxcktara (Please grab all links) Bio: Ananta Arora
+              graduated from Berklee College of Music in 2021, where she studied
+              Music Business/Management and Film Scoring. She then obtained a
+              Master’s in Business Administration and a Master of Science in
+              Business Analytics from Suffolk University in 2023. While at
+              Berklee, she was on the staff of Berklee College of Music’s Music
+              Business Journal for 4 years and was Editor-in-Chief for the paper
+              for 1.5 years. She has experience consulting with several
+              businesses and startups in various fields, and has participated in
+              several video game music jams and other game projects as a
+              composer and sound designer. In her free time, she enjoys playing
+              electric guitar, attending concerts, watching anime, and playing
+              video games.
             </p>
           ) : (
             <p>No bio yet!</p>

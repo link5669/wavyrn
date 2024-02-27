@@ -31,7 +31,7 @@ const WavNavbar = () => {
 
   useEffect(() => {
     setUnderlineAnimation(true);
-    setTimeout(() => setUnderlineAnimation(false), 1000)
+    setTimeout(() => setUnderlineAnimation(false), 1000);
   }, [selected]);
 
   return (
@@ -44,10 +44,13 @@ const WavNavbar = () => {
       }}
     >
       <div style={{ height: "40px", backgroundColor: "lightGray" }}>
-        <Container fluid style={{ paddingTop: "5px", margin: "0" }}>
+        <Container
+          fluid
+          style={{ paddingTop: "5px", margin: "0", backgroundSize: "100%" }}
+        >
           <Row>
             <Col
-              style={{ display: "flex", flexDirection: "row" }}
+              style={{ display: "flex", flexDirection: "row",cursor:'pointer' }}
               xs={12}
               md={8}
             >
@@ -157,6 +160,7 @@ const WavNavbar = () => {
           display: "flex",
           justifyContent: "space-between",
           height: "60px",
+          backgroundColor: "white",
         }}
       >
         <div style={{ display: "flex", justifyContent: "flex-start" }}>

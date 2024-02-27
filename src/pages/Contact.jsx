@@ -44,7 +44,7 @@ const Contact = () => {
   return (
     <>
       <WavNavbar />
-      <div style={{minHeight: '100vh'}}>
+      <div style={{ minHeight: "100vh" }}>
         <h3 style={{ textAlign: "center" }}>contact@wavyrn.com</h3>
         <ContactSocialIcons />
         <hr style={{ width: "33%", marginLeft: "33%" }} />
@@ -120,8 +120,8 @@ const Contact = () => {
               outlineColor: "#eeeeee",
               borderStyle: "solid",
               width: "100%",
-              resize: "none", 
-              paddingTop: '20px'
+              resize: "none",
+              paddingTop: "20px",
             }}
           ></textarea>{" "}
           <div style={{ width: "100%" }}>

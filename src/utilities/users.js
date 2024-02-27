@@ -67,7 +67,6 @@ const allUsers = [
 const categories = [
   { categoryList: allUsers, category: "All" },
   { categoryList: projectManagement, category: "Project Management" },
-  { categoryList: audioDirecting, category: "Audio Directing" },
   { categoryList: production, category: "Production" },
   { categoryList: soundDesign, category: "Sound Design" },
   { categoryList: music, category: "Music" },
@@ -76,7 +75,6 @@ const categories = [
 
 export {
   projectManagement,
-  audioDirecting,
   production,
   soundDesign,
   music,
