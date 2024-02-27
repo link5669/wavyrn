@@ -7,7 +7,7 @@ import Dialogue from "../components/services/Dialogue";
 import Music from "../components/services/Music";
 import Production from "../components/services/Production";
 import SoundDesign from "../components/services/SoundDesign";
-import "./services.css";
+import "./Services.css";
 
 const Services = () => {
   const [selected, setSelected] = useState(0);
