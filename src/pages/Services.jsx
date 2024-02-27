@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import WavNavbar from "../components/Navbar";
 import Jobs from "../components/Jobs";
 import SelectBoxes from "../components/SelectBoxes";
-import AudioDirecting from "../components/Services/AudioDirecting";
-import Dialogue from "../components/Services/Dialogue";
-import Music from "../components/Services/Music";
-import Production from "../components/Services/Production";
-import SoundDesign from "../components/Services/SoundDesign";
-import "./Services.css";
+import AudioDirecting from "../components/services/AudioDirecting";
+import Dialogue from "../components/services/Dialogue";
+import Music from "../components/services/Music";
+import Production from "../components/services/Production";
+import SoundDesign from "../components/services/SoundDesign";
+import "./services.css";
 
 const Services = () => {
   const [selected, setSelected] = useState(0);
