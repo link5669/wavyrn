@@ -43,35 +43,41 @@ const WavNavbar = () => {
         zIndex: 1000000,
       }}
     >
-      <div style={{ height: "40px", backgroundColor: "lightGray" }}>
+      <div style={{ height: "30px", backgroundColor: "lightGray" }}>
         <Container
           fluid
-          style={{ paddingTop: "5px", margin: "0", backgroundSize: "100%" }}
+          style={{ paddingTop: "1px", margin: "0", backgroundSize: "100%" }}
         >
           <Row>
             <Col
-              style={{ display: "flex", flexDirection: "row",cursor:'pointer' }}
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                cursor: "pointer",
+              }}
               xs={12}
               md={8}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={20}
-                height={20}
+                height={21}
                 fill="#CE0036"
                 className="bi bi-envelope"
-                viewBox="0 0 16 12"
+                viewBox="0 -.5 16 12"
                 onClick={() =>
                   (window.location.href = "mailto:contact@wavyrn.com")
                 }
+
               >
                 <Mail_svg />
               </svg>
               <p
-                style={{ paddingLeft: "10px" }}
+                style={{ paddingLeft: "10px", paddingBottom: '10px' }}
                 onClick={() =>
                   (window.location.href = "mailto:contact@wavyrn.com")
                 }
+                
               >
                 contact@wavyrn.com
               </p>

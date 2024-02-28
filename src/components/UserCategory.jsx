@@ -14,7 +14,8 @@ const UserCategory = ({
         setSelectedCat(category);
       }}
       style={{
-        paddingRight: "1em",
+        paddingRight:  "1em",
+        paddingLeft:  "1em",
         color: selectedCat == category ? "red" : "black",
         textDecoration: selectedCat == category ? "underline" : "none",
       }}

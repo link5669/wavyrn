@@ -11,7 +11,7 @@ import Contact from "./pages/Contact";
 
 function App() {
   return (
-    <>
+    <div>
       <BrowserRouter style={{ fontFmily: "Quicksand" }}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -21,7 +21,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </div>
   );
 }
 

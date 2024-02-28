@@ -37,20 +37,22 @@ const AboutUs = () => {
         }}
       >
         <h2 style={{ marginBottom: ".5em", marginTop: "1em", color: "white" }}>
-          Stuff we've made
+          WE MAKE AUDIO
         </h2>
         <p
           style={{
-            paddingLeft: "10em",
-            paddingRight: "10em",
+            paddingLeft: "12em",
+            paddingRight: "12em",
             paddingBottom: "3em",
             color: "white",
           }}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-          malesuada facilisis tellus, aliquam molestie purus consequat nec.
-          Fusce arcu sapien, fringilla eu arcu volutpat, consequat dignissim
-          est.
+          <b>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+            malesuada facilisis tellus, aliquam molestie purus consequat nec.
+            Fusce arcu sapien, fringilla eu arcu volutpat, consequat dignissim
+            est.
+          </b>
         </p>
       </div>
       <div
@@ -59,6 +61,7 @@ const AboutUs = () => {
           justifyContent: "center",
           alignItems: "center",
           paddingTop: "1.2%",
+          paddingRight: '3.5%'
         }}
       >
         {categories.map((category) => {
@@ -130,6 +133,7 @@ const AboutUs = () => {
                 className="bi bi-x"
                 viewBox="0 0 16 16"
                 onClick={() => setSelectedUser(null)}
+                style={{ borderStyle: "solid", borderWidth: "thin" }}
               >
                 <X_svg />
               </svg>
@@ -231,6 +235,20 @@ const AboutUs = () => {
           )}
         </div>
       )}
+      <footer
+        style={{
+          backgroundColor: "black",
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "50px", // Adjust height as needed
+        }}
+      >
+        <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
+          ©️2024 .wavyrn • All Rights Reserved
+        </p>
+      </footer>
     </div>
   );
 };
