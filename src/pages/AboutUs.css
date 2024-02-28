@@ -1,0 +1,22 @@
+@media (max-width: 900000px) {
+    /* Display 3 items per line for viewport widths up to 900px */
+    .users  {
+      width: 20%; /* 100% / 3 items per line = 33.33% width per item */
+    }
+  }
+
+@media (max-width: 1200px) {
+    /* Display 4 items per line for viewport widths up to 1200px */
+    .users {
+      /* justify-content: flex-start; */
+      color: blue;
+      width: 25%;
+    }
+  }
+  
+  @media (max-width: 900px) {
+    /* Display 3 items per line for viewport widths up to 900px */
+    .users  {
+      width: 33.33%; /* 100% / 3 items per line = 33.33% width per item */
+    }
+  }

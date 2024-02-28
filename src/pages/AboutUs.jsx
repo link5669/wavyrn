@@ -7,6 +7,7 @@ import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
 import { X_svg } from "../utilities/svgs";
 import HRDiv from "../components/HRDiv";
+import "./AboutUs.css";
 
 const AboutUs = () => {
   const [parent, enableAnimations] = useAutoAnimate({
@@ -18,7 +19,7 @@ const AboutUs = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedCat, setSelectedCat] = useState("All");
   const [visibleUsers, setVisibleUsers] = useState(allUsers);
-
+  console.log(window.visualViewport.width);
   return (
     <div style={{ minHeight: "100vh" }}>
       <WavNavbar />
@@ -61,7 +62,7 @@ const AboutUs = () => {
           justifyContent: "center",
           alignItems: "center",
           paddingTop: "1.2%",
-          paddingRight: '3.5%'
+          paddingRight: "3.5%",
         }}
       >
         {categories.map((category) => {
@@ -83,19 +84,26 @@ const AboutUs = () => {
           ref={parent}
           style={{
             display: "flex",
-            flexFlow: "row wrap",
+            flexWrap: "wrap",
             justifyContent: "flex-start",
             paddingLeft: "15%",
             paddingRight: "15%",
           }}
         >
-          {visibleUsers.map((user) => (
-            <ProfilePic
+          {visibleUsers.map((user, index) => (
+            <div
               key={user.name}
-              name={user.name}
-              title={user.title}
-              setSelectedUser={setSelectedUser}
-            />
+              style={{
+                flexShrink: "1" /* Allow items to shrink */,
+              }}
+              className="users"
+            >
+              <ProfilePic
+                name={user.name}
+                title={user.title}
+                setSelectedUser={setSelectedUser}
+              />
+            </div>
           ))}
         </div>
       ) : (

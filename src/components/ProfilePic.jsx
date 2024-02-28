@@ -1,6 +1,6 @@
 import { Col } from "react-bootstrap";
 import "./ProfilePic.css";
-const ProfilePic = ({ name, title, setSelectedUser }) => {
+const ProfilePic = ({ name, title, setSelectedUser  }) => {
   const parentStyle = {
     width: "6em",
     height: "6em",
@@ -33,7 +33,7 @@ const ProfilePic = ({ name, title, setSelectedUser }) => {
       ? "url('../../assets/Team Profiles/Ananta Arora/Ananta Arora Profile Picture.jpg?url')"
       : "https://via.placeholder.com/150";
   return (
-    <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }}>
+    <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }} >
       <div
         style={{
           display: "flex",
