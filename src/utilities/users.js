@@ -45,11 +45,11 @@ const dialogue = [
   { name: "Sam Leigh", title: "Voice Actor" },
 ];
 const allUsers = [
-  { name: "Marc Yu", title: "Co-Founder, \nAudio Director" },
+  { name: "Marc Yu", title: "Co-Founder, Audio Director" },
   { name: "Ananta Arora", title: "Co-Founder, \nBusiness Manager" },
   { name: "Austin Burkett", title: "Sound Designer, \nComposer" },
   { name: "Gret Price", title: "Sound Designer, \nFoley Artist" },
-  { name: "Paul Edward May", title: "Sound Designer, \nVoice Actor" },
+  { name: "Paul Edward May", title: "Sound Designer, Voice Actor" },
   // { name: "Caleb Skelly", title: "Sound Designer, VO Producer" },
   // { name: "Michelle Lai", title: "Composer, Voice Actor" },
   {

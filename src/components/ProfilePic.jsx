@@ -15,7 +15,7 @@ const ProfilePic = ({ name, title, setSelectedUser  }) => {
 
   const textStyle = {
     marginBottom: "0",
-    width: "10em",
+    width: "8.5em",
     textAlign: "center",
   };
   const pfpImage =
@@ -32,7 +32,7 @@ const ProfilePic = ({ name, title, setSelectedUser  }) => {
       : name == "Ananta Arora"
       ? "url('../../assets/Team Profiles/Ananta Arora/Ananta Arora Profile Picture.jpg?url')"
       : "https://via.placeholder.com/150";
-      
+
   return (
     <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }} >
       <div

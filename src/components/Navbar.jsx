@@ -17,7 +17,7 @@ const WavNavbar = () => {
   const [underlineAnimation, setUnderlineAnimation] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [parent, enableAnimations] = useAutoAnimate({
-    duration: 400,
+    duration: 200,
     easing: "ease-in-out",
     disrespectUserMotionPreference: false,
   });
