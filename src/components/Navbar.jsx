@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
   Facebook_svg,
   Insta_svg,
@@ -8,23 +9,60 @@ import {
   Threads_svg,
   Twitter_svg,
 } from "../utilities/svgs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const WavNavbar = () => {
   const [selected, setSelected] = useState(0);
+  const [lastSelected, setLastSelected] = useState(-1);
   const [underlineAnimation, setUnderlineAnimation] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [parent, enableAnimations] = useAutoAnimate({
+    duration: 400,
+    easing: "ease-in-out",
+    disrespectUserMotionPreference: false,
+  });
+
+  const aboutUs = useRef(null);
+  const services = useRef(null);
+  const portfolio = useRef(null);
+  const contact = useRef(null);
+  const underlineDiv = useRef(null);
+
+  useEffect(() => {
+    if (aboutUs == null) return;
+    rearrangeChildren(selected);
+  }, [selected]);
+
+  const rearrangeChildren = (index) => {
+    let parentRef = underlineDiv.current.children[0];
+
+    console.log(parentRef, index);
+    if (!parentRef || index < 0 || index > 3) return;
+
+    const children = [...parentRef.children];
+
+    const underlineElement = children.find(
+      (child) => child.style.backgroundColor === "black"
+    );
+
+    if (underlineElement) {
+      children.splice(
+        index,
+        0,
+        children.splice(children.indexOf(underlineElement), 1)[0]
+      );
+      parentRef.replaceChildren(...children);
+    }
+  };
+
   const getButtonStyle = (val) => {
     return {
-      marginRight: "15px",
+      paddingRight: "10px",
+      paddingLeft: "10px",
       color: "#CE0036",
       fontSize: "1.3em",
+      paddingBottom: "0",
       textDecoration: "none",
-      background:
-        selected == val
-          ? `linear-gradient(currentColor, currentColor) bottom / 0 0.08em no-repeat`
-          : "none",
-      transition: "1s background-size",
-      backgroundSize: underlineAnimation ? "100% 0.1em" : "0 0.1em",
       marginTop: "0px",
     };
   };
@@ -68,16 +106,14 @@ const WavNavbar = () => {
                 onClick={() =>
                   (window.location.href = "mailto:contact@wavyrn.com")
                 }
-
               >
                 <Mail_svg />
               </svg>
               <p
-                style={{ paddingLeft: "10px", paddingBottom: '10px' }}
+                style={{ paddingLeft: "10px", paddingBottom: "10px" }}
                 onClick={() =>
                   (window.location.href = "mailto:contact@wavyrn.com")
                 }
-                
               >
                 contact@wavyrn.com
               </p>
@@ -175,45 +211,126 @@ const WavNavbar = () => {
             style={{ maxHeight: "100%" }}
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <Link
-            to="/about-us"
-            style={{ textDecoration: "none", paddingTop: "3%" }}
-            onClick={() => setSelected(0)}
-            className="underline-target"
+        <div style={{ display: "grid" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+            onMouseOver={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            ref={parent}
           >
-            <p style={getButtonStyle(0)}>About Us</p>
-          </Link>
-          <Link
-            to="/services"
-            style={{ textDecoration: "none", paddingTop: "3%" }}
-            onClick={() => setSelected(1)}
-            className="underline-target"
-          >
-            <p style={getButtonStyle(1)}>Services</p>
-          </Link>
-          <Link
-            to="/portfolio"
-            style={{ textDecoration: "none", paddingTop: "3%" }}
-            onClick={() => setSelected(2)}
-            className="underline-target"
-          >
-            <p style={getButtonStyle(2)}>Portfolio</p>
-          </Link>
-          <Link
-            to="/contact"
-            style={{ textDecoration: "none", paddingTop: "3%" }}
-            onClick={() => setSelected(3)}
-            className="underline-target"
-          >
-            <p style={getButtonStyle(3)}>Contact</p>
-          </Link>
+            <Link
+              ref={aboutUs}
+              to="/about-us"
+              style={{ textDecoration: "none", paddingTop: "3%" }}
+              onClick={() => {
+                setLastSelected(selected);
+                setSelected(0);
+              }}
+              onMouseEnter={() => {
+                setLastSelected(selected);
+                setSelected(0);
+              }}
+              className="underline-target"
+            >
+              <p style={getButtonStyle(0)}>About Us</p>
+            </Link>
+            <Link
+              ref={services}
+              to="/services"
+              style={{ textDecoration: "none", paddingTop: "3%" }}
+              onClick={() => {
+                setLastSelected(selected);
+                setSelected(1);
+              }}
+              onMouseEnter={() => {
+                setLastSelected(selected);
+                setSelected(1);
+              }}
+              className="underline-target"
+            >
+              <p style={getButtonStyle(1)}>Services</p>
+            </Link>
+            <Link
+              ref={portfolio}
+              to="/portfolio"
+              style={{ textDecoration: "none", paddingTop: "3%" }}
+              onClick={() => {
+                setLastSelected(selected);
+                setSelected(2);
+              }}
+              onMouseEnter={() => {
+                setLastSelected(selected);
+                setSelected(2);
+              }}
+              className="underline-target"
+            >
+              <p style={getButtonStyle(2)}>Portfolio</p>
+            </Link>
+            <Link
+              ref={contact}
+              to="/contact"
+              style={{
+                textDecoration: "none",
+                paddingTop: "3%",
+                marginRight: "25px",
+              }}
+              onClick={() => {
+                setLastSelected(selected);
+                setSelected(3);
+              }}
+              onMouseEnter={() => {
+                setLastSelected(selected);
+                setSelected(3);
+              }}
+              className="underline-target"
+            >
+              <p style={getButtonStyle(3)}>Contact</p>
+            </Link>
+          </div>
+          <div ref={underlineDiv} style={{ transform: "translateY(-15px)" }}>
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-start",
+                flexDirection: "row",
+                alignItems: "center",
+                visibility: hovered ? "visible" : "hidden",
+              }}
+              ref={parent}
+            >
+              <div
+                style={{
+                  width: aboutUs.current ? aboutUs.current.clientWidth : 0,
+                  backgroundColor: "black",
+                  height: "3px",
+                }}
+              />
+              <div
+                style={{
+                  width: services.current ? services.current.clientWidth : 0,
+                  height: "3px",
+                }}
+              />
+              <div
+                style={{
+                  width: portfolio.current ? portfolio.current.clientWidth : 0,
+                  height: "3px",
+                }}
+              />
+
+              <div
+                style={{
+                  width: contact.current ? contact.current.clientWidth : 0,
+                  height: "3px",
+                }}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

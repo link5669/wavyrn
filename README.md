@@ -18,11 +18,7 @@ make color - #CE0036
 fade to color onclick
 make text/title into carousel - take shortest path
 
-• In the white menu bar, the red underlining of the menu options is not working as intended (see reference: https://www.ictus-audio.com/portfolio-masonry/)yay
-
-• The line of profiles should be center aligned with the page. You'll notice that when the window size is decreased, the profiles are not center aligned with the "All, Project Management..." menu bar
 • Profile pictures and text should be smaller (for reference, the profile text size should match the "All, Project Management..." menu bar)
-• Max Jaime's profile picture does not load properly
 • When you hover over the "All, Project Management..." menu options, the cursor should change to a glove. It should also do the effect described in the drafts
 • My title and Ananta's title should have a line break after Co-Founder,
 • Hovering over the profile pictures should show the zooming in (quickly), instead of being zoomed in immediately

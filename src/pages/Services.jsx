@@ -17,18 +17,15 @@ const Services = () => {
     const currentServiceRef = serviceRefs.current[selected];
     const previousServiceElement = serviceRefs.current[prevSelected];
 
-    console.log(currentServiceRef, previousServiceElement);
-
     if (previousServiceElement) {
-      return
+      return;
     }
-    
+
     if (previousServiceElement) {
       previousServiceElement.classList.add("exiting");
 
       setTimeout(() => {
         previousServiceElement.classList.remove("exiting");
-        console.log(previousServiceElement.classList)
       }, 500); // Adjust delay based on animation duration
     }
 
@@ -36,7 +33,6 @@ const Services = () => {
       currentServiceRef.classList.add("entering");
       setTimeout(() => {
         currentServiceRef.classList.remove("entering");
-        console.log(currentServiceRef.classList)
       }, 550); // Slightly longer delay for entering
     }
 
@@ -44,42 +40,53 @@ const Services = () => {
   }, [selected, prevSelected]);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <WavNavbar />
-      <Jobs selected={selected} setSelected={setSelected} />
-      <SelectBoxes
-        selected={selected}
-        setSelected={setSelected}
-        style={{ paddingTop: "1%", paddingBottom: "1%" }}
-      />
-      <div className="services-wrapper">
-        {selected === 0 && (
-          <span ref={(e) => (serviceRefs.current[0] = e)}>
-            <AudioDirecting data-selected={0} />
-          </span>
-        )}
-        {selected === 1 && (
-          <span ref={(e) => (serviceRefs.current[1] = e)}>
-            <Production data-selected={1} />
-          </span>
-        )}
-        {selected === 2 && (
-          <span ref={(e) => (serviceRefs.current[2] = e)}>
-            <SoundDesign data-selected={2} />
-          </span>
-        )}
-        {selected === 3 && (
-          <span ref={(e) => (serviceRefs.current[3] = e)}>
-            <Music data-selected={3} />
-          </span>
-        )}
-        {selected === 4 && (
-          <span ref={(e) => (serviceRefs.current[4] = e)}>
-            <Dialogue data-selected={4} />
-          </span>
-        )}
+    <>
+      <div style={{ minHeight: "100vh", height: "fit-content" }}>
+        <Jobs selected={selected} setSelected={setSelected} />
+        <SelectBoxes
+          selected={selected}
+          setSelected={setSelected}
+          style={{ paddingTop: "1%", paddingBottom: "1%" }}
+        />
+        <div className="services-wrapper">
+          {selected === 0 && (
+            <span ref={(e) => (serviceRefs.current[0] = e)}>
+              <AudioDirecting data-selected={0} />
+            </span>
+          )}
+          {selected === 1 && (
+            <span ref={(e) => (serviceRefs.current[1] = e)}>
+              <Production data-selected={1} />
+            </span>
+          )}
+          {selected === 2 && (
+            <span ref={(e) => (serviceRefs.current[2] = e)}>
+              <SoundDesign data-selected={2} />
+            </span>
+          )}
+          {selected === 3 && (
+            <span ref={(e) => (serviceRefs.current[3] = e)}>
+              <Music data-selected={3} />
+            </span>
+          )}
+          {selected === 4 && (
+            <span ref={(e) => (serviceRefs.current[4] = e)}>
+              <Dialogue data-selected={4} />
+            </span>
+          )}
+        </div>
       </div>
-    </div>
+      <div
+        style={{
+          backgroundColor: "black",
+          height: "50px",
+        }}
+      >
+        <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
+          ©️2024 .wavyrn • All Rights Reserved
+        </p>
+      </div>
+    </>
   );
 };
 

@@ -43,7 +43,6 @@ const Contact = () => {
 
   return (
     <>
-      <WavNavbar />
       <div style={{ minHeight: "100vh" }}>
         <h3 style={{ textAlign: "center" }}>contact@wavyrn.com</h3>
         <ContactSocialIcons />
@@ -160,6 +159,16 @@ const Contact = () => {
           </div>
         </form>
       </div>
+      <footer
+        style={{
+          backgroundColor: "black",
+          height: "50px", // Adjust height as needed
+        }}
+      >
+        <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
+          ©️2024 .wavyrn • All Rights Reserved
+        </p>
+      </footer>
     </>
   );
 };

@@ -26,12 +26,13 @@ const ProfilePic = ({ name, title, setSelectedUser  }) => {
       : name == "Austin Leshock"
       ? "url('../../assets/Team Profiles/Austin Leshock/Austin Leshock Profile Picture.jpg?url')"
       : name == "Max Jaime"
-      ? "url('../../assets/Team Profiles/Max Jaime/Max Jaime Profile Picture.jpg?url')"
+      ? "url('../../assets/Team Profiles/Max Jaime/Max Jaime Profile Picture.JPG?url')"
       : name == "Sam Leigh"
       ? "url('../../assets/Team Profiles/Sam Leigh/Sam Leigh Profile Picture.jpg?url')"
       : name == "Ananta Arora"
       ? "url('../../assets/Team Profiles/Ananta Arora/Ananta Arora Profile Picture.jpg?url')"
       : "https://via.placeholder.com/150";
+      
   return (
     <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }} >
       <div

@@ -1,9 +1,8 @@
-import WavNavbar from "../components/Navbar";
-
 const Home = () => {
   return (
-    <div style={{ minHeight: "100vh" }}>
-      <WavNavbar />
+    <>
+      <div style={{ minHeight: "100vh" }}>
+      </div>
       <footer
         style={{
           backgroundColor: "black",
@@ -18,7 +17,7 @@ const Home = () => {
           ©️2024 .wavyrn • All Rights Reserved
         </p>
       </footer>
-    </div>
+    </>
   );
 };
 

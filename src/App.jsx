@@ -8,11 +8,13 @@ import Services from "./pages/Services";
 import Portfolio from "./pages/Portfolio";
 import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
+import WavNavbar from "./components/Navbar";
 
 function App() {
   return (
     <div>
-      <BrowserRouter style={{ fontFmily: "Quicksand" }}>
+      <BrowserRouter>
+        <WavNavbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Services />} />

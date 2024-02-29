@@ -2,6 +2,8 @@
   position: absolute;
   left: 0;
   transition: transform 0.5s ease-in-out; /* Adjust duration as needed */
+  /* height: fit-content; */
+  overflow-y: scroll;
 }
 
 .services-wrapper > .exiting {

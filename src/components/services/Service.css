@@ -13,4 +13,5 @@ h5 {
     padding-left: 15%;
     padding-right: 15%;
     text-align: justify;
+    height: fit-content;
 }
