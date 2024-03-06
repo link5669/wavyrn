@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import WavNavbar from "../components/Navbar";
 import Jobs from "../components/Jobs";
 import SelectBoxes from "../components/SelectBoxes";
 import AudioDirecting from "../components/services/AudioDirecting";
@@ -9,43 +8,56 @@ import Production from "../components/services/Production";
 import SoundDesign from "../components/services/SoundDesign";
 import "./Services.css";
 
-const Services = () => {
+const Services = ({isMobile}) => {
   const [selected, setSelected] = useState(0);
   const [prevSelected, setPrevSelected] = useState(-1);
   const serviceRefs = useRef({});
-  useEffect(() => {
-    const currentServiceRef = serviceRefs.current[selected];
-    const previousServiceElement = serviceRefs.current[prevSelected];
 
-    if (previousServiceElement) {
-      return;
-    }
+  const setSelectedWrapper = (val) => {
+    console.log(selected, prevSelected);
+    if (selected == prevSelected || val == selected) return;
+
+    const previousServiceElement = serviceRefs.current[selected];
+    console.log(val, previousServiceElement, serviceRefs);
 
     if (previousServiceElement) {
       previousServiceElement.classList.add("exiting");
-
+      console.log(previousServiceElement);
       setTimeout(() => {
         previousServiceElement.classList.remove("exiting");
-      }, 500); // Adjust delay based on animation duration
+        setPrevSelected(selected);
+        setSelected(val);
+      }, 100); // Adjust delay based on animation duration
     }
+  };
+
+  useEffect(() => {
+    console.log("aksjd");
+    if (selected == prevSelected) return;
+    const currentServiceRef = serviceRefs.current[selected];
 
     if (currentServiceRef) {
       currentServiceRef.classList.add("entering");
+
       setTimeout(() => {
         currentServiceRef.classList.remove("entering");
-      }, 550); // Slightly longer delay for entering
+      }, 10); // Slightly longer delay for entering
     }
-
-    setPrevSelected(selected); // Update prevSelected after animation
-  }, [selected, prevSelected]);
+  }, [selected]);
 
   return (
     <>
-      <div style={{ minHeight: "100vh", height: "fit-content" }}>
-        <Jobs selected={selected} setSelected={setSelected} />
+      <div
+        style={{
+          minHeight: "100vh",
+          height: "fit-content",
+          overflowX: "hidden",
+        }}
+      >
+        <Jobs selected={selected} setSelected={setSelectedWrapper} />
         <SelectBoxes
           selected={selected}
-          setSelected={setSelected}
+          setSelected={setSelectedWrapper}
           style={{ paddingTop: "1%", paddingBottom: "1%" }}
         />
         <div className="services-wrapper">

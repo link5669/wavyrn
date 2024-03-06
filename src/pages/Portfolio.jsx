@@ -2,7 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import HRDiv from "../components/HRDiv";
 import WavMediaPlayer from "../components/MediaPlayer";
 
-const Portfolio = () => {
+const Portfolio = ({isMobile}) => {
   return (
     <>
       <div style={{ minHeight: "100vh" }}>

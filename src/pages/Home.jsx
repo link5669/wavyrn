@@ -1,4 +1,4 @@
-const Home = () => {
+const Home = ({isMobile}) => {
   return (
     <>
       <div style={{ minHeight: "100vh" }}>

@@ -6,3 +6,7 @@
   -o-transform: scale(1.2);
   transform: scale(1.2);
 }
+
+.childPfp {
+  transition: transform .2s; 
+}

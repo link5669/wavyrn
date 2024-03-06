@@ -9,7 +9,7 @@ import { X_svg } from "../utilities/svgs";
 import HRDiv from "../components/HRDiv";
 import "./AboutUs.css";
 
-const AboutUs = () => {
+const AboutUs = ({isMobile}) => {
   const [parent, enableAnimations] = useAutoAnimate({
     duration: 400,
     easing: "ease-in-out",
@@ -127,7 +127,7 @@ const AboutUs = () => {
               }}
             >
               <Col xs={2}></Col>
-              <Col xs={2}>
+              <Col xs={3}>
                 <ProfilePic
                   key={selectedUser.name}
                   name={selectedUser.name}

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import ContactSocialIcons from "../components/ContactSocialIcons";
 
-const Contact = () => {
+const Contact = ({isMobile}) => {
   const [name, setName] = useState("Name");
   const [email, setEmail] = useState("Email");
   const [message, setMessage] = useState("Message");

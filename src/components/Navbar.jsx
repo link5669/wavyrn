@@ -8,14 +8,16 @@ import {
   Mail_svg,
   Threads_svg,
   Twitter_svg,
+  Menu_svg,
 } from "../utilities/svgs";
 import { useEffect, useRef, useState } from "react";
 
-const WavNavbar = () => {
+const WavNavbar = ({ isMobile }) => {
   const [selected, setSelected] = useState(0);
   const [lastSelected, setLastSelected] = useState(-1);
   const [underlineAnimation, setUnderlineAnimation] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [toggled, setToggled] = useState(false);
   const [parent, enableAnimations] = useAutoAnimate({
     duration: 200,
     easing: "ease-in-out",
@@ -36,7 +38,6 @@ const WavNavbar = () => {
   const rearrangeChildren = (index) => {
     let parentRef = underlineDiv.current.children[0];
 
-    console.log(parentRef, index);
     if (!parentRef || index < 0 || index > 3) return;
 
     const children = [...parentRef.children];
@@ -118,7 +119,11 @@ const WavNavbar = () => {
                 contact@wavyrn.com
               </p>
             </Col>
-            <Col xs={6} md={4}>
+            <Col
+              xs={2}
+              md={4}
+              style={{ display: isMobile ? "none" : "initial" }}
+            >
               <div
                 style={{
                   display: "flex",
@@ -205,18 +210,38 @@ const WavNavbar = () => {
           backgroundColor: "white",
         }}
       >
-        <div style={{ display: "flex", justifyContent: "flex-start" }}>
-          <img
-            src="url('../../assets/images/logo.png?url')"
-            style={{ maxHeight: "100%" }}
-          />
+        <div style={{ justifyContent: "flex-start" }}>
+          <Link to="/">
+            <img
+              src="url('../../assets/images/logo.png?url')"
+              style={{ maxHeight: "100%" }}
+            />
+          </Link>
+          <div
+            style={{
+              display: isMobile ? "initial" : "none",
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="#CE0036"
+              className="bi bi-envelope"
+              viewBox="0 0 16 16"
+              style={{ color: "gray" }}
+              onClick={() => setToggled(!toggled)}
+            >
+              <Menu_svg />
+            </svg>
+          </div>
         </div>
         <div style={{ display: "grid" }}>
           <div
             style={{
-              display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
+              display: isMobile ? "none" : "flex",
             }}
             onMouseOver={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -299,7 +324,8 @@ const WavNavbar = () => {
                 justifyContent: "flex-start",
                 flexDirection: "row",
                 alignItems: "center",
-                visibility: hovered ? "visible" : "hidden",
+                opacity: hovered ? 1 : 0,
+                transition: "opacity 200ms",
               }}
               ref={parent}
             >
@@ -307,29 +333,63 @@ const WavNavbar = () => {
                 style={{
                   width: aboutUs.current ? aboutUs.current.clientWidth : 0,
                   backgroundColor: "black",
-                  height: "3px",
+                  height: "2px",
                 }}
               />
               <div
                 style={{
                   width: services.current ? services.current.clientWidth : 0,
-                  height: "3px",
+                  height: "2px",
                 }}
               />
               <div
                 style={{
                   width: portfolio.current ? portfolio.current.clientWidth : 0,
-                  height: "3px",
+                  height: "2px",
                 }}
               />
-
               <div
                 style={{
                   width: contact.current ? contact.current.clientWidth : 0,
-                  height: "3px",
+                  height: "2px",
                 }}
               />
             </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          style={{
+            backgroundColor: "white",
+            display: toggled ? "initial" : "none",
+          }}
+        >
+          <div style={{ paddingLeft: "2%" }}>
+            <Link
+              to="/about-us"
+              style={{ textDecoration: "none", color: "#CE0036" }}
+            >
+              <p>About Us</p>
+            </Link>
+            <Link
+              to="/services"
+              style={{ textDecoration: "none", color: "#CE0036" }}
+            >
+              <p>Services</p>
+            </Link>
+            <Link
+              to="/portfolio"
+              style={{ textDecoration: "none", color: "#CE0036" }}
+            >
+              <p>Portfolio</p>
+            </Link>
+            <Link
+              to="/contact"
+              style={{ textDecoration: "none", color: "#CE0036" }}
+            >
+              <p>Contact</p>
+            </Link>
           </div>
         </div>
       </div>

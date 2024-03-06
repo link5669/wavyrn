@@ -7,7 +7,13 @@ const Jobs = ({ selected, setSelected }) => {
     <>
       <Container style={{ margin: "0px" }}>
         <Row style={{ height: "10em", width: "100vw", padding: 0 }}>
-          <Col className="parent" style={{ padding: 0}} onClick={() => setSelected(0)}>
+          <Col
+            className="parent"
+            style={{ padding: 0 }}
+            onClick={() => {
+              setSelected(0);
+            }}
+          >
             <BoxCell
               selected={selected == 0 ? true : false}
               title="Audio Directing"
@@ -15,7 +21,13 @@ const Jobs = ({ selected, setSelected }) => {
               imageName="Services_AudioDirecting.jpg"
             />
           </Col>
-          <Col className="parent" style={{ padding: 0}} onClick={() => setSelected(1)}>
+          <Col
+            className="parent"
+            style={{ padding: 0 }}
+            onClick={() => {
+              setSelected(1);
+            }}
+          >
             <BoxCell
               selected={selected == 1 ? true : false}
               title="Production"
@@ -27,7 +39,13 @@ const Jobs = ({ selected, setSelected }) => {
       </Container>
       <Container style={{ margin: "0px" }}>
         <Row style={{ height: "10em", width: "100vw" }}>
-          <Col className="parent" style={{ padding: 0}} onClick={() => setSelected(2)}>
+          <Col
+            className="parent"
+            style={{ padding: 0 }}
+            onClick={() => {
+              setSelected(2);
+            }}
+          >
             <BoxCell
               selected={selected == 2 ? true : false}
               title="Sound Design"
@@ -35,7 +53,13 @@ const Jobs = ({ selected, setSelected }) => {
               imageName="Services_SoundDesign.jpg"
             />
           </Col>
-          <Col className="parent" style={{ padding: 0}} onClick={() => setSelected(3)}>
+          <Col
+            className="parent"
+            style={{ padding: 0 }}
+            onClick={() => {
+              setSelected(3);
+            }}
+          >
             <BoxCell
               selected={selected == 3 ? true : false}
               title="Music"
@@ -43,7 +67,13 @@ const Jobs = ({ selected, setSelected }) => {
               imageName="Services_Music.png"
             />
           </Col>
-          <Col className="parent" style={{ padding: 0}} onClick={() => setSelected(4)}>
+          <Col
+            className="parent"
+            style={{ padding: 0 }}
+            onClick={() => {
+              setSelected(4);
+            }}
+          >
             <BoxCell
               selected={selected == 4 ? true : false}
               title="Dialogue"
