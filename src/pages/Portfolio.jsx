@@ -2,7 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import HRDiv from "../components/HRDiv";
 import WavMediaPlayer from "../components/MediaPlayer";
 
-const Portfolio = ({isMobile}) => {
+const Portfolio = ({ isMobile }) => {
   return (
     <>
       <div style={{ minHeight: "100vh" }}>
@@ -25,9 +25,9 @@ const Portfolio = ({isMobile}) => {
         </div>
 
         <p style={{ padding: "3em" }}>
-          As a new full-service audio production studio, we are excited to share
-          with you our shared portfolio, which includes works created by current
-          team members from previous collaborative efforts.
+          As a growing full-service audio production studio, we are excited to
+          share with you our shared portfolio, which includes works created by
+          current team members from previous collaborative efforts.
         </p>
         <HRDiv />
         <p style={{ textAlign: "center", fontSize: "1.2em" }}>
@@ -101,7 +101,6 @@ const Portfolio = ({isMobile}) => {
       <footer
         style={{
           backgroundColor: "black",
-          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,

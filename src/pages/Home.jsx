@@ -1,12 +1,44 @@
-const Home = ({isMobile}) => {
+const Home = ({ isMobile }) => {
   return (
     <>
       <div style={{ minHeight: "100vh" }}>
+        <img
+          src="url('../../assets/images/Home.png?url')"
+          style={{ width: "100%", paddingBottom: "2%" }}
+        />
+        <h1
+          style={{
+            zIndex: 200,
+            position: "absolute",
+            top: "45vh",
+            paddingLeft: "5%",
+            fontSize: "4.7em",
+            color: "white",
+            textAlign: "left",
+            fontWeight: "SemiBold",
+          }}
+        >
+          Audio made fantastic. <br />
+          <span style={{ fontSize: ".7em", fontWeight: "lighter" }}>
+            <i>Learn more</i> ⟶
+          </span>
+        </h1>
+        <h2 style={{textAlign: 'center'}}>Who are we?</h2>
+        <p style={{padding: '2%'}}>
+          Wavyrn Audio is an audio studio based out of lorem ipsum dolor sit
+          amet, consectetur adipiscing elit. Integer convallis ultricies turpis
+          id vestibulum. In sit amet metus id nunc hendrerit luctus ut eget
+          orci. Sed hendrerit ante eu ornare ornare. Nulla nec lectus at turpis
+          pulvinar blandit sit amet at velit. Proin vel metus sapien. Aenean ac
+          tristique neque. Nulla eu fermentum odio, vel ullamcorper nisi. Aenean
+          vestibulum lectus nec fermentum molestie. Aliquam varius pretium ex,
+          at malesuada ante sodales ac. Sed sit amet hendrerit est, a molestie
+          sapien.
+        </p>
       </div>
       <footer
         style={{
           backgroundColor: "black",
-          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,

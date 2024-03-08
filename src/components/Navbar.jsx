@@ -65,6 +65,7 @@ const WavNavbar = ({ isMobile }) => {
       paddingBottom: "0",
       textDecoration: "none",
       marginTop: "0px",
+      whiteSpace: 'nowrap' 
     };
   };
 

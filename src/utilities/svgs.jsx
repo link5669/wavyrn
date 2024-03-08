@@ -16,6 +16,14 @@ const Insta_svg = () => {
   );
 };
 
+const Arrow_svg = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+      <path d="M12 17.414 3.293 8.707l1.414-1.414L12 14.586l7.293-7.293 1.414 1.414L12 17.414z" />
+    </svg>
+  );
+};
+
 const Menu_svg = () => {
   return (
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,4 +84,5 @@ export {
   Facebook_svg,
   Threads_svg,
   Menu_svg,
+  Arrow_svg
 };
