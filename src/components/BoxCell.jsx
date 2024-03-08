@@ -25,7 +25,7 @@ const BoxCell = ({ title, subtitle, selected, imageName }) => {
   return (
     <div
       style={{
-        backgroundImage: "url('../../assets/images/" + imageName + "?url')",
+        backgroundImage: "url('/images/" + imageName + "?url')",
       }}
       id="animate-area"
       onMouseOver={handleMouseOver}

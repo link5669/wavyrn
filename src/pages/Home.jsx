@@ -1,9 +1,11 @@
+import bg from '/images/Home.png'
+
 const Home = ({ isMobile }) => {
   return (
     <>
       <div style={{ minHeight: "100vh" }}>
         <img
-          src="url('../../assets/images/Home.png?url')"
+          src={bg}
           style={{ width: "100%", paddingBottom: "2%" }}
         />
         <h1

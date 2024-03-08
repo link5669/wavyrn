@@ -8,6 +8,8 @@ const WavMediaPlayer = ({ imgSrc, title, videoId }) => {
     position: "relative",
     height: "8em",
     width: "6em",
+    overflowX: 'hidden',
+    
   };
 
   const imgStyle = {
@@ -79,7 +81,10 @@ const WavMediaPlayer = ({ imgSrc, title, videoId }) => {
         if (!clicked) setClicked(true);
       }}
     >
-      <img style={imgStyle} src={imgSrc} />
+      <img
+        style={imgStyle}
+        src={"/images/Portfolio - Project Pictures/" + imgSrc}
+      />
       <div style={clicked ? overlayStyle2 : overlayStyle} />
       <div style={textStyle}>{title}</div>
       <svg

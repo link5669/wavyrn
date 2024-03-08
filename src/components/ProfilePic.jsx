@@ -1,6 +1,17 @@
 import { Col } from "react-bootstrap";
 import "./ProfilePic.css";
-const ProfilePic = ({ name, title, setSelectedUser  }) => {
+import marc from "/Team Profiles/Marc Yu/Marc Yu Profile Picture.jpg";
+import austinb from "/Team Profiles/Austin Burkett/Austin Burkett Profile Picture.png";
+import austinl from "/Team Profiles/Austin Leshock/Austin Leshock Profile Picture.jpg";
+import max from "/Team Profiles/Max Jaime/Max Jaime Profile Picture.jpg";
+import sam from "/Team Profiles/Sam Leigh/Sam Leigh Profile Picture.jpg";
+import ananta from "/Team Profiles/Ananta Arora/Ananta Arora Profile Picture.jpg";
+import angelica from "/Team Profiles/Angelica Ramos Profile Picture.jpg";
+import gret from "/Team Profiles/Gret Price/Gret Price Profile Picture.jpg";
+import paul from "/Team Profiles/IMG_0407.jpg";
+import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
+
+const ProfilePic = ({ name, title, setSelectedUser }) => {
   const parentStyle = {
     width: "6em",
     height: "6em",
@@ -20,21 +31,29 @@ const ProfilePic = ({ name, title, setSelectedUser  }) => {
   };
   const pfpImage =
     name == "Marc Yu"
-      ? "url('../../assets/Team Profiles/Marc Yu/Marc Yu Profile Picture.jpg?url')"
+      ? marc
       : name == "Austin Burkett"
-      ? "url('../../assets/Team Profiles/Austin Burkett/Austin Burkett Profile Picture.png?url')"
+      ? austinb
       : name == "Austin Leshock"
-      ? "url('../../assets/Team Profiles/Austin Leshock/Austin Leshock Profile Picture.jpg?url')"
+      ? austinl
       : name == "Max Jaime"
-      ? "url('../../assets/Team Profiles/Max Jaime/Max Jaime Profile Picture.JPG?url')"
+      ? max
       : name == "Sam Leigh"
-      ? "url('../../assets/Team Profiles/Sam Leigh/Sam Leigh Profile Picture.jpg?url')"
+      ? sam
       : name == "Ananta Arora"
-      ? "url('../../assets/Team Profiles/Ananta Arora/Ananta Arora Profile Picture.jpg?url')"
+      ? ananta
+      : name == "Angelica Ramos"
+      ? angelica
+      : name == "Gret Price"
+      ? gret
+      : name == "Paul Edward May"
+      ? paul
+      : name == "Josh Trochet"
+      ? josh
       : "https://via.placeholder.com/150";
 
   return (
-    <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }} >
+    <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }}>
       <div
         style={{
           display: "flex",

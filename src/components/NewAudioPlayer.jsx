@@ -4,7 +4,10 @@ import { Reaplay } from "../components/reaplay/dist/index.modern.js";
 import PlayPause from "./PlayPause";
 import { useTimer } from "react-timer-hook";
 
-const NewAudioPlayer = ({
+const 
+
+
+NewAudioPlayer = ({
   trackName,
   songs,
   trackInfo,

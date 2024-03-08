@@ -10,6 +10,7 @@ import {
   Twitter_svg,
   Menu_svg,
 } from "../utilities/svgs";
+import logo from '/images/logo.png'
 import { useEffect, useRef, useState } from "react";
 
 const WavNavbar = ({ isMobile }) => {
@@ -214,7 +215,7 @@ const WavNavbar = ({ isMobile }) => {
         <div style={{ justifyContent: "flex-start" }}>
           <Link to="/">
             <img
-              src="url('../../assets/images/logo.png?url')"
+              src={logo}
               style={{ maxHeight: "100%" }}
             />
           </Link>
