@@ -5,18 +5,24 @@ const ExpandableHeading = ({ title, subtitle, bg }) => {
   const [toggled, setToggled] = useState(true);
   return (
     <div
-      style={{ position: "relative", width: "100%", backgroundImage: bg, backgroundPositionX: 'center',
-      backgroundPositionY: 'bottom', backgroundSize: 'auto' }}
+      style={{
+        position: "relative",
+        width: "100%",
+        backgroundImage: bg,
+        backgroundPositionX: "center",
+        backgroundPositionY: "bottom",
+        backgroundSize: "cover",
+      }}
       onClick={() => setToggled(!toggled)}
     >
       <div
         style={{
           paddingLeft: "5px",
           paddingRight: "5px",
-          color: 'white'
+          color: "white",
         }}
       >
-        <div style={{paddingBlock: '3%'}}>
+        <div style={{ paddingBlock: "3%" }}>
           <h2>{title}</h2>
           <p>{subtitle}</p>
         </div>
@@ -34,7 +40,7 @@ const ExpandableHeading = ({ title, subtitle, bg }) => {
         >
           <Arrow_svg />
         </svg>
-        <div style={{ display: toggled ? "none" : "initial" }}>
+        <div style={{ display: toggled ? "none" : "initial"}}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
           convallis ultricies turpis id vestibulum. In sit amet metus id nunc
           hendrerit luctus ut eget orci. Sed hendrerit ante eu ornare ornare.

@@ -49,55 +49,62 @@ const AboutUs = ({ isMobile }) => {
               alignItems: "center",
             }}
           >
-              <h2
-                style={{
-                  marginBottom: ".5em",
-                  marginTop: "1em",
-                  color: "white",
-                }}
-              >
-                WE MAKE AUDIO
-              </h2>
-              <p
-                style={{
-                  paddingLeft: "12em",
-                  paddingRight: "12em",
-                  paddingBottom: "3em",
-                  color: "white",
-                }}
-              >
-                <b>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  malesuada facilisis tellus, aliquam molestie purus consequat
-                  nec. Fusce arcu sapien, fringilla eu arcu volutpat, consequat
-                  dignissim est.
-                </b>
-              </p>
+            <h2
+              style={{
+                marginBottom: ".5em",
+                marginTop: "1em",
+                color: "white",
+              }}
+            >
+              WE MAKE AUDIO
+            </h2>
+            <p
+              style={{
+                paddingLeft: "12em",
+                paddingRight: "12em",
+                paddingBottom: "3em",
+                color: "white",
+              }}
+            >
+              <b>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                malesuada facilisis tellus, aliquam molestie purus consequat
+                nec. Fusce arcu sapien, fringilla eu arcu volutpat, consequat
+                dignissim est.
+              </b>
+            </p>
           </div>
         )}
-        <div
-          style={{
-            width: '100vw',
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingTop: "1.2%",
-            paddingRight: "3.5%",
-          }}
-        >
-          {categories.map((category) => {
-            return (
-              <UserCategory
-                key={category.category}
-                setVisibleUsers={setVisibleUsers}
-                setSelectedCat={setSelectedCat}
-                categoryList={category.categoryList}
-                category={category.category}
-                selectedCat={selectedCat}
-              />
-            );
-          })}
-        </div>
+        {isMobile ? (<h2 style={{textAlign: 'center'}}>
+          Our Team
+        </h2>)
+        : (
+          <div
+            style={{
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingTop: "1.2%",
+              paddingRight: "3.5%",
+            }}
+          >
+            {categories.map((category, index) => {
+              return (
+                <>
+                  <UserCategory
+                    key={category.category}
+                    setVisibleUsers={setVisibleUsers}
+                    setSelectedCat={setSelectedCat}
+                    categoryList={category.categoryList}
+                    category={category.category}
+                    selectedCat={selectedCat}
+                  />
+                </>
+              );
+            })}
+          </div>
+        )}
         <HRDiv />
         {selectedUser == null ? (
           <div
@@ -106,26 +113,47 @@ const AboutUs = ({ isMobile }) => {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
-              paddingLeft: "5%",
+              paddingLeft: isMobile? "15%":"5%",
               paddingRight: "5%",
-              width: '100vw'
+              width: "100vw",
             }}
           >
-            {visibleUsers.map((user, index) => (
-              <div
-                key={user.name}
-                style={{
-                  flexShrink: "1" /* Allow items to shrink */,
-                }}
-                className="users"
-              >
-                <ProfilePic
-                  name={user.name}
-                  title={user.title}
-                  setSelectedUser={setSelectedUser}
-                />
-              </div>
-            ))}
+            {isMobile
+              ? visibleUsers.map(
+                  (user, index) =>
+                    index % 2 === 0 && (
+                      <div
+                        key={user.name}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          marginBottom: isMobile ? "10px" : "0",
+                        }}
+                      >
+                        <ProfilePic
+                          name={user.name}
+                          title={user.title}
+                          setSelectedUser={setSelectedUser}
+                        />
+                        {index + 1 < visibleUsers.length && (
+                          <ProfilePic
+                            name={visibleUsers[index + 1].name}
+                            title={visibleUsers[index + 1].title}
+                            setSelectedUser={setSelectedUser}
+                          />
+                        )}
+                      </div>
+                    )
+                )
+              : visibleUsers.map((user, index) => (
+                  <div key={user.name} className="users">
+                    <ProfilePic
+                      name={user.name}
+                      title={user.title}
+                      setSelectedUser={setSelectedUser}
+                    />
+                  </div>
+                ))}
           </div>
         ) : (
           <div
@@ -134,8 +162,8 @@ const AboutUs = ({ isMobile }) => {
               display: "flex",
               flexFlow: "row wrap",
               justifyContent: "flex-start",
-              paddingLeft: "15%",
-              paddingRight: "15%",
+              paddingLeft: isMobile ? "4%" : "15%",
+              paddingRight: isMobile ? "4%" : "15%",
             }}
           >
             <Container

@@ -11,7 +11,7 @@ import gret from "/Team Profiles/Gret Price/Gret Price Profile Picture.jpg";
 import paul from "/Team Profiles/IMG_0407.jpg";
 import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
 
-const ProfilePic = ({ name, title, setSelectedUser }) => {
+const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   const parentStyle = {
     width: "6em",
     height: "6em",
