@@ -244,6 +244,7 @@ const WavNavbar = ({ isMobile }) => {
               justifyContent: "flex-end",
               alignItems: "center",
               display: isMobile ? "none" : "flex",
+              zIndex: 10000000
             }}
             onMouseOver={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -288,6 +289,7 @@ const WavNavbar = ({ isMobile }) => {
               onClick={() => {
                 setLastSelected(selected);
                 setSelected(2);
+                setToggled(false)
               }}
               onMouseEnter={() => {
                 setLastSelected(selected);
@@ -307,7 +309,7 @@ const WavNavbar = ({ isMobile }) => {
               }}
               onClick={() => {
                 setLastSelected(selected);
-                setSelected(3);
+                setSelected(3);setToggled(false)
               }}
               onMouseEnter={() => {
                 setLastSelected(selected);
@@ -365,28 +367,36 @@ const WavNavbar = ({ isMobile }) => {
           style={{
             backgroundColor: "white",
             display: toggled ? "initial" : "none",
+            position: 'fixed',
+            top: '90px',
+            left: 0,
+            width: '100vw'
           }}
         >
           <div style={{ paddingLeft: "2%" }}>
             <Link
+            onClick={() => setToggled(false)}
               to="/about-us"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
               <p>About Us</p>
             </Link>
             <Link
+            onClick={() => setToggled(false)}
               to="/services"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
               <p>Services</p>
             </Link>
             <Link
+            onClick={() => setToggled(false)}
               to="/portfolio"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
               <p>Portfolio</p>
             </Link>
             <Link
+            onClick={() => setToggled(false)}
               to="/contact"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >

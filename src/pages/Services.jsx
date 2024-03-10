@@ -60,24 +60,33 @@ const Services = ({ isMobile }) => {
             <ExpandableHeading
               title="Audio Directing"
               subtitle={"Project Management & Coordination"}
+              bg={"url('/images/Services_AudioDirecting.jpg?url')"}
             />
             <ExpandableHeading
               title="Production"
               subtitle={"Mixing, Mastering, & Music Editing"}
+              bg={"url('/images/Services_Production.png?url')"}
+
             />
             <ExpandableHeading
               title="Sound Design"
               subtitle={"Sound Effects, Ambiences, Foley, & Sonic Branding"}
+              bg={"url('/images/Services_SoundDesign.jpg?url')"}
+
             />
             <ExpandableHeading
               title="Music"
               subtitle={
-                "Film, Games, Theme Parks, Trailers, & Interactive Media"
+                "Film, Games, Theme Parks, & Interactive Media"
               }
+              bg={"url('/images/Services_Music.png?url')"}
+
             />
             <ExpandableHeading
               title="Dialogue"
               subtitle={"Writing, Casting, Editing & Voice Acting"}
+              bg={"url('/images/Services_Dialogue.jpg?url')"}
+
             />
           </>
         ) : (

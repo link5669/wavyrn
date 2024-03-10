@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { X_svg } from "../utilities/svgs";
 
-const WavMediaPlayer = ({ imgSrc, title, videoId }) => {
+const ProjectImage = ({ imgSrc, title, videoId }) => {
   const [opaque, setOpaque] = useState(false);
   const [clicked, setClicked] = useState(false);
   const containerStyle = {
@@ -126,4 +126,4 @@ const WavMediaPlayer = ({ imgSrc, title, videoId }) => {
   );
 };
 
-export default WavMediaPlayer;
+export default ProjectImage;

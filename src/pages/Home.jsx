@@ -1,4 +1,4 @@
-import bg from '/images/Home.png'
+import bg from '../../public/images/Home.png'
 
 const Home = ({ isMobile }) => {
   return (
@@ -12,15 +12,15 @@ const Home = ({ isMobile }) => {
           style={{
             zIndex: 200,
             position: "absolute",
-            top: "45vh",
+            top: isMobile ? "17vh" : "45vh",
             paddingLeft: "5%",
-            fontSize: "4.7em",
+            fontSize: isMobile ? "1.6em" : "4.7em",
             color: "white",
             textAlign: "left",
             fontWeight: "SemiBold",
           }}
         >
-          Audio made fantastic. <br />
+          Audio made <span style={{fontStyle: 'italic'}}>fantastic.</span> <br />
           <span style={{ fontSize: ".7em", fontWeight: "lighter" }}>
             <i>Learn more</i> ⟶
           </span>

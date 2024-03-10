@@ -1,33 +1,35 @@
 import { useState } from "react";
 import { Arrow_svg } from "../utilities/svgs";
 
-const ExpandableHeading = ({ title, subtitle }) => {
+const ExpandableHeading = ({ title, subtitle, bg }) => {
   const [toggled, setToggled] = useState(true);
   return (
     <div
-      style={{ position: "relative", width: "100%" }}
+      style={{ position: "relative", width: "100%", backgroundImage: bg, backgroundPositionX: 'center',
+      backgroundPositionY: 'bottom', backgroundSize: 'auto' }}
       onClick={() => setToggled(!toggled)}
     >
       <div
         style={{
           paddingLeft: "5px",
           paddingRight: "5px",
+          color: 'white'
         }}
       >
-        <div>
+        <div style={{paddingBlock: '3%'}}>
           <h2>{title}</h2>
           <p>{subtitle}</p>
         </div>
         <svg
           width="16"
           height="16"
-          fill="#CE0036"
+          fill="white"
           viewBox="0 0 24 24"
           style={{
             color: "gray",
             marginRight: "10px",
             float: "right",
-            transform: `translateY(-60px) ${toggled ? "" : "rotate(180deg)"}`,
+            transform: `translateY(-80px) ${toggled ? "" : "rotate(180deg)"}`,
           }}
         >
           <Arrow_svg />

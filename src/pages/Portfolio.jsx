@@ -1,6 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import HRDiv from "../components/HRDiv";
-import WavMediaPlayer from "../components/MediaPlayer";
+import ProjectImage from "../components/ProjectImage";
+import WavMediaPlayer from "../components/WavMediaPlayer";
 
 const Portfolio = ({ isMobile }) => {
   return (
@@ -33,11 +34,16 @@ const Portfolio = ({ isMobile }) => {
           <b>Wavyrn Demo Reel</b>
         </p>
         <div style={{ alignContent: "center" }}>
-          <iframe
+          <WavMediaPlayer
+            imgSrc={"reel.png"}
+            videoId={"Av5oRf88aso"}
+            title={"Afterlife"}
+          />
+          {/* <iframe
             src={`https://www.youtube.com/embed/videoId?autoplay=1&rel=0&modestbranding=1&fs=0&color=white`}
             title="YouTube video player"
             allowFullScreen
-          />
+          /> */}
         </div>
         <div
           style={{
@@ -48,105 +54,99 @@ const Portfolio = ({ isMobile }) => {
             paddingRight: "15%",
           }}
         >
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Afterlife - Short Film.png"}
             videoId={"Av5oRf88aso"}
             title={"Afterlife"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"AI Gotta Go - Video Game.png"}
             title={"AI Gotta Go"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Alistair - Video Game.jpg"}
             title={"Alistair"}
           />
-          <WavMediaPlayer imgSrc={"Arcana - Video Game.jpg"} title={"Arcana"} />
-          <WavMediaPlayer
+          <ProjectImage imgSrc={"Arcana - Video Game.jpg"} title={"Arcana"} />
+          <ProjectImage
             imgSrc={"Boil Over - Video Game.jpg"}
             title={"Boil Over"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Broadway Blues - Musical.png"}
             title={"Broadway Blues"}
           />
-          <WavMediaPlayer imgSrc={"Bugby - Video Game.png"} title={"Bugby"} />
-          <WavMediaPlayer
+          <ProjectImage imgSrc={"Bugby - Video Game.png"} title={"Bugby"} />
+          <ProjectImage
             imgSrc={"Ceiba Y Sus Raices Tainas - Short Film.png"}
             title={"Ceiba Y Sus Raíces Taínas"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Fashion Digg - App.png"}
             title={"Fashion Digg"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Glitch Witch - Video Game.png"}
             title={"Glitch Witch"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Guildmaster's Guide to Capitalism.jpg"}
             title={"Guildmaster's Guide to Capitalism"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Let's Make A Game - Video Game.png"}
             title={"Let's Make A Game"}
           />
-          <WavMediaPlayer imgSrc={"Only One - Album.png"} title={"Only One"} />
-          <WavMediaPlayer
+          <ProjectImage imgSrc={"Only One - Album.png"} title={"Only One"} />
+          <ProjectImage
             imgSrc={"Potion Pushas - Video Game.png"}
             title={"Potion Pushas"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Professional Therapy - Short Film.png"}
             title={"Professional Therapy"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Project Nautilus - Video Game.jpg"}
             title={"Project Nautilus"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Reclaiming the Past - Video Game.png"}
             title={"Reclaiming the Past"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Resurgence of the Storm - Video Game.png"}
             title={"Resurgence of the Storm"}
           />
-          <WavMediaPlayer
-            imgSrc={"Scamper - Short Film.png"}
-            title={"Scamper"}
-          />
-          <WavMediaPlayer imgSrc={"Shiny - Video Game.jpg"} title={"Shiny"} />
-          <WavMediaPlayer
+          <ProjectImage imgSrc={"Scamper - Short Film.png"} title={"Scamper"} />
+          <ProjectImage imgSrc={"Shiny - Video Game.jpg"} title={"Shiny"} />
+          <ProjectImage
             imgSrc={"Skulls & Scrolls - Video Game.png"}
             title={"Skulls & Scrolls"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Snow Girl (Guy) - Single.png"}
             title={"Snow Girl (Guy)"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Space Shark - Video Game.jpg"}
             title={"Space Shark"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Starweave - Video Game.png"}
             title={"Starweave"}
           />
-          <WavMediaPlayer
+          <ProjectImage
             imgSrc={"Cartomancy Anthology - Video Game.jpg"}
             title={"Cartomancy Anthology"}
           />
-          <WavMediaPlayer imgSrc={"String - Video Game.png"} title={"String"} />
-          <WavMediaPlayer
+          <ProjectImage imgSrc={"String - Video Game.png"} title={"String"} />
+          <ProjectImage
             imgSrc={"The Dream Factory - Short Film.jpg"}
             title={"The Dream Factory"}
           />
-          <WavMediaPlayer
-            imgSrc={"The Metamorph.png"}
-            title={"The Metamorph"}
-          />
-          <WavMediaPlayer
+          <ProjectImage imgSrc={"The Metamorph.png"} title={"The Metamorph"} />
+          <ProjectImage
             imgSrc={"The Pablo Mhanna Show - Podcast.png"}
             title={"The Pablo Mhanna Show"}
           />
