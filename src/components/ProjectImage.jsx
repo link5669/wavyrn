@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { X_svg } from "../utilities/svgs";
 
 const ProjectImage = ({ imgSrc, title, videoId }) => {
   const [opaque, setOpaque] = useState(false);

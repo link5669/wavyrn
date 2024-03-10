@@ -32,42 +32,52 @@ const AboutUs = ({ isMobile }) => {
   return (
     <>
       <div style={{ minHeight: "100vh", paddingBottom: "2%" }}>
-        <div
-          style={{
-            backgroundImage: "url('/images/About Us - Banner.jpg?url')",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "100%",
-            height: "15em",
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h2
-            style={{ marginBottom: ".5em", marginTop: "1em", color: "white" }}
-          >
-            WE MAKE AUDIO
-          </h2>
-          <p
+        {!isMobile && (
+          <div
             style={{
-              paddingLeft: "12em",
-              paddingRight: "12em",
-              paddingBottom: "3em",
-              color: "white",
+              backgroundImage: isMobile
+                ? "none"
+                : "url('/images/About Us - Banner.jpg?url')",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "100%",
+              height: "15em",
+              width: "100vw",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <b>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              malesuada facilisis tellus, aliquam molestie purus consequat nec.
-              Fusce arcu sapien, fringilla eu arcu volutpat, consequat dignissim
-              est.
-            </b>
-          </p>
-        </div>
+              <h2
+                style={{
+                  marginBottom: ".5em",
+                  marginTop: "1em",
+                  color: "white",
+                }}
+              >
+                WE MAKE AUDIO
+              </h2>
+              <p
+                style={{
+                  paddingLeft: "12em",
+                  paddingRight: "12em",
+                  paddingBottom: "3em",
+                  color: "white",
+                }}
+              >
+                <b>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+                  malesuada facilisis tellus, aliquam molestie purus consequat
+                  nec. Fusce arcu sapien, fringilla eu arcu volutpat, consequat
+                  dignissim est.
+                </b>
+              </p>
+          </div>
+        )}
         <div
           style={{
+            width: '100vw',
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -96,8 +106,9 @@ const AboutUs = ({ isMobile }) => {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
-              paddingLeft: "15%",
-              paddingRight: "15%",
+              paddingLeft: "5%",
+              paddingRight: "5%",
+              width: '100vw'
             }}
           >
             {visibleUsers.map((user, index) => (
