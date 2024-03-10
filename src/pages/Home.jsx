@@ -3,10 +3,11 @@ import bg from '../../public/images/Home.png'
 const Home = ({ isMobile }) => {
   return (
     <>
-      <div style={{ minHeight: "100vh" }}>
+      <div style={{ minHeight: "100vh" }} >
         <img
           src={bg}
           style={{ width: "100%", paddingBottom: "2%" }}
+          onClick={() => window.scroll(0, 100000)}
         />
         <h1
           style={{
@@ -19,6 +20,7 @@ const Home = ({ isMobile }) => {
             textAlign: "left",
             fontWeight: "SemiBold",
           }}
+          onClick={() => window.scroll(0, 100000)}
         >
           Audio made <span style={{fontStyle: 'italic'}}>fantastic.</span> <br />
           <span style={{ fontSize: ".7em", fontWeight: "lighter" }}>

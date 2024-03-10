@@ -41,18 +41,19 @@ const Music = () => {
         et arcu. Proin congue ut quam vitae varius. Suspendisse molestie
         volutpat odio eu elementum. Duis interdum viverra nisl. Nunc nibh magna,
         dignissim et suscipit ac, porta in augue. Donec fringilla tempor augue
-        bibendum tempus.{" "}
+        bibendum tempus.am. Nunc erat risus, rhoncus id tortor sit amet, varius
+        malesuada urna. Nullam eu bibendum arcu. Sed egestas nisl augue, at
+        efficitur quam elementum at. Vivamus semper risus vitae urna elementum
+        suscipit. Curabitur in lorem felis. Ut eu rutrum erat. Nullam
+        condimentum augue nec nunc ultrices dapibus. Duis fermentum vehicula
+        ullamcorper. Integer tincidunt consequat posuere. Vivamus rhoncus sapien
+        sit amet nisi tempus, vel sodales arcu pharetra. In sollicitudin sed
+        sapien eu venenatis. Nulla ut sapien non urna consequat viverra. Ut
+        pellentesque ullamcorper ornare. Quisque ornare metus placerat turpis
+        interdum, in tempus leo fermentum. Nulla vulputate, nunc at cursus
+        placerat, dolor velit dapibus purus, {" "}
       </p>
-      <div
-        style={{
-          backgroundColor: "black",
-          height: "50px",
-        }}
-      >
-        <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
-          ©️2024 .wavyrn • All Rights Reserved
-        </p>
-      </div>
+      
     </>
   );
 };

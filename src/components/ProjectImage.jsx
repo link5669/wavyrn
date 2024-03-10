@@ -53,24 +53,6 @@ const ProjectImage = ({ imgSrc, title, videoId }) => {
     transition: "opacity 0.3s ease", // Smooth transition for opacity change
   };
 
-  const videoStyle = {
-    width: "90vw",
-    height: "90vh",
-    zIndex: 10000002,
-    display: clicked ? "block" : "none",
-    visibility: clicked ? "visible" : "hidden",
-  };
-
-  const videoContainerStyle = {
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: 10000002,
-    display: clicked ? "block" : "none",
-    visibility: clicked ? "visible" : "hidden",
-  };
-
   return (
     <div
       style={containerStyle}

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import ContactSocialIcons from "../components/ContactSocialIcons";
 
-const Contact = ({isMobile}) => {
+const Contact = ({ isMobile }) => {
   const [name, setName] = useState("Name");
   const [email, setEmail] = useState("Email");
   const [message, setMessage] = useState("Message");
@@ -126,10 +126,14 @@ const Contact = ({isMobile}) => {
           <div style={{ width: "100%" }}>
             <Row>
               <Col xs={4}>
-                <ReCAPTCHA
-                  sitekey={"6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"}
-                  ref={captchaRef}
-                />
+                {!isMobile ? (
+                  <ReCAPTCHA
+                    sitekey={"6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"}
+                    ref={captchaRef}
+                  />
+                ) : (
+                  <></>
+                )}
               </Col>
               <Col
                 xs={4}
@@ -137,6 +141,7 @@ const Contact = ({isMobile}) => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  paddingBottom: "2%"
                 }}
               >
                 <input
@@ -155,6 +160,16 @@ const Contact = ({isMobile}) => {
               </Col>
               <Col xs={4} />
             </Row>
+            {isMobile ? (
+              <Col xs={4}>
+                <ReCAPTCHA
+                  sitekey={"6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"}
+                  ref={captchaRef}
+                />
+              </Col>
+            ) : (
+              <></>
+            )}
             {error}
           </div>
         </form>

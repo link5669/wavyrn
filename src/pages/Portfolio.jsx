@@ -12,7 +12,7 @@ const Portfolio = ({ isMobile }) => {
             backgroundImage: "url('/images/Portfolio - Banner.JPG?url')",
             backgroundSize: "100% auto",
             height: "8em",
-            width: "100%",
+            width: "100vw",
             position: "relative",
             display: "flex",
             justifyContent: "center",
@@ -38,6 +38,7 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"reel.png"}
             videoId={"Av5oRf88aso"}
             title={"Afterlife"}
+            isMobile={isMobile}
           />
           {/* <iframe
             src={`https://www.youtube.com/embed/videoId?autoplay=1&rel=0&modestbranding=1&fs=0&color=white`}
@@ -50,9 +51,9 @@ const Portfolio = ({ isMobile }) => {
             display: "flex",
             flexFlow: "row wrap",
             justifyContent: "center",
-            paddingLeft: "15%",
-            paddingRight: "15%",
-            paddingBottom: '2%',
+            paddingLeft: isMobile ? "5% ": "15%",
+            paddingRight:  isMobile ? "5% ": "15%",
+            paddingBottom: "2%",
           }}
         >
           <ProjectImage

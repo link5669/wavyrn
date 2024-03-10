@@ -13,38 +13,46 @@ const Services = ({ isMobile }) => {
   const [selected, setSelected] = useState(0);
   const [prevSelected, setPrevSelected] = useState(-1);
   const serviceRefs = useRef({});
+  const footerRef = useRef(null);
 
   const setSelectedWrapper = (val) => {
-    console.log(selected, prevSelected);
-    if (selected == prevSelected || val == selected) return;
+    if (selected === prevSelected || val === selected) return;
 
     const previousServiceElement = serviceRefs.current[selected];
-    console.log(val, previousServiceElement, serviceRefs);
-
     if (previousServiceElement) {
       previousServiceElement.classList.add("exiting");
-      console.log(previousServiceElement);
       setTimeout(() => {
         previousServiceElement.classList.remove("exiting");
         setPrevSelected(selected);
         setSelected(val);
-      }, 100); // Adjust delay based on animation duration
+      }, 100);
     }
   };
 
   useEffect(() => {
-    console.log("aksjd");
-    if (selected == prevSelected) return;
     const currentServiceRef = serviceRefs.current[selected];
-
     if (currentServiceRef) {
       currentServiceRef.classList.add("entering");
 
       setTimeout(() => {
         currentServiceRef.classList.remove("entering");
+        updateFooterMargin();
       }, 10); // Slightly longer delay for entering
     }
   }, [selected]);
+
+  useEffect(() => {
+    updateFooterMargin();
+  }, [isMobile]);
+
+  const updateFooterMargin = () => {
+    const selectedService = serviceRefs.current[selected];
+    if (selectedService && footerRef.current) {
+      const footerHeight = footerRef.current.offsetHeight;
+      footerRef.current.style.marginTop = `${selectedService.offsetHeight}px`;
+      // document.body.style.paddingBottom = `${footerHeight}px`;
+    }
+  };
 
   return (
     <>
@@ -52,7 +60,6 @@ const Services = ({ isMobile }) => {
         style={{
           minHeight: "100vh",
           height: "fit-content",
-          overflowX: "hidden",
         }}
       >
         {isMobile ? (
@@ -66,27 +73,21 @@ const Services = ({ isMobile }) => {
               title="Production"
               subtitle={"Mixing, Mastering, & Music Editing"}
               bg={"url('/images/Services_Production.png?url')"}
-
             />
             <ExpandableHeading
               title="Sound Design"
               subtitle={"Sound Effects, Ambiences, Foley, & Sonic Branding"}
               bg={"url('/images/Services_SoundDesign.jpg?url')"}
-
             />
             <ExpandableHeading
               title="Music"
-              subtitle={
-                "Film, Games, Theme Parks, & Interactive Media"
-              }
+              subtitle={"Film, Games, Theme Parks, & Interactive Media"}
               bg={"url('/images/Services_Music.png?url')"}
-
             />
             <ExpandableHeading
               title="Dialogue"
               subtitle={"Writing, Casting, Editing & Voice Acting"}
               bg={"url('/images/Services_Dialogue.jpg?url')"}
-
             />
           </>
         ) : (
@@ -123,6 +124,14 @@ const Services = ({ isMobile }) => {
                   <Dialogue data-selected={4} />
                 </span>
               )}
+            </div>
+            <div ref={footerRef} style={{backgroundColor: "black",
+                height: "50px"}}>
+              <p style={{
+                  color: "white",
+                  textAlign: "center",
+                  lineHeight: "50px",
+                }}>©️2024 .wavyrn • All Rights Reserved</p>
             </div>
           </>
         )}

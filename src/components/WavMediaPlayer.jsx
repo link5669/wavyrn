@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { X_svg } from "../utilities/svgs";
 
-const WavMediaPlayer = ({ imgSrc, title, videoId }) => {
+const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
   const [opaque, setOpaque] = useState(false);
   const [clicked, setClicked] = useState(false);
   const containerStyle = {
     position: "relative",
     width: "auto",
-    height: "300px",
+    height: isMobile ? "20vh" : "30vh",
     alignItems: "center",
     justifyContent: "center",
     display: "flex",

@@ -43,16 +43,7 @@ const SoundDesign = () => {
         dignissim et suscipit ac, porta in augue. Donec fringilla tempor augue
         bibendum tempus.{" "}
       </p>
-      <div
-        style={{
-          backgroundColor: "black",
-          height: "50px",
-        }}
-      >
-        <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
-          ©️2024 .wavyrn • All Rights Reserved
-        </p>
-      </div>
+      
     </>
   );
 };
