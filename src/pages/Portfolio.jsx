@@ -52,6 +52,7 @@ const Portfolio = ({ isMobile }) => {
             justifyContent: "center",
             paddingLeft: "15%",
             paddingRight: "15%",
+            paddingBottom: '2%',
           }}
         >
           <ProjectImage

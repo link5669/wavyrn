@@ -172,7 +172,7 @@ const AboutUs = ({ isMobile }) => {
                   <a href="https://tiktok.com/@samleighsings/">TikTok</a>
                 </div>
                 <a href="https://instagram.com/samleighsings">Instagram</a>
-                <NewAudioPlayer
+                {/* <NewAudioPlayer
                   trackName={"Good Riddance"}
                   trackInfo={[
                     {
@@ -184,7 +184,7 @@ const AboutUs = ({ isMobile }) => {
                   songs={[
                     "https://samplelib.com/lib/preview/mp3/sample-3s.mp3",
                   ]}
-                />
+                /> */}
               </div>
             ) : selectedUser.name == "Max Jaime" ? (
               <div style={{ display: "block" }}>

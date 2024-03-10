@@ -8,8 +8,7 @@ const ProjectImage = ({ imgSrc, title, videoId }) => {
     position: "relative",
     height: "8em",
     width: "6em",
-    overflowX: 'hidden',
-    
+    overflowX: "hidden",
   };
 
   const imgStyle = {
@@ -77,9 +76,6 @@ const ProjectImage = ({ imgSrc, title, videoId }) => {
       style={containerStyle}
       onMouseEnter={() => setOpaque(true)}
       onMouseLeave={() => setOpaque(false)}
-      onClick={() => {
-        if (!clicked) setClicked(true);
-      }}
     >
       <img
         style={imgStyle}
@@ -87,41 +83,6 @@ const ProjectImage = ({ imgSrc, title, videoId }) => {
       />
       <div style={clicked ? overlayStyle2 : overlayStyle} />
       <div style={textStyle}>{title}</div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="65"
-        height="65"
-        fill="white"
-        className="bi bi-x"
-        viewBox="0 0 45 45"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          zIndex: 10000004,
-          visibility: clicked ? "visible" : "hidden",
-          pointerEvents: "all",
-        }}
-        onClick={(event) => {
-          event.stopPropagation();
-          setClicked(false);
-        }}
-      >
-        <X_svg
-          onClick={(event) => {
-            event.stopPropagation();
-            setClicked(false);
-          }}
-        />
-      </svg>
-      <div style={videoContainerStyle}>
-        <iframe
-          style={videoStyle}
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&fs=0&color=white`}
-          title="YouTube video player"
-          allowFullScreen
-        />
-      </div>
     </div>
   );
 };
