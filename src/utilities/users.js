@@ -10,6 +10,10 @@ const projectManagement = [
 
 const production = [
   {
+    name: "Caleb Skelly",
+    title: "Technical Sound Designer, Foley Artist, Mixer, VO Producer",
+  },
+  {
     name: "Max Jaime",
     title: "Technical Sound \nDesigner, Composer, \nMixer, Editor",
   },
@@ -19,12 +23,16 @@ const production = [
 
 const soundDesign = [
   // { name: "Ela Morana", title: "Technical Sound Designer, Composer" },
+  {
+    name: "Caleb Skelly",
+    title: "Technical Sound Designer, Foley Artist, Mixer, VO Producer",
+  },
   { name: "Austin Burkett", title: "Sound Designer, \nComposer" },
-    // { name: "Caleb Skelly", title: "Sound Designer, VO Producer" },
 
   { name: "Gret Price", title: "Sound Designer, \nFoley Artist" },
   { name: "Paul Edward May", title: "Sound Designer, \nVoice Actor" },
 ];
+
 const music = [
   { name: "Marc Yu", title: "Co-Founder, \nAudio Director" },
   // { name: "Ela Morana", title: "Technical Sound Designer, Composer" },
@@ -37,7 +45,10 @@ const music = [
   { name: "Austin Leshock", title: "Composer, \nMixer" },
 ];
 const dialogue = [
-  // { name: "Caleb Skelly", title: "Sound Designer, VO Producer" },
+  {
+    name: "Caleb Skelly",
+    title: "Technical Sound Designer, Foley Artist, Mixer, VO Producer",
+  },
   { name: "Paul Edward May", title: "Sound Designer, \nVoice Actor" },
   // { name: "Michelle Lai", title: "Composer, Voice Actor" },
   { name: "Josh Trochet", title: "Voice Actor" },
@@ -48,9 +59,12 @@ const allUsers = [
   { name: "Marc Yu", title: "Co-Founder, Audio Director" },
   { name: "Ananta Arora", title: "Co-Founder, \nBusiness Manager" },
   { name: "Austin Burkett", title: "Sound Designer, \nComposer" },
+  {
+    name: "Caleb Skelly",
+    title: "Technical Sound Designer, Foley Artist, Mixer, VO Producer",
+  },
   { name: "Gret Price", title: "Sound Designer, \nFoley Artist" },
   { name: "Paul Edward May", title: "Sound Designer, Voice Actor" },
-  // { name: "Caleb Skelly", title: "Sound Designer, VO Producer" },
   // { name: "Michelle Lai", title: "Composer, Voice Actor" },
   {
     name: "Max Jaime",
