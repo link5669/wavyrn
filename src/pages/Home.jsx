@@ -10,7 +10,7 @@ const Home = ({ isMobile }) => {
   const [animateTxt, setAnimateTxt] = useState(false);
 
   const handleAnimationEnd = () => {
-    navigate('/about-us')
+    navigate('/about-us', {state: { useAnimate: true }})
     setAnimateImg(false); // Remove the animation class after animation ends
   };
 

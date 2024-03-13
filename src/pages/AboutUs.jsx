@@ -17,6 +17,7 @@ import {
   Max,
   Sam,
 } from "../components/UserProfiles";
+import { useLocation } from "react-router-dom";
 
 const AboutUs = ({ isMobile }) => {
   const [parent, enableAnimations] = useAutoAnimate({
@@ -24,13 +25,31 @@ const AboutUs = ({ isMobile }) => {
     easing: "ease-in-out",
     disrespectUserMotionPreference: false,
   });
+  const { state } = useLocation();
+  const { useAnimate } = state;
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedCat, setSelectedCat] = useState("All");
   const [visibleUsers, setVisibleUsers] = useState(allUsers);
 
+  const [transition, setTransition] = useState(useAnimate);
+
   return (
     <>
+      <div
+        style={{
+          backgroundColor: "white",
+          position: "fixed",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          zIndex: 100000,
+          transition: "opacity ease-in-out 1.5s",
+          opacity: transition ? 1 : 0,
+        }}
+        className={transition ? "animate" : ""}
+      />
       <div style={{ minHeight: "100vh", paddingBottom: "2%" }}>
         {!isMobile && (
           <div
@@ -75,10 +94,9 @@ const AboutUs = ({ isMobile }) => {
             </p>
           </div>
         )}
-        {isMobile ? (<h2 style={{textAlign: 'center'}}>
-          Our Team
-        </h2>)
-        : (
+        {isMobile ? (
+          <h2 style={{ textAlign: "center" }}>Our Team</h2>
+        ) : (
           <div
             style={{
               width: "100vw",
@@ -113,7 +131,7 @@ const AboutUs = ({ isMobile }) => {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
-              paddingLeft: isMobile? "15%":"5%",
+              paddingLeft: isMobile ? "15%" : "5%",
               paddingRight: "5%",
               width: "100vw",
             }}
@@ -130,7 +148,6 @@ const AboutUs = ({ isMobile }) => {
                           marginBottom: isMobile ? "10px" : "0",
                         }}
                       >
-                        
                         <ProfilePic
                           name={user.name}
                           title={user.title}
@@ -191,7 +208,11 @@ const AboutUs = ({ isMobile }) => {
                   className="bi bi-x"
                   viewBox="0 0 16 16"
                   onClick={() => setSelectedUser(null)}
-                  style={{ borderStyle: "solid", borderWidth: "thin", cursor: 'pointer' }}
+                  style={{
+                    borderStyle: "solid",
+                    borderWidth: "thin",
+                    cursor: "pointer",
+                  }}
                 >
                   <X_svg />
                 </svg>
