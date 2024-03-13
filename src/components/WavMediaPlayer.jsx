@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { X_svg } from "../utilities/svgs";
+import ReactPlayer from "react-player";
 
 const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
   const [opaque, setOpaque] = useState(false);
@@ -15,6 +16,9 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
     overflowX: "hidden",
   };
 
+  const overlayStyle = {
+    
+  }
   const imgStyle = {
     height: "100%",
     width: "auto",
@@ -22,8 +26,6 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
     filter: opaque ? "brightness(50%)" : "none",
     transition: "filter 0.3s ease",
   };
-
-  const overlayStyle = {};
 
   const overlayStyle2 = {
     position: "fixed",
@@ -67,7 +69,10 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
         onMouseLeave={() => setOpaque(false)}
         src={"/images/" + imgSrc}
       />
-      <div style={clicked ? overlayStyle2 : overlayStyle} />
+      <div
+        style={clicked ? overlayStyle2 : overlayStyle}
+        onClick={() => setClicked(false)}
+      />
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="65"
@@ -96,12 +101,13 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
         />
       </svg>
       <div style={videoContainerStyle}>
-        <iframe
+        <ReactPlayer playing url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
+        {/* <iframe
           style={videoStyle}
           src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1&fs=0&color=white`}
           title="YouTube video player"
           allowFullScreen
-        />
+        /> */}
       </div>
     </div>
   );

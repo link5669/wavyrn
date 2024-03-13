@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-const ProjectImage = ({ imgSrc, title, videoId }) => {
+const ProjectImage = ({ imgSrc, title, subtitle }) => {
   const [opaque, setOpaque] = useState(false);
   const [clicked, setClicked] = useState(false);
   const containerStyle = {
     position: "relative",
-    height: "8em",
+    height: "6em",
     width: "6em",
     overflowX: "hidden",
+    margin: "2px",
   };
 
   const imgStyle = {
@@ -44,8 +45,21 @@ const ProjectImage = ({ imgSrc, title, videoId }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     color: "#fff",
-    fontSize: "1.2em",
+    fontSize: "1em",
     fontWeight: "bold",
+    textAlign: "center",
+    pointerEvents: "none", // Make the text unclickable
+    opacity: opaque ? 1 : 0, // Initially transparent
+    transition: "opacity 0.3s ease", // Smooth transition for opacity change
+  };
+
+  const textStyle2 = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    color: "#fff",
+    fontSize: "1em",
     textAlign: "center",
     pointerEvents: "none", // Make the text unclickable
     opacity: opaque ? 1 : 0, // Initially transparent
@@ -63,7 +77,9 @@ const ProjectImage = ({ imgSrc, title, videoId }) => {
         src={"/images/Portfolio - Project Pictures/" + imgSrc}
       />
       <div style={clicked ? overlayStyle2 : overlayStyle} />
-      <div style={textStyle}>{title}</div>
+      <div style={textStyle}>
+        {title} <span style={{fontWeight: 'initial'}}>{subtitle}</span>
+      </div>
     </div>
   );
 };

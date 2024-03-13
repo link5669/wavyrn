@@ -1,0 +1,17 @@
+@keyframes slideIn {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateX(-1900px);
+  }
+}
+
+.animateImg {
+  animation: slideIn 1.5s ease-in-out forwards;
+}
+
+
+.animateTxt {
+    animation: slideIn 2s ease-in-out forwards;
+  }

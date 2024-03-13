@@ -52,7 +52,7 @@ const dialogue = [
   { name: "Paul Edward May", title: "Sound Designer, \nVoice Actor" },
   // { name: "Michelle Lai", title: "Composer, Voice Actor" },
   { name: "Josh Trochet", title: "Voice Actor" },
-  // { name: "Zionna Brown", title: "Voice Actor" },
+  { name: "Zionna Brown", title: "Voice Actor" },
   { name: "Sam Leigh", title: "Voice Actor" },
 ];
 const allUsers = [
@@ -73,7 +73,7 @@ const allUsers = [
   { name: "Austin Leshock", title: "Composer, Mixer" },
   { name: "Angelica Ramos", title: "Technical Assistant" },
   { name: "Josh Trochet", title: "Voice Actor" },
-  // { name: "Zionna Brown", title: "Voice Actor" },
+  { name: "Zionna Brown", title: "Voice Actor" },
   { name: "Sam Leigh", title: "Voice Actor" },
   // { name: "Ela Morana", title: "Technical Sound Designer, Composer" },
 ];

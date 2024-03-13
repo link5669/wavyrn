@@ -13,8 +13,8 @@ import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
 
 const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   const parentStyle = {
-    width: "6em",
-    height: "6em",
+    width: "5em",
+    height: "5em",
     overflow: "hidden",
     borderRadius: "50%",
   };
@@ -25,8 +25,9 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   };
 
   const textStyle = {
+    fontSize: ".7em",
     marginBottom: "0",
-    width: "8.5em",
+    width: "10.5em",
     textAlign: "center",
   };
   const pfpImage =
@@ -63,7 +64,16 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
       >
         <div className="parent" style={parentStyle}>
           <img
-            onClick={() => setSelectedUser({ name: name, title: title })}
+            onClick={() => {
+              if (
+                name == "Josh Trochet" ||
+                name == "Paul Edward May" ||
+                name == "Caleb Skelly" ||
+                name == "Zionna Brown"
+              )
+                return;
+              setSelectedUser({ name: name, title: title });
+            }}
             src={pfpImage}
             className="childPfp"
             style={imgStyle}
@@ -76,7 +86,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          paddingTop: "10%",
+          paddingTop: "2%",
         }}
       >
         <p style={textStyle}>

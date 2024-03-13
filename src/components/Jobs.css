@@ -45,10 +45,10 @@ p {
   background-color: rgba(52, 73, 94, 0.75);
 }
 
-@keyframes mymove {
+/* @keyframes mymove {
   0% {background-size: 100%;}
   50% {background-size: 120%;}
-}
+} */
 
 #animate-area {
   display: flex;
@@ -58,9 +58,4 @@ p {
   height: 100%;
   background-position: 0px 0px;
   background-size: cover; 
-}
-
-#animate-area:hover,
-#animate-area:focus {
-  animation: mymove 2s;
 }

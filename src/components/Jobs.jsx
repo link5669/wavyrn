@@ -1,10 +1,20 @@
 import { Col, Container, Row } from "react-bootstrap";
 import "./Jobs.css";
 import BoxCell from "./BoxCell";
+import { useEffect, useState } from "react";
 
 const Jobs = ({ selected, setSelected }) => {
+  const [currUnderline, setCurrUnderline] = useState(0);
+  useEffect(() => {
+    setCurrUnderline(selected)
+  }, [selected])
+  const handleMouseOver = (index) => {
+    console.log(index);
+    setCurrUnderline(index);
+  };
+
   return (
-    <>
+    <div onMouseOut={() => setCurrUnderline(selected)}>
       <Container style={{ margin: "0px" }}>
         <Row style={{ height: "10em", width: "100vw", padding: 0 }}>
           <Col
@@ -15,6 +25,8 @@ const Jobs = ({ selected, setSelected }) => {
             }}
           >
             <BoxCell
+              onMouseOver={() => handleMouseOver(0)}
+              isUnderlined={currUnderline == 0 ? true : false}
               selected={selected == 0 ? true : false}
               title="Audio Directing"
               subtitle="Project Management & Coordination"
@@ -29,6 +41,8 @@ const Jobs = ({ selected, setSelected }) => {
             }}
           >
             <BoxCell
+              onMouseOver={() => handleMouseOver(1)}
+              isUnderlined={currUnderline == 1 ? true : false}
               selected={selected == 1 ? true : false}
               title="Production"
               subtitle="Mixing, Mastering, & Music Editing"
@@ -47,6 +61,8 @@ const Jobs = ({ selected, setSelected }) => {
             }}
           >
             <BoxCell
+              onMouseOver={() => handleMouseOver(2)}
+              isUnderlined={currUnderline == 2 ? true : false}
               selected={selected == 2 ? true : false}
               title="Sound Design"
               subtitle="Sound Effects, Ambiences, Foley, & Sonic Branding"
@@ -61,6 +77,8 @@ const Jobs = ({ selected, setSelected }) => {
             }}
           >
             <BoxCell
+              onMouseOver={() => handleMouseOver(3)}
+              isUnderlined={currUnderline == 3 ? true : false}
               selected={selected == 3 ? true : false}
               title="Music"
               subtitle="Film, Games, Theme Parks, Trailers, & Interactive Media"
@@ -75,6 +93,8 @@ const Jobs = ({ selected, setSelected }) => {
             }}
           >
             <BoxCell
+              onMouseOver={() => handleMouseOver(4)}
+              isUnderlined={currUnderline == 4 ? true : false}
               selected={selected == 4 ? true : false}
               title="Dialogue"
               subtitle="Writing, Casting, Editing & Voice Acting"
@@ -83,7 +103,7 @@ const Jobs = ({ selected, setSelected }) => {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 

@@ -130,6 +130,7 @@ const AboutUs = ({ isMobile }) => {
                           marginBottom: isMobile ? "10px" : "0",
                         }}
                       >
+                        
                         <ProfilePic
                           name={user.name}
                           title={user.title}
@@ -190,7 +191,7 @@ const AboutUs = ({ isMobile }) => {
                   className="bi bi-x"
                   viewBox="0 0 16 16"
                   onClick={() => setSelectedUser(null)}
-                  style={{ borderStyle: "solid", borderWidth: "thin" }}
+                  style={{ borderStyle: "solid", borderWidth: "thin", cursor: 'pointer' }}
                 >
                   <X_svg />
                 </svg>

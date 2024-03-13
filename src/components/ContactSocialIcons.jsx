@@ -11,14 +11,14 @@ const ContactSocialIcons = () => {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
+        // flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
       <div className="flexAndCenter">
         <div style={{ paddingInline: "7%" }}>
-          <a href="https://www.instagram.com/MarcYuMusic/">
+          <a href="https://www.instagram.com/wavyrnaudio/">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -33,7 +33,7 @@ const ContactSocialIcons = () => {
           </a>
         </div>
         <div style={{ paddingInline: "7%" }}>
-          <a href="https://twitter.com/MarcYuMusic">
+          <a href="https://twitter.com/wavyrnaudio">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -48,7 +48,7 @@ const ContactSocialIcons = () => {
           </a>
         </div>
         <div style={{ paddingInline: "7%" }}>
-          <a href="http://facebook.com/MarcYuMusic">
+          <a href="https://www.facebook.com/profile.php?id=61556576406909">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -63,22 +63,7 @@ const ContactSocialIcons = () => {
           </a>
         </div>
         <div style={{ paddingInline: "7%" }}>
-          <a href="http://threads.net/MarcYuMusic">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-threads"
-              viewBox="0 0 16 16"
-              style={{ color: "gray" }}
-            >
-              <Threads_svg />{" "}
-            </svg>
-          </a>
-        </div>
-        <div style={{ paddingInline: "7%" }}>
-          <a href="mailto:marcyu@marcyumusic.com">
+          <a href="mailto:contact@wavyrn.com">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

@@ -125,13 +125,19 @@ const Services = ({ isMobile }) => {
                 </span>
               )}
             </div>
-            <div ref={footerRef} style={{backgroundColor: "black",
-                height: "50px"}}>
-              <p style={{
+            <div
+              ref={footerRef}
+              style={{ backgroundColor: "black", height: "50px" }}
+            >
+              <p
+                style={{
                   color: "white",
                   textAlign: "center",
                   lineHeight: "50px",
-                }}>©️2024 .wavyrn • All Rights Reserved</p>
+                }}
+              >
+                ©️2024 .wavyrn • All Rights Reserved
+              </p>
             </div>
           </>
         )}

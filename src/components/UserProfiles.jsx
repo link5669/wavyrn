@@ -8,6 +8,7 @@ import {
   TwitterLink,
   WebsiteLink,
 } from "./SocialLinks";
+import ReactPlayer from "react-player";
 import NewAudioPlayer from "../components/NewAudioPlayer";
 import bg from "/images/About Us - Banner.jpg";
 import goodriddance from "/Team Profiles/Sam Leigh/Sam Leigh Media/Good Riddance.mp3";
@@ -108,18 +109,17 @@ const Ananta = () => {
       </div>
       <br />
       <p>
-        Socials: @rxcktara (Please grab all links) Bio: Ananta Arora graduated
-        from Berklee College of Music in 2021, where she studied Music
-        Business/Management and Film Scoring. She then obtained a Master’s in
-        Business Administration and a Master of Science in Business Analytics
-        from Suffolk University in 2023. While at Berklee, she was on the staff
-        of Berklee College of Music’s Music Business Journal for 4 years and was
-        Editor-in-Chief for the paper for 1.5 years. She has experience
-        consulting with several businesses and startups in various fields, and
-        has participated in several video game music jams and other game
-        projects as a composer and sound designer. In her free time, she enjoys
-        playing electric guitar, attending concerts, watching anime, and playing
-        video games.
+        Ananta Arora graduated from Berklee College of Music in 2021, where she
+        studied Music Business/Management and Film Scoring. She then obtained a
+        Master’s in Business Administration and a Master of Science in Business
+        Analytics from Suffolk University in 2023. While at Berklee, she was on
+        the staff of Berklee College of Music’s Music Business Journal for 4
+        years and was Editor-in-Chief for the paper for 1.5 years. She has
+        experience consulting with several businesses and startups in various
+        fields, and has participated in several video game music jams and other
+        game projects as a composer and sound designer. In her free time, she
+        enjoys playing electric guitar, attending concerts, watching anime, and
+        playing video games.
       </p>
     </div>
   );
@@ -143,15 +143,7 @@ const AustinB = () => {
         ttrpg's, volleyball, and history.
       </p>
       <div style={{ display: "inline-block" }}>
-        <iframe
-          width="560"
-          height="315"
-          src="https://www.youtube.com/embed/YGM_oAsjs6A?si=_IPPd3AuVMgRjD5_"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
+        <ReactPlayer playing url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
       </div>
     </div>
   );
@@ -279,6 +271,17 @@ const Marc = () => {
 const Max = () => {
   return (
     <div style={{ display: "block" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ paddingInline: "2%" }}>
+          <WebsiteLink link="https://www.maxjaimemusic.com/" />
+        </div>
+      </div>
       <p>
         Maximiliano Jaime is a composer, sound designer, producer, music editor,
         mixing and mastering engineer from Bogotá, Colombia. Inspired by
@@ -296,10 +299,10 @@ const Max = () => {
         for post-production audio, and teaches film and video game scoring at
         EMMAT.
       </p>
-      <a href="https://soundcloud.com/maxjaime101">SoundCloud</a>
+      {/* <a href="https://soundcloud.com/maxjaime101">SoundCloud</a> */}
       <iframe
-        width="100%"
-        height="300"
+        width="50%"
+        height="200"
         scrolling="no"
         frameborder="no"
         allow="autoplay"
@@ -338,8 +341,8 @@ const Max = () => {
         </a>
       </div>
       <iframe
-        width="100%"
-        height="300"
+        width="50%"
+        height="200"
         scrolling="no"
         frameborder="no"
         allow="autoplay"
@@ -378,8 +381,8 @@ const Max = () => {
         </a>
       </div>
       <iframe
-        width="100%"
-        height="300"
+        width="50%"
+        height="200"
         scrolling="no"
         frameborder="no"
         allow="autoplay"

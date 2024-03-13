@@ -51,104 +51,154 @@ const Portfolio = ({ isMobile }) => {
             display: "flex",
             flexFlow: "row wrap",
             justifyContent: "center",
-            paddingLeft: isMobile ? "5% ": "15%",
-            paddingRight:  isMobile ? "5% ": "15%",
+            paddingLeft: isMobile ? "5% " : "15%",
+            paddingRight: isMobile ? "5% " : "15%",
             paddingBottom: "2%",
           }}
         >
           <ProjectImage
+            subtitle={"Short Film"}
             imgSrc={"Afterlife - Short Film.png"}
-            videoId={"Av5oRf88aso"}
             title={"Afterlife"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"AI Gotta Go - Video Game.png"}
             title={"AI Gotta Go"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Alistair - Video Game.jpg"}
             title={"Alistair"}
           />
-          <ProjectImage imgSrc={"Arcana - Video Game.jpg"} title={"Arcana"} />
           <ProjectImage
+            imgSrc={"Arcana - Video Game.jpg"}
+            subtitle={"Video Game"}
+            title={"Arcana"}
+          />
+          <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Boil Over - Video Game.jpg"}
             title={"Boil Over"}
           />
+          <div style={{ flexBasis: "100%", height: 0 }}></div>
           <ProjectImage
+            subtitle={"Musical"}
             imgSrc={"Broadway Blues - Musical.png"}
             title={"Broadway Blues"}
           />
           <ProjectImage imgSrc={"Bugby - Video Game.png"} title={"Bugby"} />
           <ProjectImage
+            subtitle={"Short Film"}
             imgSrc={"Ceiba Y Sus Raices Tainas - Short Film.png"}
             title={"Ceiba Y Sus Raíces Taínas"}
           />
           <ProjectImage
+            subtitle={"App"}
             imgSrc={"Fashion Digg - App.png"}
             title={"Fashion Digg"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Glitch Witch - Video Game.png"}
             title={"Glitch Witch"}
           />
+          <div style={{ flexBasis: "100%", height: 0 }}></div>
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Guildmaster's Guide to Capitalism.jpg"}
             title={"Guildmaster's Guide to Capitalism"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Let's Make A Game - Video Game.png"}
             title={"Let's Make A Game"}
           />
-          <ProjectImage imgSrc={"Only One - Album.png"} title={"Only One"} />
           <ProjectImage
+            subtitle={"Album"}
+            imgSrc={"Only One - Album.png"}
+            title={"Only One"}
+          />
+          <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Potion Pushas - Video Game.png"}
             title={"Potion Pushas"}
           />
           <ProjectImage
+            subtitle={"Short Film"}
             imgSrc={"Professional Therapy - Short Film.png"}
             title={"Professional Therapy"}
           />
+          <div style={{ flexBasis: "100%", height: 0 }}></div>
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Project Nautilus - Video Game.jpg"}
             title={"Project Nautilus"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Reclaiming the Past - Video Game.png"}
             title={"Reclaiming the Past"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Resurgence of the Storm - Video Game.png"}
             title={"Resurgence of the Storm"}
           />
-          <ProjectImage imgSrc={"Scamper - Short Film.png"} title={"Scamper"} />
-          <ProjectImage imgSrc={"Shiny - Video Game.jpg"} title={"Shiny"} />
           <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"Scamper - Short Film.png"}
+            title={"Scamper"}
+          />
+          <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"Shiny - Video Game.jpg"}
+            title={"Shiny"}
+          />
+          <div style={{ flexBasis: "100%", height: 0 }}></div>
+          <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Skulls & Scrolls - Video Game.png"}
             title={"Skulls & Scrolls"}
           />
           <ProjectImage
+            subtitle={"Single"}
             imgSrc={"Snow Girl (Guy) - Single.png"}
             title={"Snow Girl (Guy)"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Space Shark - Video Game.jpg"}
             title={"Space Shark"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Starweave - Video Game.png"}
             title={"Starweave"}
           />
           <ProjectImage
+            subtitle={"Video Game"}
             imgSrc={"Cartomancy Anthology - Video Game.jpg"}
             title={"Cartomancy Anthology"}
           />
-          <ProjectImage imgSrc={"String - Video Game.png"} title={"String"} />
+          <div style={{ flexBasis: "100%", height: 0 }}></div>
           <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"String - Video Game.png"}
+            title={"String"}
+          />
+          <ProjectImage
+            subtitle={"Short Film"}
             imgSrc={"The Dream Factory - Short Film.jpg"}
             title={"The Dream Factory"}
           />
-          <ProjectImage imgSrc={"The Metamorph.png"} title={"The Metamorph"} />
           <ProjectImage
+            imgSrc={"The Metamorph.png"}
+            subtitle={"Video Game"}
+            title={"The Metamorph"}
+          />
+          <ProjectImage
+            subtitle={"Podcast"}
             imgSrc={"The Pablo Mhanna Show - Podcast.png"}
             title={"The Pablo Mhanna Show"}
           />

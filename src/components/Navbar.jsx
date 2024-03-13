@@ -1,16 +1,15 @@
 import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
   Facebook_svg,
   Insta_svg,
   Mail_svg,
-  Threads_svg,
   Twitter_svg,
   Menu_svg,
 } from "../utilities/svgs";
-import logo from '/images/logo.png'
+import logo from "/images/logo.png";
 import { useEffect, useRef, useState } from "react";
 
 const WavNavbar = ({ isMobile }) => {
@@ -19,6 +18,7 @@ const WavNavbar = ({ isMobile }) => {
   const [underlineAnimation, setUnderlineAnimation] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [toggled, setToggled] = useState(false);
+  const navigate = useNavigate();
   const [parent, enableAnimations] = useAutoAnimate({
     duration: 200,
     easing: "ease-in-out",
@@ -30,23 +30,42 @@ const WavNavbar = ({ isMobile }) => {
   const portfolio = useRef(null);
   const contact = useRef(null);
   const underlineDiv = useRef(null);
+  const line = useRef(null);
+  const parentParent = useRef(null);
 
   useEffect(() => {
     if (aboutUs == null) return;
+
     rearrangeChildren(selected);
   }, [selected]);
 
   const rearrangeChildren = (index) => {
     let parentRef = underlineDiv.current.children[0];
 
-    if (!parentRef || index < 0 || index > 3) return;
+    if (!parentRef || index < 0 || index > 4) return;
 
     const children = [...parentRef.children];
 
-    const underlineElement = children.find(
-      (child) => child.style.backgroundColor === "black"
+    let underlineElement = children.find(
+      (child) => child.style.backgroundColor == "rgb(206, 0, 54)"
     );
+    console.log(selected);
 
+    if (index == 4) {
+      if (underlineElement) {
+        underlineElement.remove();
+      }
+      return;
+    }
+    if (lastSelected == 4) {
+      const node = document.createElement("div");
+      node.style.width = "110px";
+      node.style.backgroundColor = "rgb(206, 0, 54)";
+      node.style.height = "2px";
+      children.splice(index, 0, node);
+      parentRef.replaceChildren(...children);
+      return;
+    }
     if (underlineElement) {
       children.splice(
         index,
@@ -66,7 +85,8 @@ const WavNavbar = ({ isMobile }) => {
       paddingBottom: "0",
       textDecoration: "none",
       marginTop: "0px",
-      whiteSpace: 'nowrap' 
+      whiteSpace: "nowrap",
+      textAlign: "center",
     };
   };
 
@@ -133,7 +153,7 @@ const WavNavbar = ({ isMobile }) => {
                   flexDirection: "row-reverse",
                 }}
               >
-                <a href="https://www.instagram.com/MarcYuMusic/">
+                <a href="https://www.instagram.com/wavyrnaudio/">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -146,7 +166,7 @@ const WavNavbar = ({ isMobile }) => {
                     <Insta_svg />
                   </svg>
                 </a>
-                <a href="https://twitter.com/MarcYuMusic">
+                <a href="https://twitter.com/wavyrnaudio">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -159,7 +179,7 @@ const WavNavbar = ({ isMobile }) => {
                     <Twitter_svg />
                   </svg>
                 </a>
-                <a href="http://facebook.com/MarcYuMusic">
+                <a href="https://www.facebook.com/profile.php?id=61556576406909">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -172,20 +192,7 @@ const WavNavbar = ({ isMobile }) => {
                     <Facebook_svg />
                   </svg>
                 </a>
-                <a href="http://threads.net/MarcYuMusic">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="#CE0036"
-                    className="bi bi-threads"
-                    viewBox="0 0 16 16"
-                    style={{ color: "gray", marginLeft: "10px" }}
-                  >
-                    <Threads_svg />
-                  </svg>
-                </a>
-                <a href="mailto:marcyu@marcyumusic.com">
+                <a href="mailto:contact@wavyrn.com">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -210,12 +217,29 @@ const WavNavbar = ({ isMobile }) => {
           justifyContent: "space-between",
           height: "60px",
           backgroundColor: "white",
+          minWidth: 0,
         }}
       >
-        <div style={{ justifyContent: "flex-start" }}>
+        <div style={{ justifyContent: "flex-start", minWidth: 0 }}>
           <Link to="/">
             <img
               src={logo}
+              onMouseLeave={() => {
+                let currentPage = window.location.href.split("/");
+                currentPage = currentPage[currentPage.length - 1];
+                let pageIndex =
+                  currentPage == "about-us"
+                    ? 0
+                    : currentPage == "services"
+                    ? 1
+                    : currentPage == "portfolio"
+                    ? 2
+                    : currentPage == "contact"
+                    ? 3
+                    : 4;
+                setLastSelected(selected);
+                setSelected(pageIndex);
+              }}
               style={{ maxHeight: "100%" }}
             />
           </Link>
@@ -238,22 +262,41 @@ const WavNavbar = ({ isMobile }) => {
             </svg>
           </div>
         </div>
-        <div style={{ display: "grid" }}>
+        <div style={{ display: "grid" }} ref={parentParent}>
           <div
             style={{
               justifyContent: "flex-end",
               alignItems: "center",
               display: isMobile ? "none" : "flex",
-              zIndex: 10000000
+              zIndex: 10000000,
             }}
             onMouseOver={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
+            onMouseLeave={() => {
+              let currentPage = window.location.href.split("/");
+              currentPage = currentPage[currentPage.length - 1];
+              let pageIndex =
+                currentPage == "about-us"
+                  ? 0
+                  : currentPage == "services"
+                  ? 1
+                  : currentPage == "portfolio"
+                  ? 2
+                  : currentPage == "contact"
+                  ? 3
+                  : 4;
+              setLastSelected(selected);
+              setSelected(pageIndex);
+            }}
             ref={parent}
           >
             <Link
               ref={aboutUs}
               to="/about-us"
-              style={{ textDecoration: "none", paddingTop: "3%" }}
+              style={{
+                textDecoration: "none",
+                paddingTop: "3%",
+                width: "110px",
+              }}
               onClick={() => {
                 setLastSelected(selected);
                 setSelected(0);
@@ -269,7 +312,11 @@ const WavNavbar = ({ isMobile }) => {
             <Link
               ref={services}
               to="/services"
-              style={{ textDecoration: "none", paddingTop: "3%" }}
+              style={{
+                textDecoration: "none",
+                paddingTop: "3%",
+                width: "110px",
+              }}
               onClick={() => {
                 setLastSelected(selected);
                 setSelected(1);
@@ -285,11 +332,15 @@ const WavNavbar = ({ isMobile }) => {
             <Link
               ref={portfolio}
               to="/portfolio"
-              style={{ textDecoration: "none", paddingTop: "3%" }}
+              style={{
+                textDecoration: "none",
+                paddingTop: "3%",
+                width: "110px",
+              }}
               onClick={() => {
                 setLastSelected(selected);
                 setSelected(2);
-                setToggled(false)
+                setToggled(false);
               }}
               onMouseEnter={() => {
                 setLastSelected(selected);
@@ -306,10 +357,12 @@ const WavNavbar = ({ isMobile }) => {
                 textDecoration: "none",
                 paddingTop: "3%",
                 marginRight: "25px",
+                width: "110px",
               }}
               onClick={() => {
                 setLastSelected(selected);
-                setSelected(3);setToggled(false)
+                setSelected(3);
+                setToggled(false);
               }}
               onMouseEnter={() => {
                 setLastSelected(selected);
@@ -324,7 +377,7 @@ const WavNavbar = ({ isMobile }) => {
             <div
               style={{
                 width: "100%",
-                display: "flex",
+                display: isMobile ? "none" : "flex",
                 justifyContent: "flex-start",
                 flexDirection: "row",
                 alignItems: "center",
@@ -334,27 +387,28 @@ const WavNavbar = ({ isMobile }) => {
               ref={parent}
             >
               <div
+                ref={line}
                 style={{
-                  width: aboutUs.current ? aboutUs.current.clientWidth : 0,
-                  backgroundColor: "black",
+                  width: "110px",
+                  backgroundColor: "rgb(206, 0, 54)",
                   height: "2px",
                 }}
               />
               <div
                 style={{
-                  width: services.current ? services.current.clientWidth : 0,
+                  width: "110px",
                   height: "2px",
                 }}
               />
               <div
                 style={{
-                  width: portfolio.current ? portfolio.current.clientWidth : 0,
+                  width: "110px",
                   height: "2px",
                 }}
               />
               <div
                 style={{
-                  width: contact.current ? contact.current.clientWidth : 0,
+                  width: "110px",
                   height: "2px",
                 }}
               />
@@ -367,36 +421,36 @@ const WavNavbar = ({ isMobile }) => {
           style={{
             backgroundColor: "white",
             display: toggled ? "initial" : "none",
-            position: 'fixed',
-            top: '90px',
+            position: "fixed",
+            top: "90px",
             left: 0,
-            width: '100vw'
+            width: "100vw",
           }}
         >
           <div style={{ paddingLeft: "2%" }}>
             <Link
-            onClick={() => setToggled(false)}
+              onClick={() => setToggled(false)}
               to="/about-us"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
               <p>About Us</p>
             </Link>
             <Link
-            onClick={() => setToggled(false)}
+              onClick={() => setToggled(false)}
               to="/services"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
               <p>Services</p>
             </Link>
             <Link
-            onClick={() => setToggled(false)}
+              onClick={() => setToggled(false)}
               to="/portfolio"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
               <p>Portfolio</p>
             </Link>
             <Link
-            onClick={() => setToggled(false)}
+              onClick={() => setToggled(false)}
               to="/contact"
               style={{ textDecoration: "none", color: "#CE0036" }}
             >
