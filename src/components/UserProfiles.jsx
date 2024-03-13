@@ -142,8 +142,12 @@ const AustinB = () => {
         his studio surrounded by synths and dark mood lighting, Austin enjoys
         ttrpg's, volleyball, and history.
       </p>
-      <div style={{ display: "inline-block" }}>
-        <ReactPlayer playing url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
+      <div
+        style={{
+          width: '100%'
+        }}
+      >
+        <ReactPlayer style={{margin: 'auto'}} playing url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
       </div>
     </div>
   );
