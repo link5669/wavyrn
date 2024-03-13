@@ -1,7 +1,7 @@
 import ProfilePic from "../components/ProfilePic";
 import { Container, Col, Row } from "react-bootstrap";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
 import { X_svg } from "../utilities/svgs";
@@ -19,7 +19,7 @@ import {
 } from "../components/UserProfiles";
 import { useLocation } from "react-router-dom";
 
-const AboutUs = ({ isMobile }) => {
+const AboutUs = ({ isMobile, animate }) => {
   const [parent, enableAnimations] = useAutoAnimate({
     duration: 400,
     easing: "ease-in-out",
@@ -32,7 +32,15 @@ const AboutUs = ({ isMobile }) => {
   const [selectedCat, setSelectedCat] = useState("All");
   const [visibleUsers, setVisibleUsers] = useState(allUsers);
 
-  const [transition, setTransition] = useState(useAnimate);
+  const [transition, setTransition] = useState(!useAnimate || animate);
+
+  const whiteRef = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (whiteRef.current) whiteRef.current.display = 'none';
+    }, 1500);
+  });
 
   return (
     <>
@@ -49,6 +57,7 @@ const AboutUs = ({ isMobile }) => {
           opacity: transition ? 1 : 0,
         }}
         className={transition ? "animate" : ""}
+        ref={whiteRef}
       />
       <div style={{ minHeight: "100vh", paddingBottom: "2%" }}>
         {!isMobile && (
@@ -131,7 +140,7 @@ const AboutUs = ({ isMobile }) => {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "flex-start",
-              paddingLeft: isMobile ? "15%" : "5%",
+              paddingLeft: isMobile ? "5%" : "5%",
               paddingRight: "5%",
               width: "100vw",
             }}

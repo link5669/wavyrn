@@ -292,7 +292,7 @@ const WavNavbar = ({ isMobile }) => {
             <Link
               ref={aboutUs}
               to="/about-us"
-              state={{ useAnimate: false }}
+              state={{ useAnimate: true }}
               style={{
                 textDecoration: "none",
                 paddingTop: "3%",

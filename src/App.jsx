@@ -32,7 +32,7 @@ function App() {
           <Route path="/" element={<Home isMobile={isMobile}/>} />
           <Route path="/services" element={<Services isMobile={isMobile}/>} />
           <Route path="/portfolio" element={<Portfolio isMobile={isMobile}/>} />
-          <Route path="/about-us" element={<AboutUs isMobile={isMobile}/>} />
+          <Route path="/about-us" element={<AboutUs animate={false} isMobile={isMobile}/>} />
           <Route path="/contact" element={<Contact isMobile={isMobile}/>} />
         </Routes>
       </BrowserRouter>
