@@ -39,6 +39,8 @@ const WavNavbar = ({ isMobile }) => {
     rearrangeChildren(selected);
   }, [selected]);
 
+  useEffect(() => {},[])
+
   const rearrangeChildren = (index) => {
     let parentRef = underlineDiv.current.children[0];
 

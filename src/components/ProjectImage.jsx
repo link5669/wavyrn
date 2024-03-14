@@ -45,7 +45,7 @@ const ProjectImage = ({ imgSrc, title, subtitle }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     color: "#fff",
-    fontSize: "1em",
+    fontSize: ".8em",
     fontWeight: "bold",
     textAlign: "center",
     pointerEvents: "none", // Make the text unclickable
@@ -59,7 +59,7 @@ const ProjectImage = ({ imgSrc, title, subtitle }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     color: "#fff",
-    fontSize: "1em",
+    fontSize: ".8em",
     textAlign: "center",
     pointerEvents: "none", // Make the text unclickable
     opacity: opaque ? 1 : 0, // Initially transparent
