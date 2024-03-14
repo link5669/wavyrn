@@ -140,7 +140,7 @@ const AboutUs = ({ isMobile, animate }) => {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              justifyContent: "flex-start",
+              justifyContent: isMobile? 'center' :"flex-start",
               paddingLeft: isMobile ? "5%" : "5%",
               paddingRight: "5%",
               width: "100vw",
