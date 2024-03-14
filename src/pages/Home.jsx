@@ -25,7 +25,7 @@ const Home = ({ isMobile }) => {
     <>
       <div style={{ minHeight: "100vh" }}>
         {isMobile ? (
-          <div style={{ backgroundColor: "#CE0035", height: '40vh' }} />
+          <div style={{ backgroundColor: "#CE0035", height: '50vh' }} />
         ) : (
           <img
             src={bg}
@@ -81,6 +81,7 @@ const Home = ({ isMobile }) => {
           <img
             src={bg}
             style={{
+              height: '50%',
               width: "100%",
             }}
             className={animateImg ? "animateImg" : ""}
