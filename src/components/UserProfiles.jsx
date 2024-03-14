@@ -147,7 +147,7 @@ const AustinB = () => {
           width: '100%'
         }}
       >
-        <ReactPlayer style={{margin: 'auto'}} playing url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
+        <ReactPlayer style={{margin: 'auto'}} playing={false} controls={true}  url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
       </div>
     </div>
   );
