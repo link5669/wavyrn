@@ -55,6 +55,7 @@ const AboutUs = ({ isMobile, animate }) => {
           zIndex: 100000,
           transition: "opacity ease-in-out 1.5s",
           opacity: transition ? 1 : 0,
+          pointerEvents: 'none'
         }}
         className={transition ? "animate" : ""}
         ref={whiteRef}
