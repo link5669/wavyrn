@@ -89,7 +89,7 @@ const Portfolio = ({ isMobile }) => {
           />
           <ProjectImage
             subtitle={"Video Game"}
-            imgSrc={"Bugby - Video Game.png"}
+              imgSrc={"Bugby - Video Game.png"}
             title={"Bugby"}
           />
           <ProjectImage

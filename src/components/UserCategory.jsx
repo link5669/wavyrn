@@ -17,8 +17,8 @@ const UserCategory = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        paddingRight: "1em",
-        paddingLeft: "1em",
+        paddingRight: "1.5em",
+        paddingLeft: "1.5em",
         cursor: 'pointer',
         transition: 'color 500ms',
         color: selectedCat == category || hovered ? "#CE0036" : "black",
