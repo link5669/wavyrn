@@ -27,7 +27,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   const textStyle = {
     fontSize: ".7em",
     marginBottom: "0",
-    width: "10.5em",
+    width: "8.5em",
     textAlign: "center",
   };
   const pfpImage =
