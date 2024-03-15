@@ -78,7 +78,7 @@ const WavNavbar = ({ isMobile }) => {
     }
   };
 
-  const getButtonStyle = (val) => {
+  const getButtonStyle = () => {
     return {
       paddingRight: "10px",
       paddingLeft: "10px",
@@ -432,6 +432,7 @@ const WavNavbar = ({ isMobile }) => {
         >
           <div style={{ paddingLeft: "2%" }}>
             <Link
+              state={{ useAnimate: true }}
               onClick={() => setToggled(false)}
               to="/about-us"
               style={{ textDecoration: "none", color: "#CE0036" }}
