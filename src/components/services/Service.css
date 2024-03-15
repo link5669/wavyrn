@@ -1,17 +1,21 @@
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 h5 {
-    text-align: center;
-    padding-left: 15%;
-    padding-right: 15%;
+  text-align: center;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 
 .body {
-    text-align: center;
-    padding-left: 15%;
-    padding-right: 15%;
-    text-align: justify;
-    /* height: fit-content; */
+  text-align: center;
+  padding-left: 28%;
+  padding-right: 25%;
+  text-align: justify;
+  /* height: fit-content; */
+}
+
+ul {
+  padding-left: .5rem;
 }

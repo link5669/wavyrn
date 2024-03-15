@@ -233,7 +233,7 @@ const Contact = ({ isMobile }) => {
         }}
       >
         <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
-          ©️2024 .wavyrn • All Rights Reserved
+          ©️2024 Wavyrn • All Rights Reserved
         </p>
       </footer>
     </>

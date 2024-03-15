@@ -9,19 +9,22 @@ const BoxCell = ({
   onMouseOver,
 }) => {
   const [scale, setScale] = useState(100);
-const [underlineAnimation, setUnderlineAnimation] = useState(false);
+  const [underlineAnimation, setUnderlineAnimation] = useState(false);
 
-  // useEffect(() => {
-  //   setUnderlineAnimation(selected);
-  // },[selected])
+  useEffect(() => {
+    setUnderlineAnimation(selected);
+  }, [selected]);
 
-  // const handleMouseOver = () => {
-  //   setUnderlineAnimation(true);
-  // };
+  const handleMouseOver = () => {
+    setScale(120);
+    setUnderlineAnimation(true);
+    onMouseOver();
+  };
 
-  // const handleMouseOut = () => {
-  //   setUnderlineAnimation(false);
-  // };
+  const handleMouseOut = () => {
+    setScale(100);
+    setUnderlineAnimation(false);
+  };
 
   const underlineStyle = {
     textDecoration: "none",
@@ -36,13 +39,12 @@ const [underlineAnimation, setUnderlineAnimation] = useState(false);
       style={{
         backgroundImage: "url('/images/" + imageName + "?url')",
         backgroundSize: `${scale}%`,
-        transition: '0.4s',
-        backgroundPosition: 'center'
+        transition: "0.4s",
+        backgroundPosition: "center",
       }}
       id="animate-area"
-
-      onMouseOver={() => setScale(120)}
-      onMouseOut={() => setScale(100)}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
     >
       <div style={{ display: "block", textAlign: "center" }}>
         {" "}

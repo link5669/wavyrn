@@ -125,7 +125,7 @@ const Ananta = () => {
   );
 };
 
-const AustinB = () => {
+const AustinB = (isMobile) => {
   return (
     <div style={{ display: "block", textAlign: "left" }}>
       <p>
@@ -144,10 +144,26 @@ const AustinB = () => {
       </p>
       <div
         style={{
-          width: '100%'
+          width: "100%",
         }}
       >
-        <ReactPlayer style={{margin: 'auto'}} playing={false} controls={true}  url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
+        {isMobile ? (
+          <video
+            style={{ margin: "auto", maxWidth: "80vw" }}
+            src="Audio_Redesign_Reel_Austin_Burkett.mov"
+            width="750"
+            height="300"
+            controls
+          ></video>
+        ) : (
+          <ReactPlayer
+            style={{ margin: "auto", maxWidth: "80vw" }}
+            playing={false}
+            controls={true}
+            url={"Audio_Redesign_Reel_Austin_Burkett.mov"}
+            isMobile={isMobile}
+          />
+        )}
       </div>
     </div>
   );

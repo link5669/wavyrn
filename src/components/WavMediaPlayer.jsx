@@ -16,9 +16,7 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
     overflowX: "hidden",
   };
 
-  const overlayStyle = {
-    
-  }
+  const overlayStyle = {};
   const imgStyle = {
     height: "100%",
     width: "auto",
@@ -101,7 +99,12 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
         />
       </svg>
       <div style={videoContainerStyle}>
-        <ReactPlayer playing={false} controls={true} url={"Audio_Redesign_Reel_Austin_Burkett.mov"} />
+        <ReactPlayer
+          playing={false}
+          controls={true}
+          url={"Audio_Redesign_Reel_Austin_Burkett.mov"}
+        />
+
         {/* <iframe
           style={videoStyle}
           src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0&modestbranding=1&fs=0&color=white`}

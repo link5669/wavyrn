@@ -10,6 +10,8 @@ import angelica from "/Team Profiles/Angelica Ramos Profile Picture.jpg";
 import gret from "/Team Profiles/Gret Price/Gret Price Profile Picture.jpg";
 import paul from "/Team Profiles/IMG_0407.jpg";
 import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
+import lulu from "/Team Profiles/lulu.jpeg"
+import miles from "/Team Profiles/miles.png"
 
 const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   const parentStyle = {
@@ -25,11 +27,13 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   };
 
   const textStyle = {
-    fontSize: ".7em",
+    fontSize: isMobile ? "1em" : ".7em",
     marginBottom: "0",
-    width: "8.5em",
+    width: "10em",
     textAlign: "center",
+    whiteSpace: "pre-wrap",
   };
+
   const pfpImage =
     name == "Marc Yu"
       ? marc
@@ -51,10 +55,21 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
       ? paul
       : name == "Josh Trochet"
       ? josh
+      : name == "Lulu Ramirez"
+      ? lulu
+      : name == "Miles Acquaviva"
+      ? miles
       : "https://via.placeholder.com/150";
 
   return (
-    <Col style={{ paddingBottom: "1%", paddingTop: "2%", flexGrow: "0" }}>
+    <Col
+      style={{
+        paddingBottom: "1%",
+        paddingTop: "2%",
+        flexGrow: "0",
+        paddingInline: isMobile ? '5%' : '0%'
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -69,7 +84,9 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
                 name == "Josh Trochet" ||
                 name == "Paul Edward May" ||
                 name == "Caleb Skelly" ||
-                name == "Zionna Brown"
+                name == "Zionna Brown" ||
+                name == "Lulu Ramirez" ||
+                name == "Miles Acquaviva"
               )
                 return;
               setSelectedUser({ name: name, title: title });

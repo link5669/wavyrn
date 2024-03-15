@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const ProjectImage = ({ imgSrc, title, subtitle }) => {
+const ProjectImage = ({ imgSrc, title, subtitle, noImg }) => {
   const [opaque, setOpaque] = useState(false);
   const [clicked, setClicked] = useState(false);
   const containerStyle = {
@@ -43,6 +43,7 @@ const ProjectImage = ({ imgSrc, title, subtitle }) => {
     position: "absolute",
     top: "50%",
     left: "50%",
+    width: "100%",
     transform: "translate(-50%, -50%)",
     color: "#fff",
     fontSize: ".8em",
@@ -72,13 +73,16 @@ const ProjectImage = ({ imgSrc, title, subtitle }) => {
       onMouseEnter={() => setOpaque(true)}
       onMouseLeave={() => setOpaque(false)}
     >
-      <img
-        style={imgStyle}
-        src={"/images/Portfolio - Project Pictures/" + imgSrc}
-      />
-      <div style={clicked ? overlayStyle2 : overlayStyle} />
+      {!noImg && (
+        <img
+          style={imgStyle}
+          src={"/images/Portfolio - Project Pictures/" + imgSrc}
+        />
+      )}
+
+      {!noImg && <div style={clicked ? overlayStyle2 : overlayStyle} />}
       <div style={textStyle}>
-        {title} <span style={{fontWeight: 'initial'}}>{subtitle}</span>
+        {title} <div style={{ fontWeight: "initial" }}>{subtitle}</div>
       </div>
     </div>
   );

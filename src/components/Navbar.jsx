@@ -61,9 +61,11 @@ const WavNavbar = ({ isMobile }) => {
     }
     if (lastSelected == 4) {
       const node = document.createElement("div");
-      node.style.width = "110px";
+      node.style.width = "90px";
       node.style.backgroundColor = "rgb(206, 0, 54)";
       node.style.height = "2px";
+      node.style.marginLeft = "10px";
+      node.style.marginRight = "15px";
       children.splice(index, 0, node);
       parentRef.replaceChildren(...children);
       return;
@@ -81,7 +83,7 @@ const WavNavbar = ({ isMobile }) => {
   const getButtonStyle = () => {
     return {
       paddingRight: "10px",
-      paddingLeft: "10px",
+      paddingLeft: "12px",
       color: "#CE0036",
       fontSize: "1.3em",
       paddingBottom: "0",
@@ -104,9 +106,10 @@ const WavNavbar = ({ isMobile }) => {
         position: "sticky",
         top: "0px",
         zIndex: 1000000,
+        maxHeight: "10vh",
       }}
     >
-      <div style={{ height: "30px", backgroundColor: "lightGray" }}>
+      <div style={{ height: "10%", backgroundColor: "lightGray" }}>
         <Container
           fluid
           style={{ paddingTop: "1px", margin: "0", backgroundSize: "100%" }}
@@ -135,7 +138,7 @@ const WavNavbar = ({ isMobile }) => {
                 <Mail_svg />
               </svg>
               <p
-                style={{ paddingLeft: "10px", paddingBottom: "10px" }}
+                style={{ paddingLeft: "10px", marginBottom: ".3rem" }}
                 onClick={() =>
                   (window.location.href = "mailto:contact@wavyrn.com")
                 }
@@ -155,30 +158,17 @@ const WavNavbar = ({ isMobile }) => {
                   flexDirection: "row-reverse",
                 }}
               >
-                <a href="https://www.instagram.com/wavyrnaudio/">
+                <a href="mailto:contact@wavyrn.com">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     fill="#CE0036"
-                    className="bi bi-instagram"
+                    className="bi bi-envelope"
                     viewBox="0 0 16 16"
                     style={{ color: "gray", marginLeft: "10px" }}
                   >
-                    <Insta_svg />
-                  </svg>
-                </a>
-                <a href="https://twitter.com/wavyrnaudio">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="#CE0036"
-                    className="bi bi-twitter"
-                    viewBox="0 0 16 16"
-                    style={{ color: "gray", marginLeft: "10px" }}
-                  >
-                    <Twitter_svg />
+                    <Mail_svg />
                   </svg>
                 </a>
                 <a href="https://www.facebook.com/profile.php?id=61556576406909">
@@ -194,17 +184,30 @@ const WavNavbar = ({ isMobile }) => {
                     <Facebook_svg />
                   </svg>
                 </a>
-                <a href="mailto:contact@wavyrn.com">
+                <a href="https://twitter.com/wavyrnaudio">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     fill="#CE0036"
-                    className="bi bi-envelope"
+                    className="bi bi-twitter"
                     viewBox="0 0 16 16"
                     style={{ color: "gray", marginLeft: "10px" }}
                   >
-                    <Mail_svg />
+                    <Twitter_svg />
+                  </svg>
+                </a>
+                <a href="https://www.instagram.com/wavyrnaudio/">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#CE0036"
+                    className="bi bi-instagram"
+                    viewBox="0 0 16 16"
+                    style={{ color: "gray", marginLeft: "10px" }}
+                  >
+                    <Insta_svg />
                   </svg>
                 </a>
                 <br />
@@ -351,7 +354,7 @@ const WavNavbar = ({ isMobile }) => {
               }}
               className="underline-target"
             >
-              <p style={getButtonStyle(2)}>Portfolio</p>
+              <p style={getButtonStyle(2)}> Portfolio</p>
             </Link>
             <Link
               ref={contact}
@@ -392,7 +395,9 @@ const WavNavbar = ({ isMobile }) => {
               <div
                 ref={line}
                 style={{
-                  width: "110px",
+                  width: "90px",
+                  marginLeft: "10px",
+                  marginRight: "15px",
                   backgroundColor: "rgb(206, 0, 54)",
                   height: "2px",
                 }}
@@ -422,7 +427,7 @@ const WavNavbar = ({ isMobile }) => {
       <div>
         <div
           style={{
-            backgroundColor: "white",
+            backgroundColor: "#CE0036",
             display: toggled ? "initial" : "none",
             position: "fixed",
             top: "90px",
@@ -430,33 +435,33 @@ const WavNavbar = ({ isMobile }) => {
             width: "100vw",
           }}
         >
-          <div style={{ paddingLeft: "2%" }}>
+          <div style={{ paddingLeft: "2%", marginTop: "2%" }}>
             <Link
               state={{ useAnimate: true }}
               onClick={() => setToggled(false)}
               to="/about-us"
-              style={{ textDecoration: "none", color: "#CE0036" }}
+              style={{ textDecoration: "none", color: "white" }}
             >
               <p>About Us</p>
             </Link>
             <Link
               onClick={() => setToggled(false)}
               to="/services"
-              style={{ textDecoration: "none", color: "#CE0036" }}
+              style={{ textDecoration: "none", color: "white" }}
             >
               <p>Services</p>
             </Link>
             <Link
               onClick={() => setToggled(false)}
               to="/portfolio"
-              style={{ textDecoration: "none", color: "#CE0036" }}
+              style={{ textDecoration: "none", color: "white" }}
             >
               <p>Portfolio</p>
             </Link>
             <Link
               onClick={() => setToggled(false)}
               to="/contact"
-              style={{ textDecoration: "none", color: "#CE0036" }}
+              style={{ textDecoration: "none", color: "white" }}
             >
               <p>Contact</p>
             </Link>

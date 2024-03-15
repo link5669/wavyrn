@@ -6,17 +6,18 @@ import WavMediaPlayer from "../components/WavMediaPlayer";
 const Portfolio = ({ isMobile }) => {
   return (
     <>
-      <div style={{ minHeight: "100vh" }}>
+      <div style={{ minHeight: "90vh" }}>
         <div
           style={{
             backgroundImage: "url('/images/Portfolio - Banner.JPG?url')",
             backgroundSize: "100% auto",
-            height: "8em",
+            height: "7.5em",
             width: "100vw",
             position: "relative",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginBottom: "2%",
           }}
         >
           <h2 style={{ marginBottom: "0", color: "white" }}>
@@ -24,22 +25,32 @@ const Portfolio = ({ isMobile }) => {
           </h2>
         </div>
 
-        <p style={{ padding: "3em" }}>
+        {/* <p style={{ padding: "3em" }}>
           As a growing full-service audio production studio, we are excited to
           share with you our shared portfolio, which includes works created by
           current team members from previous collaborative efforts.
-        </p>
+        </p> */}
         <HRDiv />
         <p style={{ textAlign: "center", fontSize: "1.2em" }}>
           <b>Wavyrn Demo Reel</b>
         </p>
-        <div style={{ alignContent: "center" }}>
-          <WavMediaPlayer
-            imgSrc={"reel.png"}
-            videoId={"Av5oRf88aso"}
-            title={"Afterlife"}
-            isMobile={isMobile}
-          />
+        <div style={{ alignContent: "center", display: isMobile && 'flex' }}>
+          {isMobile ? (
+            <video
+              style={{ margin: "auto", maxWidth: "80vw", alignContent: 'center' }}
+              src="Audio_Redesign_Reel_Austin_Burkett.mov"
+              width="750"
+              height="300"
+              controls
+            ></video>
+          ) : (
+            <WavMediaPlayer
+              imgSrc={"reel.png"}
+              videoId={"Av5oRf88aso"}
+              title={"Afterlife"}
+              isMobile={isMobile}
+            />
+          )}
           {/* <iframe
             src={`https://www.youtube.com/embed/videoId?autoplay=1&rel=0&modestbranding=1&fs=0&color=white`}
             title="YouTube video player"
@@ -71,6 +82,7 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Alistair - Video Game.jpg"}
             title={"Alistair"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
           <ProjectImage
             imgSrc={"Arcana - Video Game.jpg"}
             subtitle={"Video Game"}
@@ -81,15 +93,17 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Boil Over - Video Game.jpg"}
             title={"Boil Over"}
           />
-          <div style={{ flexBasis: "100%", height: 0 }}></div>
+          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
           <ProjectImage
             subtitle={"Musical"}
             imgSrc={"Broadway Blues - Musical.png"}
             title={"Broadway Blues"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             subtitle={"Video Game"}
-              imgSrc={"Bugby - Video Game.png"}
+            imgSrc={"Bugby - Video Game.png"}
             title={"Bugby"}
           />
           <ProjectImage
@@ -102,12 +116,14 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Fashion Digg - App.png"}
             title={"Fashion Digg"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"Glitch Witch - Video Game.png"}
             title={"Glitch Witch"}
           />
-          <div style={{ flexBasis: "100%", height: 0 }}></div>
+          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"Guildmaster's Guide to Capitalism.jpg"}
@@ -118,6 +134,8 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Let's Make A Game - Video Game.png"}
             title={"Let's Make A Game"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             subtitle={"Album"}
             imgSrc={"Only One - Album.png"}
@@ -133,7 +151,9 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Professional Therapy - Short Film.png"}
             title={"Professional Therapy"}
           />
-          <div style={{ flexBasis: "100%", height: 0 }}></div>
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
+          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"Project Nautilus - Video Game.jpg"}
@@ -149,6 +169,8 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Resurgence of the Storm - Video Game.png"}
             title={"Resurgence of the Storm"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"Scamper - Short Film.png"}
@@ -159,12 +181,14 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Shiny - Video Game.jpg"}
             title={"Shiny"}
           />
-          <div style={{ flexBasis: "100%", height: 0 }}></div>
+          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"Skulls & Scrolls - Video Game.png"}
             title={"Skulls & Scrolls"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             subtitle={"Single"}
             imgSrc={"Snow Girl (Guy) - Single.png"}
@@ -180,12 +204,14 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Starweave - Video Game.png"}
             title={"Starweave"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"Cartomancy Anthology - Video Game.jpg"}
             title={"Cartomancy Anthology"}
           />
-          <div style={{ flexBasis: "100%", height: 0 }}></div>
+          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
           <ProjectImage
             subtitle={"Video Game"}
             imgSrc={"String - Video Game.png"}
@@ -196,6 +222,8 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"The Dream Factory - Short Film.jpg"}
             title={"The Dream Factory"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
           <ProjectImage
             imgSrc={"The Metamorph.png"}
             subtitle={"Video Game"}
@@ -206,6 +234,7 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"The Pablo Mhanna Show - Podcast.png"}
             title={"The Pablo Mhanna Show"}
           />
+          <ProjectImage noImg={true} />
         </div>
       </div>
       <footer
@@ -218,7 +247,7 @@ const Portfolio = ({ isMobile }) => {
         }}
       >
         <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
-          ©️2024 .wavyrn • All Rights Reserved
+          ©️2024 Wavyrn • All Rights Reserved
         </p>
       </footer>
     </>

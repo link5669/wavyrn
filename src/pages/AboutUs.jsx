@@ -26,19 +26,20 @@ const AboutUs = ({ isMobile, animate }) => {
     disrespectUserMotionPreference: false,
   });
   const { state } = useLocation();
-  const { useAnimate } = state;
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedCat, setSelectedCat] = useState("All");
   const [visibleUsers, setVisibleUsers] = useState(allUsers);
 
-  const [transition, setTransition] = useState(!useAnimate || animate);
+  const [transition, setTransition] = useState(
+    state != null ? !state.useAnimate : false
+  );
 
   const whiteRef = useRef(null);
 
   useEffect(() => {
     setTimeout(() => {
-      if (whiteRef.current) whiteRef.current.display = 'none';
+      if (whiteRef.current) whiteRef.current.display = "none";
     }, 1500);
   });
 
@@ -55,57 +56,95 @@ const AboutUs = ({ isMobile, animate }) => {
           zIndex: 100000,
           transition: "opacity ease-in-out 1.5s",
           opacity: transition ? 1 : 0,
-          pointerEvents: 'none'
+          pointerEvents: "none",
         }}
         className={transition ? "animate" : ""}
         ref={whiteRef}
       />
-      <div style={{ minHeight: "100vh", paddingBottom: "2%" }}>
-        {!isMobile && (
-          <div
-            style={{
-              backgroundImage: isMobile
-                ? "none"
-                : "url('/images/About Us - Banner.jpg?url')",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "100%",
-              height: "15em",
-              width: "100vw",
-              position: "relative",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <h2
-              style={{
-                marginBottom: ".5em",
-                marginTop: "1em",
-                color: "white",
-              }}
-            >
-              WE MAKE AUDIO
-            </h2>
+      <div style={{ minHeight: "90vh", paddingBottom: "2%" }}>
+        <div
+          style={{
+            backgroundImage: "url('/images/About Us - Banner.jpg?url')",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: isMobile ? "150%" : "100%",
+            height: "15em",
+            width: "100vw",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            fontSize: isMobile ? ".5em" : "1em",
+          }}
+        >
+          {isMobile ? (
             <p
               style={{
-                paddingLeft: "12em",
-                paddingRight: "12em",
-                paddingBottom: "3em",
+                paddingTop: isMobile && "3%",
+                marginBottom: ".5em",
+                marginTop: isMobile ? "0em" : "1em",
                 color: "white",
+                fontSize: "2.5em",
+                textAlign: "center",
               }}
             >
               <b>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                malesuada facilisis tellus, aliquam molestie purus consequat
-                nec. Fusce arcu sapien, fringilla eu arcu volutpat, consequat
-                dignissim est.
+                We are storytellers <br />
+                with a passion for audio.
               </b>
             </p>
-          </div>
-        )}
+          ) : (
+            <>
+              <h2
+                style={{
+                  paddingTop: isMobile ? "5%" : "2%",
+                  marginBottom: ".5em",
+                  marginTop: isMobile ? "0em" : "1em",
+                  color: "white",
+                }}
+              >
+                WE MAKE AUDIO
+              </h2>
+              <p
+                style={{
+                  paddingLeft: isMobile ? "2em" : "12em",
+                  paddingRight: isMobile ? "2em" : "12em",
+                  paddingBottom: "3em",
+                  color: "white",
+                }}
+              >
+                <b>
+                  Wavyrn is a full-service audio production studio that
+                  specializes in multimedia audio production. With experience in
+                  games, film, and other media, we provide services in audio
+                  directing, project management, sound design, music, voice
+                  acting, and more. We are storytellers with a passion for
+                  audio.
+                </b>
+              </p>
+            </>
+          )}
+        </div>
+
         {isMobile ? (
-          <h2 style={{ textAlign: "center" }}>Our Team</h2>
+          <>
+            <p
+              style={{
+                paddingLeft: isMobile ? "2em" : "12em",
+                paddingRight: isMobile ? "2em" : "12em",
+                paddingBottom: ".3em",
+                paddingTop: "2%",
+                textAlign: "center",
+              }}
+            >
+              Wavyrn is a full-service audio production studio that specializes
+              in multimedia audio production. With experience in games, film,
+              and other media, we provide services in audio directing, project
+              management, sound design, music, voice acting, and more.
+            </p>
+            <HRDiv />
+            <h2 style={{ textAlign: "center" }}>Our Team</h2>
+          </>
         ) : (
           <div
             style={{
@@ -133,16 +172,16 @@ const AboutUs = ({ isMobile, animate }) => {
             })}
           </div>
         )}
-        <HRDiv />
+        {!isMobile && <HRDiv />}
         {selectedUser == null ? (
           <div
             ref={parent}
             style={{
               display: "flex",
               flexWrap: "wrap",
-              justifyContent: isMobile? 'center' :"flex-start",
-              paddingLeft: isMobile ? "15%" : "15%",
-              paddingRight: "18%",
+              justifyContent: isMobile ? "center" : "flex-start",
+              paddingLeft: isMobile ? "5%" : "15%",
+              paddingRight: isMobile ? "5%" : "18%",
               width: "100vw",
             }}
           >
@@ -154,7 +193,7 @@ const AboutUs = ({ isMobile, animate }) => {
                         key={user.name}
                         style={{
                           display: "flex",
-                          justifyContent: "space-between",
+                          justifyContent: isMobile ? "center" : "space-between",
                           marginBottom: isMobile ? "10px" : "0",
                         }}
                       >
@@ -162,12 +201,14 @@ const AboutUs = ({ isMobile, animate }) => {
                           name={user.name}
                           title={user.title}
                           setSelectedUser={setSelectedUser}
+                          isMobile={isMobile}
                         />
                         {index + 1 < visibleUsers.length && (
                           <ProfilePic
                             name={visibleUsers[index + 1].name}
                             title={visibleUsers[index + 1].title}
                             setSelectedUser={setSelectedUser}
+                            isMobile={isMobile}
                           />
                         )}
                       </div>
@@ -179,6 +220,7 @@ const AboutUs = ({ isMobile, animate }) => {
                       name={user.name}
                       title={user.title}
                       setSelectedUser={setSelectedUser}
+                      isMobile={isMobile}
                     />
                   </div>
                 ))}
@@ -207,9 +249,10 @@ const AboutUs = ({ isMobile, animate }) => {
                   key={selectedUser.name}
                   name={selectedUser.name}
                   title={selectedUser.title}
+                  isMobile={isMobile}
                 />
               </Col>
-              <Col xs={2}>
+              <Col xs={2} style={{justifyContent: 'center', display: 'flex'}}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -237,7 +280,7 @@ const AboutUs = ({ isMobile, animate }) => {
             ) : selectedUser.name == "Austin Leshock" ? (
               <AustinL />
             ) : selectedUser.name == "Austin Burkett" ? (
-              <AustinB />
+              <AustinB isMobile={isMobile}/>
             ) : selectedUser.name == "Ananta Arora" ? (
               <Ananta />
             ) : selectedUser.name == "Gret Price" ? (
@@ -257,7 +300,7 @@ const AboutUs = ({ isMobile, animate }) => {
         }}
       >
         <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
-          ©️2024 .wavyrn • All Rights Reserved
+          ©️2024 Wavyrn • All Rights Reserved
         </p>
       </footer>
     </>

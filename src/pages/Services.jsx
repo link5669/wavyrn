@@ -46,48 +46,60 @@ const Services = ({ isMobile }) => {
   }, [isMobile]);
 
   const updateFooterMargin = () => {
-    const selectedService = serviceRefs.current[selected];
-    if (selectedService && footerRef.current) {
-      const footerHeight = footerRef.current.offsetHeight;
-      footerRef.current.style.marginTop = `${selectedService.offsetHeight}px`;
-      // document.body.style.paddingBottom = `${footerHeight}px`;
-    }
+    // const selectedService = serviceRefs.current[selected];
+    // if (selectedService && footerRef.current) {
+    //   const footerHeight = footerRef.current.offsetHeight;
+    //   footerRef.current.style.marginTop = `${selectedService.offsetHeight}px`;
+    //   // document.body.style.paddingBottom = `${footerHeight}px`;
+    // }
   };
 
   return (
     <>
       <div
         style={{
-          minHeight: "100vh",
-          height: "fit-content",
+          minHeight: "90vh",
+          // paddingTop: '2%'
+          // height: "fit-content",
         }}
       >
         {isMobile ? (
           <>
+            {/* <div style={{paddingTop: '7%'}}/> */}
             <ExpandableHeading
               title="Audio Directing"
               subtitle={"Project Management & Coordination"}
               bg={"url('/images/Services_AudioDirecting.jpg?url')"}
+              isMobile={isMobile}
+              body={<AudioDirecting isMobile={isMobile} />}
             />
             <ExpandableHeading
               title="Production"
               subtitle={"Mixing, Mastering, & Music Editing"}
               bg={"url('/images/Services_Production.png?url')"}
+              isMobile={isMobile}
+              body={<Production isMobile={isMobile} />}
             />
             <ExpandableHeading
               title="Sound Design"
               subtitle={"Sound Effects, Ambiences, Foley, & Sonic Branding"}
               bg={"url('/images/Services_SoundDesign.jpg?url')"}
+              isMobile={isMobile}
+              body={<SoundDesign isMobile={isMobile} />}
             />
             <ExpandableHeading
               title="Music"
               subtitle={"Film, Games, Theme Parks, & Interactive Media"}
               bg={"url('/images/Services_Music.png?url')"}
+              isMobile={isMobile}
+              body={<Music isMobile={isMobile} />}
             />
             <ExpandableHeading
-              title="Dialogue"
-              subtitle={"Writing, Casting, Editing & Voice Acting"}
+              title="Voice Acting"
+              subtitle={"Writing, Casting & Editing"}
               bg={"url('/images/Services_Dialogue.jpg?url')"}
+              isMobile={isMobile}
+              body={<Dialogue isMobile={isMobile} />}
             />
           </>
         ) : (
@@ -125,22 +137,19 @@ const Services = ({ isMobile }) => {
                 </span>
               )}
             </div>
-            <div
-              ref={footerRef}
-              style={{ backgroundColor: "black", height: "50px" }}
-            >
-              <p
-                style={{
-                  color: "white",
-                  textAlign: "center",
-                  lineHeight: "50px",
-                }}
-              >
-                ©️2024 .wavyrn • All Rights Reserved
-              </p>
-            </div>
           </>
         )}
+      </div>
+      <div ref={footerRef} style={{ backgroundColor: "black", height: "50px" }}>
+        <p
+          style={{
+            color: "white",
+            textAlign: "center",
+            lineHeight: "50px",
+          }}
+        >
+          ©️2024 Wavyrn • All Rights Reserved
+        </p>
       </div>
     </>
   );

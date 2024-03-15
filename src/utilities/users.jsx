@@ -1,6 +1,6 @@
 const projectManagement = [
-  { name: `Marc Yu`, title: `Co-Founder, Audio Director` },
-  { name: `Ananta Arora`, title: `Co-Founder, Business Manager` },
+  { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
+  { name: `Ananta Arora`, title: `Co-Founder, \nBusiness Manager` },
   {
     name: `Max Jaime`,
     title: `Technical Sound Designer, Composer, Mixer, Editor`,
@@ -34,7 +34,7 @@ const soundDesign = [
 ];
 
 const music = [
-  { name: `Marc Yu`, title: `Co-Founder, Audio Director` },
+  { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
   // { name: `Ela Morana`, title: `Technical Sound Designer, Composer` },
   // { name: `Michelle Lai`, title: `Composer, Voice Actor` },
   {
@@ -56,8 +56,8 @@ const dialogue = [
   { name: `Sam Leigh`, title: `Voice Actor` },
 ];
 const allUsers = [
-  { name: `Marc Yu`, title: `Co-Founder, Audio Director` },
-  { name: `Ananta Arora`, title: `Co-Founder, Business Manager` },
+  { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
+  { name: `Ananta Arora`, title: `Co-Founder, \nBusiness Manager` },
   { name: `Austin Burkett`, title: `Sound Designer, Composer` },
   {
     name: `Caleb Skelly`,
@@ -75,6 +75,9 @@ const allUsers = [
   { name: `Josh Trochet`, title: `Voice Actor` },
   { name: `Zionna Brown`, title: `Voice Actor` },
   { name: `Sam Leigh`, title: `Voice Actor` },
+  { name: `Lulu Ramirez`, title: `Social Media Manager` },
+  { name: `Miles Acquaviva`, title: `Web Developer` },
+
   // { name: `Ela Morana`, title: `Technical Sound Designer, Composer` },
 ];
 
@@ -84,7 +87,7 @@ const categories = [
   { categoryList: production, category: `Production` },
   { categoryList: soundDesign, category: `Sound Design` },
   { categoryList: music, category: `Music` },
-  { categoryList: dialogue, category: `Dialogue` },
+  { categoryList: dialogue, category: `Voice Acting` },
 ];
 
 export {

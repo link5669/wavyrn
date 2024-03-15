@@ -96,7 +96,7 @@ const Jobs = ({ selected, setSelected }) => {
               onMouseOver={() => handleMouseOver(4)}
               isUnderlined={currUnderline == 4 ? true : false}
               selected={selected == 4 ? true : false}
-              title="Dialogue"
+              title="Voice Acting"
               subtitle="Writing, Casting, Editing & Voice Acting"
               imageName="Services_Dialogue.jpg"
             />
