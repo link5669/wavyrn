@@ -33,9 +33,11 @@ const Contact = ({ isMobile }) => {
       })
       .then(
         () => {
+          alert("Sent")
           console.log("SUCCESS!");
         },
         (error) => {
+          alert("Error! Please reload the page and try again")
           console.log("FAILED...", error.text);
         }
       );
