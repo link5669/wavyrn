@@ -8,13 +8,12 @@ const AudioDirecting = ({ isMobile }) => {
       <h1 style={{ fontWeight: "bold" }}>
         {!isMobile && <em>Audio Directing</em>}
       </h1>
-      <h5>
+      <h5 style={{paddingInline: '20%'}}>
         At Wavyrn, we’re committed to bringing you the best audio production
         experience. We’ll produce, manage, and realize the audio process in its
         entirety for you, even the spreadsheets.
       </h5>
       <HRDiv />
-      <br />
       {/* <p className="body"> */}{" "}
       <Row
         style={{

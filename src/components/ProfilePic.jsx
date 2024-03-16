@@ -12,6 +12,8 @@ import paul from "/Team Profiles/IMG_0407.jpg";
 import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
 import lulu from "/Team Profiles/lulu.jpeg"
 import miles from "/Team Profiles/miles.png"
+import zionna from "/Team Profiles/zionna.jpg"
+import caleb from "/Team Profiles/caleb.jpg"
 
 const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   const parentStyle = {
@@ -59,6 +61,10 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
       ? lulu
       : name == "Miles Acquaviva"
       ? miles
+      : name == "Zionna Brown"
+      ? zionna
+      : name == "Caleb Skelly"
+      ? caleb
       : "https://via.placeholder.com/150";
 
   return (
@@ -84,7 +90,6 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
                 name == "Josh Trochet" ||
                 name == "Paul Edward May" ||
                 name == "Caleb Skelly" ||
-                name == "Zionna Brown" ||
                 name == "Lulu Ramirez" ||
                 name == "Miles Acquaviva"
               )

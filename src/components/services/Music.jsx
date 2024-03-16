@@ -7,12 +7,10 @@ const Music = ({ isMobile }) => {
   return (
     <>
       <h1 style={{fontWeight: 'bold'}}>{!isMobile && <em>Music</em>}</h1>
-      <h5>
+      <h5 style={{paddingInline: '20%'}}>
       We are storytellers, chronicling your vision and bringing it to life. From animated shorts to feature films, video games to theme parks, we’ll score the moment for you.
       </h5>
       <HRDiv />
-      <br />
-        {" "}
         <Row style={{
           paddingLeft: isMobile ? "0%" : "28%",
           paddingRight: isMobile ? "2%" : "25%",

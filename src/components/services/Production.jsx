@@ -9,17 +9,16 @@ const Production = ({ isMobile }) => {
       <h1 style={{ fontWeight: "bold" }}>
       {!isMobile &&  <em>Production</em>}
       </h1>
-      <h5>
+      <h5 style={{paddingInline: '20%'}}>
         You don’t have to worry about producing your sound any longer. We’re
         here to mix, master, and take your audio to the finish line, making it
         the best it can be.
       </h5>
       <HRDiv />
-      <br />
         {" "}
         <Row style={{
-          paddingLeft: isMobile ? "0%" : "28%",
-          paddingRight: isMobile ? "5%" : "25%",
+          paddingLeft: isMobile ? "0%" : "27%",
+          paddingRight: isMobile ? "5%" : "20%",
         }}>
           <Col>
             <ul style={{ listStyleType: "none" }}>

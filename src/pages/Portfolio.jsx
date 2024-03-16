@@ -21,7 +21,7 @@ const Portfolio = ({ isMobile }) => {
           }}
         >
           <h2 style={{ marginBottom: "0", color: "white" }}>
-            Stuff we've made
+            Portfolio
           </h2>
         </div>
 
@@ -32,7 +32,7 @@ const Portfolio = ({ isMobile }) => {
         </p> */}
         <HRDiv />
         <p style={{ textAlign: "center", fontSize: "1.2em" }}>
-          <b>Wavyrn Demo Reel</b>
+          <b>Demo Reel 2024</b>
         </p>
         <div style={{ alignContent: "center", display: isMobile && 'flex' }}>
           {isMobile ? (

@@ -16,6 +16,7 @@ import {
   Gret,
   Max,
   Sam,
+  Zionna,
 } from "../components/UserProfiles";
 import { useLocation } from "react-router-dom";
 
@@ -103,7 +104,7 @@ const AboutUs = ({ isMobile, animate }) => {
                   color: "white",
                 }}
               >
-                WE MAKE AUDIO
+                We are storytellers with a passion for audio.
               </h2>
               <p
                 style={{
@@ -111,6 +112,7 @@ const AboutUs = ({ isMobile, animate }) => {
                   paddingRight: isMobile ? "2em" : "12em",
                   paddingBottom: "3em",
                   color: "white",
+                  textAlign: 'center'
                 }}
               >
                 <b>
@@ -118,8 +120,7 @@ const AboutUs = ({ isMobile, animate }) => {
                   specializes in multimedia audio production. With experience in
                   games, film, and other media, we provide services in audio
                   directing, project management, sound design, music, voice
-                  acting, and more. We are storytellers with a passion for
-                  audio.
+                  acting, and more.
                 </b>
               </p>
             </>
@@ -287,6 +288,8 @@ const AboutUs = ({ isMobile, animate }) => {
               <Gret />
             ) : selectedUser.name == "Angelica Ramos" ? (
               <Angelica />
+            ) : selectedUser.name == "Zionna Brown" ? (
+              <Zionna />
             ) : (
               <p>No bio yet!</p>
             )}

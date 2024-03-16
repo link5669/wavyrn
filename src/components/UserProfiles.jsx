@@ -125,6 +125,44 @@ const Ananta = () => {
   );
 };
 
+const Zionna = () => {
+  return (
+    <div style={{ display: "block" }}>
+      <br />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ paddingInline: "2%" }}>
+          <InstaLink handle="zionnavee" />
+        </div>
+      </div>
+      <br />
+      <p>
+        Surrounded by forests while growing up in her hometown in Oregon, Zionna
+        Brown has always had an affinity for nature. Paired with her early love
+        of video games and folk stories, it's easy to connect the background
+        behind her love of the fantasy genre, vibranttheatrics, and just a few
+        spooky stories. Zionna has years of experience in vocal work inrecording
+        and on-stage performances, as well as teaching others acting and voice.
+        Notable performances include Disney World's Candlelight Concerts,
+        National Concert Youth Chorus' Reflections on Unityat Carnegie Hall, as
+        well as many ensemble and band recitals and gigs. She produced and
+        coached at The Broward County Center for the Performing Arts and PBS's
+        Kid Stew, along with private lessons in her spare time.Always delighted
+        to learn a new dialect or language, Zionna has recorded and performed in
+        over 15 different languages, including Japanese, Hebrew, and even Old
+        Norse! Her passion for learning, creating, and collaborating shines
+        through as she researches and performs, always making for a fun day in
+        the booth.
+      </p>
+    </div>
+  );
+};
+
 const AustinB = (isMobile) => {
   return (
     <div style={{ display: "block", textAlign: "left" }}>
@@ -488,4 +526,4 @@ const Sam = () => {
   );
 };
 
-export { Sam, Max, Marc, Angelica, Ananta, Gret, AustinB, AustinL };
+export { Sam, Max, Marc, Angelica, Ananta, Gret, AustinB, AustinL, Zionna };

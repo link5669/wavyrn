@@ -16,6 +16,7 @@ h5 {
   /* height: fit-content; */
 }
 
-ul {
-  padding-left: .5rem;
+ol, ul {
+  font-size: larger;
+  padding-left: 0rem;
 }
