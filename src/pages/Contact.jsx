@@ -43,7 +43,7 @@ const Contact = ({ isMobile }) => {
 
   return (
     <>
-      <div style={{ minHeight: "100vh" }}>
+      <div style={{ minHeight: "90vh" }}>
         {!isMobile && (
           <div
             style={{
@@ -72,7 +72,7 @@ const Contact = ({ isMobile }) => {
             >
               LEAVE A NOTE!
             </h2>
-            <p
+            {/* <p
               style={{
                 paddingLeft: "12em",
                 paddingRight: "12em",
@@ -86,7 +86,7 @@ const Contact = ({ isMobile }) => {
                 nec. Fusce arcu sapien, fringilla eu arcu volutpat, consequat
                 dignissim est.
               </b>
-            </p>
+            </p> */}
           </div>
         )}
         <h3 style={{ textAlign: "center", paddingTop: '1%' }}>contact@wavyrn.com</h3>

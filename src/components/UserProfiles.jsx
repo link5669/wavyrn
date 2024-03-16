@@ -18,6 +18,11 @@ import gret3 from "/Team Profiles/Gret Price/Bio Pictures/Bio Picture 3.jpg";
 import gret4 from "/Team Profiles/Gret Price/Bio Pictures/Bio Picture 4.jpg";
 import marc1 from "/Team Profiles/Marc Yu/Marc Yu Media/Alistair.jpg";
 import marc2 from "/Team Profiles/Marc Yu/Marc Yu Media/Avengers Campus.jpg";
+import { Player } from "react-simple-player";
+import marcAudio1 from "/Team Profiles/Marc Yu/Marc Yu Media/1. A Bard's Tale (Library Music : Viking Metal, Action).wav";
+import marcAudio2 from "/Team Profiles/Marc Yu/Marc Yu Media/2. Moonstruck (Feature Film : Romantic Comedy).wav";
+import marcAudio3 from "/Team Profiles/Marc Yu/Marc Yu Media/3. Butterfly (Short Film : Coming-of-Age Montage).mp3";
+import marcAudio4 from "/Team Profiles/Marc Yu/Marc Yu Media/4. Stalling (Musical Theater : Folk Cabaret).wav";
 
 const Angelica = () => {
   return (
@@ -28,8 +33,8 @@ const Angelica = () => {
         in classical and contemporary musical theatre, but firmly believes in
         working with—and listening to—as many music genres as possible. Outside
         of composition and project management, she is a music director for youth
-        community theater. Angelica is a current student at Berklee College
-        ofMusic, double-majoring in Composition and Film Scoring with a minor in
+        community theater. Angelica is a current student at Berklee College of
+        Music, double-majoring in Composition and Film Scoring with a minor in
         Musical Theatre Writing.
       </p>
     </div>
@@ -300,6 +305,65 @@ const Marc = () => {
         development opportunities to game audio students, co-organizing the
         annual Game/Music Jam with participants from 50+ colleges.
       </p>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div>
+          <Row>
+            <Col>
+              <p style={{ fontSize: ".75em" }}>
+                1. A Bard's Tale (Library Music : Viking Metal, Action)
+              </p>
+              <Player
+                grey={[206, 0, 54]}
+                accent={[255, 0, 0]}
+                src={marcAudio1}
+                height={30}
+              />
+            </Col>
+            <Col>
+              <p style={{ fontSize: ".8em" }}>
+                3. Butterfly (Short Film : Coming-of-Age Montage)
+              </p>
+              <Player
+                grey={[206, 0, 54]}
+                accent={[255, 0, 0]}
+                src={marcAudio3}
+                height={30}
+              />
+            </Col>
+          </Row>
+          <Row style={{ paddingTop: "2%" }}>
+            <Col>
+              <p style={{ fontSize: ".8em" }}>
+                2. Moonstruck (Feature Film : Romantic Comedy)
+              </p>
+              <Player
+                grey={[206, 0, 54]}
+                accent={[255, 0, 0]}
+                src={marcAudio2}
+                height={30}
+              />
+            </Col>
+            <Col>
+              <p style={{ fontSize: ".8em" }}>
+                4. Stalling (Musical Theater : Folk Cabaret)
+              </p>
+              <Player
+                grey={[206, 0, 54]}
+                accent={[255, 0, 0]}
+                src={marcAudio4}
+                height={30}
+              />
+            </Col>
+          </Row>
+        </div>
+      </div>
+      <br />
       <Row>
         <Col style={{ maxWidth: "50%" }}>
           <img
@@ -509,19 +573,32 @@ const Sam = () => {
         pianist working out of the Boston area. They are passionate about
         helping to bring the creative visions of others to life.
       </p>
-      {/* <NewAudioPlayer
-      trackName={"Good Riddance"}
-      trackInfo={[
-        {
-          title: "Tokhter's Visit",
-          index: "1",
-          length: "0:03",
-        },
-      ]}
-      songs={[
-        "https://samplelib.com/lib/preview/mp3/sample-3s.mp3",
-      ]}
-    /> */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div>
+          <Row>
+            <Col>
+              <p style={{ fontSize: ".75em" }}>
+                Good Riddance - Sam Leigh
+              </p>
+              <Player
+                grey={[206, 0, 54]}
+                accent={[255, 0, 0]}
+                src={goodriddance}
+                height={30}
+              />
+            </Col>
+            <Col>
+            
+            </Col>
+          </Row>
+        </div>
+      </div>
     </div>
   );
 };

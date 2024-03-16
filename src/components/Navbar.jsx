@@ -220,7 +220,7 @@ const WavNavbar = ({ isMobile }) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          height: "60px",
+          height: "55px",
           backgroundColor: "white",
           minWidth: 0,
         }}
@@ -233,13 +233,13 @@ const WavNavbar = ({ isMobile }) => {
                 let currentPage = window.location.href.split("/");
                 currentPage = currentPage[currentPage.length - 1];
                 let pageIndex =
-                  currentPage == "about-us"
+                  currentPage === "about-us"
                     ? 0
-                    : currentPage == "services"
+                    : currentPage === "services"
                     ? 1
-                    : currentPage == "portfolio"
+                    : currentPage === "portfolio"
                     ? 2
-                    : currentPage == "contact"
+                    : currentPage === "contact"
                     ? 3
                     : 4;
                 setLastSelected(selected);
@@ -248,25 +248,23 @@ const WavNavbar = ({ isMobile }) => {
               style={{ maxHeight: "100%" }}
             />
           </Link>
-          <div
-            style={{
-              display: isMobile ? "initial" : "none",
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="#CE0036"
-              className="bi bi-envelope"
-              viewBox="0 0 16 16"
-              style={{ color: "gray" }}
-              onClick={() => setToggled(!toggled)}
-            >
-              <Menu_svg />
-            </svg>
-          </div>
         </div>
+        {/* Added wrapper div for styling */}
+        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: '2.4vh', paddingRight: '7px' }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="#CE0036"
+            className="bi bi-envelope"
+            viewBox="0 0 16 16"
+            style={{ color: "gray" }}
+            onClick={() => setToggled(!toggled)}
+          >
+            <Menu_svg />
+          </svg>
+        </div>
+
         <div style={{ display: "grid" }} ref={parentParent}>
           <div
             style={{
@@ -430,7 +428,7 @@ const WavNavbar = ({ isMobile }) => {
             backgroundColor: "#CE0036",
             display: toggled ? "initial" : "none",
             position: "fixed",
-            top: "90px",
+            top: "85px",
             left: 0,
             width: "100vw",
           }}
