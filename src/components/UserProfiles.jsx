@@ -325,14 +325,17 @@ const Marc = () => {
                 height={30}
               />
             </Col>
+
             <Col>
               <p style={{ fontSize: ".8em" }}>
-                3. Butterfly (Short Film : Coming-of-Age Montage)
+                {isMobile
+                  ? "2. Moonstruck (Feature Film : Romantic Comedy)"
+                  : "3. Butterfly (Short Film : Coming-of-Age Montage)"}
               </p>
               <Player
                 grey={[206, 0, 54]}
                 accent={[255, 0, 0]}
-                src={marcAudio3}
+                src={isMobile ? marcAudio2 : marcAudio3}
                 height={30}
               />
             </Col>
@@ -340,12 +343,14 @@ const Marc = () => {
           <Row style={{ paddingTop: "2%" }}>
             <Col>
               <p style={{ fontSize: ".8em" }}>
-                2. Moonstruck (Feature Film : Romantic Comedy)
+                {!isMobile
+                  ? "2. Moonstruck (Feature Film : Romantic Comedy)"
+                  : "3. Butterfly (Short Film : Coming-of-Age Montage)"}
               </p>
               <Player
                 grey={[206, 0, 54]}
                 accent={[255, 0, 0]}
-                src={marcAudio2}
+                src={isMobile ? marcAudio3 : marcAudio2}
                 height={30}
               />
             </Col>
@@ -583,9 +588,7 @@ const Sam = () => {
         <div>
           <Row>
             <Col>
-              <p style={{ fontSize: ".75em" }}>
-                Good Riddance - Sam Leigh
-              </p>
+              <p style={{ fontSize: ".75em" }}>Good Riddance - Sam Leigh</p>
               <Player
                 grey={[206, 0, 54]}
                 accent={[255, 0, 0]}
@@ -593,9 +596,7 @@ const Sam = () => {
                 height={30}
               />
             </Col>
-            <Col>
-            
-            </Col>
+            <Col></Col>
           </Row>
         </div>
       </div>

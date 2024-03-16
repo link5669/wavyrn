@@ -64,7 +64,7 @@ const Contact = ({ isMobile }) => {
             <h2
               style={{
                 // marginBottom: ".5em",
-                marginTop: "1em",
+                // marginTop: "1em",
                 color: "white",
                 fontWeight: 'bold',
                 fontSize: '5em'
