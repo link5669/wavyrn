@@ -250,7 +250,7 @@ const WavNavbar = ({ isMobile }) => {
           </Link>
         </div>
         {/* Added wrapper div for styling */}
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: '2.4vh', paddingRight: '7px' }}>
+        <div style={{ display: isMobile ? "flex" : 'none', justifyContent: "flex-end", marginTop: '2.4vh', paddingRight: '7px' }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -298,7 +298,7 @@ const WavNavbar = ({ isMobile }) => {
               state={{ useAnimate: true }}
               style={{
                 textDecoration: "none",
-                paddingTop: "3%",
+                paddingTop: "2%",
                 width: "110px",
               }}
               onClick={() => {
@@ -318,7 +318,7 @@ const WavNavbar = ({ isMobile }) => {
               to="/services"
               style={{
                 textDecoration: "none",
-                paddingTop: "3%",
+                paddingTop: "2%",
                 width: "110px",
               }}
               onClick={() => {
@@ -338,7 +338,7 @@ const WavNavbar = ({ isMobile }) => {
               to="/portfolio"
               style={{
                 textDecoration: "none",
-                paddingTop: "3%",
+                paddingTop: "2%",
                 width: "110px",
               }}
               onClick={() => {
@@ -359,7 +359,7 @@ const WavNavbar = ({ isMobile }) => {
               to="/contact"
               style={{
                 textDecoration: "none",
-                paddingTop: "3%",
+                paddingTop: "2%",
                 marginRight: "25px",
                 width: "110px",
               }}

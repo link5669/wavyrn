@@ -102,7 +102,7 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
         <ReactPlayer
           playing={false}
           controls={true}
-          url={"Audio_Redesign_Reel_Austin_Burkett.mov"}
+          url={"https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"}
         />
 
         {/* <iframe

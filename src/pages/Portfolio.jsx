@@ -38,15 +38,14 @@ const Portfolio = ({ isMobile }) => {
           {isMobile ? (
             <video
               style={{ margin: "auto", maxWidth: "80vw", alignContent: 'center' }}
-              src="Audio_Redesign_Reel_Austin_Burkett.mov"
+              src={"https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"}
               width="750"
               height="300"
               controls
             ></video>
           ) : (
             <WavMediaPlayer
-              imgSrc={"reel.png"}
-              videoId={"Av5oRf88aso"}
+              imgSrc={"thumbnail.jpg"}
               title={"Afterlife"}
               isMobile={isMobile}
             />

@@ -29,7 +29,7 @@ const Contact = ({ isMobile }) => {
 
     emailjs
       .sendForm("service_qmi40xs", "template_4jgigf1", form.current, {
-        publicKey: process.env.CAPTCHA_PUBLIC_KEY,
+        publicKey: "jk8hVoSyJiKGAFCRe",
       })
       .then(
         () => {
