@@ -431,6 +431,8 @@ const WavNavbar = ({ isMobile }) => {
             top: "85px",
             left: 0,
             width: "100vw",
+            textAlign: 'right',
+            paddingRight: '3%'
           }}
         >
           <div style={{ paddingLeft: "2%", marginTop: "2%" }}>

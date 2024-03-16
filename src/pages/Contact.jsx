@@ -11,6 +11,7 @@ const Contact = ({ isMobile }) => {
   const [email, setEmail] = useState("Email");
   const [message, setMessage] = useState("Message");
   const [error, setError] = useState("");
+  const [sent, setSent] = useState("");
 
   const form = useRef();
   const captchaRef = useRef(null);
@@ -33,11 +34,11 @@ const Contact = ({ isMobile }) => {
       })
       .then(
         () => {
-          alert("Sent")
+          setSent("Sent");
           console.log("SUCCESS!");
         },
         (error) => {
-          alert("Error! Please reload the page and try again")
+          setSent("Error! Please reload the page and try again");
           console.log("FAILED...", error.text);
         }
       );
@@ -68,8 +69,8 @@ const Contact = ({ isMobile }) => {
                 // marginBottom: ".5em",
                 // marginTop: "1em",
                 color: "white",
-                fontWeight: 'bold',
-                fontSize: '5em'
+                fontWeight: "bold",
+                fontSize: "5em",
               }}
             >
               LEAVE A NOTE!
@@ -91,9 +92,12 @@ const Contact = ({ isMobile }) => {
             </p> */}
           </div>
         )}
-        <h3 style={{ textAlign: "center", paddingTop: '1%' }}>contact@wavyrn.com</h3>
+        <h3 style={{ textAlign: "center", paddingTop: "1%" }}>
+          contact@wavyrn.com
+        </h3>
         <ContactSocialIcons />
         <hr style={{ width: "33%", marginLeft: "33%" }} />
+        <p style={{ textAlign: "center" }}>{sent}</p>
         <form
           style={{
             display: "flex",
@@ -118,8 +122,8 @@ const Contact = ({ isMobile }) => {
             onChange={(e) => setName(e.target.value)}
             value={name}
             style={{
-              padding: '10px',
-                outline: 'none',
+              padding: "10px",
+              outline: "none",
               backgroundColor: "#f8f8f8",
               height: "4em",
               borderRadius: "10px",
@@ -140,9 +144,9 @@ const Contact = ({ isMobile }) => {
             type="text"
             value={email}
             style={{
-              outline: 'none',
+              outline: "none",
 
-              padding: '10px',
+              padding: "10px",
               marginTop: "1.2em",
               backgroundColor: "#f8f8f8",
               height: "4em",
@@ -163,7 +167,7 @@ const Contact = ({ isMobile }) => {
             }}
             value={message}
             style={{
-              padding: '10px',
+              padding: "10px",
 
               marginTop: "1.2em",
               marginBottom: "1.2em",
