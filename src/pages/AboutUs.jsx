@@ -6,6 +6,7 @@ import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
 import { X_svg } from "../utilities/svgs";
 import HRDiv from "../components/HRDiv";
+
 import "./AboutUs.css";
 import {
   Ananta,
@@ -37,6 +38,24 @@ const AboutUs = ({ isMobile, animate }) => {
   );
 
   const whiteRef = useRef(null);
+
+  const onBackButtonEvent = (e) => {
+    if (selectedUser != null) {
+      e.preventDefault();
+      setSelectedUser(null);
+    } else {
+      window.history.pushState(null, null, window.location.pathname);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedUser != null) {
+      window.history.pushState(null, null, window.location.pathname);
+      window.addEventListener("popstate", onBackButtonEvent);
+    } else {
+      window.removeEventListener("popstate", onBackButtonEvent);
+    }
+  }, [selectedUser]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -112,7 +131,7 @@ const AboutUs = ({ isMobile, animate }) => {
                   paddingRight: isMobile ? "2em" : "12em",
                   paddingBottom: "3em",
                   color: "white",
-                  textAlign: 'center'
+                  textAlign: "center",
                 }}
               >
                 <b>
@@ -253,7 +272,7 @@ const AboutUs = ({ isMobile, animate }) => {
                   isMobile={isMobile}
                 />
               </Col>
-              <Col xs={2} style={{justifyContent: 'center', display: 'flex'}}>
+              <Col xs={2} style={{ justifyContent: "center", display: "flex" }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -281,7 +300,7 @@ const AboutUs = ({ isMobile, animate }) => {
             ) : selectedUser.name == "Austin Leshock" ? (
               <AustinL />
             ) : selectedUser.name == "Austin Burkett" ? (
-              <AustinB isMobile={isMobile}/>
+              <AustinB isMobile={isMobile} />
             ) : selectedUser.name == "Ananta Arora" ? (
               <Ananta />
             ) : selectedUser.name == "Gret Price" ? (
