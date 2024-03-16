@@ -61,6 +61,7 @@ const Portfolio = ({ isMobile }) => {
             display: "flex",
             flexFlow: "row wrap",
             justifyContent: "center",
+            paddingTop: isMobile &&'4%',
             paddingLeft: isMobile ? "5% " : "15%",
             paddingRight: isMobile ? "5% " : "15%",
             paddingBottom: "2%",

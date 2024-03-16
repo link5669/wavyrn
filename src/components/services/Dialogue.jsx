@@ -9,7 +9,9 @@ const Dialogue = ({ isMobile }) => {
       <h1 style={{ fontWeight: "bold" }}>
       {!isMobile &&  <em>Voice Acting</em>}
       </h1>
-      <h5 style={{paddingInline: '20%'}}>
+      <h5 style={{paddingInline: isMobile ? "2%" : "20%",
+          textAlign: isMobile && "left",
+          fontSize: isMobile && ".8em",}}>
         Choose your character: orcs, paladins, deuteragonists, and even space
         pirates caught in a tragic romance. We’ll find the right voice, produce
         the session, and deliver clean dialogue (elvish included).
@@ -18,6 +20,7 @@ const Dialogue = ({ isMobile }) => {
         <Row style={{
           paddingLeft: isMobile ? "0%" : "28%",
           paddingRight: isMobile ? "5%" : "25%",
+          fontSize: isMobile && ".8em",
         }}>
           <Col>
             <ul style={{ listStyleType: "none" }}>

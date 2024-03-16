@@ -14,6 +14,7 @@ const Services = ({ isMobile }) => {
   const [prevSelected, setPrevSelected] = useState(-1);
   const serviceRefs = useRef({});
   const footerRef = useRef(null);
+  const [expanded, setExpanded] = useState(-1);
 
   const setSelectedWrapper = (val) => {
     if (selected === prevSelected || val === selected) return;
@@ -37,7 +38,7 @@ const Services = ({ isMobile }) => {
       setTimeout(() => {
         currentServiceRef.classList.remove("entering");
         updateFooterMargin();
-      }, 10); // Slightly longer delay for entering
+      }, 10);
     }
   }, [selected]);
 
@@ -58,20 +59,20 @@ const Services = ({ isMobile }) => {
     <>
       <div
         style={{
-          minHeight: "90vh",
-          // paddingTop: '2%'
-          // height: "fit-content",
+          minHeight: "87vh",
         }}
       >
         {isMobile ? (
           <>
-            {/* <div style={{paddingTop: '7%'}}/> */}
             <ExpandableHeading
               title="Audio Directing"
               subtitle={"Project Management & Coordination"}
               bg={"url('/images/Services_AudioDirecting.jpg?url')"}
               isMobile={isMobile}
               body={<AudioDirecting isMobile={isMobile} />}
+              onClick={() => setExpanded(0)}
+              expanded={expanded}
+              index={0}
             />
             <ExpandableHeading
               title="Production"
@@ -79,6 +80,9 @@ const Services = ({ isMobile }) => {
               bg={"url('/images/Services_Production.png?url')"}
               isMobile={isMobile}
               body={<Production isMobile={isMobile} />}
+              onClick={() => setExpanded(1)}
+              expanded={expanded}
+              index={1}
             />
             <ExpandableHeading
               title="Sound Design"
@@ -86,6 +90,9 @@ const Services = ({ isMobile }) => {
               bg={"url('/images/Services_SoundDesign.jpg?url')"}
               isMobile={isMobile}
               body={<SoundDesign isMobile={isMobile} />}
+              onClick={() => setExpanded(2)}
+              expanded={expanded}
+              index={2}
             />
             <ExpandableHeading
               title="Music"
@@ -93,6 +100,9 @@ const Services = ({ isMobile }) => {
               bg={"url('/images/Services_Music.png?url')"}
               isMobile={isMobile}
               body={<Music isMobile={isMobile} />}
+              onClick={() => setExpanded(3)}
+              expanded={expanded}
+              index={3}
             />
             <ExpandableHeading
               title="Voice Acting"
@@ -100,6 +110,9 @@ const Services = ({ isMobile }) => {
               bg={"url('/images/Services_Dialogue.jpg?url')"}
               isMobile={isMobile}
               body={<Dialogue isMobile={isMobile} />}
+              onClick={() => setExpanded(4)}
+              expanded={expanded}
+              index={4}
             />
           </>
         ) : (

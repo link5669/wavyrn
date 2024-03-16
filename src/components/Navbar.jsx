@@ -249,8 +249,14 @@ const WavNavbar = ({ isMobile }) => {
             />
           </Link>
         </div>
-        {/* Added wrapper div for styling */}
-        <div style={{ display: isMobile ? "flex" : 'none', justifyContent: "flex-end", marginTop: '2.4vh', paddingRight: '7px' }}>
+        <div
+          style={{
+            display: isMobile ? "flex" : "none",
+            justifyContent: "flex-end",
+            marginTop: "2.4vh",
+            paddingRight: "7px",
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -265,12 +271,12 @@ const WavNavbar = ({ isMobile }) => {
           </svg>
         </div>
 
-        <div style={{ display: "grid" }} ref={parentParent}>
+        <div style={{ display: isMobile ? "none" : "grid" }} ref={parentParent}>
           <div
             style={{
               justifyContent: "flex-end",
               alignItems: "center",
-              display: isMobile ? "none" : "flex",
+              display: "flex",
               zIndex: 10000000,
             }}
             onMouseOver={() => setHovered(true)}
@@ -381,7 +387,7 @@ const WavNavbar = ({ isMobile }) => {
             <div
               style={{
                 width: "100%",
-                display: isMobile ? "none" : "flex",
+                display: "flex",
                 justifyContent: "flex-start",
                 flexDirection: "row",
                 alignItems: "center",
@@ -431,8 +437,8 @@ const WavNavbar = ({ isMobile }) => {
             top: "85px",
             left: 0,
             width: "100vw",
-            textAlign: 'right',
-            paddingRight: '3%'
+            textAlign: "right",
+            paddingRight: "3%",
           }}
         >
           <div style={{ paddingLeft: "2%", marginTop: "2%" }}>

@@ -1,32 +1,51 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Arrow_svg } from "../utilities/svgs";
 
-const ExpandableHeading = ({ title, subtitle, bg, body }) => {
-  const [toggled, setToggled] = useState(true);
+const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
+  const [toggled, setToggled] = useState(false);
+
+  useEffect(() => {
+    if (expanded === index) {
+      setToggled(false);
+    } else {
+      setToggled(true);
+    }
+  }, [expanded]);
+
+  const onClickFunc = () => {
+    console.log(expanded, index)
+    if (expanded == index) {
+      setToggled(true)
+    }
+    onClick()
+  }
+
   return (
     <div
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "19vh",
-        backgroundImage: bg,
-        backgroundPositionX: "center",
-        backgroundPositionY: "bottom",
-        backgroundSize: "cover",
+        minHeight: "8vh",
+        backgroundColor: "rgb(67,67,67)",
       }}
-      onClick={() => setToggled(!toggled)}
+      onClick={onClickFunc}
     >
       <div
         style={{
           paddingLeft: "5px",
           paddingRight: "5px",
           color: "white",
-          paddingBottom: toggled ? "3%" : 0,
+          paddingBottom: "3%",
+          backgroundImage: bg,
+          backgroundPositionX: "center",
+          backgroundPositionY: "bottom",
+          backgroundSize: "cover",
         }}
       >
         <div style={{ paddingTop: "2%" }}>
-          <h2>{title}</h2>
-          <p>{subtitle}</p>
+          <h1 style={{ textAlign: "left" }}>
+            <b>{title}</b>
+          </h1>
         </div>
         <svg
           width="16"
@@ -37,16 +56,18 @@ const ExpandableHeading = ({ title, subtitle, bg, body }) => {
             color: "gray",
             marginRight: "10px",
             float: "right",
-            transform: `translateY(-80px) ${toggled ? "" : "rotate(180deg)"}`,
+            transform: `translateY(-40px) ${toggled ? "" : "rotate(180deg)"}`,
           }}
         >
           <Arrow_svg />
         </svg>
-        <div style={{ display: toggled ? "none" : "initial" }}>
-          <div style={{ paddingBottom: "20px" }}>
-            {body}
-          </div>
-        </div>
+      </div>
+      <div
+        style={{
+          display: toggled ? "none" : "initial",
+        }}
+      >
+        <div style={{ paddingBottom: "0px", color:'white' }}>{body}</div>
       </div>
     </div>
   );

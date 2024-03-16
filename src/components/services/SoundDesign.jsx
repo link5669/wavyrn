@@ -8,7 +8,9 @@ const SoundDesign = ({ isMobile }) => {
       <h1 style={{ fontWeight: "bold" }}>
         {!isMobile && <em>Sound Design</em>}
       </h1>
-      <h5 style={{paddingInline: '20%'}}>
+      <h5 style={{paddingInline: isMobile ? "2%" : "20%",
+          textAlign: isMobile && "left",
+          fontSize: isMobile && ".8em",}}>
         Even the smaller footstep can describe the world around you. Whether
         it’s the perfect sonic logo, the cackle of a tavern fireplace, or a
         chime on your phone, every sound will be made immersive and
@@ -19,6 +21,7 @@ const SoundDesign = ({ isMobile }) => {
         style={{
           paddingLeft: isMobile ? "0%" : "28%",
           paddingRight: isMobile ? "5%" : "25%",
+          fontSize: isMobile && ".8em",
         }}
       >
         <Col>
