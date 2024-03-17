@@ -266,7 +266,7 @@ const AustinL = () => {
   );
 };
 
-const Marc = () => {
+const Marc = (isMobile) => {
   return (
     <div style={{ display: "block" }}>
       <br />

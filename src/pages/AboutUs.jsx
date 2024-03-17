@@ -296,7 +296,7 @@ const AboutUs = ({ isMobile, animate }) => {
             ) : selectedUser.name == "Max Jaime" ? (
               <Max />
             ) : selectedUser.name == "Marc Yu" ? (
-              <Marc />
+              <Marc isMobile={isMobile}/>
             ) : selectedUser.name == "Austin Leshock" ? (
               <AustinL />
             ) : selectedUser.name == "Austin Burkett" ? (
