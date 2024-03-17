@@ -2,6 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import HRDiv from "../components/HRDiv";
 import ProjectImage from "../components/ProjectImage";
 import WavMediaPlayer from "../components/WavMediaPlayer";
+import { isSafari } from "react-device-detect";
 
 const Portfolio = ({ isMobile }) => {
   return (
@@ -20,9 +21,7 @@ const Portfolio = ({ isMobile }) => {
             marginBottom: "2%",
           }}
         >
-          <h2 style={{ marginBottom: "0", color: "white" }}>
-            Portfolio
-          </h2>
+          <h2 style={{ marginBottom: "0", color: "white" }}>Portfolio</h2>
         </div>
 
         {/* <p style={{ padding: "3em" }}>
@@ -34,14 +33,31 @@ const Portfolio = ({ isMobile }) => {
         <p style={{ textAlign: "center", fontSize: "1.2em" }}>
           <b>Demo Reel 2024</b>
         </p>
-        <div style={{ alignContent: "center", display: isMobile && 'flex' }}>
-          {isMobile ? (
+        <div style={{ justifyContent: "center", display:  "flex", paddingBottom: '1%' }}>
+          {isSafari ? (
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          ) : isMobile ? (
             <video
-              style={{ margin: "auto", maxWidth: "80vw", alignContent: 'center' }}
-              src={"https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"}
+              style={{
+                margin: "auto",
+                maxWidth: "80vw",
+                alignContent: "center",
+              }}
+              src={
+                "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
+              }
               width="750"
               height="300"
               controls
+              playsinline
             ></video>
           ) : (
             <WavMediaPlayer
@@ -61,7 +77,7 @@ const Portfolio = ({ isMobile }) => {
             display: "flex",
             flexFlow: "row wrap",
             justifyContent: "center",
-            paddingTop: isMobile &&'4%',
+            paddingTop: isMobile && "4%",
             paddingLeft: isMobile ? "5% " : "15%",
             paddingRight: isMobile ? "5% " : "15%",
             paddingBottom: "2%",

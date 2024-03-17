@@ -23,6 +23,9 @@ import marcAudio1 from "/Team Profiles/Marc Yu/Marc Yu Media/1. A Bard's Tale (L
 import marcAudio2 from "/Team Profiles/Marc Yu/Marc Yu Media/2. Moonstruck (Feature Film : Romantic Comedy).wav";
 import marcAudio3 from "/Team Profiles/Marc Yu/Marc Yu Media/3. Butterfly (Short Film : Coming-of-Age Montage).mp3";
 import marcAudio4 from "/Team Profiles/Marc Yu/Marc Yu Media/4. Stalling (Musical Theater : Folk Cabaret).wav";
+import zionna1 from "/Team Profiles/Zionna/Media/1690409008380.png"
+import zionna2 from "/Team Profiles/Zionna/Media/DSC06913.jpg"
+import zionna3 from "/Team Profiles/Zionna/Media/Friendly_Headshot.jpg"
 
 const Angelica = () => {
   return (
@@ -164,6 +167,17 @@ const Zionna = () => {
         through as she researches and performs, always making for a fun day in
         the booth.
       </p>
+      <Row>
+        <Col style={{ maxWidth: "33%" }}>
+          <img style={{ width: "100%" }} src={zionna1} />
+        </Col>
+        <Col style={{ maxWidth: "33%" }}>
+          <img style={{ width: "100%" }} src={zionna2} />
+        </Col>
+        <Col style={{ maxWidth: "33%" }}>
+          <img style={{ width: "100%" }} src={zionna3} />
+        </Col>
+      </Row>
     </div>
   );
 };

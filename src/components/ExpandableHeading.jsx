@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Arrow_svg } from "../utilities/svgs";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
   const [toggled, setToggled] = useState(false);
@@ -13,12 +14,12 @@ const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
   }, [expanded]);
 
   const onClickFunc = () => {
-    console.log(expanded, index)
+    console.log(expanded, index);
     if (expanded == index) {
-      setToggled(true)
+      setToggled(true);
     }
-    onClick()
-  }
+    onClick();
+  };
 
   return (
     <div
@@ -65,9 +66,14 @@ const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
       <div
         style={{
           display: toggled ? "none" : "initial",
+          paddingBottom: toggled ? "20px" : "0px",
+          color: "white",
+          transition: "opacity ease-in-out 1.5s",
+          opacity: !toggled ? 1 : 0,
         }}
+        className={!toggled ? "animate" : ""}
       >
-        <div style={{ paddingBottom: "0px", color:'white' }}>{body}</div>
+        {body}
       </div>
     </div>
   );
