@@ -68,10 +68,10 @@ const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
           display: toggled ? "none" : "initial",
           paddingBottom: toggled ? "20px" : "0px",
           color: "white",
-          transition: "opacity ease-in-out 1.5s",
-          opacity: !toggled ? 1 : 0,
+          // transition: "opacity ease-in-out 1.5s",
+          // opacity: !toggled ? 1 : 0,
         }}
-        className={!toggled ? "animate" : ""}
+        // className={!toggled ? "animate" : ""}
       >
         {body}
       </div>

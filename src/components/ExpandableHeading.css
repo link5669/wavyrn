@@ -1,4 +1,4 @@
-@keyframes fadeIn {
+/* @keyframes fadeIn {
     from {
       opacity: 0;
     }
@@ -11,4 +11,4 @@
     animation: fadeIn 1.5s ease-in-out forwards;
     animation-direction: reverse;
   }
-  
+   */
