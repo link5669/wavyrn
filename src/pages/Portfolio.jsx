@@ -50,7 +50,7 @@ const Portfolio = ({ isMobile }) => {
                 alignContent: "center",
               }}
               src={
-                "/Wavyrn Demo Reel 2024 v1.0 hevc.mov"
+                "https://www.dropbox.com/scl/fi/nkg2sjoyhmibyswvkxzl5/Wavyrn-Demo-Reel-2024-v1.0-hevc.mov?rlkey=ur3knlg1x1o5njkb2c41wxhis&dl=1"
                 // "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
               }
               width="750"
