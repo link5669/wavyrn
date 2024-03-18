@@ -33,11 +33,21 @@ const Portfolio = ({ isMobile }) => {
         <p style={{ textAlign: "center", fontSize: "1.2em" }}>
           <b>Demo Reel 2024</b>
         </p>
-        <div style={{ justifyContent: "center", display:  "flex", paddingBottom: '1%' }}>
+        <div
+          style={{
+            justifyContent: "center",
+            display: "flex",
+            paddingBottom: "1%",
+            paddingLeft: isMobile ? "5% " : "15%",
+            paddingRight: isMobile ? "5% " : "15%",
+          }}
+        >
           {isSafari ? (
             <iframe
-              width="560"
-              height="315"
+              style={{
+                width: isMobile ? "70vw": "40vw",
+                height: isMobile ? "40vh": "50vh",
+              }}
               src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
               title="YouTube video player"
               frameborder="0"
