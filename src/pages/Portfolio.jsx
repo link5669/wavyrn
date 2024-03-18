@@ -42,19 +42,7 @@ const Portfolio = ({ isMobile }) => {
             paddingRight: isMobile ? "5% " : "15%",
           }}
         >
-          {isSafari ? (
-            <iframe
-              style={{
-                width: isMobile ? "70vw" : "40vw",
-                height: isMobile ? "40vh" : "50vh",
-              }}
-              src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-          ) : isMobile ? (
+          {isMobile ? (
             <video
               style={{
                 margin: "auto",
@@ -62,7 +50,8 @@ const Portfolio = ({ isMobile }) => {
                 alignContent: "center",
               }}
               src={
-                "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
+                "/Wavyrn Demo Reel 2024 v1.0 hevc.mov"
+                // "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
               }
               width="750"
               height="300"
