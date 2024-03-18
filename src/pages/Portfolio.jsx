@@ -45,8 +45,8 @@ const Portfolio = ({ isMobile }) => {
           {isSafari ? (
             <iframe
               style={{
-                width: isMobile ? "70vw": "40vw",
-                height: isMobile ? "40vh": "50vh",
+                width: isMobile ? "70vw" : "40vw",
+                height: isMobile ? "40vh" : "50vh",
               }}
               src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
               title="YouTube video player"
@@ -260,7 +260,36 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"The Pablo Mhanna Show - Podcast.png"}
             title={"The Pablo Mhanna Show"}
           />
-          <ProjectImage noImg={true} />
+          <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"Karisvale - Video Game.png"}
+            title={"Karisvale"}
+          />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+
+          <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"Rewindie - Video Game.png"}
+            title={"Rewindie"}
+          />
+          <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"This Apartment Has Walls In It - Video Game.png"}
+            title={"This Apartment Has Walls In It"}
+          />
+          <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"Wyrm Warden - Video Game.png"}
+            title={"Wyrm Warden"}
+          />
+          {!isMobile && (
+            <>
+              <ProjectImage noImg={true} />
+              <ProjectImage noImg={true} />
+            </>
+          )}
+          {/* <ProjectImage noImg={true} /> */}
         </div>
       </div>
       <footer
