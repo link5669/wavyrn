@@ -2,7 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import HRDiv from "../components/HRDiv";
 import ProjectImage from "../components/ProjectImage";
 import WavMediaPlayer from "../components/WavMediaPlayer";
-import { isFirefox } from "react-device-detect";
+import { isFirefox, isSafari } from "react-device-detect";
 import ReactPlayer from "react-player";
 
 const Portfolio = ({ isMobile }) => {
@@ -43,7 +43,19 @@ const Portfolio = ({ isMobile }) => {
             paddingRight: isMobile ? "5% " : "15%",
           }}
         >
-          {isMobile ? (
+          {isSafari ? (
+          <iframe
+              style={{
+                width: isMobile ? "70vw": "40vw",
+                height: isMobile ? "40vh": "50vh",
+              }}
+              src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          ) : isMobile ? (
             <ReactPlayer
               playing={false}
               controls={true}
