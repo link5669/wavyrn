@@ -9,6 +9,7 @@ import Portfolio from "./pages/Portfolio";
 import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
 import WavNavbar from "./components/Navbar";
+import ZoomRedirect from "./pages/ZoomRedirect";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -34,6 +35,7 @@ function App() {
           <Route path="/portfolio" element={<Portfolio isMobile={isMobile}/>} />
           <Route path="/about-us" element={<AboutUs animate={false} isMobile={isMobile}/>} />
           <Route path="/contact" element={<Contact isMobile={isMobile}/>} />
+          <Route path="/zoom" element={<ZoomRedirect />} />
         </Routes>
       </BrowserRouter>
     </div>
