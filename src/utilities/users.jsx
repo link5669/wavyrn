@@ -29,8 +29,8 @@ const soundDesign = [
   },
   { name: `Austin Burkett`, title: `Sound Designer, Composer` },
 
-  { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
-  { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
+  // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
+  // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
 ];
 
 const music = [
@@ -49,7 +49,7 @@ const dialogue = [
     name: `Caleb Skelly`,
     title: `Technical Sound Designer, Foley Artist, Mixer, VO Producer`,
   },
-  { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
+  // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
   // { name: `Michelle Lai`, title: `Composer, Voice Actor` },
   { name: `Josh Trochet`, title: `Voice Actor` },
   { name: `Zionna Brown`, title: `Voice Actor` },
@@ -63,8 +63,8 @@ const allUsers = [
     name: `Caleb Skelly`,
     title: `Technical Sound Designer, Foley Artist, Mixer, VO Producer`,
   },
-  { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
-  { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
+  // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
+  // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
   // { name: `Michelle Lai`, title: `Composer, Voice Actor` },
   {
     name: `Max Jaime`,
