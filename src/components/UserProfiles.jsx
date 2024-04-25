@@ -23,9 +23,9 @@ import marcAudio1 from "/Team Profiles/Marc Yu/Marc Yu Media/1. A Bard's Tale (L
 import marcAudio2 from "/Team Profiles/Marc Yu/Marc Yu Media/2. Moonstruck (Feature Film : Romantic Comedy).wav";
 import marcAudio3 from "/Team Profiles/Marc Yu/Marc Yu Media/3. Butterfly (Short Film : Coming-of-Age Montage).mp3";
 import marcAudio4 from "/Team Profiles/Marc Yu/Marc Yu Media/4. Stalling (Musical Theater : Folk Cabaret).wav";
-import zionna1 from "/Team Profiles/Zionna/Media/1690409008380.png"
-import zionna2 from "/Team Profiles/Zionna/Media/DSC06913.jpg"
-import zionna3 from "/Team Profiles/Zionna/Media/Friendly_Headshot.jpg"
+import zionna1 from "/Team Profiles/Zionna/Media/1690409008380.png";
+import zionna2 from "/Team Profiles/Zionna/Media/DSC06913.jpg";
+import zionna3 from "/Team Profiles/Zionna/Media/Friendly_Headshot.jpg";
 
 const Angelica = () => {
   return (
@@ -618,4 +618,23 @@ const Sam = () => {
   );
 };
 
-export { Sam, Max, Marc, Angelica, Ananta, Gret, AustinB, AustinL, Zionna };
+const Caleb = () => {
+  return (
+    <div style={{ display: "block" }}>
+      <br />
+      <p>
+        Caleb is a jack-of-all-trades and an avid lover of all things shiny. He
+        has worked on games such as Ethereal: Clash of Souls and OMENRITE as the
+        lead sound designer, as well as fan-driven projects like Resurgence of
+        the Storm. He enjoys working with vocal synthethis systems and is
+        skilled in technical sound programming.He has a Bachelor in Biomedical
+        Science from Troy University, and is currently working on acquiring a
+        degree in Veterinarian Science. He is a certified professional tutor and
+        animal handler. In his downtime, he likes to polish rocks and crochet
+        baby octopi.
+      </p>
+    </div>
+  );
+};
+
+export { Sam, Max, Marc, Angelica, Ananta, Gret, AustinB, AustinL, Zionna, Caleb };

@@ -89,7 +89,6 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
               if (
                 name == "Josh Trochet" ||
                 name == "Paul Edward May" ||
-                name == "Caleb Skelly" ||
                 name == "Lulu Ramirez" ||
                 name == "Miles Acquaviva"
               )

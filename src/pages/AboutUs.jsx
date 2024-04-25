@@ -18,6 +18,7 @@ import {
   Max,
   Sam,
   Zionna,
+  Caleb,
 } from "../components/UserProfiles";
 import { useLocation } from "react-router-dom";
 
@@ -296,7 +297,7 @@ const AboutUs = ({ isMobile, animate }) => {
             ) : selectedUser.name == "Max Jaime" ? (
               <Max />
             ) : selectedUser.name == "Marc Yu" ? (
-              <Marc isMobile={isMobile}/>
+              <Marc isMobile={isMobile} />
             ) : selectedUser.name == "Austin Leshock" ? (
               <AustinL />
             ) : selectedUser.name == "Austin Burkett" ? (
@@ -309,6 +310,8 @@ const AboutUs = ({ isMobile, animate }) => {
               <Angelica />
             ) : selectedUser.name == "Zionna Brown" ? (
               <Zionna />
+            ) : selectedUser.name == "Caleb Skelly" ? (
+              <Caleb />
             ) : (
               <p>No bio yet!</p>
             )}
