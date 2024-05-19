@@ -44,10 +44,10 @@ const Portfolio = ({ isMobile }) => {
           }}
         >
           {isSafari ? (
-          <iframe
+            <iframe
               style={{
-                width: isMobile ? "70vw": "40vw",
-                height: isMobile ? "40vh": "50vh",
+                width: isMobile ? "70vw" : "40vw",
+                height: isMobile ? "40vh" : "50vh",
               }}
               src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
               title="YouTube video player"
@@ -305,9 +305,14 @@ const Portfolio = ({ isMobile }) => {
             imgSrc={"Wyrm Warden - Video Game.png"}
             title={"Wyrm Warden"}
           />
+          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
+          <ProjectImage
+            subtitle={"Video Game"}
+            imgSrc={"Temporal Vendetta - Video Game.png"}
+            title={"Temporal Vendetta"}
+          />
           {!isMobile && (
             <>
-              <ProjectImage noImg={true} />
               <ProjectImage noImg={true} />
             </>
           )}

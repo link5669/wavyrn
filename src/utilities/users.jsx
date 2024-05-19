@@ -28,6 +28,7 @@ const soundDesign = [
     title: `Technical Sound Designer, Foley Artist, Mixer, VO Producer`,
   },
   { name: `Austin Burkett`, title: `Sound Designer, Composer` },
+  { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
 
   // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
   // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
@@ -43,6 +44,7 @@ const music = [
   },
   { name: `Austin Burkett`, title: `Sound Designer, Composer` },
   { name: `Austin Leshock`, title: `Composer, Mixer` },
+  { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
 ];
 const dialogue = [
   {
@@ -58,24 +60,26 @@ const dialogue = [
 const allUsers = [
   { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
   { name: `Ananta Arora`, title: `Co-Founder, \nBusiness Manager` },
-  { name: `Austin Burkett`, title: `Sound Designer, Composer` },
-  {
-    name: `Caleb Skelly`,
-    title: `Technical Sound Designer, Foley Artist, Mixer, VO Producer`,
-  },
-  // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
-  // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
-  // { name: `Michelle Lai`, title: `Composer, Voice Actor` },
   {
     name: `Max Jaime`,
     title: `Technical Sound Designer, Composer, Mixer, Editor`,
   },
+  {
+    name: `Caleb Skelly`,
+    title: `Technical Sound Designer, Foley Artist, Mixer, VO Producer`,
+  },
+  { name: `Austin Burkett`, title: `Sound Designer, Composer` },
+  { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
+
+  // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
+  // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
+  // { name: `Michelle Lai`, title: `Composer, Voice Actor` },
+  
   { name: `Austin Leshock`, title: `Composer, Mixer` },
   { name: `Angelica Ramos`, title: `Technical Assistant` },
   { name: `Josh Trochet`, title: `Voice Actor` },
   { name: `Zionna Brown`, title: `Voice Actor` },
   { name: `Sam Leigh`, title: `Voice Actor` },
-  { name: `Lulu Ramirez`, title: `Social Media Manager` },
   { name: `Miles Acquaviva`, title: `Web Developer` },
 
   // { name: `Ela Morana`, title: `Technical Sound Designer, Composer` },

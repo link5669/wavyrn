@@ -10,10 +10,10 @@ import angelica from "/Team Profiles/Angelica Ramos Profile Picture.jpg";
 import gret from "/Team Profiles/Gret Price/Gret Price Profile Picture.jpg";
 import paul from "/Team Profiles/IMG_0407.jpg";
 import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
-import lulu from "/Team Profiles/lulu.jpeg"
 import miles from "/Team Profiles/miles.png"
 import zionna from "/Team Profiles/zionna.jpg"
 import caleb from "/Team Profiles/caleb.jpg"
+import julian from "/Team Profiles/julian.jpg"
 
 const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   const parentStyle = {
@@ -57,14 +57,14 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
       ? paul
       : name == "Josh Trochet"
       ? josh
-      : name == "Lulu Ramirez"
-      ? lulu
       : name == "Miles Acquaviva"
       ? miles
       : name == "Zionna Brown"
       ? zionna
       : name == "Caleb Skelly"
       ? caleb
+      : name == "Julian Cabrera"
+      ? julian
       : "https://via.placeholder.com/150";
 
   return (
@@ -89,7 +89,6 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
               if (
                 name == "Josh Trochet" ||
                 name == "Paul Edward May" ||
-                name == "Lulu Ramirez" ||
                 name == "Miles Acquaviva"
               )
                 return;

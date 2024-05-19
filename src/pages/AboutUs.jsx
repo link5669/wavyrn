@@ -19,6 +19,7 @@ import {
   Sam,
   Zionna,
   Caleb,
+  Julian,
 } from "../components/UserProfiles";
 import { useLocation } from "react-router-dom";
 
@@ -312,6 +313,8 @@ const AboutUs = ({ isMobile, animate }) => {
               <Zionna />
             ) : selectedUser.name == "Caleb Skelly" ? (
               <Caleb />
+            ) : selectedUser.name == "Julian Cabrera" ? (
+              <Julian />
             ) : (
               <p>No bio yet!</p>
             )}

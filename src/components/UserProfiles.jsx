@@ -637,4 +637,97 @@ const Caleb = () => {
   );
 };
 
-export { Sam, Max, Marc, Angelica, Ananta, Gret, AustinB, AustinL, Zionna, Caleb };
+const Julian = () => {
+  return (
+    <div style={{ display: "block" }}>
+      <br />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ paddingInline: "2%" }}>
+          <WebsiteLink link="https://youtu.be/1O9VpsFrXjI?si=SClror6ZFeKL0FuO" />
+        </div>
+        <div style={{ paddingInline: "2%" }}>
+          <InstaLink handle="@super_monzee" />
+        </div>
+        <div style={{ paddingInline: "2%" }}>
+          <TwitterLink handle="@Super_MonZee" />
+        </div>
+      </div>
+      <br/>
+      <p>
+        In the world of visual and interactive media, Julian Cabrera is a
+        Composer and Sound Designer. Julian's repertoire showcases a multitude
+        of musical styles including epic and powerful orchestral works,
+        synthetic and hybrid electronic compositions, intense and dirty metal
+        tracks, and 16-bit retro-style music akin to the 90s. Julian has served
+        as the role of Composer, Sound Designer, Audio Director, and Audio
+        Producer for various student games developed at University of Southern
+        California, University of Utah, and University of Wisconsin-Stout. These
+        games include Delfini (USC), Tavern Crawl (EAE), Splat Cat (USC), Garden
+        (USC), BiFrost (EAE), Divining Rods (Stout) and many others. Of these
+        games, Defini was nominated for an audio design award at IndieCade in
+        2022. When he’s not working on Audio, he’s playing Sonic Adventure 2
+        Battle.
+      </p>
+      <iframe
+        width="100%"
+        height="300"
+        scrolling="no"
+        frameborder="no"
+        allow="autoplay"
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1819680966&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+      ></iframe>
+      <div
+        style={{
+          fontSize: "10px",
+          color: "#cccccc",
+          lineBreak: "anywhere",
+          wordBreak: "normal",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+          fontFamily:
+            "Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif",
+          fontWeight: 100,
+        }}
+      >
+        <a
+          href="https://soundcloud.com/supermonzee"
+          title="Super MonZee"
+          target="_blank"
+          style={{ color: "#cccccc", textDecoration: "none" }}
+        >
+          Super MonZee
+        </a>{" "}
+        ·{" "}
+        <a
+          href="https://soundcloud.com/supermonzee/familiar-titlethemeffvii-rescore"
+          title="Familiar (TitleTheme/FFVII Rescore)"
+          target="_blank"
+          style={{ color: "#cccccc", textDecoration: "none" }}
+        >
+          Familiar (TitleTheme/FFVII Rescore)
+        </a>
+      </div>
+    </div>
+  );
+};
+
+export {
+  Sam,
+  Max,
+  Marc,
+  Angelica,
+  Ananta,
+  Gret,
+  AustinB,
+  AustinL,
+  Zionna,
+  Caleb,
+  Julian,
+};
