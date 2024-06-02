@@ -314,7 +314,7 @@ const AboutUs = ({ isMobile, animate }) => {
             ) : selectedUser.name == "Caleb Skelly" ? (
               <Caleb />
             ) : selectedUser.name == "Julian Cabrera" ? (
-              <Julian />
+              <Julian isMobile={isMobile} />
             ) : (
               <p>No bio yet!</p>
             )}

@@ -637,7 +637,7 @@ const Caleb = () => {
   );
 };
 
-const Julian = () => {
+const Julian = (isMobile) => {
   return (
     <div style={{ display: "block" }}>
       <br />
@@ -649,16 +649,17 @@ const Julian = () => {
         }}
       >
         <div style={{ paddingInline: "2%" }}>
-          <WebsiteLink link="https://youtu.be/1O9VpsFrXjI?si=SClror6ZFeKL0FuO" />
+          {/* <WebsiteLink link="https://youtu.be/1O9VpsFrXjI?si=SClror6ZFeKL0FuO" /> */}
+          <WebsiteLink link="https://www.juliancabreraaudio.com/" />
         </div>
         <div style={{ paddingInline: "2%" }}>
-          <InstaLink handle="@super_monzee" />
+          <InstaLink handle="super_monzee" />
         </div>
         <div style={{ paddingInline: "2%" }}>
           <TwitterLink handle="@Super_MonZee" />
         </div>
       </div>
-      <br/>
+      <br />
       <p>
         In the world of visual and interactive media, Julian Cabrera is a
         Composer and Sound Designer. Julian's repertoire showcases a multitude
@@ -680,7 +681,7 @@ const Julian = () => {
         scrolling="no"
         frameborder="no"
         allow="autoplay"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1819680966&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
+        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/1607737900&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
       ></iframe>
       <div
         style={{
@@ -706,13 +707,36 @@ const Julian = () => {
         </a>{" "}
         ·{" "}
         <a
-          href="https://soundcloud.com/supermonzee/familiar-titlethemeffvii-rescore"
-          title="Familiar (TitleTheme/FFVII Rescore)"
+          href="https://soundcloud.com/supermonzee/sets/portfolio"
+          title="Portfolio"
           target="_blank"
           style={{ color: "#cccccc", textDecoration: "none" }}
         >
-          Familiar (TitleTheme/FFVII Rescore)
+          Portfolio
         </a>
+      </div>
+      <div
+        style={{
+          width: "100%",
+        }}
+      >
+        {isMobile ? (
+          <video
+            style={{ margin: "auto", maxWidth: "80vw" }}
+            src="Julian Cabrera Sound Design Demo Reel.mov"
+            width="750"
+            height="300"
+            controls
+          ></video>
+        ) : (
+          <ReactPlayer
+            style={{ margin: "auto", maxWidth: "80vw" }}
+            playing={false}
+            controls={true}
+            url={"Julian Cabrera Sound Design Demo Reel.mov"}
+            isMobile={isMobile}
+          />
+        )}
       </div>
     </div>
   );
