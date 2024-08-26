@@ -367,8 +367,8 @@ const WavNavbar = ({ isMobile }) => {
               <p style={getButtonStyle(2)}> Portfolio</p>
             </Link>
             <Link
-              ref={contact}
-              to="/contact"
+              ref={blog}
+              to="/blog"
               style={{
                 textDecoration: "none",
                 paddingTop: "2%",
@@ -385,11 +385,11 @@ const WavNavbar = ({ isMobile }) => {
               }}
               className="underline-target"
             >
-              <p style={getButtonStyle(3)}>Contact</p>
+              <p style={getButtonStyle(3)}>Blog</p>
             </Link>
             <Link
-              ref={blog}
-              to="/blog"
+              ref={contact}
+              to="/contact"
               style={{
                 textDecoration: "none",
                 paddingTop: "2%",
@@ -407,7 +407,7 @@ const WavNavbar = ({ isMobile }) => {
               }}
               className="underline-target"
             >
-              <p style={getButtonStyle(4)}>Blog</p>
+              <p style={getButtonStyle(4)}>Contact</p>
             </Link>
           </div>
           <div ref={underlineDiv} style={{ transform: "translateY(-15px)" }}>
@@ -499,17 +499,17 @@ const WavNavbar = ({ isMobile }) => {
             </Link>
             <Link
               onClick={() => setToggled(false)}
-              to="/contact"
-              style={{ textDecoration: "none", color: "white" }}
-            >
-              <p>Contact</p>
-            </Link>
-            <Link
-              onClick={() => setToggled(false)}
               to="/blog"
               style={{ textDecoration: "none", color: "white" }}
             >
               <p>Blog</p>
+            </Link>
+            <Link
+              onClick={() => setToggled(false)}
+              to="/contact"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <p>Contact</p>
             </Link>
           </div>
         </div>
