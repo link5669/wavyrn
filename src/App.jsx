@@ -11,6 +11,8 @@ import Contact from "./pages/Contact";
 import WavNavbar from "./components/Navbar";
 import ZoomRedirect from "./pages/ZoomRedirect";
 import DiscordRedirect from "./pages/Discord";
+import Blog from "./pages/blog/blog";
+import Post from "./pages/blog/post";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -38,6 +40,8 @@ function App() {
           <Route path="/contact" element={<Contact isMobile={isMobile}/>} />
           <Route path="/zoom" element={<ZoomRedirect />} />
           <Route path="/discord" element={<DiscordRedirect />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/1" element={<Post />} />
         </Routes>
       </BrowserRouter>
     </div>

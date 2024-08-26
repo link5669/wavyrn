@@ -29,6 +29,7 @@ const WavNavbar = ({ isMobile }) => {
   const services = useRef(null);
   const portfolio = useRef(null);
   const contact = useRef(null);
+  const blog = useRef(null);
   const underlineDiv = useRef(null);
   const line = useRef(null);
   const parentParent = useRef(null);
@@ -39,12 +40,12 @@ const WavNavbar = ({ isMobile }) => {
     rearrangeChildren(selected);
   }, [selected]);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const rearrangeChildren = (index) => {
     let parentRef = underlineDiv.current.children[0];
 
-    if (!parentRef || index < 0 || index > 4) return;
+    if (!parentRef || index < 0 || index > 5) return;
 
     const children = [...parentRef.children];
 
@@ -53,13 +54,13 @@ const WavNavbar = ({ isMobile }) => {
     );
     console.log(selected);
 
-    if (index == 4) {
+    if (index == 5) {
       if (underlineElement) {
         underlineElement.remove();
       }
       return;
     }
-    if (lastSelected == 4) {
+    if (lastSelected == 5) {
       const node = document.createElement("div");
       node.style.width = "90px";
       node.style.backgroundColor = "rgb(206, 0, 54)";
@@ -236,12 +237,14 @@ const WavNavbar = ({ isMobile }) => {
                   currentPage === "about-us"
                     ? 0
                     : currentPage === "services"
-                    ? 1
-                    : currentPage === "portfolio"
-                    ? 2
-                    : currentPage === "contact"
-                    ? 3
-                    : 4;
+                      ? 1
+                      : currentPage === "portfolio"
+                        ? 2
+                        : currentPage === "contact"
+                          ? 3
+                          : currentPage == "blog"
+                            ? 4
+                            : 5
                 setLastSelected(selected);
                 setSelected(pageIndex);
               }}
@@ -287,12 +290,15 @@ const WavNavbar = ({ isMobile }) => {
                 currentPage == "about-us"
                   ? 0
                   : currentPage == "services"
-                  ? 1
-                  : currentPage == "portfolio"
-                  ? 2
-                  : currentPage == "contact"
-                  ? 3
-                  : 4;
+                    ? 1
+                    : currentPage == "portfolio"
+                      ? 2
+                      : currentPage == "contact"
+                        ? 3
+                        : currentPage == "blog"
+                          ? 4
+                          : 5
+
               setLastSelected(selected);
               setSelected(pageIndex);
             }}
@@ -366,7 +372,6 @@ const WavNavbar = ({ isMobile }) => {
               style={{
                 textDecoration: "none",
                 paddingTop: "2%",
-                marginRight: "25px",
                 width: "110px",
               }}
               onClick={() => {
@@ -381,6 +386,28 @@ const WavNavbar = ({ isMobile }) => {
               className="underline-target"
             >
               <p style={getButtonStyle(3)}>Contact</p>
+            </Link>
+            <Link
+              ref={blog}
+              to="/blog"
+              style={{
+                textDecoration: "none",
+                paddingTop: "2%",
+                marginRight: "25px",
+                width: "110px",
+              }}
+              onClick={() => {
+                setLastSelected(selected);
+                setSelected(4);
+                setToggled(false);
+              }}
+              onMouseEnter={() => {
+                setLastSelected(selected);
+                setSelected(4);
+              }}
+              className="underline-target"
+            >
+              <p style={getButtonStyle(4)}>Blog</p>
             </Link>
           </div>
           <div ref={underlineDiv} style={{ transform: "translateY(-15px)" }}>
@@ -403,6 +430,12 @@ const WavNavbar = ({ isMobile }) => {
                   marginLeft: "10px",
                   marginRight: "15px",
                   backgroundColor: "rgb(206, 0, 54)",
+                  height: "2px",
+                }}
+              />
+              <div
+                style={{
+                  width: "110px",
                   height: "2px",
                 }}
               />
@@ -471,10 +504,17 @@ const WavNavbar = ({ isMobile }) => {
             >
               <p>Contact</p>
             </Link>
+            <Link
+              onClick={() => setToggled(false)}
+              to="/blog"
+              style={{ textDecoration: "none", color: "white" }}
+            >
+              <p>Blog</p>
+            </Link>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default WavNavbar;
