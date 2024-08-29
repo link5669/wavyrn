@@ -34,14 +34,21 @@ function App() {
         <WavNavbar isMobile={isMobile}/>
         <Routes>
           <Route path="/" element={<Home isMobile={isMobile}/>} />
+
+          {/* subpages */}
           <Route path="/services" element={<Services isMobile={isMobile}/>} />
           <Route path="/portfolio" element={<Portfolio isMobile={isMobile}/>} />
           <Route path="/about-us" element={<AboutUs animate={false} isMobile={isMobile}/>} />
           <Route path="/contact" element={<Contact isMobile={isMobile}/>} />
+          <Route path="/blog" element={<Blog isMobile={isMobile}/>} />
+
+          {/* blog pages */}
+          <Route path="/blog/240811-the-sound-design-of-delta-emblock" element={<Post isMobile={isMobile}/>} />
+
+          {/* redirects */}
           <Route path="/zoom" element={<ZoomRedirect />} />
           <Route path="/discord" element={<DiscordRedirect />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/1" element={<Post />} />
+
         </Routes>
       </BrowserRouter>
     </div>

@@ -240,9 +240,9 @@ const WavNavbar = ({ isMobile }) => {
                       ? 1
                       : currentPage === "portfolio"
                         ? 2
-                        : currentPage === "contact"
+                        : currentPage === "blog"
                           ? 3
-                          : currentPage == "blog"
+                          : currentPage == "contact"
                             ? 4
                             : 5
                 setLastSelected(selected);
@@ -293,9 +293,9 @@ const WavNavbar = ({ isMobile }) => {
                     ? 1
                     : currentPage == "portfolio"
                       ? 2
-                      : currentPage == "contact"
+                      : currentPage == "blog"
                         ? 3
-                        : currentPage == "blog"
+                        : currentPage == "contact"
                           ? 4
                           : 5
 

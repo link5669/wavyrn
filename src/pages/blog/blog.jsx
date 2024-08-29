@@ -1,17 +1,17 @@
-import Post from "./post"
 import Preview from "./preview"
+import React from 'react';
 
-const Blog = () => {
-    var isMobile = false
+const Blog = ({ isMobile }) => {
+    console.log(isMobile)
     return (
-        <>
+        <div style={{ backgroundColor: "RGB(1,1,1)", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
             <div
                 style={{
                     backgroundImage: "url('/images/dnd.jpg?url')",
                     backgroundRepeat: "no-repeat",
                     backgroundSize: isMobile ? "150%" : "100%",
-                    height: "11em",
-                    width: "100vw",
+                    height: "20vh",
+                    width: "100%",
                     position: "relative",
                     display: "flex",
                     flexDirection: "column",
@@ -23,58 +23,46 @@ const Blog = () => {
                 {isMobile ? (
                     <p
                         style={{
-                            paddingTop: isMobile && "3%",
-                            marginBottom: ".5em",
-                            marginTop: isMobile ? "0em" : "1em",
+                            paddingTop: "3vh",
+                            marginBottom: !isMobile && "2em",
+                            marginTop: "0em",
                             color: "white",
-                            fontSize: "2.5em",
+                            fontSize: "5em",
                             textAlign: "center",
                         }}
                     >
-                        <b>
-                            Blog
-                        </b>
+                        <b>Blog</b>
                     </p>
                 ) : (
-                    <>
-                        <h1
-                            style={{
-                                paddingTop: isMobile ? "5%" : "0%",
-                                marginBottom: ".5em",
-                                marginTop: isMobile ? "0em" : "1em",
-                                color: "white",
-                                fontSize: '5em',
-                                fontWeight: "bold"
-                            }}
-                        >
-                            Blog
-                        </h1>
-                    </>
+                    <h1
+                        style={{
+                            paddingTop: "0%",
+                            marginBottom: ".5em",
+                            marginTop: "1em",
+                            color: "white",
+                            fontSize: '4em',
+                            fontWeight: "bold"
+                        }}
+                    >
+                        Blog
+                    </h1>
                 )}
             </div>
-            {/* width: "80vw", */}
-            <div style={{ float: "left", backgroundColor: "RGB(1,1,1)" }}>
-                <Preview />
+            <div style={{ display: "flex", flex: 1 }}>
+                <div style={{ flex: isMobile ? 1 : 0.8, backgroundColor: "RGB(1,1,1)" }}>
+                    <Preview isMobile={isMobile}/>
+                </div>
+                {!isMobile && (
+                    <div style={{ flex: 0.2, color: "white", padding: "7vh 2vw 0", backgroundColor: "RGB(160,60,60)" }}>
+                        <h2>Tags</h2>
+                        <ul>
+                            <li>Video Game (1)</li>
+                            <li>MOBA (1)</li>
+                            <li>Sound Design (1)</li>
+                        </ul>
+                    </div>
+                )}
             </div>
-            {/* <div style={{ width: "20vw", height: "100%", float: "right", color: "white", padding: "7vh", backgroundColor: "RGB(160,60,60)" }}>
-                <h2>Tags</h2>
-                <ul>
-                    <li>
-                        fantasy (6)
-                    </li>
-                    <li>sci-fi (5)</li>
-                    <li>western (12)</li>
-                    <li>
-                        podcast (24)
-                    </li>
-                    <li>mystery (3)</li>
-                    <li>drama (43)</li>
-                    <li>television (11)</li>
-                    <li>drama (23)</li>
-                    <li>fiction (17)</li>
-                    <li>music (31)</li>
-                </ul>
-            </div> */}
             <footer
                 style={{
                     backgroundColor: "black",
@@ -88,7 +76,7 @@ const Blog = () => {
                     ©️2024 Wavyrn • All Rights Reserved
                 </p>
             </footer>
-        </>
+        </div>
     )
 }
 
