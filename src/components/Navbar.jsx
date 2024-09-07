@@ -52,6 +52,7 @@ const WavNavbar = ({ isMobile }) => {
     let underlineElement = children.find(
       (child) => child.style.backgroundColor == "rgb(206, 0, 54)"
     );
+    console.log(selected);
 
     if (index == 5) {
       if (underlineElement) {
@@ -59,32 +60,31 @@ const WavNavbar = ({ isMobile }) => {
       }
       return;
     }
-
-    const buttonWidths = [110, 110, 110, 70, 110]; // Widths of each button
-    let leftOffset = 0;
-    for (let i = 0; i < index; i++) {
-      leftOffset += buttonWidths[i];
-    }
-
-    if (lastSelected == 5 || !underlineElement) {
+    if (lastSelected == 5) {
       const node = document.createElement("div");
-      node.style.width = `${buttonWidths[index]}px`;
+      node.style.width = "90px";
       node.style.backgroundColor = "rgb(206, 0, 54)";
       node.style.height = "2px";
-      node.style.position = "absolute";
-      node.style.left = `${leftOffset}px`;
-      node.style.transition = "left 0.3s ease-in-out, width 0.3s ease-in-out";
-      children.push(node);
-    } else {
-      underlineElement.style.width = `${buttonWidths[index]}px`;
-      underlineElement.style.left = `${leftOffset}px`;
+      node.style.marginLeft = "10px";
+      node.style.marginRight = "15px";
+      children.splice(index, 0, node);
+      parentRef.replaceChildren(...children);
+      return;
     }
-
-    parentRef.replaceChildren(...children);
+    if (underlineElement) {
+      children.splice(
+        index,
+        0,
+        children.splice(children.indexOf(underlineElement), 1)[0]
+      );
+      parentRef.replaceChildren(...children);
+    }
   };
 
-  const getButtonStyle = (index) => {
-    const baseStyle = {
+  const getButtonStyle = () => {
+    return {
+      paddingRight: "10px",
+      paddingLeft: "12px",
       color: "#CE0036",
       fontSize: "1.3em",
       paddingBottom: "0",
@@ -92,22 +92,6 @@ const WavNavbar = ({ isMobile }) => {
       marginTop: "0px",
       whiteSpace: "nowrap",
       textAlign: "center",
-    };
-
-    // Adjust padding for the "Blog" button (index 3)
-    if (index === 3) {
-      return {
-        ...baseStyle,
-        paddingRight: "5px",  // Reduced from 10px
-        paddingLeft: "5px",   // Reduced from 12px
-      };
-    }
-
-    // Default padding for other buttons
-    return {
-      ...baseStyle,
-      paddingRight: "10px",
-      paddingLeft: "12px",
     };
   };
 
@@ -388,7 +372,7 @@ const WavNavbar = ({ isMobile }) => {
               style={{
                 textDecoration: "none",
                 paddingTop: "2%",
-                width: "70px",
+                width: "110px",
               }}
               onClick={() => {
                 setLastSelected(selected);
@@ -463,7 +447,7 @@ const WavNavbar = ({ isMobile }) => {
               />
               <div
                 style={{
-                  width: "70px",
+                  width: "110px",
                   height: "2px",
                 }}
               />
