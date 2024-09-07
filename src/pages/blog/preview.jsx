@@ -24,7 +24,7 @@ const Preview = ({isMobile}) => {
             <Link
                 to="/blog/240811-the-sound-design-of-delta-emblock"
             >
-                <button style={{ backgroundColor: "#CE0036", borderRadius: '5px' }}>Learn more</button>
+                <button style={{ backgroundColor: "#CE0036", borderRadius: '5px',color: "white" }}>Learn more</button>
             </Link>
         </div>
     )

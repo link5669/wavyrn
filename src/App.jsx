@@ -13,6 +13,7 @@ import ZoomRedirect from "./pages/ZoomRedirect";
 import DiscordRedirect from "./pages/Discord";
 import Blog from "./pages/blog/blog";
 import Post from "./pages/blog/post";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -31,25 +32,27 @@ function App() {
   return (
     <div>
       <BrowserRouter>
-        <WavNavbar isMobile={isMobile}/>
-        <Routes>
-          <Route path="/" element={<Home isMobile={isMobile}/>} />
+        <ScrollToTop>
+          <WavNavbar isMobile={isMobile} />
+          <Routes>
+            <Route path="/" element={<Home isMobile={isMobile} />} />
 
-          {/* subpages */}
-          <Route path="/services" element={<Services isMobile={isMobile}/>} />
-          <Route path="/portfolio" element={<Portfolio isMobile={isMobile}/>} />
-          <Route path="/about-us" element={<AboutUs animate={false} isMobile={isMobile}/>} />
-          <Route path="/contact" element={<Contact isMobile={isMobile}/>} />
-          <Route path="/blog" element={<Blog isMobile={isMobile}/>} />
+            {/* subpages */}
+            <Route path="/services" element={<Services isMobile={isMobile} />} />
+            <Route path="/portfolio" element={<Portfolio isMobile={isMobile} />} />
+            <Route path="/about-us" element={<AboutUs animate={false} isMobile={isMobile} />} />
+            <Route path="/contact" element={<Contact isMobile={isMobile} />} />
+            <Route path="/blog" element={<Blog isMobile={isMobile} />} />
 
-          {/* blog pages */}
-          <Route path="/blog/240811-the-sound-design-of-delta-emblock" element={<Post isMobile={isMobile}/>} />
+            {/* blog pages */}
+            <Route path="/blog/240811-the-sound-design-of-delta-emblock" element={<Post isMobile={isMobile} />} />
 
-          {/* redirects */}
-          <Route path="/zoom" element={<ZoomRedirect />} />
-          <Route path="/discord" element={<DiscordRedirect />} />
+            {/* redirects */}
+            <Route path="/zoom" element={<ZoomRedirect />} />
+            <Route path="/discord" element={<DiscordRedirect />} />
 
-        </Routes>
+          </Routes>
+        </ScrollToTop>
       </BrowserRouter>
     </div>
   );
