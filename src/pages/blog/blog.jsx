@@ -85,12 +85,12 @@ const Blog = ({ isMobile }) => {
             (e) => selectedTag === "all" || (e.tags.includes(selectedTag) && e),
           ).map((e) => (
             <Preview
-              key={e.link}
+              key={e.path}
               title={e.title}
               subtitle={e.byline}
               image={e.image}
               content={e.preview}
-              link={e.link}
+              link={e.path}
               isMobile={isMobile}
             />
           ))}
