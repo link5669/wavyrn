@@ -1,0 +1,96 @@
+.carousel {
+    position: relative;
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+    /* max-height: 40vh; */
+    display: flex; /* Add this */
+    justify-content: center; /* Add this */
+    align-items: center; /* Add this */
+}
+
+.carousel-track {
+    display: flex;
+    justify-content: center; /* Center the items horizontally */
+    align-items: center;
+    gap: 20px; /* Space between items */
+    /* width: 100%; */
+    min-height: 300px;
+    position: relative;
+}
+
+.carousel-item {
+    position: relative;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    /* overflow: hidden; */
+}
+
+.carousel-item img {
+    width: 300px;
+    height: 300px; /* ensures the image takes full height of parent */
+    object-fit: contain; /* maintains aspect ratio while filling container */
+    display: block;
+}
+
+.carousel-item p {
+    position: absolute; /* position the title over the image */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    text-align: center;
+    margin: 0;
+}
+
+.carousel-item.center {
+    /* transform: scale(1.2); */
+    z-index: 1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    height: 300px;
+}
+
+.carousel-item.side {
+    width: 300px;
+    height: 300px;
+    opacity: 0.2;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
+    padding: 10px 15px; /* Add some padding */
+}
+
+.arrow.left {
+    left: 10px;
+}
+
+.arrow.right {
+    right: 10px;
+}
+
+.carousel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.play-pause-button:hover {
+    background-color: #444;
+}
+
+.play-pause-button:active {
+    background-color: #222;
+}

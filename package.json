@@ -23,13 +23,16 @@
     "react-dom": "^18.2.0",
     "react-google-recaptcha": "^3.1.0",
     "react-material-music-player": "^1.2.3",
+    "react-multi-carousel": "^2.8.5",
     "react-player": "^2.15.1",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.22.0",
     "react-simple-player": "^1.1.0",
     "react-timer-hook": "^3.0.7",
     "react-use": "^17.5.0",
     "reaplay": "^1.1.11",
     "styled-components": "^6.1.8",
+    "swiper": "^11.2.0",
     "tailwind": "^4.0.0",
     "typescript": "^5.4.2"
   },
@@ -41,6 +44,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "sass": "^1.83.1",
     "vite": "^5.0.8"
   }
 }
