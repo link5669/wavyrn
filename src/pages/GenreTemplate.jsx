@@ -56,7 +56,38 @@ function GenreTemplate({
   }
 
   return (
-    <div style={containerStyle}>
+    <div style={{ ...containerStyle }}>
+      <div
+        style={{
+          width: "100vw",
+          height: "15vh",
+          backgroundColor: "#CE1E36",
+          display: "flex",
+          alignItems: "center",
+          position: "relative", // Added this
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            width: "100%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            textAlign: "center",
+          }}
+        >
+          <h1 style={titleStyle}>{title}</h1>
+        </div>
+        <img
+          src="/public/images/Home.png"
+          alt="description"
+          style={{
+            height: "100%",
+            objectFit: "contain",
+            marginLeft: "auto", // This pushes the image to the right
+          }}
+        />
+      </div>
       <div style={contentWrapperStyle}>
         <br />
         {/* <div className="heading-container">
@@ -100,9 +131,29 @@ function GenreTemplate({
             alignContent: "center",
           }}
         >
-          <div style={headerStyle}>
-            <h1 style={titleStyle}>{title}</h1>
+          <div
+            style={{
+              ...headerStyle,
+              marginBottom: "2vh",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              style={{ padding: "2vh" }}
+            ></iframe>
           </div>
+          <p style={{ textAlign: "center" }}>
+            A blurb of words that describe what we do, stylized in the genre
+          </p>
         </section>
 
         <div className="description">{/* Add your blurb here */}</div>

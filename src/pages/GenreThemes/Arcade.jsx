@@ -146,11 +146,10 @@ const arcadeContainerStyle = {
   minHeight: "100vh",
   backgroundAttachment: "fixed",
 };
-const arcadeTitleStyle = { fontSize: "13vh" };
+const arcadeTitleStyle = { fontSize: "13vh", fontFamily: "Orbitron" };
 const arcadeHeaderStyle = {
-  fontFamily: "Orbitron",
   backgroundColor: "#F4A02B",
-  height: "15vh",
+  height: "100%",
   color: "#000000",
   marginLeft: "20vw",
   marginRight: "20vw",
@@ -168,7 +167,8 @@ const arcadeWrapperStyle = {
   width: "70%",
   margin: "0 auto",
   backgroundColor: "#1C211E",
-  padding: "20px",
+  paddingLeft: "20px",
+  paddingRight: "20px",
   minHeight: "100vh",
 };
 

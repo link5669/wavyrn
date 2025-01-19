@@ -89,12 +89,15 @@ const MusicCarousel = ({ buttonStyle, albums }) => {
           setIsPlaying(false);
         }
       }, 50);
-    } else {
+    }
+    console.log(playState !== currentIndex);
+    if (!isPlaying || playState !== currentIndex) {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
-      audioRef.current = new Audio(albums[currentIndex].track);
+      console.log(currentIndex);
+      audioRef.current = new Audio(albums[playState].track);
       audioRef.current.addEventListener("ended", () => {
         setIsPlaying(false);
       });
@@ -135,13 +138,25 @@ const MusicCarousel = ({ buttonStyle, albums }) => {
         </button>
         <div className="carousel-track" ref={parent}>
           {getVisibleAlbums().map((album, index) => (
-            <div key={album.id}>
+            <div
+              style={{
+                filter: index !== 1 ? "brightness(60%)" : "brightness(100%)",
+              }}
+              key={album.id}
+            >
               <div
                 className={`carousel-item: ${index === 1 ? "center" : "side"}`}
                 style={{
                   display: "flex",
                   width: "300px",
                   height: "300px",
+                }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (index !== 1) {
+                    if (index === 0) handleLeftClick();
+                    if (index === 2) handleRightClick();
+                  }
                 }}
               >
                 <img src={album.coverUrl} />
@@ -157,6 +172,13 @@ const MusicCarousel = ({ buttonStyle, albums }) => {
                   gap: "10px",
                   width: "300px",
                 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (index !== 1) {
+                    if (index === 0) handleLeftClick();
+                    if (index === 2) handleRightClick();
+                  }
+                }}
               >
                 <button
                   onClick={(e) => {
@@ -165,10 +187,10 @@ const MusicCarousel = ({ buttonStyle, albums }) => {
                       if (index === 0) handleLeftClick();
                       if (index === 2) handleRightClick();
                       setTimeout(() => {
-                        handlePlayPause();
+                        handlePlayPause(currentIndex + index - 1);
                       }, 300);
                     } else {
-                      handlePlayPause();
+                      handlePlayPause(currentIndex + index - 1);
                     }
                   }}
                   style={{

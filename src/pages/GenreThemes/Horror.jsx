@@ -157,12 +157,11 @@ const horrorContainerStyle = {
   minHeight: "100vh",
   backgroundAttachment: "fixed",
 };
-const horrorTitleStyle = { fontSize: "12vh" };
+const horrorTitleStyle = { fontSize: "12vh", fontFamily: "Original Surfer" };
 
 const horrorHeaderStyle = {
-  fontFamily: "Original Surfer",
   backgroundColor: "#883537",
-  height: "15vh",
+  height: "100%",
   color: "#000000",
   marginLeft: "20vw",
   marginRight: "20vw",
@@ -180,7 +179,8 @@ const horrorWrapperStyle = {
   width: "70%",
   margin: "0 auto",
   backgroundColor: "#1C211E", // translucent white
-  padding: "20px",
+  paddingLeft: "20px",
+  paddingRight: "20px",
   minHeight: "100vh",
 };
 

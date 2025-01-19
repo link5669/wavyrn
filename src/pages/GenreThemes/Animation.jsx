@@ -147,12 +147,14 @@ const animationContainerStyle = {
   minHeight: "100vh",
   backgroundAttachment: "fixed",
 };
-const animationTitleStyle = { fontSize: "13vh" };
+const animationTitleStyle = {
+  fontSize: "13vh",
+  fontFamily: "Nanum Pen Script",
+};
 
 const animationHeaderStyle = {
-  fontFamily: "Nanum Pen Script",
   backgroundColor: "#FFF6B1",
-  height: "15vh",
+  height: "100%",
   color: "#436DBB",
   marginLeft: "20vw",
   marginRight: "20vw",
@@ -171,7 +173,8 @@ const animationWrapperStyle = {
   width: "70%",
   margin: "0 auto",
   backgroundColor: "rgba(255, 255, 255, 0.8)", // translucent white
-  padding: "20px",
+  paddingLeft: "20px",
+  paddingRight: "20px",
   boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
   minHeight: "100vh",
 };

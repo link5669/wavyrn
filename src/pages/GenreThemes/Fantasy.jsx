@@ -152,12 +152,11 @@ const fantasyContainerStyle = {
   minHeight: "100vh",
   backgroundAttachment: "fixed",
 };
-const fantasyTitleStyle = { fontSize: "12vh" };
+const fantasyTitleStyle = { fontSize: "12vh", fontFamily: "Namdhinggo" };
 
 const fantasyHeaderStyle = {
-  fontFamily: "Namdhinggo",
   backgroundColor: "#40613A",
-  height: "15vh",
+  height: "100%",
   color: "#FBAE43",
   marginLeft: "20vw",
   marginRight: "20vw",
@@ -175,8 +174,8 @@ const fantasyWrapperStyle = {
   width: "70%",
   margin: "0 auto",
   backgroundColor: "#1C211E", // translucent white
-  padding: "20px",
-  // boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  paddingLeft: "20px",
+  paddingRight: "20px", // boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
   minHeight: "100vh",
 };
 

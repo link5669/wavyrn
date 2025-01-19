@@ -147,15 +147,17 @@ const animeContainerStyle = {
   // backgroundAttachment: "fixed",
 };
 const animeHeaderStyle = {
-  fontFamily: "Otomanopee",
   backgroundColor: "#F18F90",
-  height: "16vh",
+  height: "100%",
+  display: "flex",
+  justifyContent: "center",
   color: "#FFFFFF",
   marginLeft: "20vw",
   marginRight: "20vw",
 };
 const animeTitleStyle = {
   fontSize: "15vh",
+  fontFamily: "Otomanopee",
 };
 const animeButtonStyle = {
   backgroundColor: "#FFFFFF",
@@ -170,8 +172,8 @@ const animeWrapperStyle = {
   width: "70%",
   margin: "0 auto",
   backgroundColor: "#FFEBEB", // translucent white
-  padding: "20px",
-  // boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+  paddingLeft: "20px",
+  paddingRight: "20px", // boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
   minHeight: "100vh",
 };
 
