@@ -6,7 +6,7 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Services from "./Services";
 import Portfolio from "./Portfolio";
-import AboutUs from "./AboutUs";
+import About from "./About";
 import Contact from "./Contact";
 import WavNavbar from "../components/Navbar";
 import ZoomRedirect from "./ZoomRedirect";
@@ -96,7 +96,7 @@ function App() {
     <div>
       <BrowserRouter>
         <ScrollToTop>
-          <WavNavbar isMobile={isMobile} />
+          {/* <WavNavbar isMobile={isMobile} /> */}
           <Routes>
             <Route path="/" element={<Home isMobile={isMobile} />} />
 
@@ -107,11 +107,17 @@ function App() {
             />
             <Route
               path="/portfolio"
-              element={<Portfolio isMobile={isMobile} />}
+              element={
+                <Portfolio
+                  albums={animationAlbumData}
+                  audioData={arcadeAudioData}
+                  isMobile={isMobile}
+                />
+              }
             />
             <Route
-              path="/about-us"
-              element={<AboutUs animate={false} isMobile={isMobile} />}
+              path="/about"
+              element={<About animate={false} isMobile={isMobile} />}
             />
             <Route path="/contact" element={<Contact isMobile={isMobile} />} />
             <Route path="/blog" element={<Blog isMobile={isMobile} />} />

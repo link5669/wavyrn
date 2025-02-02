@@ -1,339 +1,131 @@
-import { Col, Container, Row } from "react-bootstrap";
-import HRDiv from "../components/HRDiv";
-import ProjectImage from "../components/ProjectImage";
-import WavMediaPlayer from "../components/WavMediaPlayer";
-import { isFirefox, isSafari } from "react-device-detect";
-import ReactPlayer from "react-player";
+import React from "react";
+import SoundEffects from "../components/SoundEffects";
+import MusicCarousel from "../components/Carousel/MusicCarousel";
+import ScrollingThing from "../components/ScrollingThing/ScrollingThing";
+import "./App.css";
+import VoiceoverPhotos from "../components/VoiceoverPhotos";
 
-const Portfolio = ({ isMobile }) => {
+function Portfolio({ title, audioData, dividerStyle, albums, voiceoverData }) {
   return (
-    <>
-      <div style={{ minHeight: "90vh" }}>
+    <div
+      style={{
+        backgroundSize: "cover",
+        position: "relative",
+        width: "100%",
+        minHeight: "100vh",
+        backgroundAttachment: "fixed",
+        backgroundColor: "black",
+      }}
+    >
+      <div
+        style={{
+          width: "100vw",
+          height: "15vh",
+          backgroundColor: "#CE1E36",
+          display: "flex",
+          alignItems: "center",
+          position: "relative", // Added this
+        }}
+      >
         <div
           style={{
-            backgroundImage: "url('/images/Portfolio - Banner.JPG?url')",
-            backgroundSize: "100% auto",
-            height: "7.5em",
-            width: "100vw",
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: "2%",
+            position: "absolute",
+            width: "100%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            textAlign: "center",
           }}
-        >
-          <h2 style={{ marginBottom: "0", color: "white" }}>Portfolio</h2>
-        </div>
+        ></div>
+        <img
+          src="/public/images/Home.png"
+          alt="description"
+          style={{
+            height: "100%",
+            objectFit: "contain",
+            marginLeft: "auto", // This pushes the image to the right
+          }}
+        />
+      </div>
+      <div
+        style={{
+          position: "relative",
+          width: "70%",
+          margin: "0 auto",
+          backgroundColor: "rgba(255, 255, 255, 0.8)", // translucent white
+          paddingLeft: "20px",
+          paddingRight: "20px",
+          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+          minHeight: "100vh",
+        }}
+      >
+        <br />
+        <br />
 
-        {/* <p style={{ padding: "3em" }}>
-          As a growing full-service audio production studio, we are excited to
-          share with you our shared portfolio, which includes works created by
-          current team members from previous collaborative efforts.
-        </p> */}
-        <HRDiv />
-        <p style={{ textAlign: "center", fontSize: "1.2em" }}>
-          <b>Demo Reel 2024</b>
-        </p>
-        <div
+        <section
           style={{
-            justifyContent: "center",
-            display: "flex",
-            paddingBottom: "1%",
-            paddingLeft: isMobile ? "5% " : "15%",
-            paddingRight: isMobile ? "5% " : "15%",
+            backgroundColor: title === "Arcade" && "#E72626",
+            height: title === "Arcade" && "20vh",
+            alignContent: "center",
           }}
         >
-          {isSafari ? (
+          <div
+            style={{
+              marginBottom: "2vh",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <iframe
-              style={{
-                width: isMobile ? "70vw" : "40vw",
-                height: isMobile ? "40vh" : "50vh",
-              }}
-              src="https://www.youtube.com/embed/3tReeYo-rqQ?si=DttmJdkx8fP_so7S"
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
               title="YouTube video player"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
+              style={{ padding: "2vh" }}
             ></iframe>
-          ) : isMobile ? (
-            <ReactPlayer
-              playing={false}
-              controls={true}
-              style={{
-                margin: "auto",
-                maxWidth: "80vw",
-                alignContent: "center",
+          </div>
+          <p style={{ textAlign: "center" }}>
+            A blurb of words that describe what we do, stylized in the genre
+          </p>
+        </section>
+
+        <div className="description">{/* Add your blurb here */}</div>
+        <hr style={dividerStyle} />
+        <section style={{ backgroundColor: title === "Arcade" && "#F4A02B" }}>
+          <h2 style={{ fontFamily: "Montserrat" }}>Sound Design</h2>
+          <SoundEffects
+            style={{
+              backgroundColor: "#98EE9B",
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "15px",
+              cursor: "pointer",
+            }}
+            audioData={audioData}
+          />
+        </section>
+        <hr style={dividerStyle} />
+        <section style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}>
+          <h2 style={{ fontFamily: "Montserrat" }}>Music</h2>
+          <div className="2xl:container 2xl:mx-auto 2xl:px-0 py-3 px-10">
+            <MusicCarousel
+              albums={albums}
+              buttonStyle={{
+                backgroundColor: "#98EE9B",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "15px",
+                cursor: "pointer",
               }}
-              url={
-                isFirefox
-                  ? "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
-                  : "https://www.dropbox.com/scl/fi/nkg2sjoyhmibyswvkxzl5/Wavyrn-Demo-Reel-2024-v1.0-hevc.mov?rlkey=ur3knlg1x1o5njkb2c41wxhis&dl=1"
-              }
             />
-          ) : (
-            // <video
-            // style={{
-            //   margin: "auto",
-            //   maxWidth: "80vw",
-            //   alignContent: "center",
-            // }}
-            //   width="750"
-            //   height="300"
-            //   controls="true"
-            //   type="video/mp4"
-            //   autoplay
-            //   muted
-            //   playsinline
-            // >
-            //   <source src={
-            //     isFirefox
-            //       ? "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
-            //       : "https://www.dropbox.com/scl/fi/nkg2sjoyhmibyswvkxzl5/Wavyrn-Demo-Reel-2024-v1.0-hevc.mov?rlkey=ur3knlg1x1o5njkb2c41wxhis&dl=1"
-            //     // "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"
-            //   }/>
-            // </video>
-            <WavMediaPlayer
-              imgSrc={"thumbnail.jpg"}
-              title={"Afterlife"}
-              isMobile={isMobile}
-            />
-          )}
-          {/* <iframe
-            src={`https://www.youtube.com/embed/videoId?autoplay=1&rel=0&modestbranding=1&fs=0&color=white`}
-            title="YouTube video player"
-            allowFullScreen
-          /> */}
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexFlow: "row wrap",
-            justifyContent: "center",
-            paddingTop: isMobile && "4%",
-            paddingLeft: isMobile ? "5% " : "15%",
-            paddingRight: isMobile ? "5% " : "15%",
-            paddingBottom: "2%",
-          }}
-        >
-          <ProjectImage
-            subtitle={"Short Film"}
-            imgSrc={"Afterlife - Short Film.png"}
-            title={"Afterlife"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"AI Gotta Go - Video Game.png"}
-            title={"AI Gotta Go"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Alistair - Video Game.jpg"}
-            title={"Alistair"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            imgSrc={"Arcana - Video Game.jpg"}
-            subtitle={"Video Game"}
-            title={"Arcana"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Boil Over - Video Game.jpg"}
-            title={"Boil Over"}
-          />
-          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            subtitle={"Musical"}
-            imgSrc={"Broadway Blues - Musical.png"}
-            title={"Broadway Blues"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Bugby - Video Game.png"}
-            title={"Bugby"}
-          />
-          <ProjectImage
-            subtitle={"Short Film"}
-            imgSrc={"Ceiba Y Sus Raices Tainas - Short Film.png"}
-            title={"Ceiba Y Sus Raíces Taínas"}
-          />
-          <ProjectImage
-            subtitle={"App"}
-            imgSrc={"Fashion Digg - App.png"}
-            title={"Fashion Digg"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Glitch Witch - Video Game.png"}
-            title={"Glitch Witch"}
-          />
-          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Guildmaster's Guide to Capitalism.jpg"}
-            title={"Guildmaster's Guide to Capitalism"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Let's Make A Game - Video Game.png"}
-            title={"Let's Make A Game"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Album"}
-            imgSrc={"Only One - Album.png"}
-            title={"Only One"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Potion Pushas - Video Game.png"}
-            title={"Potion Pushas"}
-          />
-          <ProjectImage
-            subtitle={"Short Film"}
-            imgSrc={"Professional Therapy - Short Film.png"}
-            title={"Professional Therapy"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Project Nautilus - Video Game.jpg"}
-            title={"Project Nautilus"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Reclaiming the Past - Video Game.png"}
-            title={"Reclaiming the Past"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Resurgence of the Storm - Video Game.png"}
-            title={"Resurgence of the Storm"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Scamper - Short Film.png"}
-            title={"Scamper"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Shiny - Video Game.jpg"}
-            title={"Shiny"}
-          />
-          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Skulls & Scrolls - Video Game.png"}
-            title={"Skulls & Scrolls"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Single"}
-            imgSrc={"Snow Girl (Guy) - Single.png"}
-            title={"Snow Girl (Guy)"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Space Shark - Video Game.jpg"}
-            title={"Space Shark"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Starweave - Video Game.png"}
-            title={"Starweave"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Cartomancy Anthology - Video Game.jpg"}
-            title={"Cartomancy Anthology"}
-          />
-          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"String - Video Game.png"}
-            title={"String"}
-          />
-          <ProjectImage
-            subtitle={"Short Film"}
-            imgSrc={"The Dream Factory - Short Film.jpg"}
-            title={"The Dream Factory"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            imgSrc={"The Metamorph.png"}
-            subtitle={"Video Game"}
-            title={"The Metamorph"}
-          />
-          <ProjectImage
-            subtitle={"Podcast"}
-            imgSrc={"The Pablo Mhanna Show - Podcast.png"}
-            title={"The Pablo Mhanna Show"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Karisvale - Video Game.png"}
-            title={"Karisvale"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          {!isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Rewindie - Video Game.png"}
-            title={"Rewindie"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"This Apartment Has Walls In It - Video Game.png"}
-            title={"This Apartment Has Walls In It"}
-          />
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Wyrm Warden - Video Game.png"}
-            title={"Wyrm Warden"}
-          />
-          {isMobile && <div style={{ flexBasis: "100%", height: 0 }}></div>}
-          <ProjectImage
-            subtitle={"Video Game"}
-            imgSrc={"Temporal Vendetta - Video Game.png"}
-            title={"Temporal Vendetta"}
-          />
-          {!isMobile && (
-            <>
-              <ProjectImage noImg={true} />
-            </>
-          )}
-          {/* <ProjectImage noImg={true} /> */}
-        </div>
+          </div>
+        </section>
       </div>
-      <footer
-        style={{
-          backgroundColor: "black",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "50px", // Adjust height as needed
-        }}
-      >
-        <p style={{ color: "white", textAlign: "center", lineHeight: "50px" }}>
-          ©️2024 Wavyrn • All Rights Reserved
-        </p>
-      </footer>
-    </>
+    </div>
   );
-};
+}
 
 export default Portfolio;

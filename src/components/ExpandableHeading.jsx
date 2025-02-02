@@ -57,7 +57,6 @@ const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
             color: "gray",
             marginRight: "10px",
             float: "right",
-            transform: `translateY(-40px) ${toggled ? "" : "rotate(180deg)"}`,
           }}
         >
           <Arrow_svg />
@@ -68,10 +67,7 @@ const ExpandableHeading = ({ title, bg, body, onClick, expanded, index }) => {
           display: toggled ? "none" : "initial",
           paddingBottom: toggled ? "20px" : "0px",
           color: "white",
-          // transition: "opacity ease-in-out 1.5s",
-          // opacity: !toggled ? 1 : 0,
         }}
-        // className={!toggled ? "animate" : ""}
       >
         {body}
       </div>

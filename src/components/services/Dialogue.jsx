@@ -1,42 +1,82 @@
 import "./Service.css";
 import HRDiv from "../HRDiv";
 import { Col, Row } from "react-bootstrap";
-
+import { useRef, useEffect } from "react";
 
 const Dialogue = ({ isMobile }) => {
+  const leftColRef = useRef(null);
+  const rightColRef = useRef(null);
+
+  useEffect(() => {
+    const equalizeHeight = () => {
+      if (leftColRef.current && rightColRef.current) {
+        // Reset heights to auto to get natural heights
+        leftColRef.current.style.height = "auto";
+        rightColRef.current.style.height = "auto";
+
+        // Get the natural heights
+        const leftHeight = leftColRef.current.offsetHeight;
+        const rightHeight = rightColRef.current.offsetHeight;
+
+        // Set both columns to the larger height
+        const maxHeight = Math.max(leftHeight, rightHeight);
+        leftColRef.current.style.height = `${maxHeight}px`;
+        rightColRef.current.style.height = `${maxHeight}px`;
+      }
+    };
+
+    equalizeHeight();
+
+    // Re-run on window resize
+    window.addEventListener("resize", equalizeHeight);
+    return () => window.removeEventListener("resize", equalizeHeight);
+  }, []);
   return (
     <>
-      <h1 style={{ fontWeight: "bold" }}>
-      {!isMobile &&  <em>Voice Acting</em>}
-      </h1>
-      <h5 style={{paddingInline: isMobile ? "2%" : "20%",
-          textAlign: isMobile && "left",
-          fontSize: isMobile && ".8em",}}>
-        Choose your character: orcs, paladins, deuteragonists, and even space
-        pirates caught in a tragic romance. We’ll find the right voice, produce
-        the session, and deliver clean dialogue (elvish included).
-      </h5>
-      <HRDiv />
-        <Row style={{
+      <Row
+        style={{
           paddingLeft: isMobile ? "0%" : "28%",
           paddingRight: isMobile ? "5%" : "25%",
           fontSize: isMobile && ".8em",
-        }}>
-          <Col>
-            <ul style={{ listStyleType: "none" }}>
-              <li>&#9633; Voice Acting</li>
-              <li>&#9633; Session Coordination</li>
-              <li>&#9633; Session Production</li>
-            </ul>
-          </Col>
-          <Col>
-            <ul style={{ listStyleType: "none" }}>
-              <li>&#9633; Voice Effects & Design</li>
-              <li>&#9633; Dialogue Writing</li>
-              <li>&#9633; Specialty Languages</li>
-            </ul>
-          </Col>
-        </Row>
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Col ref={leftColRef} style={{ display: "flex", alignItems: "center" }}>
+          <ul
+            style={{
+              listStyleType: "none",
+              margin: 0,
+              padding: 0,
+              lineHeight: "25px",
+            }}
+          >
+            <li>&#9633; Voice Acting</li>
+            <li>&#9633; Session Production</li>
+            <li>&#9633; Recording Engineering </li>
+            <li>&#9633; Voice Effects & Sound Design</li>
+            <li>&#9633; Mixing & Editing</li>
+          </ul>
+        </Col>
+        <Col
+          ref={rightColRef}
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <h5
+            style={{
+              textAlign: "left",
+              margin: 0,
+            }}
+          >
+            Orcs, paladins, and space pirates. We’ll find the right voice,
+            produce the session, and deliver clean dialogue (Tolkein dialect
+            elvish included).{" "}
+          </h5>
+        </Col>
+      </Row>
     </>
   );
 };

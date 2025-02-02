@@ -19,9 +19,9 @@ const UserCategory = ({
       style={{
         paddingRight: "1.5em",
         paddingLeft: "1.5em",
-        cursor: 'pointer',
-        transition: 'color 500ms',
-        color: selectedCat == category || hovered ? "#CE0036" : "black",
+        cursor: "pointer",
+        transition: "color 500ms",
+        color: selectedCat == category || hovered ? "#CE0036" : "white",
         textDecoration: selectedCat == category ? "underline" : "none",
         fontWeight: selectedCat == category ? "bold" : "initial",
       }}

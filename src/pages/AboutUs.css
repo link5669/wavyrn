@@ -1,31 +1,32 @@
 @media (max-width: 900000px) {
-  .users {
-    width: 20%; /* 100% / 3 items per line = 33.33% width per item */
-  }
+    .users {
+        width: 20%; /* 100% / 3 items per line = 33.33% width per item */
+    }
 }
 
 @media (max-width: 1200px) {
-  .users {
-    width: 25%;
-  }
+    .users {
+        width: 25%;
+    }
 }
 
 @media (max-width: 900px) {
-  .users {
-    width: 33.33%; /* 100% / 3 items per line = 33.33% width per item */
-  }
+    .users {
+        width: 33.33%; /* 100% / 3 items per line = 33.33% width per item */
+    }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 .animate {
-  animation: fadeIn 1.5s ease-in-out forwards;
-  animation-direction: reverse;
+    animation: fadeIn 1.5s ease-in-out forwards;
+    filter: brightness(30%);
+    animation-direction: reverse;
 }

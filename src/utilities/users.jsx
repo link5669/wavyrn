@@ -74,7 +74,7 @@ const allUsers = [
   // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
   // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
   // { name: `Michelle Lai`, title: `Composer, Voice Actor` },
-  
+
   { name: `Austin Leshock`, title: `Composer, Mixer` },
   { name: `Angelica Ramos`, title: `Technical Assistant` },
   { name: `Josh Trochet`, title: `Voice Actor` },
@@ -87,11 +87,11 @@ const allUsers = [
 
 const categories = [
   { categoryList: allUsers, category: `All` },
-  { categoryList: projectManagement, category: `Project Management` },
+  // { categoryList: projectManagement, category: `Project Management` },
   { categoryList: production, category: `Production` },
   { categoryList: soundDesign, category: `Sound Design` },
   { categoryList: music, category: `Music` },
-  { categoryList: dialogue, category: `Voice Acting` },
+  { categoryList: dialogue, category: `Voiceover` },
 ];
 
 export {
