@@ -6,7 +6,7 @@ const BLOG_PAGES = [
       "Behind the Dialogue: Writing Delta Emblock’s Voice Lines for Resurgence of the Storm",
     byline: (
       <>
-        By Subsourian
+        by Subsourian
         <br />
         January 3rd, 2025
       </>

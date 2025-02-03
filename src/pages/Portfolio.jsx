@@ -4,6 +4,7 @@ import MusicCarousel from "../components/Carousel/MusicCarousel";
 import ScrollingThing from "../components/ScrollingThing/ScrollingThing";
 import "./App.css";
 import VoiceoverPhotos from "../components/VoiceoverPhotos";
+import WavNavbar from "../components/Navbar";
 
 function Portfolio({ title, audioData, dividerStyle, albums, voiceoverData }) {
   return (
@@ -11,41 +12,13 @@ function Portfolio({ title, audioData, dividerStyle, albums, voiceoverData }) {
       style={{
         backgroundSize: "cover",
         position: "relative",
-        width: "100%",
+        width: "100vw",
         minHeight: "100vh",
         backgroundAttachment: "fixed",
         backgroundColor: "black",
       }}
     >
-      <div
-        style={{
-          width: "100vw",
-          height: "15vh",
-          backgroundColor: "#CE1E36",
-          display: "flex",
-          alignItems: "center",
-          position: "relative", // Added this
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            width: "100%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            textAlign: "center",
-          }}
-        ></div>
-        <img
-          src="/public/images/Home.png"
-          alt="description"
-          style={{
-            height: "100%",
-            objectFit: "contain",
-            marginLeft: "auto", // This pushes the image to the right
-          }}
-        />
-      </div>
+      <WavNavbar />
       <div
         style={{
           position: "relative",

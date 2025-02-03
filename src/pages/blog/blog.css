@@ -1,0 +1,64 @@
+/* Blog.css */
+.tags-section {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 20%;
+    height: 100vh;
+    padding: 7vh 2vw 0;
+    background-color: black;
+    overflow-y: auto;
+    padding-top: 64px;
+    color: white;
+    border-left: 3px solid white;
+}
+
+.posts-section {
+    margin-right: 20%; /* Match tags-section width */
+    overflow-y: auto;
+    background-color: RGB(1, 1, 1);
+}
+
+.coolBeans {
+    border: 2px solid #ce0036;
+    border-radius: 5px;
+    color: #ce0036;
+    font-family: inherit;
+    padding: 0.5rem 1rem;
+    position: relative;
+    text-decoration: none;
+    background-color: transparent;
+    transition: color 0.2s ease-in-out;
+    will-change: transform;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.coolBeans::after {
+    background-color: #ce0036;
+    border-radius: 3px;
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-101%, 0) rotate(10deg);
+    transform-origin: top left;
+    transition: 0.2s transform ease-out;
+    will-change: transform;
+    z-index: -1;
+    opacity: 0;
+}
+
+.coolBeans:hover::after {
+    transform: translate(0, 0);
+    opacity: 1;
+}
+
+.coolBeans:hover {
+    border: 2px solid #ce0036;
+    color: white;
+    transform: scale(1.05);
+}

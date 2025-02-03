@@ -13,9 +13,11 @@
 
 .nav-left,
 .nav-right {
+    padding-left: 20px;
     display: flex;
     gap: 20px;
     align-items: center;
+    padding-right: 20px;
 }
 
 .nav-center {

@@ -3,10 +3,30 @@ import BLOG_PAGES from "./pages";
 import Preview from "./preview";
 import React, { useState } from "react";
 import WavNavbar from "../../components/Navbar";
-
+import "./blog.css";
 const Blog = ({ isMobile }) => {
-  const [selectedTag, setSelectedTag] = useState("all");
+  const [selectedTags, setSelectedTags] = useState(new Set());
   const [tags, setTags] = useState([]);
+
+  // Modified filter logic for multiple tags
+  const filteredPosts = BLOG_PAGES.filter((post) => {
+    if (selectedTags.size === 0) return true; // Show all when no tags selected
+    return post.tags.some((tag) => selectedTags.has(tag));
+  });
+
+  // Toggle tag selection
+  const handleTagToggle = (tag) => {
+    setSelectedTags((prev) => {
+      const newTags = new Set(prev);
+      if (newTags.has(tag)) {
+        newTags.delete(tag);
+      } else {
+        newTags.add(tag);
+      }
+      return newTags;
+    });
+  };
+
   useEffect(() => {
     let tagCollector = [];
     for (let i = 0; i < BLOG_PAGES.length; i++) {
@@ -37,57 +57,9 @@ const Blog = ({ isMobile }) => {
           flexDirection: "column",
         }}
       >
-        <div
-          style={{
-            backgroundImage: "url('/images/dnd.jpg?url')",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: isMobile ? "150%" : "100%",
-            height: "20vh",
-            width: "100%",
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: isMobile ? ".5em" : "1em",
-          }}
-        >
-          {isMobile ? (
-            <p
-              style={{
-                paddingTop: "3vh",
-                marginBottom: !isMobile && "2em",
-                marginTop: "0em",
-                color: "white",
-                fontSize: "5em",
-                textAlign: "center",
-              }}
-            >
-              <b>Blog</b>
-            </p>
-          ) : (
-            <h1
-              style={{
-                paddingTop: "0%",
-                marginBottom: ".5em",
-                marginTop: "1em",
-                color: "white",
-                fontSize: "4em",
-                fontWeight: "bold",
-              }}
-            >
-              Blog
-            </h1>
-          )}
-        </div>
         <div style={{ display: "flex", flex: 1 }}>
-          <div
-            style={{ flex: isMobile ? 1 : 0.8, backgroundColor: "RGB(1,1,1)" }}
-          >
-            {BLOG_PAGES.filter(
-              (e) =>
-                selectedTag === "all" || (e.tags.includes(selectedTag) && e),
-            ).map((e) => (
+          <div className="posts-section">
+            {filteredPosts.map((e) => (
               <Preview
                 key={e.path}
                 title={e.title}
@@ -99,24 +71,29 @@ const Blog = ({ isMobile }) => {
               />
             ))}
           </div>
-          {!isMobile && (
-            <div
-              style={{
-                flex: 0.2,
-                color: "white",
-                padding: "7vh 2vw 0",
-                backgroundColor: "RGB(160,60,60)",
-              }}
-            >
-              <h2>Filter by Tags</h2>
 
-              <ul>
-                <li onClick={() => setSelectedTag("all")}>
-                  All ({BLOG_PAGES.length})
-                </li>
-                {tags.map((e) => (
-                  <li onClick={() => setSelectedTag(e.tag)}>
-                    {e.tag} ({e.count})
+          {!isMobile && (
+            <div className="tags-section">
+              <br />
+              <h2>Filter by Tags</h2>
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                {tags.map((tag) => (
+                  <li key={tag.tag} style={{ marginBottom: "10px" }}>
+                    <label
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedTags.has(tag.tag)}
+                        onChange={() => handleTagToggle(tag.tag)}
+                        style={{ marginRight: "8px" }}
+                      />
+                      {tag.tag} ({tag.count})
+                    </label>
                   </li>
                 ))}
               </ul>

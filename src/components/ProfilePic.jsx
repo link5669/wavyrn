@@ -11,8 +11,9 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
   };
 
   const imgStyle = {
-    height: "auto",
     width: "6em",
+    height: "10em",
+    objectFit: "cover",
   };
 
   const textStyle = {
