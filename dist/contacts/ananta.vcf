@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Ananta Arora
+N:Arora;Ananta;;;
+item1.EMAIL;TYPE=INTERNET:ananta@wavyrn.com
+item1.X-ABLabel:
+item2.TEL:904-607-1073
+item2.X-ABLabel:
+ORG:Wavyrn
+TITLE:Co-Founder\, Business Manager
+item3.URL:https\://wavyrn.com
+item3.X-ABLabel:
+item4.URL:https\://anantaarora.com
+item4.X-ABLabel:
+NOTE:Socials: @WavyrnAudio\nSocials: @rxcktara
+CATEGORIES:myContacts
+END:VCARD

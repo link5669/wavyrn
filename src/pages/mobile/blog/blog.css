@@ -1,0 +1,84 @@
+.posts-section {
+    overflow-y: auto;
+    background-color: #ce0036;
+    z-index: 0;
+}
+
+.coolBeans {
+    border: 2px solid #ce0036;
+    border-radius: 5px;
+    color: #ce0036;
+    font-family: inherit;
+    padding: 0.5rem 1rem;
+    position: relative;
+    text-decoration: none;
+    background-color: transparent;
+    transition: color 0.2s ease-in-out;
+    will-change: transform;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.coolBeans:hover {
+    background: white;
+    color: white;
+    background-color: black;
+    opacity: 0.9;
+    border: 2px solid #ce0036;
+}
+.preview-container {
+    position: relative;
+    margin: 7vh;
+    padding: 2vw;
+    background-color: black;
+    border-radius: 10px;
+    color: white;
+    width: 40vw;
+    max-width: 600px;
+    text-align: center;
+}
+
+.preview-shadow {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 100%;
+    height: 100%;
+    background-color: #333;
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.preview-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.8em;
+}
+
+.preview-author-date {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+}
+
+.preview-tags {
+    list-style: none;
+    padding: 0.5rem;
+    margin: 0 auto 1rem auto;
+    width: 90%;
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+}
+
+.preview-button {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}

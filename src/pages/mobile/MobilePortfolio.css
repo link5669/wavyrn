@@ -1,0 +1,160 @@
+@import url("../../index.css");
+
+.body {
+    background-size: cover;
+    position: relative;
+    max-width: 100vw;
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-color: black;
+    padding: 0px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background-color: #ce0036;
+}
+
+.portfolio-container {
+    min-height: 100vh;
+    background-color: black;
+    width: 100%;
+}
+
+.navbar-fade-in {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.navbar-fade-in.visible {
+    opacity: 1;
+}
+
+.fade-in-initial {
+    opacity: 0;
+    transition: opacity 3s ease;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.content-wrapper {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.content-wrapper.fade-in {
+    opacity: 1;
+}
+
+.body.fade-in {
+    opacity: 1;
+}
+
+.sfx-containera {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+    /* max-width: 600px; */
+    padding: 23px;
+    padding-top: 0px;
+}
+
+.sfx-buttona {
+    position: relative;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transition:
+        opacity 0.5s ease,
+        transform 0.2s ease;
+    font-family: Montserrat;
+}
+
+.sfx-button:hover {
+    color: #666; /* Shadow color */
+}
+
+.sfx-button:hover::before {
+    content: attr(data-text);
+    position: absolute;
+    color: white;
+    top: -2px;
+    left: -2px;
+}
+
+.enter-button {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 3rem auto 2rem auto;
+}
+
+.enter-button:hover {
+    background: white;
+    color: black;
+    opacity: 0.9;
+}
+
+.services-wrapper > .exiting {
+    transform: translateX(100%); /* Push the exiting component offscreen */
+}
+
+.services-wrapper > .entering {
+    transform: translateX(
+        -100%
+    ); /* Bring in the new component from the right */
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
+    padding: 10px 15px; /* Add some padding */
+}
+
+.arrow.left {
+    left: 10px;
+}
+
+.arrow.right {
+    right: 10px;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-10deg);
+    }
+    50% {
+        transform: rotate(10deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
+}

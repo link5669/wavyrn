@@ -1,0 +1,40 @@
+.parent {
+    position: relative; /* Ensure the overlay is positioned relative to this container */
+}
+
+.parent:hover .childPfp,
+.parent:focus .childPfp {
+    -ms-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+    filter: brightness(30%);
+}
+
+.childPfp {
+    object-fit: cover;
+    transition:
+        transform 0.2s,
+        filter 0.2s;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    opacity: 0; /* Hide by default */
+    transition: opacity 0.2s;
+    pointer-events: none; /* Ensure the text doesn't interfere with hover */
+    font-size: 0.8em;
+    text-align: center;
+    white-space: nowrap; /* Ensure text stays on one line */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+}
+
+.parent:hover .overlay-text {
+    opacity: 1; /* Show on hover */
+}

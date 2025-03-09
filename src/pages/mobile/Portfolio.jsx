@@ -1,0 +1,337 @@
+import React from "react";
+import MusicCarousel from "../../components/Carousel/MobileCarousel/MobileCarousel";
+import WavNavbar from "../../components/Navbar/MobileNavbar/MobileNavbar";
+import "./MobilePortfolio.css";
+import ProjectImage from "../../components/ProjectImageMobile";
+import { MdDownloading } from "react-icons/md";
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
+import BottomSection from "../../components/BottomSection/BottomSection";
+import sfx from "../../utilities/SFX";
+import projects from "../../utilities/projects";
+import albums from "../../utilities/albums";
+
+const getUniqueRandomSfx = (existingNames = []) => {
+    const availableSfx = sfx.filter((s) => !existingNames.includes(s.name));
+    if (availableSfx.length === 0)
+        throw new Error("No more unique SFX available");
+    return availableSfx[Math.floor(Math.random() * availableSfx.length)];
+};
+
+const initializeButtons = () => {
+    const buttons = [];
+    const usedNames = new Set();
+
+    for (let i = 1; i <= 8; i++) {
+        const sfx = getUniqueRandomSfx([...usedNames]);
+        usedNames.add(sfx.name);
+        buttons.push({
+            id: i,
+            text: sfx.name,
+            visible: true,
+            shake: false,
+        });
+    }
+
+    return buttons;
+};
+
+function Portfolio({ title, dividerStyle, isMobile }) {
+    const [isVisible, setIsVisible] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [name, setName] = useState("");
+    const [file, setFile] = useState("");
+    const [buttons, setButtons] = useState(initializeButtons());
+
+    const getRandomSfx = () => {
+        const usedNames = buttons.map((btn) => btn.text);
+        return getUniqueRandomSfx(usedNames);
+    };
+
+    const handleButtonClick = (id) => {
+        const button = buttons.find((btn) => btn.id === id);
+
+        const sfxItem = sfx.find((item) => item.name === button.text);
+        if (sfxItem) {
+            const audio = new Audio(sfxItem.link);
+            audio.play();
+        }
+
+        setButtons((prevButtons) =>
+            prevButtons.map((btn) =>
+                btn.id === id ? { ...btn, visible: false } : btn,
+            ),
+        );
+
+        setTimeout(() => {
+            setButtons((prevButtons) =>
+                prevButtons.map((btn) =>
+                    btn.id === id
+                        ? {
+                              ...btn,
+                              text: getRandomSfx().name,
+                              visible: true,
+                          }
+                        : btn,
+                ),
+            );
+        }, 2000);
+    };
+
+    useEffect(() => {
+        const shakeInterval = setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * buttons.length);
+            setButtons((prevButtons) =>
+                prevButtons.map((btn, index) =>
+                    index === randomIndex ? { ...btn, shake: true } : btn,
+                ),
+            );
+
+            // Reset the shake after the animation duration
+            setTimeout(() => {
+                setButtons((prevButtons) =>
+                    prevButtons.map((btn) => ({ ...btn, shake: false })),
+                );
+            }, 500); // Shake duration
+        }, 3000); // Shake every 3 seconds
+
+        return () => clearInterval(shakeInterval);
+    }, [buttons.length]);
+
+    useEffect(() => {
+        setIsVisible(true);
+        let contactVal = searchParams.get("contact");
+        if (contactVal == null) return;
+        setShowPopup(true);
+        setFile(contactVal.toLowerCase());
+        if (contactVal == "Marc") setName("Marc Yu");
+        if (contactVal == "Ananta") setName("Ananta Arora");
+        if (contactVal == "Zionna") setName("Zionna Brown");
+        if (contactVal == "Neil") setName("Neil Small");
+        if (contactVal == "Michelle") setName("Michelle Lai");
+    }, []);
+
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    };
+
+    return (
+        <div
+            className={`portfolio-container  ${isVisible ? "fade-in" : "fade-in-initial"}`}
+            style={{ backgroundColor: "#CE0036" }}
+        >
+            <div className={`navbar-fade-in ${isVisible ? "visible" : ""}`}>
+                <WavNavbar showLogo={true} />
+            </div>
+            <div
+                className={`content-wrapper ${isVisible ? "fade-in" : ""}`}
+                style={{
+                    position: "relative",
+                    margin: "0 auto",
+                    minHeight: "100vh",
+                    paddingBottom: "50px",
+                }}
+            >
+                {/* <br /> */}
+                <h1
+                    style={{
+                        color: "white",
+                        fontSize: "2.3em",
+                        paddingBottom: "5%",
+                        paddingTop: "80px",
+                    }}
+                >
+                    <b>Our Work</b>
+                </h1>
+                <section
+                    style={{
+                        height: title === "Arcade" && "20vh",
+                        alignContent: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            marginBottom: "2vh",
+                            display: "flex",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <iframe
+                            width="350"
+                            height="250"
+                            src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                            style={{ padding: "1vh" }}
+                        ></iframe>
+                    </div>
+                </section>
+                <br />
+                <section
+                    style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}
+                >
+                    <MusicCarousel
+                        albums={albums}
+                        buttonStyle={{
+                            backgroundColor: "white",
+                            padding: "10px",
+                            borderRadius: "15px",
+                            cursor: "pointer",
+                        }}
+                        portfolio={true}
+                    />
+                </section>
+                <br />
+                <br />
+                <section style={{ color: "white" }}>
+                    <div className="sfx-containera">
+                        {buttons.slice(0, 4).map((button) => (
+                            <span
+                                key={button.id}
+                                className={`sfx-buttona ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
+                                data-text={button.dataText}
+                                onClick={() => handleButtonClick(button.id)}
+                            >
+                                <b>{button.text}</b>
+                            </span>
+                        ))}
+                    </div>
+                </section>
+                <section style={{ color: "white" }}>
+                    <div className="sfx-containera">
+                        {buttons.slice(4, 8).map((button) => (
+                            <span
+                                key={button.id}
+                                className={`sfx-buttona ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
+                                // data-text={button.text}
+                                onClick={() => handleButtonClick(button.id)}
+                            >
+                                <b>{button.text}</b>
+                            </span>
+                        ))}
+                    </div>
+                </section>
+                <br />
+                <h2 style={{ fontFamily: "Montserrat", color: "white" }}>
+                    Portfolio
+                </h2>
+                <hr
+                    style={{
+                        display: "block",
+                        height: "3px",
+                        border: 0,
+                        borderTop: "1px solid #ffffff",
+                        margin: "1em 0",
+                        marginLeft: "35%",
+                        marginRight: "35%",
+                        opacity: 100,
+                    }}
+                />
+                <div
+                    style={{
+                        display: "flex",
+                        flexFlow: "row wrap",
+                        justifyContent: "center",
+                        paddingTop: isMobile ? "4%" : "2%",
+                        paddingLeft: isMobile ? "5%" : "10%",
+                        paddingRight: isMobile ? "5%" : "10%",
+                        paddingBottom: "2%",
+                    }}
+                >
+                    {projects.map((project, index) => (
+                        <React.Fragment key={index}>
+                            <ProjectImage
+                                subtitle={project.subtitle}
+                                imgSrc={project.imgSrc}
+                                title={project.title}
+                            />
+                            {isMobile && (index + 1) % 3 === 0 && (
+                                <div
+                                    style={{ flexBasis: "100%", height: 0 }}
+                                ></div>
+                            )}
+                        </React.Fragment>
+                    ))}
+                </div>
+                <hr style={dividerStyle} />
+                {showPopup && (
+                    <>
+                        {/* Gray Overlay */}
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent gray
+                                zIndex: 999, // Below the popup but above everything else
+                            }}
+                            onClick={handleClosePopup} // Close popup when overlay is clicked
+                        ></div>
+
+                        {/* Popup */}
+                        <div
+                            style={{
+                                position: "fixed",
+                                top: "50%",
+                                left: "50%",
+                                transform: "translate(-50%, -50%)",
+                                backgroundColor: "white",
+                                borderRadius: "15px",
+                                padding: "20px",
+                                width: "300px",
+                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+                                zIndex: 1000, // Above the overlay
+                            }}
+                        >
+                            <button
+                                onClick={handleClosePopup}
+                                style={{
+                                    position: "absolute",
+                                    top: "-5px",
+                                    right: "0px",
+                                    background: "none",
+                                    border: "none",
+                                    fontSize: "16px",
+                                    cursor: "pointer",
+                                    color: "black",
+                                }}
+                            >
+                                X
+                            </button>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "5%",
+                                }}
+                            >
+                                <a
+                                    href={`/public/contacts/${file}.vcf`}
+                                    download
+                                >
+                                    <MdDownloading
+                                        style={{
+                                            width: "45px",
+                                            height: "45px",
+                                            viewBox: "0 0 24 24",
+                                        }}
+                                    />
+                                </a>
+                                <span>Download {name}'s contact!</span>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+            <BottomSection />
+        </div>
+    );
+}
+
+export default Portfolio;

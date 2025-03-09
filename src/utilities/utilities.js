@@ -9,40 +9,42 @@ import gret from "/Team Profiles/Gret Price/Gret Price Profile Picture.jpg";
 import paul from "/Team Profiles/IMG_0407.jpg";
 import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
 import miles from "/Team Profiles/miles.png";
-import zionna from "/Team Profiles/zionna.jpg";
-import caleb from "/Team Profiles/caleb.jpg";
 import julian from "/Team Profiles/julian.jpg";
 
 const getPfpImage = (name) => {
-  return name == "Marc Yu"
-    ? marc
-    : name == "Austin Burkett"
-      ? austinb
-      : name == "Austin Leshock"
-        ? austinl
-        : name == "Max Jaime"
-          ? max
-          : name == "Sam Leigh"
-            ? sam
-            : name == "Ananta Arora"
-              ? ananta
-              : name == "Angelica Ramos"
-                ? angelica
-                : name == "Gret Price"
-                  ? gret
-                  : name == "Paul Edward May"
-                    ? paul
-                    : name == "Josh Trochet"
-                      ? josh
-                      : name == "Miles Acquaviva"
-                        ? miles
-                        : name == "Zionna Brown"
-                          ? zionna
-                          : name == "Caleb Skelly"
-                            ? caleb
-                            : name == "Julian Cabrera"
-                              ? julian
-                              : "https://via.placeholder.com/150";
+    return name == "Marc Yu"
+        ? marc
+        : name == "Austin Burkett"
+          ? austinb
+          : name == "Austin Leshock"
+            ? austinl
+            : name == "Max Jaime"
+              ? max
+              : name == "Sam Leigh"
+                ? sam
+                : name == "Ananta Arora"
+                  ? ananta
+                  : name == "Angelica Ramos"
+                    ? angelica
+                    : name == "Gret Price"
+                      ? gret
+                      : name == "Paul Edward May"
+                        ? paul
+                        : name == "Josh Trochet"
+                          ? josh
+                          : name == "Neil Small"
+                            ? "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ACxo9WVOXI-04I-ydbhCzA0/Neil%20Small/WAVPFP.png?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                            : name == "Michelle Lai"
+                              ? "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ADv0rYvWSIqK3PVXpNuvhmU/Michelle%20Lai/2025%20Profile%20Picture.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                              : name == "Miles Acquaviva"
+                                ? miles
+                                : name == "Zionna Brown"
+                                  ? "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ACHgxIGUvgk5A6RNmwPOLn4/Zionna%20Brown/2025%20Zionna%20Brown%20Profile%20Pic.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                                  : name == "Caleb Skelly"
+                                    ? "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/AGk-WLXVxAdDn2VM_0XwFo0/Caleb%20Skelly/large.png?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                                    : name == "Julian Cabrera"
+                                      ? julian
+                                      : "https://via.placeholder.com/150";
 };
 
 export { getPfpImage };

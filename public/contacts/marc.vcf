@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Marc Yu
+N:Yu;Marc;;;
+item1.EMAIL;TYPE=INTERNET:marc@wavyrn.com
+item1.X-ABLabel:
+item2.TEL:650-200-8223
+item2.X-ABLabel:
+ORG:Wavyrn
+TITLE:Co-Founder\, Audio Director
+item3.URL:https\://wavyrn.com
+item3.X-ABLabel:
+item4.URL:https\://marcyumusic.com
+item4.X-ABLabel:
+NOTE:Socials: @WavyrnAudio\nSocials: @MarcYuMusic
+CATEGORIES:myContacts
+END:VCARD

@@ -1,0 +1,113 @@
+@import url("../index.css");
+
+.body {
+    background-size: cover;
+    position: relative;
+    width: 100vw;
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-color: black;
+    padding: 0px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background-color: black;
+}
+
+.portfolio-container {
+    min-height: 100vh;
+    background-color: black;
+    width: 100%;
+}
+
+.navbar-fade-in {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.navbar-fade-in.visible {
+    opacity: 1;
+}
+
+.fade-in-initial {
+    opacity: 0;
+    transition: opacity 3s ease;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.content-wrapper {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.content-wrapper.fade-in {
+    opacity: 1;
+}
+
+.body.fade-in {
+    opacity: 1;
+}
+
+.sfx-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.sfx-button {
+    position: relative;
+    font-size: 1.4rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transition: none;
+    transition:
+        opacity 0.5s ease,
+        transform 0.2s ease;
+    font-family: Montserrat;
+}
+
+.sfx-button:hover {
+    color: #666; /* Shadow color */
+}
+
+.sfx-button:hover::before {
+    content: attr(data-text);
+    position: absolute;
+    color: white;
+    top: -2px;
+    left: -2px;
+}
+
+.enter-button {
+    border: 1px solid white;
+    background: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+    display: block;
+    margin: 3rem auto 2rem auto;
+}
+
+.enter-button:hover {
+    background: white;
+    color: black;
+    opacity: 0.9;
+}
+
+.services-wrapper > .exiting {
+    transform: translateX(100%); /* Push the exiting component offscreen */
+}
+
+.services-wrapper > .entering {
+    transform: translateX(
+        -100%
+    ); /* Bring in the new component from the right */
+}

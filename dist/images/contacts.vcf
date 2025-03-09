@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Miles Acquaviva
+N:Acquaviva;Miles;;;
+item1.EMAIL;TYPE=INTERNET:macquaviva@htsdnj.org
+item1.X-ABLabel:
+item2.EMAIL;TYPE=INTERNET:macquaviva@hamilton.k12.nj.us
+item2.X-ABLabel:
+CATEGORIES:myContacts
+END:VCARD

@@ -1,104 +1,244 @@
 import React from "react";
-import SoundEffects from "../components/SoundEffects";
 import MusicCarousel from "../components/Carousel/MusicCarousel";
-import ScrollingThing from "../components/ScrollingThing/ScrollingThing";
-import "./App.css";
-import VoiceoverPhotos from "../components/VoiceoverPhotos";
-import WavNavbar from "../components/Navbar";
+import WavNavbar from "../components/Navbar/Navbar";
+import "./Portfolio.css";
+import ProjectImage from "../components/ProjectImage";
+import { useState, useEffect, useRef } from "react";
+import projects from "../utilities/projects";
+import albums from "../utilities/albums";
+import sfx from "../utilities/SFX";
 
-function Portfolio({ title, audioData, dividerStyle, albums, voiceoverData }) {
-  return (
-    <div
-      style={{
-        backgroundSize: "cover",
-        position: "relative",
-        width: "100vw",
-        minHeight: "100vh",
-        backgroundAttachment: "fixed",
-        backgroundColor: "black",
-      }}
-    >
-      <WavNavbar />
-      <div
-        style={{
-          position: "relative",
-          width: "70%",
-          margin: "0 auto",
-          backgroundColor: "rgba(255, 255, 255, 0.8)", // translucent white
-          paddingLeft: "20px",
-          paddingRight: "20px",
-          boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
-          minHeight: "100vh",
-        }}
-      >
-        <br />
-        <br />
+const getUniqueRandomSfx = (existingNames = []) => {
+    const availableSfx = sfx.filter((s) => !existingNames.includes(s.name));
+    if (availableSfx.length === 0)
+        throw new Error("No more unique SFX available");
+    return availableSfx[Math.floor(Math.random() * availableSfx.length)];
+};
 
-        <section
-          style={{
-            backgroundColor: title === "Arcade" && "#E72626",
-            height: title === "Arcade" && "20vh",
-            alignContent: "center",
-          }}
+const initializeButtons = () => {
+    const buttons = [];
+    const usedNames = new Set();
+
+    for (let i = 1; i <= 8; i++) {
+        const sfx = getUniqueRandomSfx([...usedNames]);
+        usedNames.add(sfx.name);
+        buttons.push({
+            id: i,
+            text: sfx.name,
+            visible: true,
+            shake: false,
+        });
+    }
+
+    return buttons;
+};
+function Portfolio({ title, dividerStyle, isMobile }) {
+    const [isVisible, setIsVisible] = useState(false);
+    const [buttons, setButtons] = useState(initializeButtons());
+
+    const getRandomSfx = () => {
+        const usedNames = buttons.map((btn) => btn.text);
+        return getUniqueRandomSfx(usedNames);
+    };
+
+    const handleButtonClick = (id) => {
+        const button = buttons.find((btn) => btn.id === id);
+
+        const sfxItem = sfx.find((item) => item.name === button.text);
+        if (sfxItem) {
+            const audio = new Audio(sfxItem.link);
+            audio.play();
+        }
+
+        setButtons((prevButtons) =>
+            prevButtons.map((btn) =>
+                btn.id === id ? { ...btn, visible: false } : btn,
+            ),
+        );
+
+        setTimeout(() => {
+            setButtons((prevButtons) =>
+                prevButtons.map((btn) =>
+                    btn.id === id
+                        ? {
+                              ...btn,
+                              text: getRandomSfx().name,
+                              visible: true,
+                          }
+                        : btn,
+                ),
+            );
+        }, 1000);
+    };
+
+    useEffect(() => {
+        const shakeInterval = setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * buttons.length);
+            setButtons((prevButtons) =>
+                prevButtons.map((btn, index) =>
+                    index === randomIndex ? { ...btn, shake: true } : btn,
+                ),
+            );
+
+            // Reset the shake after the animation duration
+            setTimeout(() => {
+                setButtons((prevButtons) =>
+                    prevButtons.map((btn) => ({ ...btn, shake: false })),
+                );
+            }, 500); // Shake duration
+        }, 3000); // Shake every 3 seconds
+
+        return () => clearInterval(shakeInterval);
+    }, [buttons.length]);
+
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
+
+    return (
+        <div
+            className={`portfolio-container  ${isVisible ? "fade-in" : "fade-in-initial"}`}
         >
-          <div
-            style={{
-              marginBottom: "2vh",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-              style={{ padding: "2vh" }}
-            ></iframe>
-          </div>
-          <p style={{ textAlign: "center" }}>
-            A blurb of words that describe what we do, stylized in the genre
-          </p>
-        </section>
-
-        <div className="description">{/* Add your blurb here */}</div>
-        <hr style={dividerStyle} />
-        <section style={{ backgroundColor: title === "Arcade" && "#F4A02B" }}>
-          <h2 style={{ fontFamily: "Montserrat" }}>Sound Design</h2>
-          <SoundEffects
-            style={{
-              backgroundColor: "#98EE9B",
-              padding: "10px",
-              border: "1px solid #ccc",
-              borderRadius: "15px",
-              cursor: "pointer",
-            }}
-            audioData={audioData}
-          />
-        </section>
-        <hr style={dividerStyle} />
-        <section style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}>
-          <h2 style={{ fontFamily: "Montserrat" }}>Music</h2>
-          <div className="2xl:container 2xl:mx-auto 2xl:px-0 py-3 px-10">
-            <MusicCarousel
-              albums={albums}
-              buttonStyle={{
-                backgroundColor: "#98EE9B",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "15px",
-                cursor: "pointer",
-              }}
-            />
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+            <div className={`navbar-fade-in ${isVisible ? "visible" : ""}`}>
+                <WavNavbar showLogo={true} />
+            </div>{" "}
+            <div
+                className={`content-wrapper ${isVisible ? "fade-in" : ""}`}
+                style={{
+                    position: "relative",
+                    margin: "0 auto",
+                    minHeight: "100vh",
+                    paddingTop: "80px",
+                }}
+            >
+                <br />
+                <br />
+                <section
+                    style={{
+                        height: title === "Arcade" && "20vh",
+                        alignContent: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            marginBottom: "2vh",
+                            display: "flex",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <iframe
+                            width="450"
+                            height="270"
+                            src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                            style={{ padding: "2vh" }}
+                        ></iframe>
+                    </div>
+                </section>
+                <br />
+                <section
+                    style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}
+                >
+                    <div style={{ width: "60vw", margin: "auto" }}>
+                        <MusicCarousel
+                            albums={albums}
+                            buttonStyle={{
+                                backgroundColor: "#CE0036",
+                                padding: "10px",
+                                borderRadius: "15px",
+                                cursor: "pointer",
+                            }}
+                            portfolio={true}
+                        />
+                    </div>
+                </section>
+                <br />
+                <br />
+                <section style={{ color: "white" }}>
+                    <div className="sfx-container">
+                        {buttons.slice(0, 4).map((button) => (
+                            <span
+                                key={button.id}
+                                className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
+                                data-text={button.text}
+                                onClick={() => handleButtonClick(button.id)}
+                            >
+                                <b data-text={button.name}>{button.text}</b>
+                            </span>
+                        ))}
+                    </div>
+                </section>
+                <br />
+                <section style={{ color: "white" }}>
+                    <div className="sfx-container">
+                        {buttons.slice(4, 8).map((button) => (
+                            <span
+                                key={button.id}
+                                className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
+                                data-text={button.text}
+                                onClick={() => handleButtonClick(button.id)}
+                            >
+                                <b>{button.text}</b>
+                            </span>
+                        ))}
+                    </div>
+                </section>
+                <br />
+                <br />
+                <h2 style={{ fontFamily: "Montserrat", color: "white" }}>
+                    Portfolio
+                </h2>
+                <hr
+                    style={{
+                        display: "block",
+                        height: "3px",
+                        border: 0,
+                        borderTop: "1px solid #ffffff",
+                        margin: "1em 0",
+                        marginLeft: "35%",
+                        marginRight: "35%",
+                        opacity: 100,
+                    }}
+                />
+                <div
+                    style={{
+                        display: "flex",
+                        flexFlow: "row wrap",
+                        justifyContent: "center",
+                        paddingTop: isMobile ? "4%" : "2%",
+                        paddingLeft: isMobile ? "5%" : "10%",
+                        paddingRight: isMobile ? "5%" : "10%",
+                        paddingBottom: "2%",
+                    }}
+                >
+                    {projects.map((project, index) => (
+                        <React.Fragment key={index}>
+                            <ProjectImage
+                                subtitle={project.subtitle}
+                                imgSrc={project.imgSrc}
+                                title={project.title}
+                            />
+                            {!isMobile && (index + 1) % 6 === 0 && (
+                                <div
+                                    style={{ flexBasis: "100%", height: 0 }}
+                                ></div>
+                            )}
+                            {isMobile && (index + 1) % 2 === 0 && (
+                                <div
+                                    style={{ flexBasis: "100%", height: 0 }}
+                                ></div>
+                            )}
+                        </React.Fragment>
+                    ))}
+                </div>
+                <hr style={dividerStyle} />
+            </div>
+        </div>
+    );
 }
 
 export default Portfolio;

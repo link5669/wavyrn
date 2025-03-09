@@ -1,89 +1,200 @@
+/* Base Layout Styles */
 .home-container {
     width: 100vw;
     height: 100vh;
     display: flex;
-    /* justify-content: center; */
-    align-items: center;
+    align-items: flex-start; /* Align items to the top */
+    justify-content: center; /* Center horizontally */
     background-color: #ce0036;
+    position: relative;
+    padding-top: 20px; /* Add a small padding at the top */
+    overflow: hidden; /* Prevent overflow on smaller screens */
 }
 
-.content-wrapper {
+.content-wrapper-home {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align content to the top */
     width: 100%;
-    height: 80vh;
+    height: 100vh;
+    position: relative;
+    z-index: 105;
+    margin-top: 0; /* Remove any default margin */
+}
+
+.image-container {
+    position: absolute;
+    top: 10vh;
+    z-index: 102;
+    transform-origin: center center;
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 10px; /* Reduce space between logo and text */
 }
 
 .logo-image {
-    max-width: 100%;
+    max-width: 20vw;
     height: auto;
-    margin-bottom: 20px;
+    position: relative;
+    z-index: 102;
 }
 
 .logo-text {
     color: white;
-    margin: 20px 0;
-    font-size: 2rem;
-    text-align: center;
+    margin: 10px 0; /* Reduce margin */
+    width: 20%;
+    position: absolute;
+    top: 55vh;
 }
+
 .enter-button {
     border: 1px solid white;
     background: transparent;
     color: white;
     cursor: pointer;
-    font-size: 1.1rem;
-    padding: 8px 16px;
+    font-size: 2.5rem;
     transition: all 0.3s ease;
+    width: 15%;
+    margin-top: 10px; /* Reduce margin */
+    position: absolute;
+    top: 68vh;
 }
 
 .enter-button:hover {
     background: white;
     color: black;
     opacity: 0.9;
+    border: 1px solid black;
+}
+
+/* Animation Classes */
+.slide-out {
+    animation: slideOut 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.logo-text.slide-out {
+    animation-delay: 0.5s;
+}
+
+.image-container.move-logo {
+    transform: translateY(-37.5vh) scale(0.1); /* Final position */
+    transition:
+        transform 1s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 1s ease; /* Animation duration */
+    transition-delay: 0s, 5s; /* Delay the opacity transition to create a pause */
+    z-index: 103;
+}
+
+/* Animation Keyframes */
+@keyframes slideOut {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(150%);
+        opacity: 0;
+    }
+}
+
+/* Prevent interaction during animation */
+.home-container.animating {
+    pointer-events: none;
+}
+
+.home-container {
+    position: relative;
+    z-index: 104;
+    transition: background-color 0.6s ease;
+}
+
+.home-container.fade-out {
+    background-color: black;
+    transition: background-color 0.6s ease;
+}
+
+.navbar.fade-out {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.fade-out .logo-text,
+.fade-out .enter-button,
+.fade-out .logo-image {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.home-container.fade-out {
+    background-color: black;
+    transition: background-color 1s ease;
+}
+
+/* Smooth fade for all elements */
+.fade-out-animation {
+    animation: fadeOut 1s ease forwards;
 }
 
 .navbar {
-    position: fixed;
+    position: relative;
     top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: transparent;
-    z-index: 1000;
+    width: 100%;
+    z-index: 100;
 }
 
-.nav-left,
-.nav-right {
-    display: flex;
-    gap: 20px;
-    align-items: center;
+.nav-items {
+    opacity: 0;
+    transition: opacity 0.5s ease;
 }
 
-.icon-button {
-    background: transparent;
-    border: none;
-    color: black;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 8px;
-    transition: opacity 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.nav-items.fade-in {
+    opacity: 1;
 }
 
-.icon-button:hover {
-    opacity: 0.7;
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .logo-image {
+        max-width: 40vw; /* Increase size for better visibility on mobile */
+    }
+
+    .logo-text {
+        width: 40%; /* Increase width for better readability */
+    }
+
+    .enter-button {
+        font-size: 2rem; /* Reduce font size for smaller screens */
+        width: 30%; /* Increase button width for easier tapping */
+    }
+
+    .image-container.move-logo {
+        transform: translateY(-20vh) scale(0.1); /* Adjust for smaller screens */
+    }
 }
 
-.email-text {
-    color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+@media (max-width: 480px) {
+    .logo-image {
+        max-width: 50vw; /* Further increase size for very small screens */
+    }
+
+    .logo-text {
+        width: 50%; /* Further increase width for very small screens */
+    }
+
+    .enter-button {
+        font-size: 1.5rem; /* Further reduce font size for very small screens */
+        width: 40%; /* Further increase button width for very small screens */
+    }
+
+    .image-container.move-logo {
+        transform: translateY(-15vh) scale(0.1); /* Adjust for very small screens */
+    }
 }

@@ -1,0 +1,74 @@
+.singlecarousel {
+    width: 65%;
+    margin: 0 auto;
+    position: relative;
+    /* overflow: hidden; */
+    min-height: 400px; /* Ensure the container has a minimum height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between top and bottom */
+    align-items: center; /* Center content horizontally */
+}
+
+.carousel-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 400px; /* Ensure the container has a minimum height */
+    width: 100%; /* Ensure it takes full width */
+}
+
+.carousel-itema {
+    flex: 1;
+    text-align: center;
+    transition: transform 0.3s ease;
+    display: block;
+    color: white; /* Ensure text is visible */
+    min-height: 400px; /* Add a minimum height to ensure it takes up space */
+}
+
+.carousel-arrow {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2em;
+    cursor: pointer;
+    position: absolute;
+    top: 50%; /* Position arrows at the top */
+    transform: translateY(-50%); /* Center vertically */
+    z-index: 104;
+    padding: 0;
+}
+
+.carousel-arrow.left {
+    left: -50px; /* Move left arrow outside */
+}
+
+.carousel-arrow.right {
+    right: -50px; /* Move right arrow outside */
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%; /* Ensure dots take full width */
+}
+
+.carousel-dot {
+    width: 6px; /* Smaller width */
+    height: 6px; /* Smaller height */
+    border-radius: 50%;
+    background-color: #ce0036;
+    border: solid white 1px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Prevent dots from shrinking */
+    padding: 5px;
+}
+
+.carousel-dot.active {
+    background-color: #ffffff;
+}

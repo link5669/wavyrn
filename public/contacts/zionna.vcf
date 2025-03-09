@@ -1,0 +1,18 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Zionna Brown
+N:Brown;Zionna;;;
+item1.EMAIL;TYPE=INTERNET:zionna@wavyrn.com
+item1.X-ABLabel:
+item2.TEL:541-513-8598
+item2.X-ABLabel:
+ORG:Wavyrn
+TITLE:Voiceover Producer
+item3.URL:https\://wavyrn.com
+item3.X-ABLabel:
+item4.URL:https\://meldidntlisten.com
+item4.X-ABLabel:
+item5.URL:https\://linkedin.com/in/zionna-brown
+item5.X-ABLabel:
+CATEGORIES:myContacts
+END:VCARD

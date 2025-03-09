@@ -1,0 +1,41 @@
+.mobile-carousel-container {
+    width: 100vw;
+    touch-action: pan-y; /* Allow vertical scrolling */
+    overflow: hidden;
+}
+
+.mobile-carousel-track {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: pan-y;
+}
+
+.mobile-carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mobile-carousel {
+    width: 100%;
+}
+
+.arrowa {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
+    padding: 10px 15px; /* Add some padding */
+}
+
+.arrowa.left {
+    right: 0px;
+}
+
+.arrowa.right {
+    left: 0px;
+}

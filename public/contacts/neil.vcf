@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Neil Small
+N:Small;Neil;;;
+item1.EMAIL;TYPE=INTERNET:neil@wavyrn.com
+item1.X-ABLabel:
+item2.TEL:978-648-8851
+item2.X-ABLabel:
+ORG:Wavyrn
+TITLE:Sound Designer\, Technical Assistant
+item3.URL:https\://neilsmall.com
+item3.X-ABLabel:
+item4.URL:https\://wavyrn.com 
+item4.X-ABLabel:
+NOTE:Socials: @WavyrnAudio\nSocials: @SmallSoundss
+CATEGORIES:myContacts
+END:VCARD

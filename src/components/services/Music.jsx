@@ -4,82 +4,178 @@ import { Col, Row } from "react-bootstrap";
 import { useRef, useEffect } from "react";
 
 const Music = ({ isMobile }) => {
-  const leftColRef = useRef(null);
-  const rightColRef = useRef(null);
+    const leftColRef = useRef(null);
+    const rightColRef = useRef(null);
 
-  useEffect(() => {
-    const equalizeHeight = () => {
-      if (leftColRef.current && rightColRef.current) {
-        // Reset heights to auto to get natural heights
-        leftColRef.current.style.height = "auto";
-        rightColRef.current.style.height = "auto";
+    const lineHeight = 20; // Fixed line height in pixels
+    const numberOfLines = 5; // Number of lines
+    const containerHeight = lineHeight * numberOfLines; // Total height for five lines
 
-        // Get the natural heights
-        const leftHeight = leftColRef.current.offsetHeight;
-        const rightHeight = rightColRef.current.offsetHeight;
+    useEffect(() => {
+        const equalizeHeight = () => {
+            if (leftColRef.current && rightColRef.current) {
+                // Reset heights to auto to get natural heights
+                leftColRef.current.style.height = "auto";
+                rightColRef.current.style.height = "auto";
 
-        // Set both columns to the larger height
-        const maxHeight = Math.max(leftHeight, rightHeight);
-        leftColRef.current.style.height = `${maxHeight}px`;
-        rightColRef.current.style.height = `${maxHeight}px`;
-      }
-    };
+                // Get the natural heights
+                const leftHeight = leftColRef.current.offsetHeight;
+                const rightHeight = rightColRef.current.offsetHeight;
 
-    equalizeHeight();
+                // Set both columns to the larger height
+                const maxHeight = Math.max(leftHeight, rightHeight);
+                leftColRef.current.style.height = `${maxHeight}px`;
+                rightColRef.current.style.height = `${maxHeight}px`;
+            }
+        };
 
-    // Re-run on window resize
-    window.addEventListener("resize", equalizeHeight);
-    return () => window.removeEventListener("resize", equalizeHeight);
-  }, []);
+        equalizeHeight();
 
-  return (
-    <>
-      <Row
-        style={{
-          paddingLeft: isMobile ? "0%" : "28%",
-          paddingRight: isMobile ? "5%" : "25%",
-          fontSize: isMobile && ".8em",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
-        <Col ref={leftColRef} style={{ display: "flex", alignItems: "center" }}>
-          <ul
-            style={{
-              listStyleType: "none",
-              margin: 0,
-              padding: 0,
-              lineHeight: "25px",
-            }}
-          >
-            <li>&#9633; Music Production</li>
-            <li>&#9633; Orchestration & Arranging</li>
-            <li>&#9633; Interactive & Non-Linear Audio</li>
-            <li>&#9633; Live Session Recording</li>
-            <li>&#9633; Unique Instruments & Styles</li>
-          </ul>
-        </Col>
-        <Col
-          ref={rightColRef}
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <h5
-            style={{
-              textAlign: "left",
-              margin: 0,
-            }}
-          >
-            We are storytellers with a passion for audio. From short films to
-            podcasts, rhythm games to FPS shooters, we’ll score the moment for
-            you.{" "}
-          </h5>
-        </Col>
-      </Row>
-    </>
-  );
+        // Re-run on window resize
+        window.addEventListener("resize", equalizeHeight);
+        return () => window.removeEventListener("resize", equalizeHeight);
+    }, []);
+
+    if (isMobile) {
+        return (
+            <div
+                style={{
+                    backgroundSize: "cover", // Cover the entire div
+                    backgroundPosition: "center", // Center the image
+                    backgroundImage: isMobile
+                        ? "url(https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Services/Services%20-%20Music.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)"
+                        : "",
+                    height: "100%", // Ensure the div takes full height
+                    minHeight: "400px", // Set a minimum height (adjust as needed)
+                    position: "relative", // For absolute positioning of overlay
+                }}
+            >
+                {/* Overlay */}
+                <div
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: "rgba(0, 0, 0, 0.7)",
+                        backdropFilter: "blur(1px)",
+                        zIndex: 1,
+                    }}
+                ></div>
+
+                {/* Content */}
+                <h2
+                    style={{
+                        color: "white",
+                        zIndex: 102,
+                        position: "relative",
+                        paddingTop: "5vh",
+                    }}
+                >
+                    Music
+                </h2>
+                <h5
+                    style={{
+                        textAlign: "left",
+                        margin: 0,
+                        lineHeight: `${lineHeight}px`, // Fixed line height
+                        fontSize: "15px", // Fixed font size
+                        zIndex: 101,
+                        position: "relative",
+                        padding: "15px", // Add padding for better readability
+                        color: "white", // Ensure text is visible
+                    }}
+                >
+                    We are storytellers with a passion for audio. From short
+                    films to podcasts, rhythm games to FPS shooters, we’ll score
+                    the moment for you.
+                </h5>
+                <ul
+                    style={{
+                        textAlign: "left",
+                        listStyleType: "square",
+                        listStylePosition: "outside",
+                        margin: 0,
+                        paddingLeft: "10%",
+                        paddingRight: "3%",
+                        lineHeight: `${lineHeight}px`, // Fixed line height
+                        fontSize: "15px", // Fixed font size
+                        overflow: "hidden", // Prevent overflow
+                        zIndex: 101,
+                        position: "relative",
+                        color: "white", // Ensure text is visible
+                    }}
+                >
+                    <li>Music Production</li>
+                    <li>Orchestration & Arranging</li>
+                    <li>Interactive & Non-Linear Audio</li>
+                    <li>Live Session Recording</li>
+                    <li>Unique Instruments & Styles</li>
+                </ul>
+            </div>
+        );
+    } else {
+        return (
+            <>
+                <Row
+                    style={{
+                        paddingLeft: isMobile ? "0%" : "28%",
+                        paddingRight: isMobile ? "5%" : "25%",
+                        fontSize: isMobile && ".8em",
+                        display: "flex",
+                        alignItems: "center",
+                    }}
+                >
+                    <Col
+                        ref={leftColRef}
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
+                        <ul
+                            style={{
+                                listStyleType: "none",
+                                margin: 0,
+                                padding: 0,
+                                lineHeight: `${lineHeight}px`, // Fixed line height
+                                fontSize: "15px", // Fixed font size
+                                height: `${containerHeight}px`, // Fixed container height
+                                overflow: "hidden", // Prevent overflow
+                            }}
+                        >
+                            <li>Music Production</li>
+                            <li>Orchestration & Arranging</li>
+                            <li>Interactive & Non-Linear Audio</li>
+                            <li>Live Session Recording</li>
+                            <li>Unique Instruments & Styles</li>
+                        </ul>
+                    </Col>
+                    <Col
+                        ref={rightColRef}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <h5
+                            style={{
+                                textAlign: "left",
+                                margin: 0,
+                                lineHeight: `${lineHeight}px`, // Fixed line height
+                                fontSize: "15px", // Fixed font size
+                                height: `${containerHeight}px`, // Fixed container height
+                                overflow: "hidden", // Prevent overflow
+                                width: "20vw",
+                            }}
+                        >
+                            We are storytellers with a passion for audio. From
+                            short films to podcasts, rhythm games to FPS
+                            shooters, we’ll score the moment for you.
+                        </h5>
+                    </Col>
+                </Row>
+            </>
+        );
+    }
 };
 
 export default Music;

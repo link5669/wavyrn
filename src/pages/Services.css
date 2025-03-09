@@ -10,4 +10,4 @@
 
 .services-wrapper > .entering {
   transform: translateX(-100%); /* Bring in the new component from the right */
-} */
+}

@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Michelle Lai
+N:Lai;Michelle;;;
+item1.EMAIL;TYPE=INTERNET:michelle@wavyrn.com
+item1.X-ABLabel:
+item2.TEL:857-971-0438
+item2.X-ABLabel:
+ORG:Wavyrn
+TITLE:Audio Director\, Composer
+item3.URL:https\://wavyrn.com
+item3.X-ABLabel:
+item4.URL:https\://michellelaimusic.com
+item4.X-ABLabel:
+NOTE:Socials: @WavyrnAudio\nSocials: @michellelaimusic
+CATEGORIES:myContacts
+END:VCARD
