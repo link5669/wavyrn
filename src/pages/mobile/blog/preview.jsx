@@ -8,7 +8,7 @@ const Preview = ({ isMobile, title, author, date, tags, link }) => {
             <div
                 style={{
                     position: "relative", // Required for pseudo-element positioning
-                    padding: "2vw",
+                    padding: "5vw",
                     backgroundColor: "rgba(0,0,0,.8)",
                     color: "white", // White text for contrast
                     width: isMobile ? "90%" : "40vw", // Responsive width

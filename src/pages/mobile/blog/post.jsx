@@ -1,29 +1,66 @@
 import ReactPlayer from "react-player";
 import WavNavbar from "../../../components/Navbar/MobileNavbar/MobileNavbar";
+import BottomSection from "../../../components/BottomSection/BottomSection";
+import { Link } from "react-router-dom";
+import { Col, Container, Row } from "react-bootstrap";
 
-const Post = ({ isMobile, title, byline, image, content }) => {
+const Post = ({ isMobile, title, byline, image, content, author, date }) => {
     return (
         <>
             <WavNavbar showLogo={true} />
             <div
                 style={{
                     float: "left",
-                    backgroundColor: "RGB(1,1,1)",
-                    paddingTop: "45px",
+                    backgroundColor: "#CE0036",
+                    paddingBottom: "50px",
                 }}
             >
                 <div
                     style={{
                         margin: !isMobile && "7vh",
                         padding: isMobile ? "3%" : "2vw",
-                        backgroundColor: "white",
+                        // backgroundColor: "white",
                         borderRadius: !isMobile && "30px",
                     }}
                 >
-                    <h2 style={{ textAlign: "left" }}>{title}</h2>
-                    <h4 style={{ color: "grey", fontSize: "1.4em" }}>
-                        {byline}
-                    </h4>
+                    <div
+                        style={{
+                            width: "100vw",
+                            textAlign: "center",
+                            color: "white",
+                            padding: "3vw",
+                        }}
+                    >
+                        <Link
+                            to="/blog"
+                            style={{ color: "white", textDecoration: "none" }}
+                        >
+                            <button
+                                style={{
+                                    backgroundColor: "#CE0036",
+                                    border: "solid white",
+                                }}
+                            >
+                                ← Return to Blogs
+                            </button>
+                        </Link>
+                    </div>
+                    <h2 style={{ textAlign: "left", color: "white" }}>
+                        {title}
+                    </h2>
+                    <Row
+                        style={{
+                            justifyContent: "space-between", // Space between author and date
+                            fontSize: "1em",
+                            marginBottom: "1rem",
+                            zIndex: 100,
+                            position: "relative",
+                            color: "white",
+                        }}
+                    >
+                        <Col style={{ textAlign: "left" }}>{author}</Col>
+                        <Col style={{ textAlign: "right" }}>{date}</Col>
+                    </Row>
                     <img
                         style={{
                             paddingTop: "1vw",
@@ -32,28 +69,10 @@ const Post = ({ isMobile, title, byline, image, content }) => {
                         }}
                         src={image}
                     />
-                    <p>{content}</p>
+                    <p style={{ color: "white" }}>{content}</p>
                 </div>
             </div>
-            <footer
-                style={{
-                    backgroundColor: "black",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: "50px",
-                }}
-            >
-                <p
-                    style={{
-                        color: "white",
-                        textAlign: "center",
-                        lineHeight: "50px",
-                    }}
-                >
-                    ©️2025 Wavyrn • All Rights Reserved
-                </p>
-            </footer>
+            <BottomSection />
         </>
     );
 };

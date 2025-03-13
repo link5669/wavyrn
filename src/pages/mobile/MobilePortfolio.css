@@ -137,14 +137,62 @@
     0% {
         transform: rotate(0deg);
     }
+    5% {
+        transform: rotate(-10deg);
+    }
+    10% {
+        transform: rotate(-20deg);
+    }
+    15% {
+        transform: rotate(-30deg);
+    }
+    20% {
+        transform: rotate(-20deg);
+    }
     25% {
         transform: rotate(-10deg);
     }
+    30% {
+        transform: rotate(0deg);
+    }
+    35% {
+        transform: rotate(-10deg);
+    }
+    40% {
+        transform: rotate(-20deg);
+    }
+    45% {
+        transform: rotate(-30deg);
+    }
     50% {
-        transform: rotate(10deg);
+        transform: rotate(-20deg);
+    }
+    55% {
+        transform: rotate(-10deg);
+    }
+    60% {
+        transform: rotate(0deg);
+    }
+    65% {
+        transform: rotate(-10deg);
+    }
+    70% {
+        transform: rotate(-20deg);
     }
     75% {
+        transform: rotate(-30deg);
+    }
+    80% {
+        transform: rotate(-20deg);
+    }
+    85% {
         transform: rotate(-10deg);
+    }
+    90% {
+        transform: rotate(0deg);
+    }
+    95% {
+        transform: rotate(10deg);
     }
     100% {
         transform: rotate(0deg);

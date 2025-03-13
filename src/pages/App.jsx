@@ -13,6 +13,7 @@ import ZoomRedirect from "./ZoomRedirect";
 import DiscordRedirect from "./Discord";
 import MobileBlog from "./mobile/blog/blog";
 import Post from "./blog/post";
+import MobilePost from "./mobile/blog/post";
 import ScrollToTop from "../components/ScrollToTop";
 import GeneralUseRedirect from "./GeneralUseRedirect";
 import PatreonRedirect from "./PatreonCatalogRedirect";
@@ -264,13 +265,27 @@ function App() {
                         <Route
                             path={e.path}
                             element={
-                                <Post
-                                    title={e.title}
-                                    byline={e.byline}
-                                    image={e.image}
-                                    content={e.content}
-                                    isMobile={isMobile}
-                                />
+                                isMobile ? (
+                                    <MobilePost
+                                        title={e.title}
+                                        byline={e.byline}
+                                        image={e.image}
+                                        content={e.content}
+                                        isMobile={isMobile}
+                                        author={e.author}
+                                        date={e.date}
+                                    />
+                                ) : (
+                                    <Post
+                                        title={e.title}
+                                        byline={e.byline}
+                                        image={e.image}
+                                        content={e.content}
+                                        isMobile={isMobile}
+                                        author={e.author}
+                                        date={e.date}
+                                    />
+                                )
                             }
                         />
                     ))}

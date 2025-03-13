@@ -43,19 +43,60 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     const [name, setName] = useState("");
     const [file, setFile] = useState("");
     const [buttons, setButtons] = useState(initializeButtons());
+    const [scrollY, setScrollY] = useState(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // Calculate the font size based on scroll position
+    const initialFontSize = 1.5; // Smaller initial size (e.g., 1.5em)
+    const targetFontSize = 2.3; // Same size as Portfolio (e.g., 2.3em)
+    const fontSize = Math.min(
+        initialFontSize + (scrollY / 100) * (targetFontSize - initialFontSize),
+        targetFontSize,
+    );
+
+    const initialFontWeight = 400; // Normal weight
+    const targetFontWeight = 700; // Bold weight
+    const fontWeight = Math.min(
+        initialFontWeight +
+            (scrollY / 100) * (targetFontWeight - initialFontWeight),
+        targetFontWeight,
+    );
 
     const getRandomSfx = () => {
         const usedNames = buttons.map((btn) => btn.text);
         return getUniqueRandomSfx(usedNames);
     };
+    const [preloadedAudio, setPreloadedAudio] = useState({});
 
+    // Add this useEffect to preload all sounds when the component mounts
+    useEffect(() => {
+        const audioMap = {};
+        sfx.forEach((item) => {
+            const audio = new Audio(item.link);
+            // Setting preload attribute to auto encourages the browser to load the audio immediately
+            audio.preload = "auto";
+            audioMap[item.name] = audio;
+        });
+        setPreloadedAudio(audioMap);
+    }, []);
+
+    // Then modify your handleButtonClick function to use the preloaded audio
     const handleButtonClick = (id) => {
         const button = buttons.find((btn) => btn.id === id);
 
-        const sfxItem = sfx.find((item) => item.name === button.text);
-        if (sfxItem) {
-            const audio = new Audio(sfxItem.link);
-            audio.play();
+        // Use the preloaded audio instance instead of creating a new one
+        if (preloadedAudio[button.text]) {
+            // Reset the audio to the beginning in case it was played before
+            preloadedAudio[button.text].currentTime = 0;
+            preloadedAudio[button.text].play();
         }
 
         setButtons((prevButtons) =>
@@ -65,12 +106,13 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         );
 
         setTimeout(() => {
+            const newSfx = getRandomSfx();
             setButtons((prevButtons) =>
                 prevButtons.map((btn) =>
                     btn.id === id
                         ? {
                               ...btn,
-                              text: getRandomSfx().name,
+                              text: newSfx.name,
                               visible: true,
                           }
                         : btn,
@@ -78,7 +120,6 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             );
         }, 2000);
     };
-
     useEffect(() => {
         const shakeInterval = setInterval(() => {
             const randomIndex = Math.floor(Math.random() * buttons.length);
@@ -94,7 +135,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                     prevButtons.map((btn) => ({ ...btn, shake: false })),
                 );
             }, 500); // Shake duration
-        }, 3000); // Shake every 3 seconds
+        }, 2000); // Shake every 3 seconds
 
         return () => clearInterval(shakeInterval);
     }, [buttons.length]);
@@ -139,10 +180,10 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                         color: "white",
                         fontSize: "2.3em",
                         paddingBottom: "5%",
-                        paddingTop: "80px",
+                        paddingTop: "20px",
                     }}
                 >
-                    <b>Our Work</b>
+                    <b>Portfolio</b>
                 </h1>
                 <section
                     style={{
@@ -171,6 +212,30 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                     </div>
                 </section>
                 <br />
+                <h2
+                    style={{
+                        fontFamily: "Montserrat",
+                        color: "white",
+                        fontSize: `${fontSize}em`, // Dynamic font size
+                        fontWeight: fontWeight, // Dynamic font weight
+                        transition:
+                            "font-size 0.3s ease-in-out, font-weight 0.3s ease-in-out", // Smooth transition
+                    }}
+                >
+                    Our Work
+                </h2>
+                <hr
+                    style={{
+                        display: "block",
+                        height: "3px",
+                        border: 0,
+                        borderTop: "1px solid #ffffff",
+                        margin: "1em 0",
+                        marginLeft: "35%",
+                        marginRight: "35%",
+                        opacity: 100,
+                    }}
+                />
                 <section
                     style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}
                 >
@@ -217,7 +282,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                 </section>
                 <br />
                 <h2 style={{ fontFamily: "Montserrat", color: "white" }}>
-                    Portfolio
+                    Credits
                 </h2>
                 <hr
                     style={{

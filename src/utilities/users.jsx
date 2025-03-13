@@ -29,7 +29,7 @@ const soundDesign = [
     },
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
-    { name: "Neil Small", title: "Technical Sound Designer, Composer" },
+    { name: "Neil Small", title: "Sound Designer, Composer" },
 
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
@@ -38,7 +38,7 @@ const soundDesign = [
 const music = [
     { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
     // { name: `Ela Morana`, title: `Technical Sound Designer, Composer` },
-    { name: `Michelle Lai`, title: `Composer, Voice Actor` },
+    { name: `Michelle Lai`, title: `Audio Director, Composer` },
     {
         name: `Max Jaime`,
         title: `Sound Designer, Composer, Mixer`,
@@ -46,7 +46,7 @@ const music = [
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
-    { name: "Neil Small", title: "Technical Sound Designer, Composer" },
+    { name: "Neil Small", title: "Sound Designer, Composer" },
 ];
 const dialogue = [
     {
@@ -54,7 +54,6 @@ const dialogue = [
         title: `Sound Designer, VO Producer`,
     },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
-    { name: `Michelle Lai`, title: `Composer, Voice Actor` },
     { name: `Zionna Brown`, title: `VO Producer, Voice Actor` },
     { name: `Josh Trochet`, title: `Voice Actor` },
     { name: `Sam Leigh`, title: `Voice Actor` },
@@ -75,8 +74,8 @@ const allUsers = [
 
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
-    { name: `Michelle Lai`, title: `Composer, Voice Actor` },
-    { name: "Neil Small", title: "Technical Sound Designer, Composer" },
+    { name: `Michelle Lai`, title: `Audio Director, Composer` },
+    { name: "Neil Small", title: "Sound Designer, Composer" },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
     { name: `Angelica Ramos`, title: `Technical Assistant` },
     { name: `Zionna Brown`, title: `VO Producer, Voice Actor` },

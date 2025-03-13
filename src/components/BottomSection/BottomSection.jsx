@@ -43,7 +43,10 @@ function BottomSection() {
                     >
                         <FaTwitter />
                     </a>
-                    <span style={{ paddingTop: "8px" }}>
+                    <span
+                        style={{ paddingTop: "8px" }}
+                        onClick={toggleExpanded}
+                    >
                         <b>Connect with us!</b>
                     </span>
                     <a

@@ -15,6 +15,7 @@
         opacity 0.3s ease,
         visibility 0.3s ease;
     z-index: 1000;
+    overflow-x: hidden;
 }
 
 .overlay.visible {
@@ -24,13 +25,14 @@
 
 .overlay-content {
     background-color: #1a1a1a;
-    width: 80%;
+    width: 90%;
     max-width: 1200px;
-    height: 80vh;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     border-radius: 8px;
     color: white;
+    overflow-x: hidden;
 }
 
 .overlay-header {
@@ -52,10 +54,12 @@
 }
 
 .overlay-profile-pic {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
+    width: 130px;
+    height: 130px;
+    position: relative;
+    overflow: hidden;
     border-radius: 50%;
+    clip-path: circle();
 }
 
 .profile-info h3 {

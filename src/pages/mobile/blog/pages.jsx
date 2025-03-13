@@ -1,17 +1,11 @@
 import { Player } from "react-simple-player";
+
 const BLOG_PAGES = [
     {
         path: "/blog/250104-bts-vo-delta-emblock",
         title: "Behind the Dialogue: Writing Delta Emblock’s Voice Lines for Resurgence of the Storm",
         author: <>by Subsourian</>,
         date: <>January 3rd, 2025</>,
-        byline: (
-            <>
-                by Subsourian
-                <br />
-                January 3rd, 2025
-            </>
-        ),
         tags: ["VideoGame", "MOBA", "Voiceover"],
         preview: (
             <>

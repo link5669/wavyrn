@@ -228,6 +228,7 @@ const About = ({ isMobile }) => {
                                                     "linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)",
                                                 padding: "10px",
                                                 color: "white",
+                                                fontSize: ".9em",
                                             }}
                                         >
                                             <b>{user.name}</b>

@@ -1,12 +1,5 @@
 const albumData = [
     {
-        id: 1,
-        title: "Fast n' Easy",
-        coverUrl:
-            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/BTND%20Album%20Cover.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-        track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/9%20BTND%20Fast%20n'%20Easy.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-    },
-    {
         id: 2,
         title: "Coffee and Oil",
         coverUrl:
@@ -24,14 +17,14 @@ const albumData = [
         id: 4,
         title: "Don't Play With Knives!!",
         coverUrl:
-            " https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/SRVR%20Album%20Cover.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/51%20Survivors%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/12%20SRVR%20Don't%20Play%20With%20Knives!!.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
     },
     {
         id: 5,
         title: "Busy Hour",
         coverUrl:
-            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/BTND%20Album%20Cover.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&dl=0",
+            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/6%20Beat%20Tender%20-%20Rhythm%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/13%20BTND%20Busy%20Hour.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&dl=0",
     },
     {
@@ -59,7 +52,7 @@ const albumData = [
         id: 9,
         title: "Apocalypse Country",
         coverUrl:
-            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/BTND%20Album%20Cover.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/43%20Beach%20Trip!%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/17%20BTRP%20Apocalypse%20Country.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
     },
     {
@@ -85,7 +78,7 @@ const albumData = [
     },
     {
         id: 13,
-        title: "Opening Theme",
+        title: "Be A Hero",
         coverUrl:
             "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/GLAD%20Album%20Cover.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/6%20GLAD-OP%20Opening%20Theme.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
@@ -101,8 +94,15 @@ const albumData = [
         id: 15,
         title: "Afterlife Redux",
         coverUrl:
-            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/AFTL%20Album%20Cover.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/42%20Afterlife%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/8%20AFTL%20Afterlife%20Redux.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+    },
+    {
+        id: 1,
+        title: "Fast n' Easy",
+        coverUrl:
+            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/6%20Beat%20Tender%20-%20Rhythm%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        track: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/9%20BTND%20Fast%20n'%20Easy.mp3?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
     },
 ];
 

@@ -6,14 +6,30 @@ import DesktopNav from "../../../components/Navbar/Navbar";
 import MobileNav from "../../../components/Navbar/MobileNavbar/MobileNavbar";
 import BottomSection from "../../../components/BottomSection/BottomSection";
 import "./blog.css";
+
+const STORAGE_KEY = "blogSelectedTags";
+
 const Blog = ({ isMobile }) => {
-    const [selectedTag, setSelectedTag] = useState("View All"); // Track the selected tag
+    // Initialize selected tags from localStorage or default to ["View All"]
+    const [selectedTags, setSelectedTags] = useState(() => {
+        const savedTags = localStorage.getItem(STORAGE_KEY);
+        return savedTags ? JSON.parse(savedTags) : ["View All"];
+    });
+
     const [tags, setTags] = useState([]); // List of all tags
 
     const filteredPosts = BLOG_PAGES.filter((post) => {
-        if (!selectedTag || selectedTag == "View All") return true; // Show all posts if no tag is selected
-        return post.tags.includes(selectedTag); // Show only posts with the selected tag
+        // If "View All" is selected, show all posts
+        if (selectedTags.includes("View All")) return true;
+
+        // If any of the post's tags are in the selected tags, show the post
+        return post.tags.some((tag) => selectedTags.includes(tag));
     });
+
+    // Save to localStorage whenever selectedTags changes
+    useEffect(() => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedTags));
+    }, [selectedTags]);
 
     useEffect(() => {
         let tagCollector = [{ tag: "View All", count: 1 }];
@@ -34,6 +50,41 @@ const Blog = ({ isMobile }) => {
         }
         setTags(tagCollector);
     }, []);
+
+    // Handle tag selection/deselection
+    const toggleTag = (tagName) => {
+        if (tagName === "View All") {
+            // If "View All" is clicked, clear other selections
+            setSelectedTags(["View All"]);
+            return;
+        }
+
+        // Create a new array based on current selection
+        let newSelectedTags = [...selectedTags];
+
+        // If "View All" is currently selected, remove it
+        if (newSelectedTags.includes("View All")) {
+            newSelectedTags = newSelectedTags.filter(
+                (tag) => tag !== "View All",
+            );
+        }
+
+        // Toggle the clicked tag
+        if (newSelectedTags.includes(tagName)) {
+            // Remove tag if already selected
+            newSelectedTags = newSelectedTags.filter((tag) => tag !== tagName);
+        } else {
+            // Add tag if not already selected
+            newSelectedTags.push(tagName);
+        }
+
+        // If no tags are selected, default to "View All"
+        if (newSelectedTags.length === 0) {
+            newSelectedTags = ["View All"];
+        }
+
+        setSelectedTags(newSelectedTags);
+    };
 
     return (
         <>
@@ -64,7 +115,6 @@ const Blog = ({ isMobile }) => {
                             overflowX: "scroll", // Enable horizontal scrolling
                             gap: "8px", // Space between buttons
                             padding: "8px 0", // Add some padding
-                            justifyContent: "center",
                         }}
                     >
                         {/* Tag Buttons */}
@@ -74,26 +124,21 @@ const Blog = ({ isMobile }) => {
                                 style={{
                                     flexShrink: 0, // Prevent buttons from shrinking
                                     padding: "8px 16px",
-                                    backgroundColor:
-                                        selectedTag === tag.tag ||
-                                        (selectedTag == null &&
-                                            tag.tag == "View All")
-                                            ? "#ddd"
-                                            : "white", // Highlight selected tag
+                                    backgroundColor: selectedTags.includes(
+                                        tag.tag,
+                                    )
+                                        ? "#ddd"
+                                        : "white", // Highlight selected tags
                                     border: "none",
                                     borderRadius: "20px", // Rounded corners
                                     color: "black",
                                     cursor: "pointer",
                                     fontSize: "1em",
                                 }}
-                                onClick={() =>
-                                    tag.tag == "View All"
-                                        ? setSelectedTag(null)
-                                        : setSelectedTag(tag.tag)
-                                } // Filter posts by this tag
+                                onClick={() => toggleTag(tag.tag)}
                             >
-                                {tag.tag == "View All" ? (
-                                    <>#{tag.tag}</>
+                                {tag.tag === "View All" ? (
+                                    <>{tag.tag}</>
                                 ) : (
                                     <>
                                         #{tag.tag} ({tag.count})

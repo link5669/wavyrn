@@ -26,7 +26,7 @@ const projects = [
     },
     {
         subtitle: "Rhythm Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/6%20Beat%20Tender%20-%20Rhythm%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/6%20Beat%20Tender%20-%20Rhythm%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Beat Tender",
     },
     {
@@ -51,12 +51,12 @@ const projects = [
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/11%20Alistair%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/11%20Alistair%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Alistair",
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/12%20The%20Burrow%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/12%20The%20Burrow%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "The Burrow",
     },
     {
@@ -86,7 +86,7 @@ const projects = [
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/18%20Guildmaster's%20Guide%20to%20Capitalism%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/18%20Guildmaster's%20Guide%20to%20Capitalism%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&dl=0",
         title: "Guildmaster's Guide to Capitalism",
     },
     {
@@ -96,7 +96,7 @@ const projects = [
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/20%20Boil%20Over%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/20%20Boil%20Over%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&dl=0",
         title: "Boil Over",
     },
     {
@@ -116,7 +116,7 @@ const projects = [
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/24%20Project%20Nautilus%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/24%20Project%20Nautilus%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Project Nautilus",
     },
     {
@@ -126,7 +126,7 @@ const projects = [
     },
     {
         subtitle: "Short Film",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/26%20Claws%20%26%20Order%20-%20Short%20Film.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/26%20Claws%20%26%20Order%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Claws & Order",
     },
     {
@@ -136,7 +136,7 @@ const projects = [
     },
     {
         subtitle: "Audio Library",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/28%20Tales%20of%20Elemental%20Chaos%20-%20Audio%20Library.JPG?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/28%20Tales%20of%20Elemental%20Chaos%20-%20Audio%20Library.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Tales of Elemental Chaos",
     },
     {
@@ -171,7 +171,7 @@ const projects = [
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/35%20Cartomancy%20Anthology%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/35%20Cartomancy%20Anthology%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Cartomancy Anthology",
     },
     {
@@ -191,7 +191,7 @@ const projects = [
     },
     {
         subtitle: "Short Film",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/39%20Shpilkes%20-%20Short%20Film.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/39%20Shpilkes%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Shpilkes",
     },
     {
@@ -206,7 +206,7 @@ const projects = [
     },
     {
         subtitle: "Short Film",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/42%20Afterlife%20-%20Short%20Film.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/42%20Afterlife%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Afterlife",
     },
     {
@@ -231,7 +231,7 @@ const projects = [
     },
     {
         subtitle: "Short Film",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/47%20Sweet%20Hearts%20-%20Short%20Film.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/47%20Sweet%20Hearts%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Sweet Hearts",
     },
     {
@@ -246,12 +246,12 @@ const projects = [
     },
     {
         subtitle: "Video Game",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/50%20Shiny%20-%20Video%20Game.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/50%20Shiny%20-%20Video%20Game.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Shiny",
     },
     {
         subtitle: "Short Film",
-        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/51%20Survivors%20-%20Short%20Film.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/51%20Survivors%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         title: "Survivors",
     },
 ];

@@ -1,12 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./mobilecarousel.css";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { FaPlay, FaPause } from "react-icons/fa6";
+import {
+    FaPlay,
+    FaPause,
+    FaChevronLeft,
+    FaChevronRight,
+} from "react-icons/fa6";
 
 const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [touchStart, setTouchStart] = useState(0);
+    const [lastSwipeDirection, setLastSwipeDirection] = useState("right");
     const [touchEnd, setTouchEnd] = useState(0);
     const audioRef = useRef(null);
     const carouselRef = useRef(null);
@@ -21,129 +27,104 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
 
     const handleTouchEnd = () => {
         if (touchStart - touchEnd > 75) {
+            // Swiped left (moves right)
+            setLastSwipeDirection("right");
             handleRightClick();
         }
 
         if (touchStart - touchEnd < -75) {
+            // Swiped right (moves left)
+            setLastSwipeDirection("left");
             handleLeftClick();
         }
     };
 
-    const handleLeftClick = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? albums.length - 1 : prevIndex - 1,
-        );
-        if (isPlaying) {
-            let volume = audioRef.current.volume;
-            const fadeOutInterval = setInterval(() => {
-                if (volume > 0.1) {
-                    volume -= 0.1;
-                    audioRef.current.volume = volume;
-                } else {
-                    clearInterval(fadeOutInterval);
-                    audioRef.current = new Audio(
-                        albums[
-                            currentIndex === 0
-                                ? albums.length - 1
-                                : currentIndex - 1
-                        ].track,
-                    );
-                    audioRef.current.addEventListener("ended", () => {
-                        setIsPlaying(false);
-                    });
-                    audioRef.current.play();
-                    audioRef.current.volume = 1;
-                }
-            }, 50);
-        }
-    };
-    const handleRightClick = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === albums.length - 1 ? 0 : prevIndex + 1,
-        );
-        if (isPlaying) {
-            let volume = audioRef.current.volume;
-            const fadeOutInterval = setInterval(() => {
-                if (volume > 0.1) {
-                    volume -= 0.1;
-                    audioRef.current.volume = volume;
-                } else {
-                    clearInterval(fadeOutInterval);
-                    audioRef.current = new Audio(
-                        albums[
-                            currentIndex === albums.length - 1
-                                ? 0
-                                : currentIndex + 1
-                        ].track,
-                    );
-                    audioRef.current.addEventListener("ended", () => {
-                        setIsPlaying(false);
-                    });
-                    audioRef.current.play();
-                    audioRef.current.volume = 1;
-                }
-            }, 50);
-        }
-    };
-
     const [parent, enableAnimations] = useAutoAnimate({
-        duration: 200,
+        duration: 100,
         easing: "ease-in",
         disrespectUserMotionPreference: false,
     });
 
-    const handlePlayPause = (playState) => {
-        if (isPlaying) {
-            let volume = audioRef.current.volume;
-            const fadeOutInterval = setInterval(() => {
-                if (volume > 0.1) {
-                    volume -= 0.1;
-                    audioRef.current.volume = volume;
-                } else {
-                    clearInterval(fadeOutInterval);
-                    audioRef.current.pause();
-                    audioRef.current.volume = 0;
-                    setIsPlaying(false);
-                }
-            }, 50);
+    const playTrack = (index) => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
         }
-        console.log(playState !== currentIndex);
-        if (!isPlaying || playState !== currentIndex) {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current.currentTime = 0;
+        audioRef.current = new Audio(albums[index].track);
+        audioRef.current.addEventListener("ended", () => {
+            // if (isPlaying) {
+            // Auto-advance based on last swipe direction
+            if (lastSwipeDirection === "right") {
+                // Move to next track
+                setCurrentIndex((prevIndex) => {
+                    const next = (prevIndex + 1) % albums.length;
+                    const newAudio = new Audio(albums[next].track);
+                    audioRef.current = newAudio;
+                    newAudio.play();
+                    return next;
+                });
+            } else {
+                // Move to previous track
+                setCurrentIndex((prevIndex) => {
+                    const prev =
+                        prevIndex === 0 ? albums.length - 1 : prevIndex - 1;
+                    const newAudio = new Audio(albums[prev].track);
+                    audioRef.current = newAudio;
+                    newAudio.play();
+                    return prev;
+                });
             }
-            console.log(currentIndex);
-            audioRef.current = new Audio(albums[playState].track);
-            audioRef.current.addEventListener("ended", () => {
-                setIsPlaying(false);
-            });
+            // Keep isPlaying true when track changes automatically
+            setIsPlaying(true);
+            // }
+        });
+        if (isPlaying) {
             audioRef.current.play();
+        }
+    };
+
+    // Handle left click (previous track)
+    const handleLeftClick = () => {
+        setCurrentIndex((prevIndex) => {
+            const prev = prevIndex === 0 ? albums.length - 1 : prevIndex - 1;
+            playTrack(prev);
+            return prev;
+        });
+    };
+
+    // Handle right click (next track)
+    const handleRightClick = () => {
+        setCurrentIndex((prevIndex) => {
+            const next = (prevIndex + 1) % albums.length;
+            playTrack(next);
+            return next;
+        });
+    };
+
+    // Handle play/pause button click
+    const handlePlayPause = () => {
+        if (isPlaying) {
+            audioRef.current.pause();
+        } else {
+            if (!audioRef.current) {
+                playTrack(currentIndex);
+            } else {
+                audioRef.current.play();
+            }
         }
         setIsPlaying(!isPlaying);
     };
-    useEffect(() => {
-        parent.current && autoAnimate(parent.current);
-    }, [parent]);
+
+    // Cleanup audio on component unmount
     useEffect(() => {
         return () => {
             if (audioRef.current) {
-                audioRef.current.removeEventListener("ended", () => {
-                    setIsPlaying(false);
-                });
-                let volume = audioRef.current.volume;
-                const fadeOutInterval = setInterval(() => {
-                    if (volume > 0.1) {
-                        volume -= 0.1;
-                        audioRef.current.volume = volume;
-                    } else {
-                        clearInterval(fadeOutInterval);
-                        audioRef.current.pause();
-                    }
-                }, 50);
+                audioRef.current.pause();
+                audioRef.current.removeEventListener("ended", () => {});
             }
         };
     }, []);
+
     const getVisibleAlbums = () => {
         const prevIndex = (currentIndex - 1 + albums.length) % albums.length;
         const nextIndex = (currentIndex + 1) % albums.length;
@@ -151,14 +132,30 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     };
 
     return (
-        <div
-            className="mobile-carousel-container"
-            ref={carouselRef}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-        >
-            <div className="mobile-carousel">
+        <div className="mobile-carousel-container" ref={carouselRef}>
+            <div className="mobile-carousel" style={{ position: "relative" }}>
+                <div
+                    className="carousel-arrow left-arrow"
+                    onClick={handleLeftClick}
+                    style={{
+                        position: "absolute",
+                        // left: "-20px",
+                        top: "100px", // Position at the center of album cover which is 200px height
+                        zIndex: 10,
+                        background: "rgba(0,0,0,0.5)",
+                        color: "white",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "pointer",
+                    }}
+                >
+                    <FaChevronLeft />
+                </div>
+
                 <div className="mobile-carousel-track" ref={parent}>
                     {getVisibleAlbums().map((album, index) => {
                         let imageStyle = {};
@@ -193,11 +190,20 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                 <div
                                     className={`mobile-carousel-item ${index === 1 ? "center" : "side"}`}
                                     style={containerStyle}
+                                    onTouchStart={handleTouchStart}
+                                    onTouchMove={handleTouchMove}
+                                    onTouchEnd={handleTouchEnd}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (index !== 1) {
-                                            if (index === 0) handleLeftClick();
-                                            if (index === 2) handleRightClick();
+                                            if (index === 0) {
+                                                setLastSwipeDirection("left");
+                                                handleLeftClick();
+                                            }
+                                            if (index === 2) {
+                                                setLastSwipeDirection("right");
+                                                handleRightClick();
+                                            }
                                         }
                                     }}
                                 >
@@ -222,32 +228,20 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (index !== 1) {
-                                            if (index === 0) handleLeftClick();
-                                            if (index === 2) handleRightClick();
+                                            if (index === 0) {
+                                                setLastSwipeDirection("left");
+                                                handleLeftClick();
+                                            }
+                                            if (index === 2) {
+                                                setLastSwipeDirection("right");
+                                                handleRightClick();
+                                            }
+                                        } else {
+                                            handlePlayPause();
                                         }
                                     }}
                                 >
                                     <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            if (index !== 1) {
-                                                if (index === 0)
-                                                    handleLeftClick();
-                                                if (index === 2)
-                                                    handleRightClick();
-                                                setTimeout(() => {
-                                                    handlePlayPause(
-                                                        currentIndex +
-                                                            index -
-                                                            1,
-                                                    );
-                                                }, 300);
-                                            } else {
-                                                handlePlayPause(
-                                                    currentIndex + index - 1,
-                                                );
-                                            }
-                                        }}
                                         style={{
                                             padding: "7px",
                                             borderRadius: "50%",
@@ -281,6 +275,28 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                             </div>
                         );
                     })}
+                </div>
+
+                <div
+                    className="carousel-arrow right-arrow"
+                    onClick={handleRightClick}
+                    style={{
+                        position: "absolute",
+                        right: "0px",
+                        top: "100px", // Position at the center of album cover which is 200px height
+                        zIndex: 10,
+                        background: "rgba(0,0,0,0.5)",
+                        color: "white",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        cursor: "pointer",
+                    }}
+                >
+                    <FaChevronRight />
                 </div>
             </div>
         </div>

@@ -39,10 +39,6 @@ function App() {
         };
     }, []);
 
-    const handleMailClick = () => {
-        window.location.href = "mailto:contact@wavyrn.com";
-    };
-
     return (
         <div
             style={{
@@ -69,11 +65,49 @@ function App() {
                                 className={`logo-image`}
                                 style={{
                                     margin: "auto",
-                                    paddingTop: "25vh",
                                     width: "90%",
                                 }}
                             />
                         </Link>
+                        <br />
+                        <div style={{ textAlign: "center", color: "white" }}>
+                            <Link
+                                to="/about"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                <h3>About</h3>
+                            </Link>
+                            <Link
+                                to="/portfolio"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                <h3>Portfolio</h3>
+                            </Link>
+                            <Link
+                                to="/blog"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                <h3>Blog</h3>
+                            </Link>
+                            <Link
+                                to="/contact"
+                                style={{
+                                    color: "white",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                <h3>Contact</h3>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
