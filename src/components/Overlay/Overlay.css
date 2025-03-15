@@ -60,6 +60,7 @@
     overflow: hidden;
     border-radius: 50%;
     clip-path: circle();
+    object-fit: contain;
 }
 
 .profile-info h3 {

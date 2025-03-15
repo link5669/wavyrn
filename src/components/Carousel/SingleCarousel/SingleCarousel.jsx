@@ -76,7 +76,7 @@ const Carousel = ({ items }) => {
                     style={{
                         display: "flex",
                         transition: "transform 0.5s ease-in-out",
-                        transform: `translateX(calc(-${currentIndex * 106}%))`, // Center the active item
+                        transform: `translateX(calc(-${currentIndex * 100}%))`, // Center the active item
                     }}
                 >
                     {items.map((item, index) => (
@@ -85,17 +85,15 @@ const Carousel = ({ items }) => {
                             style={{
                                 flex: "0 0 100%",
                                 boxSizing: "border-box",
-                                padding: "20px", // Add padding for better spacing
+                                paddingTop: "7%",
+                                paddingInline: "15%",
                                 display: "flex",
                                 alignItems: "center",
                                 justifyContent: "center",
                                 border: "none",
-                                minHeight: "300px", // Adjust height as needed
-                                // backgroundColor: "#f0f0f0", // Background for items
-                                // borderRadius: "10px", // Rounded corners for items
-                                margin: "0 10px", // Add margin between items
-                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Subtle shadow
-                                width: "100%", // Ensure items take full width
+                                minHeight: "300px",
+                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                width: "70%",
                             }}
                         >
                             {item}

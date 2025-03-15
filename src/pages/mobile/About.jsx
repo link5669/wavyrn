@@ -177,7 +177,13 @@ const About = ({ isMobile }) => {
 
                     {activeTab === "Our Team" && (
                         <div style={{ paddingBottom: "10vh" }}>
-                            <h1 style={{ color: "white", textAlign: "center" }}>
+                            <h1
+                                style={{
+                                    color: "white",
+                                    textAlign: "center",
+                                    fontSize: "2em",
+                                }}
+                            >
                                 Our Team
                             </h1>
                             <div
@@ -243,50 +249,52 @@ const About = ({ isMobile }) => {
                     )}
                 </div>
 
-                {selectedUser && (
-                    <Overlay
-                        isVisible={isOverlayVisible}
-                        onClose={() => {
-                            setIsOverlayVisible(false);
-                            setTimeout(() => setSelectedUser(null), 300); // Wait for fade out
-                        }}
-                        profileInfo={{
-                            name: selectedUser.name,
-                            title: selectedUser.title,
-                            image: getPfpImage(selectedUser.name),
-                        }}
-                    >
-                        {selectedUser.name == "Sam Leigh" ? (
-                            <Sam />
-                        ) : selectedUser.name == "Max Jaime" ? (
-                            <Max />
-                        ) : selectedUser.name == "Marc Yu" ? (
-                            <Marc isMobile={isMobile} />
-                        ) : selectedUser.name == "Austin Leshock" ? (
-                            <AustinL />
-                        ) : selectedUser.name == "Austin Burkett" ? (
-                            <AustinB isMobile={isMobile} />
-                        ) : selectedUser.name == "Ananta Arora" ? (
-                            <Ananta />
-                        ) : selectedUser.name == "Gret Price" ? (
-                            <Gret />
-                        ) : selectedUser.name == "Angelica Ramos" ? (
-                            <Angelica />
-                        ) : selectedUser.name == "Zionna Brown" ? (
-                            <Zionna />
-                        ) : selectedUser.name == "Caleb Skelly" ? (
-                            <Caleb />
-                        ) : selectedUser.name == "Michelle Lai" ? (
-                            <Michelle />
-                        ) : selectedUser.name == "Neil Small" ? (
-                            <Neil />
-                        ) : selectedUser.name == "Julian Cabrera" ? (
-                            <Julian isMobile={isMobile} />
-                        ) : (
-                            <p>No bio yet!</p>
-                        )}
-                    </Overlay>
-                )}
+                {selectedUser &&
+                    selectedUser.name != "Miles Acquaviva" &&
+                    selectedUser.name != "Josh Trochet" && (
+                        <Overlay
+                            isVisible={isOverlayVisible}
+                            onClose={() => {
+                                setIsOverlayVisible(false);
+                                setTimeout(() => setSelectedUser(null), 300); // Wait for fade out
+                            }}
+                            profileInfo={{
+                                name: selectedUser.name,
+                                title: selectedUser.title,
+                                image: getPfpImage(selectedUser.name),
+                            }}
+                        >
+                            {selectedUser.name == "Sam Leigh" ? (
+                                <Sam />
+                            ) : selectedUser.name == "Max Jaime" ? (
+                                <Max />
+                            ) : selectedUser.name == "Marc Yu" ? (
+                                <Marc isMobile={isMobile} />
+                            ) : selectedUser.name == "Austin Leshock" ? (
+                                <AustinL />
+                            ) : selectedUser.name == "Austin Burkett" ? (
+                                <AustinB isMobile={isMobile} />
+                            ) : selectedUser.name == "Ananta Arora" ? (
+                                <Ananta />
+                            ) : selectedUser.name == "Gret Price" ? (
+                                <Gret />
+                            ) : selectedUser.name == "Angelica Ramos" ? (
+                                <Angelica />
+                            ) : selectedUser.name == "Zionna Brown" ? (
+                                <Zionna />
+                            ) : selectedUser.name == "Caleb Skelly" ? (
+                                <Caleb />
+                            ) : selectedUser.name == "Michelle Lai" ? (
+                                <Michelle />
+                            ) : selectedUser.name == "Neil Small" ? (
+                                <Neil />
+                            ) : selectedUser.name == "Julian Cabrera" ? (
+                                <Julian isMobile={isMobile} />
+                            ) : (
+                                <p>No bio yet!</p>
+                            )}
+                        </Overlay>
+                    )}
             </div>
             <BottomSection />
         </div>

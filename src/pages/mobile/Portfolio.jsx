@@ -178,7 +178,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                 <h1
                     style={{
                         color: "white",
-                        fontSize: "2.3em",
+                        fontSize: "2em",
                         paddingBottom: "5%",
                         paddingTop: "20px",
                     }}
@@ -201,7 +201,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                         <iframe
                             width="350"
                             height="250"
-                            src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
+                            src="https://www.youtube.com/embed/5PUPdju0zcU?si=EiHb2PHl8jtIKMiE"
                             title="YouTube video player"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -377,7 +377,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                                 }}
                             >
                                 <a
-                                    href={`/public/contacts/${file}.vcf`}
+                                    href={`http://dev.milesacq.com:3006/contacts/${file}.vcf`}
                                     download
                                 >
                                     <MdDownloading

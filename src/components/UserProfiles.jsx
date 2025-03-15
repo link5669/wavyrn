@@ -160,15 +160,15 @@ const Zionna = () => {
                 Oregon, Zionna Brown has always had an affinity for nature.
                 Paired with her early love of video games and folk stories, it's
                 easy to connect the background behind her love of the fantasy
-                genre, vibranttheatrics, and just a few spooky stories. Zionna
-                has years of experience in vocal work inrecording and on-stage
+                genre, vibrant theatrics, and just a few spooky stories. Zionna
+                has years of experience in vocal work in recording and on-stage
                 performances, as well as teaching others acting and voice.
                 Notable performances include Disney World's Candlelight
-                Concerts, National Concert Youth Chorus' Reflections on Unityat
+                Concerts, National Concert Youth Chorus' Reflections on Unity at
                 Carnegie Hall, as well as many ensemble and band recitals and
                 gigs. She produced and coached at The Broward County Center for
                 the Performing Arts and PBS's Kid Stew, along with private
-                lessons in her spare time.Always delighted to learn a new
+                lessons in her spare time. Always delighted to learn a new
                 dialect or language, Zionna has recorded and performed in over
                 15 different languages, including Japanese, Hebrew, and even Old
                 Norse! Her passion for learning, creating, and collaborating
@@ -438,144 +438,37 @@ const Max = () => {
                 </div>
             </div>
             <p>
-                Maximiliano Jaime is a composer, sound designer, producer, music
-                editor, mixing and mastering engineer from Bogotá, Colombia.
-                Inspired by versatility and curiosity, Max enjoys learning all
-                kinds of new resources in the music spectrum, allowing him to
-                create his own voice as an artist. Max’s journey started with
-                playing drums at the age of 11. At 17, he started his music
-                career studying Contemporary Music at EMMAT, a Berklee Global
-                Partner in Bogotá. At 19, Max was granted the Berklee World Tour
-                Scholarship and the opportunity to move to Boston to study Film
-                Scoring with a specialization in Video Game Scoring at Berklee
-                College of Music. During his time in the United States, he was
-                also awarded a scholarship by the Latin Grammy Cultural
-                Foundation to complete his degree. Currently living in his
-                hometown of Bogotá, Max Jaime work as a music editor, composer,
-                mixing and mastering engineer for post-production audio, and
-                teaches film and video game scoring at EMMAT.
+                Maximiliano Jaime Biography February 2025 Maximiliano Jaime is a
+                freelance Composer, Sound Designer, Audio Editor, and
+                Mixing/Mastering Engineer currently working remotely at Wavyrn,
+                a post-production audio studio based in Boston. Additionally, he
+                is a faculty member at EMMAT a Berklee Global Partner School,
+                where he teaches in the Composition for Visual Media Department.
+                Maximiliano also continues his education by pursuing a graduate
+                certificate in Mixing, Mastering, and Production for Visual
+                Media at Berklee Online. <br />
+                <br />
+                Originally from Bogotá, Colombia, Maximiliano began his music
+                career at the age of 11 playing the drum set. His passion for
+                music led him to study a diploma program in contemporary music
+                at EMMAT, graduating in 2019. He furthered his studies at
+                Berklee College of Music, where he earned a bachelor's degree in
+                Film Scoring with a specialization in Video Game Scoring,
+                graduating Magna Cum Laude in 2023. During this time, he also
+                earned the Tuition Assistance Scholarship (2022) from the Latin
+                Grammy Cultural Foundation. <br />
+                <br />
+                Maximiliano describes himself as versatile, continuously
+                exploring various musical styles, and persistent, driven by a
+                desire to push the boundaries of his creativity. His consistency
+                in pursuing excellence in both composition and audio engineering
+                are reflected in his work and achievements. <br />
+                <br />
+                In addition to his professional endeavors, Maximiliano has an
+                alter-ego called NoiMeGa, under which he produces electronic
+                music, mainly in the genres of House, Minimal House, and Deep
+                House.
             </p>
-            {/* <a href="https://soundcloud.com/maxjaime101">SoundCloud</a> */}
-            <iframe
-                width="50%"
-                height="200"
-                scrolling="no"
-                frameborder="no"
-                allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1675702488&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-            ></iframe>
-            <div
-                style={{
-                    fontSize: "10px",
-                    color: "#cccccc",
-                    lineBreak: "anywhere",
-                    wordBreak: "normal",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                    fontFamily:
-                        "Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif",
-                    fontWeight: 100,
-                }}
-            >
-                <a
-                    href="https://soundcloud.com/maxjaime101"
-                    title="NoiMeGa"
-                    target="_blank"
-                    style={{ color: "#cccccc", textDecoration: "none" }}
-                >
-                    NoiMeGa
-                </a>{" "}
-                ·{" "}
-                <a
-                    href="https://soundcloud.com/maxjaime101/minimal-house-dj-set-november-2023-max-jaime"
-                    title="DJ Set - Tegmentals with Max Jaime (Minimal House)"
-                    target="_blank"
-                    style={{ color: "#cccccc", textDecoration: "none" }}
-                >
-                    DJ Set - Tegmentals with Max Jaime (Minimal House)
-                </a>
-            </div>
-            <iframe
-                width="50%"
-                height="200"
-                scrolling="no"
-                frameborder="no"
-                allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1667937009&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-            ></iframe>
-            <div
-                style={{
-                    fontSize: "10px",
-                    color: "#cccccc",
-                    lineBreak: "anywhere",
-                    wordBreak: "normal",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                    fontFamily:
-                        "Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif",
-                    fontWeight: 100,
-                }}
-            >
-                <a
-                    href="https://soundcloud.com/maxjaime101"
-                    title="NoiMeGa"
-                    target="_blank"
-                    style={{ color: "#cccccc", textDecoration: "none" }}
-                >
-                    NoiMeGa
-                </a>{" "}
-                ·{" "}
-                <a
-                    href="https://soundcloud.com/maxjaime101/galactic-groove"
-                    title="Galactic Groove"
-                    target="_blank"
-                    style={{ color: "#cccccc", textDecoration: "none" }}
-                >
-                    Galactic Groove
-                </a>
-            </div>
-            <iframe
-                width="50%"
-                height="200"
-                scrolling="no"
-                frameborder="no"
-                allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1622749656&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-            ></iframe>
-            <div
-                style={{
-                    fontSize: "10px",
-                    color: "#cccccc",
-                    lineBreak: "anywhere",
-                    wordBreak: "normal",
-                    overflow: "hidden",
-                    whiteSpace: "nowrap",
-                    textOverflow: "ellipsis",
-                    fontFamily:
-                        "Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif",
-                    fontWeight: 100,
-                }}
-            >
-                <a
-                    href="https://soundcloud.com/maxjaime101"
-                    title="NoiMeGa"
-                    target="_blank"
-                    style={{ color: "#cccccc", textDecoration: "none" }}
-                >
-                    NoiMeGa
-                </a>{" "}
-                ·{" "}
-                <a
-                    href="https://soundcloud.com/maxjaime101/a-new-funky-way"
-                    title="A New Funky Way"
-                    target="_blank"
-                    style={{ color: "#cccccc", textDecoration: "none" }}
-                >
-                    A New Funky Way
-                </a>
-            </div>
         </div>
     );
 };
@@ -937,19 +830,18 @@ const Neil = () => {
             </div>
             <br />
             <p>
-                Neil Small is an award-winning audio directorsmallsoundss,
-                technical audio designer, and sound designer from Boston,
-                Massachusetts. His work has been featured at the Massachusetts
-                Institute of Technology, Game Devs of Color Expo, Steam Next
-                Fest, and Boston Festival of Indie Games. Neil recently
-                graduated from Berklee College of Music where he studied Game
-                and Interactive Media Scoring, Contemporary Writing and
-                Production, and Creative Coding. This interdisciplinary
-                education has given him a deep understanding of both the
-                artistic and technical aspects of sound, including music
-                composition, orchestration, adaptive music systems, procedural
-                sound design, and programming for both games and general
-                applications.
+                Neil Small is an award-winning audio director, technical audio
+                designer, and sound designer from Boston, Massachusetts. His
+                work has been featured at the Massachusetts Institute of
+                Technology, Game Devs of Color Expo, Steam Next Fest, and Boston
+                Festival of Indie Games. Neil recently graduated from Berklee
+                College of Music where he studied Game and Interactive Media
+                Scoring, Contemporary Writing and Production, and Creative
+                Coding. This interdisciplinary education has given him a deep
+                understanding of both the artistic and technical aspects of
+                sound, including music composition, orchestration, adaptive
+                music systems, procedural sound design, and programming for both
+                games and general applications.
                 <br />
                 <br />
                 Throughout his career, Neil has contributed to a variety of

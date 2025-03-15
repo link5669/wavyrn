@@ -107,7 +107,7 @@ const Blog = ({ isMobile }) => {
                     paddingTop: isMobile ? 0 : "9vh",
                 }}
             >
-                <h1 style={{ color: "white" }}>Blog</h1>
+                <h1 style={{ color: "white", fontSize: "2em" }}>Blog</h1>
                 <div style={{ justifyContent: "center" }}>
                     <div
                         style={{

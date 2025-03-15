@@ -43,7 +43,7 @@ const AudioDirecting = ({ isMobile }) => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundImage:
-                        "url(https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Services/Services%20-%20Audio%20Directing.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0)",
+                        "url(http://dev.milesacq.com:3006/services/Services%20-%20Audio%20Directing.webp)",
                     height: "100%",
                     minHeight: "400px", // Ensure the div has a minimum height
                     position: "relative",

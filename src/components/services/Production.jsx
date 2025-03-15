@@ -43,7 +43,7 @@ const Production = ({ isMobile }) => {
                     backgroundSize: "cover", // Cover the entire div
                     backgroundPosition: "center", // Center the image
                     backgroundImage:
-                        "url(https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Services/Services%20-%20Production.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)",
+                        "url(http://dev.milesacq.com:3006/services/Services%20-%20Production.webp?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)",
                     height: "100%", // Ensure the div takes full height
                     minHeight: "400px", // Set a minimum height (adjust as needed)
                     position: "relative", // For absolute positioning of overlay

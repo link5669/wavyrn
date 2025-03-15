@@ -18,20 +18,20 @@ const Contact = ({ isMobile }) => {
     const captchaRef = useRef(null);
     const handleSubmit = (e) => {
         e.preventDefault();
-        const token = captchaRef.current.getValue();
-        captchaRef.current.reset();
-        if (!token) {
-            setError("Please complete the captcha!");
-            return;
-        }
+        // const token = captchaRef.current.getValue();
+        // captchaRef.current.reset();
+        // if (!token) {
+        //     setError("Please complete the captcha!");
+        //     return;
+        // }
         if (name == "Name" || email == "Email" || message == "Message") {
             setError("Please fill out all fields!");
             return;
         }
 
         emailjs
-            .sendForm("service_qmi40xs", "template_4jgigf1", form.current, {
-                publicKey: "jk8hVoSyJiKGAFCRe",
+            .sendForm("service_mp2v48h", "template_olgmh6l", form.current, {
+                publicKey: "kS8iWx3WR9GyvZWaN",
             })
             .then(
                 () => {
