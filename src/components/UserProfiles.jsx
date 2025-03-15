@@ -496,11 +496,11 @@ const Sam = () => {
             </div>
             <br />
             <p>
-                samleighstudio.comSam Rindfuss (aka Sam Leigh) is a vocalist and
-                voice actor working out of the Boston area. They are passionate
-                about bringing the artistic visions of others to life and would
-                love to be involved with your next project! Sam’s favorite video
-                game is Baldur’s Gate 3.
+                Sam Rindfuss (aka Sam Leigh) is a vocalist and voice actor
+                working out of the Boston area. They are passionate about
+                bringing the artistic visions of others to life and would love
+                to be involved with your next project! Sam’s favorite video game
+                is Baldur’s Gate 3.
             </p>
             <div
                 style={{

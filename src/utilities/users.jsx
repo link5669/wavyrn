@@ -29,7 +29,7 @@ const soundDesign = [
     },
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
-    { name: "Neil Small", title: "Sound Designer, Composer" },
+    { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
 
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
@@ -46,7 +46,7 @@ const music = [
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
-    { name: "Neil Small", title: "Sound Designer, Composer" },
+    { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
 ];
 const dialogue = [
     {
@@ -75,7 +75,7 @@ const allUsers = [
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
     { name: `Michelle Lai`, title: `Audio Director, Composer` },
-    { name: "Neil Small", title: "Sound Designer, Composer" },
+    { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
     { name: `Angelica Ramos`, title: `Technical Assistant` },
     { name: `Zionna Brown`, title: `VO Producer, Voice Actor` },
