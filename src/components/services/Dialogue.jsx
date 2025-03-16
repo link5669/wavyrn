@@ -41,7 +41,7 @@ const Dialogue = ({ isMobile }) => {
                     backgroundSize: "cover", // Cover the entire div
                     backgroundPosition: "bottom", // Center the image
                     backgroundImage:
-                        "url(http://dev.milesacq.com:3006/services/Services%20-%20Voiceover.webp?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)",
+                        "url(https://dev.milesacq.com:3006/services/Services%20-%20Voiceover.webp?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)",
                     height: "100%", // Ensure the div takes full height
                     minHeight: "400px", // Set a minimum height (adjust as needed)
                     position: "relative", // For absolute positioning of overlay

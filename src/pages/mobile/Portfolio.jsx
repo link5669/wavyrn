@@ -377,7 +377,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                                 }}
                             >
                                 <a
-                                    href={`http://dev.milesacq.com:3006/contacts/${file}.vcf`}
+                                    href={`https://dev.milesacq.com:3006/contacts/${file}.vcf`}
                                     download
                                 >
                                     <MdDownloading

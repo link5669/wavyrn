@@ -43,7 +43,7 @@ const Music = ({ isMobile }) => {
                     backgroundSize: "cover", // Cover the entire div
                     backgroundPosition: "center", // Center the image
                     backgroundImage: isMobile
-                        ? "url(http://dev.milesacq.com:3006/services/Services%20-%20Music.webp?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)"
+                        ? "url(https://dev.milesacq.com:3006/services/Services%20-%20Music.webp?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)"
                         : "",
                     height: "100%", // Ensure the div takes full height
                     minHeight: "400px", // Set a minimum height (adjust as needed)
