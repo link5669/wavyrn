@@ -43,7 +43,7 @@ const AudioDirecting = ({ isMobile }) => {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundImage:
-                        "url(https://dev.milesacq.com:3006/services/Services%20-%20Audio%20Directing.webp)",
+                        "url(https://link5669.github.io/wavyrn-media/services/Services%20-%20Audio%20Directing.webp)",
                     height: "100%",
                     minHeight: "400px", // Ensure the div has a minimum height
                     position: "relative",
