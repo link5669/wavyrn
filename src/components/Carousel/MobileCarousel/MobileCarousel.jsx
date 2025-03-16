@@ -51,8 +51,13 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
             audioRef.current.currentTime = 0;
         }
         audioRef.current = new Audio(albums[index].track);
+
+        // Add error logging to debug issues
+        audioRef.current.addEventListener("error", (e) => {
+            console.error("Audio error:", e);
+        });
+
         audioRef.current.addEventListener("ended", () => {
-            // if (isPlaying) {
             // Auto-advance based on last swipe direction
             if (lastSwipeDirection === "right") {
                 // Move to next track
@@ -76,17 +81,22 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
             }
             // Keep isPlaying true when track changes automatically
             setIsPlaying(true);
-            // }
         });
+
+        // Only play the audio if isPlaying is true
         if (isPlaying) {
-            audioRef.current.play();
+            audioRef.current.play().catch((e) => {
+                console.error("Failed to play audio:", e);
+            });
         }
     };
 
-    // Handle left click (previous track)
     const handleLeftClick = () => {
+        const wasPlaying = isPlaying;
+
         setCurrentIndex((prevIndex) => {
             const prev = prevIndex === 0 ? albums.length - 1 : prevIndex - 1;
+            // Pass the current playing state to ensure consistency
             playTrack(prev);
             return prev;
         });
@@ -94,23 +104,39 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
 
     // Handle right click (next track)
     const handleRightClick = () => {
+        const wasPlaying = isPlaying;
+
         setCurrentIndex((prevIndex) => {
             const next = (prevIndex + 1) % albums.length;
+            // Pass the current playing state to ensure consistency
             playTrack(next);
             return next;
         });
     };
 
-    // Handle play/pause button click
+    // Initialize audio when component mounts
+    useEffect(() => {
+        // Initialize audio with the current track
+        audioRef.current = new Audio(albums[currentIndex].track);
+        audioRef.current.addEventListener("error", (e) => {
+            console.error("Audio error:", e);
+        });
+        // Clean up on unmount
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.removeEventListener("ended", () => {});
+            }
+        };
+    }, []);
+
     const handlePlayPause = () => {
         if (isPlaying) {
             audioRef.current.pause();
         } else {
-            if (!audioRef.current) {
-                playTrack(currentIndex);
-            } else {
-                audioRef.current.play();
-            }
+            audioRef.current.play().catch((e) => {
+                console.error("Failed to play audio:", e);
+            });
         }
         setIsPlaying(!isPlaying);
     };
