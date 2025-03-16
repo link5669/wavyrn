@@ -94,7 +94,7 @@ const albumData = [
         id: 15,
         title: "Afterlife Redux",
         coverUrl:
-            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Project%20Gallery/42%20Afterlife%20-%20Short%20Film.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Music/_Album%20Covers/AFTL%20Album%20Cover.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         track: "https://dev.milesacq.com:3006/music/8.mp3",
     },
     {
