@@ -17,6 +17,53 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     const audioRef = useRef(null);
     const carouselRef = useRef(null);
 
+    const audioCache = useRef({});
+
+    // Preload all audio files on component mount
+    useEffect(() => {
+        const preloadAllTracks = async () => {
+            try {
+                // Create promises for all audio tracks
+                const preloadPromises = albums.map((album) => {
+                    return loadAudio(album.track)
+                        .then((audio) => {
+                            audioCache.current[album.track] = audio;
+                            console.log(`Preloaded: ${album.title}`);
+                        })
+                        .catch((err) => {
+                            console.error(
+                                `Failed to preload ${album.title}:`,
+                                err,
+                            );
+                        });
+                });
+
+                // Wait for all tracks to be preloaded
+                await Promise.all(preloadPromises);
+                console.log("All tracks preloaded");
+            } catch (error) {
+                console.error("Error preloading tracks:", error);
+            }
+        };
+
+        preloadAllTracks();
+
+        // Initialize with first track
+        loadAudio(albums[currentIndex].track).then((audio) => {
+            audioRef.current = audio;
+        });
+
+        // Cleanup on unmount
+        return () => {
+            // Clean up all cached audio elements
+            Object.values(audioCache.current).forEach((audio) => {
+                audio.pause();
+                audio.src = "";
+            });
+            audioCache.current = {};
+        };
+    }, []);
+
     const handleTouchStart = (e) => {
         setTouchStart(e.targetTouches[0].clientX);
     };
@@ -45,100 +92,144 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
         disrespectUserMotionPreference: false,
     });
 
-    const playTrack = (index) => {
+    const loadAudio = (src) => {
+        // If already in cache, return it
+        if (audioCache.current[src]) {
+            return Promise.resolve(audioCache.current[src]);
+        }
+
+        // Otherwise load it and add to cache
+        return new Promise((resolve, reject) => {
+            const audio = new Audio();
+            audio.addEventListener(
+                "canplaythrough",
+                () => {
+                    audioCache.current[src] = audio;
+                    resolve(audio);
+                },
+                { once: true },
+            );
+            audio.addEventListener(
+                "error",
+                (e) => {
+                    console.error(`Error loading audio ${src}:`, e);
+                    reject(e);
+                },
+                { once: true },
+            );
+            audio.preload = "auto";
+            audio.src = src;
+            audio.load();
+        });
+    };
+
+    const playTrack = async (index, shouldPlay = isPlaying) => {
         if (audioRef.current) {
             audioRef.current.pause();
             audioRef.current.currentTime = 0;
+
+            // Remove event listeners from previous track
+            audioRef.current.onended = null;
         }
-        audioRef.current = new Audio(albums[index].track);
 
-        // Add error logging to debug issues
-        audioRef.current.addEventListener("error", (e) => {
-            console.error("Audio error:", e);
-        });
+        try {
+            const trackSrc = albums[index].track;
 
-        audioRef.current.addEventListener("ended", () => {
-            // Auto-advance based on last swipe direction
-            if (lastSwipeDirection === "right") {
-                // Move to next track
-                setCurrentIndex((prevIndex) => {
-                    const next = (prevIndex + 1) % albums.length;
-                    const newAudio = new Audio(albums[next].track);
-                    audioRef.current = newAudio;
-                    newAudio.play();
-                    return next;
-                });
+            // Get from cache or load
+            audioRef.current = await loadAudio(trackSrc);
+
+            // Reset to beginning
+            audioRef.current.currentTime = 0;
+
+            // Set up ended event
+            audioRef.current.onended = () => {
+                // Auto-advance based on last swipe direction
+                if (lastSwipeDirection === "right") {
+                    // Move to next track
+                    setCurrentIndex((prevIndex) => {
+                        const next = (prevIndex + 1) % albums.length;
+                        playTrack(next, true); // Always play next track
+                        return next;
+                    });
+                } else {
+                    // Move to previous track
+                    setCurrentIndex((prevIndex) => {
+                        const prev =
+                            prevIndex === 0 ? albums.length - 1 : prevIndex - 1;
+                        playTrack(prev, true); // Always play previous track
+                        return prev;
+                    });
+                }
+            };
+
+            // Play the audio based on the shouldPlay parameter
+            if (shouldPlay) {
+                try {
+                    await audioRef.current.play();
+                    setIsPlaying(true);
+                } catch (playError) {
+                    console.error("Failed to play audio:", playError);
+
+                    // iOS Safari workaround - try playing on next tick
+                    setTimeout(async () => {
+                        try {
+                            await audioRef.current.play();
+                            setIsPlaying(true);
+                        } catch (retryError) {
+                            console.error("Retry play failed:", retryError);
+                            setIsPlaying(false);
+                        }
+                    }, 100);
+                }
             } else {
-                // Move to previous track
-                setCurrentIndex((prevIndex) => {
-                    const prev =
-                        prevIndex === 0 ? albums.length - 1 : prevIndex - 1;
-                    const newAudio = new Audio(albums[prev].track);
-                    audioRef.current = newAudio;
-                    newAudio.play();
-                    return prev;
-                });
+                setIsPlaying(false);
             }
-            // Keep isPlaying true when track changes automatically
-            setIsPlaying(true);
-        });
-
-        // Only play the audio if isPlaying is true
-        if (isPlaying) {
-            audioRef.current.play().catch((e) => {
-                console.error("Failed to play audio:", e);
-            });
+        } catch (e) {
+            console.error("Audio loading/playing error:", e);
+            setIsPlaying(false);
         }
     };
 
     const handleLeftClick = () => {
         const wasPlaying = isPlaying;
-
         setCurrentIndex((prevIndex) => {
             const prev = prevIndex === 0 ? albums.length - 1 : prevIndex - 1;
-            // Pass the current playing state to ensure consistency
-            playTrack(prev);
+            playTrack(prev, wasPlaying); // Pass the current playing state
             return prev;
         });
     };
 
-    // Handle right click (next track)
     const handleRightClick = () => {
         const wasPlaying = isPlaying;
-
         setCurrentIndex((prevIndex) => {
             const next = (prevIndex + 1) % albums.length;
-            // Pass the current playing state to ensure consistency
-            playTrack(next);
+            playTrack(next, wasPlaying); // Pass the current playing state
             return next;
         });
     };
 
-    // Initialize audio when component mounts
-    useEffect(() => {
-        // Initialize audio with the current track
-        audioRef.current = new Audio(albums[currentIndex].track);
-        audioRef.current.addEventListener("error", (e) => {
-            console.error("Audio error:", e);
-        });
-        // Clean up on unmount
-        return () => {
-            if (audioRef.current) {
-                audioRef.current.pause();
-                audioRef.current.removeEventListener("ended", () => {});
-            }
-        };
-    }, []);
-
-    const handlePlayPause = () => {
+    const handlePlayPause = async () => {
         if (isPlaying) {
             audioRef.current.pause();
+            setIsPlaying(false);
         } else {
-            audioRef.current.play().catch((e) => {
-                console.error("Failed to play audio:", e);
-            });
+            try {
+                await audioRef.current.play();
+                setIsPlaying(true);
+            } catch (e) {
+                console.error("PlayPause error:", e);
+
+                // iOS Safari specific fix - try again after a small delay
+                setTimeout(async () => {
+                    try {
+                        await audioRef.current.play();
+                        setIsPlaying(true);
+                    } catch (retryError) {
+                        console.error("Retry play failed:", retryError);
+                    }
+                }, 100);
+            }
         }
-        setIsPlaying(!isPlaying);
     };
 
     // Cleanup audio on component unmount
