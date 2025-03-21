@@ -17,6 +17,7 @@ import MobilePost from "./mobile/blog/post";
 import ScrollToTop from "../components/ScrollToTop";
 import GeneralUseRedirect from "./GeneralUseRedirect";
 import PatreonRedirect from "./PatreonCatalogRedirect";
+import NewsletterRedirect from "./NewsletterRedirect";
 import BLOG_PAGES from "./blog/pages";
 import GenreTemplate from "./GenreTemplate";
 import {
@@ -293,6 +294,10 @@ function App() {
                     {/* redirects */}
                     <Route path="/zoom" element={<ZoomRedirect />} />
                     <Route path="/discord" element={<DiscordRedirect />} />
+                    <Route
+                        path="/newsletter"
+                        element={<NewsletterRedirect />}
+                    />
                     <Route
                         path="/GeneralUse"
                         element={<GeneralUseRedirect />}
