@@ -77,6 +77,7 @@ const allUsers = [
     { name: `Michelle Lai`, title: `Audio Director, Composer` },
     { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
+    { name: "Quinne Houck", title: "Technical Assistant" },
     { name: `Angelica Ramos`, title: `Technical Assistant` },
     { name: `Zionna Brown`, title: `VO Producer, Voice Actor` },
     { name: `Josh Trochet`, title: `Voice Actor` },

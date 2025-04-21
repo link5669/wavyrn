@@ -864,6 +864,64 @@ const Neil = () => {
     );
 };
 
+const Quinne = () => {
+    return (
+        <div style={{ display: "block" }}>
+            <br />
+            <div
+                style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <div style={{ paddingInline: "2%" }}>
+                    <InstaLink handle="enbeatsu" />
+                </div>
+                <div style={{ paddingInline: "2%" }}>
+                    <WebsiteLink link="https://enbeatsu.wixsite.com/" />
+                </div>
+                <div style={{ paddingInline: "2%" }}>
+                    <BlueskyLink address="https://bsky.app/profile/enbeatsu.on.computer" />
+                </div>
+                <div style={{ paddingInline: "2%" }}>
+                    <WebsiteLink link="https://www.youtube.com/@enbeatsu" />
+                </div>
+                <div style={{ paddingInline: "2%" }}>
+                    <WebsiteLink link="https://enbeatsu.bandcamp.com/" />
+                </div>
+                <div style={{ paddingInline: "2%" }}>
+                    <WebsiteLink link="https://soundcloud.com/enbeatsu" />
+                </div>
+                <div style={{ paddingInline: "2%" }}>
+                    <LinkedinLink handle="in/quinne-houck/" />
+                </div>
+            </div>
+            <br />
+            <p>
+                Quinne is a Boston-based composer, producer, songwriter, and
+                multi-instrumentalist from the West Coast with a love of
+                leitmotif, interactive music, and storytelling through sound. A
+                7th Semester Game and Interactive Media Scoring major at Berklee
+                College of Music, they’ve been writing music for over a decade
+                in a variety of genres and have experience in composition, sound
+                design, mixing and production, score preparation, interactive
+                middleware, and game design. Their love of music has taken them
+                all across the musical landscape, learning about new genres and
+                styles and blending the sounds and sensations they discover to
+                tell tales through their music. Their work spans games like
+                Mushroom Kid’s Big Grass Sword, performances pieces like Not So
+                Happily Ever After for the San Marino High School dance program
+                and The Magpie’s Ballad for the Berklee Flute Choir, and a
+                multitude of underscores for table-top roleplaying campaigns
+                including the Lost Mechanisms and The Poem of Ryuumi’s Head. If
+                you listen hard enough, you can juuust hear them working on
+                their next D&D boss theme to kill a player’s character to.
+            </p>
+        </div>
+    );
+};
+
 export {
     Sam,
     Max,
@@ -878,4 +936,5 @@ export {
     Julian,
     Michelle,
     Neil,
+    Quinne,
 };

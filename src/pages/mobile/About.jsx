@@ -27,6 +27,7 @@ import {
     Julian,
     Michelle,
     Neil,
+    Quinne,
 } from "../../components/UserProfiles";
 import Overlay from "../../components/Overlay/Overlay";
 import { getPfpImage } from "../../utilities/utilities";
@@ -290,6 +291,8 @@ const About = ({ isMobile }) => {
                                 <Neil />
                             ) : selectedUser.name == "Julian Cabrera" ? (
                                 <Julian isMobile={isMobile} />
+                            ) : selectedUser.name == "Quinne Houck" ? (
+                                <Quinne isMobile={isMobile} />
                             ) : (
                                 <p>No bio yet!</p>
                             )}
