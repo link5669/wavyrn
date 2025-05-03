@@ -70,7 +70,7 @@ const Dialogue = ({ isMobile }) => {
                         paddingTop: "5vh",
                     }}
                 >
-                    Dialogue
+                    Voiceover Production
                 </h2>
                 <h5
                     style={{
