@@ -146,11 +146,47 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         if (contactVal == null) return;
         setShowPopup(true);
         setFile(contactVal.toLowerCase());
-        if (contactVal == "Marc") setName("Marc Yu");
-        if (contactVal == "Ananta") setName("Ananta Arora");
-        if (contactVal == "Zionna") setName("Zionna Brown");
-        if (contactVal == "Neil") setName("Neil Small");
-        if (contactVal == "Michelle") setName("Michelle Lai");
+        switch (contactVal) {
+            case "Marc":
+                setName("Marc Yu");
+                break;
+            case "Ananta":
+                setName("Ananta Arora");
+                break;
+            case "Zionna":
+                setName("Zionna Brown");
+                break;
+            case "Neil":
+                setName("Neil Small");
+                break;
+            case "Michelle":
+                setName("Michelle Lai");
+                break;
+            case "Quinne":
+                setName("Quinne Houck");
+                break;
+            case "Caleb":
+                setName("Caleb Skelly");
+                break;
+            case "Angelica":
+                setName("Angelica Ramos");
+                break;
+            case "Austinl":
+                setName("Austin Leshock");
+                break;
+            case "Josh":
+                setName("Josh Trochet");
+                break;
+            case "Julian":
+                setName("Julian Cabrera");
+                break;
+            case "Max":
+                setName("Max Jaime");
+                break;
+            case "Sam":
+                setName("Sam Rindfuss");
+                break;
+        }
     }, []);
 
     const handleClosePopup = () => {
