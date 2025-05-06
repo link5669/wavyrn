@@ -237,7 +237,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                         <iframe
                             width="350"
                             height="250"
-                            src="https://www.youtube.com/embed/5PUPdju0zcU?si=EiHb2PHl8jtIKMiE"
+                            src="https://www.youtube.com/embed/GuOGbvwdMWk?si=f0lxC3rxtVjBykuK"
                             title="YouTube video player"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
