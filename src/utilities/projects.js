@@ -26,7 +26,7 @@ const projects = [
     },
     {
         subtitle: "Rhythm Game",
-        imgSrc: "https://link5669.github.io/wavyrn-media/portfolio/6%20Beat%20Tender%20-%20Rhythm%20Game.webp",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fi/v12tycauxxmorwzi09cus/6-Beat-Tender-Rhythm-Game.png?rlkey=yeovpkql1bd2kdaljl8rwswqg&dl=0",
         title: "Beat Tender",
     },
     {

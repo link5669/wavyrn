@@ -43,7 +43,7 @@ const getPfpImage = (name) => {
                                   : name == "Quinne Houck"
                                     ? "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Team%20Profiles/Quinne%20Houck/side.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"
                                     : name == "Caleb Skelly"
-                                      ? "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/AGk-WLXVxAdDn2VM_0XwFo0/Caleb%20Skelly/large.png?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                                      ? "https://www.dl.dropboxusercontent.com/scl/fo/li2h0eqzj2b68h5s8kg7i/AHtl5dwKnoc58Ls853q6Ko4/large.png?rlkey=val11gfxy2ws763kzq0ddn4c2&e=1&dl=0"
                                       : name == "Julian Cabrera"
                                         ? julian
                                         : "https://via.placeholder.com/150";

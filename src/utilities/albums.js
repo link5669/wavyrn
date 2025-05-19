@@ -21,7 +21,8 @@ const albumData = [
     {
         id: 5,
         title: "Busy Hour",
-        coverUrl: "https://link5669.github.io/wavyrn-media/music/art/BTND.webp",
+        coverUrl:
+            "https://www.dl.dropboxusercontent.com/scl/fi/qnsoq6shtx3m12ufw6wrt/BTND-Album-Cover.png?rlkey=zd8dz6rzon1oqeuy2pdr129c3&dl=0",
         track: "https://link5669.github.io/wavyrn-media/music/13.mp3",
     },
     {
