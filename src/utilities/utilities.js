@@ -2,7 +2,6 @@ import marc from "/Team Profiles/Marc Yu/Marc Yu Profile Picture.jpg";
 import austinb from "/Team Profiles/Austin Burkett/Austin Burkett Profile Picture.png";
 import austinl from "/Team Profiles/Austin Leshock/Austin Leshock Profile Picture.jpg";
 import max from "/Team Profiles/Max Jaime/Max Jaime Profile Picture.jpg";
-import sam from "/Team Profiles/Sam Leigh/Sam Leigh Profile Picture.jpg";
 import ananta from "/Team Profiles/Ananta Arora/Ananta Arora Profile Picture.jpg";
 import angelica from "/Team Profiles/Angelica Ramos Profile Picture.jpg";
 import gret from "/Team Profiles/Gret Price/Gret Price Profile Picture.jpg";
@@ -21,7 +20,7 @@ const getPfpImage = (name) => {
             : name == "Max Jaime"
               ? max
               : name == "Sam Leigh"
-                ? sam
+                ? "https://www.dl.dropboxusercontent.com/scl/fo/ma573ojggc6gupvmjln4g/AEOr3yX1B0CxUZ3KuKR93xY/Sam%20Leigh%20Profile%20Picture%202025.jpeg?rlkey=xr4kv522pw0i2tepjxj9j2zv3&e=1&dl=0"
                 : name == "Ananta Arora"
                   ? ananta
                   : name == "Angelica Ramos"

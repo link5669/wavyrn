@@ -438,15 +438,14 @@ const Max = () => {
                 </div>
             </div>
             <p>
-                Maximiliano Jaime Biography February 2025 Maximiliano Jaime is a
-                freelance Composer, Sound Designer, Audio Editor, and
-                Mixing/Mastering Engineer currently working remotely at Wavyrn,
-                a post-production audio studio based in Boston. Additionally, he
-                is a faculty member at EMMAT a Berklee Global Partner School,
-                where he teaches in the Composition for Visual Media Department.
-                Maximiliano also continues his education by pursuing a graduate
-                certificate in Mixing, Mastering, and Production for Visual
-                Media at Berklee Online. <br />
+                Maximiliano Jaime is a freelance Composer, Sound Designer, Audio
+                Editor, and Mixing/Mastering Engineer currently working remotely
+                at Wavyrn, a post-production audio studio based in Boston.
+                Additionally, he is a faculty member at EMMAT a Berklee Global
+                Partner School, where he teaches in the Composition for Visual
+                Media Department. Maximiliano also continues his education by
+                pursuing a graduate certificate in Mixing, Mastering, and
+                Production for Visual Media at Berklee Online. <br />
                 <br />
                 Originally from Bogotá, Colombia, Maximiliano began his music
                 career at the age of 11 playing the drum set. His passion for

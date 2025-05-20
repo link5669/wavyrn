@@ -25,8 +25,11 @@ const Overlay = ({ isVisible, onClose, children, profileInfo }) => {
                             alt={profileInfo.name}
                             style={{
                                 objectPosition:
-                                    profileInfo.name == "Zionna Brown" &&
-                                    "0% 25%",
+                                    profileInfo.name == "Zionna Brown"
+                                        ? "0% 25%"
+                                        : profileInfo.name == "Sam Leigh"
+                                          ? "0% 40%"
+                                          : "",
                             }}
                             className="overlay-profile-pic"
                         />

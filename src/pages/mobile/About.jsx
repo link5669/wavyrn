@@ -222,7 +222,10 @@ const About = ({ isMobile }) => {
                                                     : "30vh",
                                                 display: "block",
                                                 objectFit: "cover",
-                                                objectPosition: "0% 15%",
+                                                objectPosition:
+                                                    user.name == "Sam Leigh"
+                                                        ? "0% 40%"
+                                                        : "0% 15%",
                                             }}
                                         />
                                         <div
