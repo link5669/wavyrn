@@ -91,7 +91,8 @@ const albumData = [
     {
         id: 1,
         title: "Fast n' Easy",
-        coverUrl: "https://link5669.github.io/wavyrn-media/music/art/BTND.webp",
+        coverUrl:
+            "https://www.dl.dropboxusercontent.com/scl/fo/vr6dpzwpn6bipk2hals48/AKbo6JwiqxmK34wuLbQysxw/Graphics/BTND%20Album%20Cover%20(Original).png?rlkey=gfxraq20oorf9szpvey5r3zgo&e=1&dl=0",
         track: "https://link5669.github.io/wavyrn-media/music/9.mp3",
     },
 ];
