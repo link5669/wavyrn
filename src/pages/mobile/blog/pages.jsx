@@ -2,6 +2,162 @@ import { Player } from "react-simple-player";
 
 const BLOG_PAGES = [
     {
+        path: "/blog/250530-broadway-blues",
+        title: "Broadway Blues: A New Musical Theater Film",
+        author: <>by Angelica Ramos</>,
+        date: <>May 30th, 2025</>,
+        byline: (
+            <>
+                by Angelica Ramos
+                <br />
+                May 30th, 2025
+            </>
+        ),
+        tags: ["Film", "Music", "Musical", "Production"],
+        image: "",
+        preview: <></>,
+        content: (
+            <>
+                <p>
+                    In a world full of indie game developments, feature films,
+                    and podcasts, there are rare occasions when the Wavyrn
+                    studio gets to dabble in other artistic mediums. But one
+                    short film happened to involve a rather fun twist: a musical
+                    theatre number!
+                </p>
+                <p>
+                    <i>Broadway Blues</i> is a student animated short film about
+                    a performer that has fallen out of love with performance.
+                    His sister helps to rekindle his spirit… through song! “Live
+                    Like It’s a Dream”, written by Marc Yu and Adam Blotner, is
+                    the song that scores this film as the characters sing and
+                    dance their way through a dream sequence. Given how special
+                    the opportunity was, of course the studio decided to get a
+                    full cast recording with a big band!
+                </p>
+                <p>
+                    It has been almost a year since we crammed twenty-three
+                    people, instrumentalists and recording engineers and Wavyrn
+                    production members alike, into a studio at Boston’s The
+                    Record Co for the orchestral recording session. It made the
+                    other two recording sessions for this project (with the
+                    rhythm section and vocalists, respectively) much less
+                    daunting in scope, but it was still one of the biggest
+                    projects we had put on yet!
+                </p>
+                <p>Q: What was your role on the project? What did you do?</p>
+                <p style={{ textIndent: "50px" }}>
+                    Marc: I was the composer and music supervisor. I worked on
+                    scoring the underscore, as well as arranging and
+                    orchestrating the musical number.
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Angelica: I was the composer’s assistant! I revised and
+                    copied the parts for the recording sessions, and I acted as
+                    the booth reader for all of those sessions as well.
+                </p>
+                <p>
+                    Q: Have you worked on similar projects before? What is your
+                    experience with musical theater?
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Marc: I’ve worked on musical theater-related projects
+                    informally before, but this short film was so different.
+                    I’ve always been a big fan of musicals—some of my favorites
+                    are La La Land, Les Misérables, Hamilton, and The Phantom of
+                    The Opera. But this was my first time composing musical
+                    theater for an animated project.
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Angelica: Musical theatre is my wheelhouse, so I was
+                    thrilled to be put on this project! I’ve been a
+                    composer-lyricist and music director on multiple musicals
+                    before, but none of them were for film.
+                </p>
+                <p>
+                    Q: What made this project different or similar from other
+                    projects you’ve worked on?
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Marc: First, we had demo recording sessions with the
+                    vocalists so that the short film could be animated and
+                    synced to the song. We also recorded videos of the jazz trio
+                    so that they could be animated as well. After we received
+                    the animation, we made tweaks to the song and finally had
+                    our recording sessions. We recorded the jazz band, and then
+                    we had our musical director, Jack Richman, work with and
+                    conduct our ensemble, as well as vocalists.
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Angelica: I realized how much I enjoy the process of copying
+                    and score prepping music, as I usually work on more aspects
+                    of the compositional process outside of the studio. It was
+                    nice to be able to learn how to prep for such a large
+                    recording session (making everyone specified binders was a
+                    blast)! I don’t record many personal projects live, so going
+                    to a twenty-piece ensemble in a studio was huge.
+                </p>
+                <p>Q: What was it like being at the recording session?</p>
+                <p style={{ textIndent: "50px" }}>
+                    Marc: It was awesome! In my field of screen scoring and
+                    audio production, it’s always such a thrill to see
+                    everything come together. I had really talented people
+                    working with me and bringing the project to life. Dong Yao
+                    Liu was our recording engineer. Jack Richman is experienced
+                    in musical theater and knows what they’re doing—they
+                    conducted the ensemble and worked with our vocalists in a
+                    way that I couldn’t have. I think it was a thrill for
+                    everyone.
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Angelica: This was my first professional recording session
+                    outside of academia! Usually I am the one being recorded, as
+                    I am an instrumentalist, so this was also my first time
+                    inside the booth for a session. My adrenaline was kicking in
+                    from typing the barrage of take notes being spouted around
+                    the room, it was great fun.
+                </p>
+                <p>
+                    Q: Was there anything difficult or challenging about this
+                    project?
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Marc: It was difficult arranging the music initially because
+                    I was not working directly with the songwriter who initially
+                    drafted the song. Without a direct line of communication,
+                    the director and I made a lot of guesses about the intention
+                    of certain things in the song, like the harmony and melody.
+                    The director has a certain style in mind as well, so I had
+                    to do my best to mold it. It took a lot of listening to
+                    references and many slight tweaks to the original song in
+                    order to get it just right.
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Angelica: Definitely the fact that we were not in direct
+                    communication with the songwriter! To fit the director’s
+                    vision, we have to make substantial edits when orchestrating
+                    for our ensemble. The sheer scope was also challenging, as
+                    we had to plan and execute three recording sessions in a
+                    month, with a very quick turnaround afterwards.
+                </p>
+                <p>
+                    Q: What was your favorite part about the project/recording
+                    session?
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Marc: The joy in the room! You can really see it on
+                    everyone’s faces. The recording engineer, the conductor,
+                    myself and Angelica, the players…when we finished recording,
+                    we knew that we did something awesome.
+                </p>
+                <p style={{ textIndent: "50px" }}>
+                    Angelica: Finally working on something musical theatre
+                    related at Wavyrn!
+                </p>
+            </>
+        ),
+    },
+    {
         path: "/blog/250104-bts-vo-delta-emblock",
         title: "Behind the Dialogue: Writing Delta Emblock’s Voice Lines for Resurgence of the Storm",
         author: <>by Subsourian</>,
