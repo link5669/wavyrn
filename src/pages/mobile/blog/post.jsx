@@ -61,14 +61,16 @@ const Post = ({ isMobile, title, byline, image, content, author, date }) => {
                         <Col style={{ textAlign: "left" }}>{author}</Col>
                         <Col style={{ textAlign: "right" }}>{date}</Col>
                     </Row>
-                    <img
-                        style={{
-                            paddingTop: "1vw",
-                            paddingBottom: "1vw",
-                            width: "40vw",
-                        }}
-                        src={image}
-                    />
+                    {image != "" && (
+                        <img
+                            style={{
+                                paddingTop: "1vw",
+                                paddingBottom: "1vw",
+                                width: "40vw",
+                            }}
+                            src={image}
+                        />
+                    )}
                     <p style={{ color: "white" }}>{content}</p>
                 </div>
             </div>

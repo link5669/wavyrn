@@ -15,6 +15,11 @@ const projects = [
         title: "Tales of the Norse",
     },
     {
+        subtitle: "Short Film",
+        imgSrc: "https://www.dl.dropboxusercontent.com/scl/fi/9dof8u7nckq9h5xujy8lm/52-Puddle-Short-Film.png?rlkey=it3625t0lqnasndy4f3uahdek&dl=0",
+        title: "Puddle",
+    },
+    {
         subtitle: "Video Game",
         imgSrc: "https://link5669.github.io/wavyrn-media/portfolio/4%20Skulls%20%26%20Scrolls%20-%20Video%20Game.webp",
         title: "Skulls and Scrolls",

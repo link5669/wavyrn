@@ -18,6 +18,20 @@ const BLOG_PAGES = [
         preview: <></>,
         content: (
             <>
+                <div style={{ color: "green" }}>
+                    <iframe
+                        style={{ alignContent: "center" }}
+                        width="560"
+                        height="315"
+                        src="https://www.youtube.com/embed/5kXOXbqihp0?si=oaSZ6sfRMnwWlgNm"
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+                {/* <br /> */}
                 <p>
                     In a world full of indie game developments, feature films,
                     and podcasts, there are rare occasions when the Wavyrn

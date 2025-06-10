@@ -52,38 +52,45 @@ const albumData = [
     },
     {
         id: 10,
+        title: "Puddle",
+        coverUrl:
+            "https://www.dl.dropboxusercontent.com/scl/fi/bejf90ga7p3xj64mmxy0o/PDDL-Album-Cover.png?rlkey=p7mehr4y7jnqr395a9o1qy1v0&dl=0",
+        track: "https://www.dl.dropboxusercontent.com/scl/fi/kkp9zo4dr4jmkoxvrhcq7/18-PDDL-Kitty-Conundrum.mp3?rlkey=8ogwk4g3xq348exof9ncjuyeo&dl=0",
+    },
+    {
+        id: 11,
         title: "Alien Dungeon Crawler",
         coverUrl:
             "https://link5669.github.io/wavyrn-media/music/art/COSMIC.webp",
         track: "https://link5669.github.io/wavyrn-media/music/3.mp3",
     },
     {
-        id: 11,
+        id: 12,
         title: "Like It's A Dream",
         coverUrl: "https://link5669.github.io/wavyrn-media/music/art/BWBL.webp",
         track: "https://link5669.github.io/wavyrn-media/music/4.mp3",
     },
     {
-        id: 12,
+        id: 13,
         title: "Forest Escape",
         coverUrl: "https://link5669.github.io/wavyrn-media/music/art/FUGG.webp",
         track: "https://link5669.github.io/wavyrn-media/music/5.mp3",
     },
     {
-        id: 13,
+        id: 14,
         title: "Be A Hero",
         coverUrl: "https://link5669.github.io/wavyrn-media/music/art/GLAD.webp",
         track: "https://link5669.github.io/wavyrn-media/music/6.mp3",
     },
     {
-        id: 14,
+        id: 15,
         title: "Grímnismál",
         coverUrl:
             "https://link5669.github.io/wavyrn-media/music/art/DND-NRS.webp",
         track: "https://link5669.github.io/wavyrn-media/music/7.mp3",
     },
     {
-        id: 15,
+        id: 16,
         title: "Afterlife Redux",
         coverUrl: "https://link5669.github.io/wavyrn-media/music/art/AFTL.webp",
         track: "https://link5669.github.io/wavyrn-media/music/8.mp3",

@@ -23,14 +23,16 @@ const Post = ({ isMobile, title, byline, image, content }) => {
                     <h4 style={{ color: "grey", fontSize: "1.4em" }}>
                         {byline}
                     </h4>
-                    <img
-                        style={{
-                            paddingTop: "1vw",
-                            paddingBottom: "1vw",
-                            width: "40vw",
-                        }}
-                        src={image}
-                    />
+                    {image != "" && (
+                        <img
+                            style={{
+                                paddingTop: "1vw",
+                                paddingBottom: "1vw",
+                                width: "40vw",
+                            }}
+                            src={image}
+                        />
+                    )}
                     <p>{content}</p>
                 </div>
             </div>
