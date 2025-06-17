@@ -1,5 +1,5 @@
 const NewsletterRedirect = () => {
-    window.location.href = "http://eepurl.com/iR3Ccc";
+    window.location.href = "https://forms.gle/1m161t7X9zwsmU7t8";
     return <p>redirecting...</p>;
 };
 
