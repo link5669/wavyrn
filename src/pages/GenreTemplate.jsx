@@ -119,10 +119,10 @@ function GenreTemplate({
                             height="315"
                             src="https://www.youtube.com/embed/ScMzIvxBSi4?si=G86GQMe5uwhv60k5"
                             title="YouTube video player"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
                             style={{ padding: "2vh" }}
                         ></iframe>
                     </div>

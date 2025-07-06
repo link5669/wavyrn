@@ -79,6 +79,7 @@ import {
     animeVoiceoverData,
     animeWrapperStyle,
 } from "./GenreThemes/Anime";
+import Editor from "./Editor/Editor";
 
 function App() {
     const [width, setWidth] = useState(window.innerWidth);
@@ -305,6 +306,10 @@ function App() {
                     <Route
                         path="/PatreonCatalogue"
                         element={<PatreonRedirect />}
+                    />
+                    <Route
+                        path="/editor"
+                        element={<Editor />}
                     />
                 </Routes>
             </ScrollToTop>

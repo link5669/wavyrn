@@ -24,10 +24,10 @@ const BLOG_PAGES = [
                         height="315"
                         src="https://www.youtube.com/embed/5kXOXbqihp0?si=oaSZ6sfRMnwWlgNm"
                         title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
                     ></iframe>
                 </p>
                 {/* <br /> */}

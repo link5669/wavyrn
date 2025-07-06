@@ -9,7 +9,6 @@ import { useSearchParams } from "react-router-dom";
 import BottomSection from "../../components/BottomSection/BottomSection";
 import sfx from "../../utilities/SFX";
 import projects from "../../utilities/projects";
-import albums from "../../utilities/albums";
 
 const getUniqueRandomSfx = (existingNames = []) => {
     const availableSfx = sfx.filter((s) => !existingNames.includes(s.name));
@@ -44,6 +43,9 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     const [file, setFile] = useState("");
     const [buttons, setButtons] = useState(initializeButtons());
     const [scrollY, setScrollY] = useState(0);
+    const [albums, setAlbums] = useState([]);
+    const [loadingAlbums, setLoadingAlbums] = useState(false);
+
 
     useEffect(() => {
         const handleScroll = () => {
@@ -189,9 +191,26 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         }
     }, []);
 
-    const handleClosePopup = () => {
-        setShowPopup(false);
-    };
+    useEffect(() => {
+      setIsVisible(true);
+      setLoadingAlbums(true);
+      try {
+        fetch("http://localhost:5001/api/albums").then((r) => {
+          r.json().then((d) => {
+            console.log(r.ok);
+            if (r.ok) {
+              setAlbums(d.albums);
+            } else {
+              console.error("Failed to fetch albums:", d.error);
+            }
+          });
+        });
+      } catch (error) {
+        console.error("Error fetching albums:", error);
+      } finally {
+        setLoadingAlbums(false);
+      }
+    }, []);
 
     return (
         <div
@@ -239,10 +258,10 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                             height="250"
                             src="https://www.youtube.com/embed/GuOGbvwdMWk?si=f0lxC3rxtVjBykuK"
                             title="YouTube video player"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
+                            referrerPolicy="strict-origin-when-cross-origin"
+                            allowFullScreen
                             style={{ padding: "1vh" }}
                         ></iframe>
                     </div>
@@ -275,16 +294,19 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                 <section
                     style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}
                 >
-                    <MusicCarousel
-                        albums={albums}
-                        buttonStyle={{
-                            backgroundColor: "white",
-                            padding: "10px",
-                            borderRadius: "15px",
-                            cursor: "pointer",
-                        }}
-                        portfolio={true}
-                    />
+            {albums > 0 &&
+              (
+                <MusicCarousel
+                  albums={albums}
+                  buttonStyle={{
+                    backgroundColor: "white",
+                    padding: "10px",
+                    borderRadius: "15px",
+                    cursor: "pointer",
+                  }}
+                  portfolio={true}
+                />
+              )}
                 </section>
                 <br />
                 <br />
