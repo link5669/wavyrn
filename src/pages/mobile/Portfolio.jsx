@@ -195,7 +195,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
       setIsVisible(true);
       setLoadingAlbums(true);
       try {
-        fetch("http://localhost:5001/api/albums").then((r) => {
+        fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums").then((r) => {
           r.json().then((d) => {
             console.log(r.ok);
             if (r.ok) {

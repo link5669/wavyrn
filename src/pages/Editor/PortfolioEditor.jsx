@@ -27,7 +27,7 @@ const PortfolioEditor = () => {
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
     try {
-      const response = await fetch("http://localhost:5001/api/portfolio");
+      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio");
       const data = await response.json();
       if (response.ok) {
         setPortfolioList(data.portfolioImages || []);
@@ -58,7 +58,7 @@ const PortfolioEditor = () => {
     setPortfolioMessage("");
 
     try {
-      const response = await fetch("http://localhost:5001/api/portfolio", {
+      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +95,7 @@ const PortfolioEditor = () => {
     setDeletingPortfolio(docId);
     try {
       const response = await fetch(
-        `http://localhost:5001/api/portfolio/${docId}`,
+        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/${docId}`,
         {
           method: "DELETE",
         },
@@ -125,7 +125,7 @@ const PortfolioEditor = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/portfolio/reorder",
+        "https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/reorder",
         {
           method: "PUT",
           headers: {

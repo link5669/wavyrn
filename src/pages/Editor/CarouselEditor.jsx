@@ -28,7 +28,7 @@ const AlbumEditor = () => {
   const fetchAlbumList = async () => {
     setLoadingAlbums(true);
     try {
-      const response = await fetch("http://localhost:5001/api/albums");
+      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums");
       const data = await response.json();
       if (response.ok) {
         setAlbumList(data.albums || []);
@@ -60,7 +60,7 @@ const AlbumEditor = () => {
     setAlbumMessage("");
 
     try {
-      const response = await fetch("http://localhost:5001/api/albums", {
+      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const AlbumEditor = () => {
 
     setDeletingAlbum(docId);
     try {
-      const response = await fetch(`http://localhost:5001/api/albums/${docId}`, {
+      const response = await fetch(`https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums/${docId}`, {
         method: "DELETE",
       });
 
@@ -120,7 +120,7 @@ const AlbumEditor = () => {
     setReorderingAlbum(docId);
 
     try {
-      const response = await fetch("http://localhost:5001/api/albums/reorder", {
+      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums/reorder", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
