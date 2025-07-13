@@ -18,15 +18,6 @@ const SFXEditor = () => {
     name: "",
     link: "",
   });
-  const [itemsPerPage] = useState(10);
-
-  const sfxIndexOfLastItem = sfxCurrentPage * itemsPerPage;
-  const sfxIndexOfFirstItem = sfxIndexOfLastItem - itemsPerPage;
-  const sfxCurrentItems = sfxList.slice(
-    sfxIndexOfFirstItem,
-    sfxIndexOfLastItem,
-  );
-  const sfxTotalPages = Math.ceil(sfxList.length / itemsPerPage);
 
   // URL validation function
   const isValidUrl = (string) => {
@@ -323,9 +314,9 @@ const SFXEditor = () => {
           </div>
         ) : (
           <>
-            {sfxCurrentItems.length > 0 ? (
+            {sfxList.length > 0 ? (
               <div style={{ marginBottom: "20px" }}>
-                {sfxCurrentItems.map((sfx, index) => (
+                {sfxList.map((sfx, index) => (
                   <div
                     key={sfx.id || index}
                     style={{
@@ -518,15 +509,6 @@ const SFXEditor = () => {
               >
                 No sound effects found. Add some using the form above!
               </div>
-            )}
-
-            {renderPaginationControls(
-              sfxCurrentPage,
-              sfxTotalPages,
-              handleSfxPageChange,
-              sfxIndexOfFirstItem,
-              sfxIndexOfLastItem,
-              sfxList.length,
             )}
           </>
         )}

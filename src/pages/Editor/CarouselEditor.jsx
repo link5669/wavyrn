@@ -21,15 +21,6 @@ const AlbumEditor = () => {
     track: "",
     coverUrl: "",
   });
-  const [itemsPerPage] = useState(10);
-
-  const albumIndexOfLastItem = albumCurrentPage * itemsPerPage;
-  const albumIndexOfFirstItem = albumIndexOfLastItem - itemsPerPage;
-  const albumCurrentItems = albumList.slice(
-    albumIndexOfFirstItem,
-    albumIndexOfLastItem,
-  );
-  const albumTotalPages = Math.ceil(albumList.length / itemsPerPage);
 
   // URL validation function
   const isValidUrl = (string) => {
@@ -378,9 +369,9 @@ const AlbumEditor = () => {
           </div>
         ) : (
           <>
-            {albumCurrentItems.length > 0 ? (
+            {albumList.length > 0 ? (
               <div style={{ marginBottom: "20px" }}>
-                {albumCurrentItems.map((album, index) => (
+                {albumList.map((album, index) => (
                   <div
                     key={album.docId || index}
                     style={{
@@ -725,15 +716,6 @@ const AlbumEditor = () => {
               >
                 No albums found. Add some using the form above!
               </div>
-            )}
-
-            {renderPaginationControls(
-              albumCurrentPage,
-              albumTotalPages,
-              handleAlbumPageChange,
-              albumIndexOfFirstItem,
-              albumIndexOfLastItem,
-              albumList.length,
             )}
           </>
         )}

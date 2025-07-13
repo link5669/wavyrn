@@ -21,15 +21,6 @@ const PortfolioEditor = () => {
     subtitle: "",
     imgSrc: "",
   });
-  const [itemsPerPage] = useState(10);
-
-  const portfolioIndexOfLastItem = portfolioCurrentPage * itemsPerPage;
-  const portfolioIndexOfFirstItem = portfolioIndexOfLastItem - itemsPerPage;
-  const portfolioCurrentItems = portfolioList.slice(
-    portfolioIndexOfFirstItem,
-    portfolioIndexOfLastItem,
-  );
-  const portfolioTotalPages = Math.ceil(portfolioList.length / itemsPerPage);
 
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
@@ -344,9 +335,9 @@ const PortfolioEditor = () => {
           </div>
         ) : (
           <>
-            {portfolioCurrentItems.length > 0 ? (
+            {portfolioList.length > 0 ? (
               <div style={{ marginBottom: "20px" }}>
-                {portfolioCurrentItems.map((portfolio, index) => (
+                {portfolioList.map((portfolio, index) => (
                   <div
                     key={portfolio.docId || index}
                     style={{
@@ -684,15 +675,6 @@ const PortfolioEditor = () => {
               >
                 No portfolio images found. Add some using the form above!
               </div>
-            )}
-
-            {renderPaginationControls(
-              portfolioCurrentPage,
-              portfolioTotalPages,
-              handlePortfolioPageChange,
-              portfolioIndexOfFirstItem,
-              portfolioIndexOfLastItem,
-              portfolioList.length,
             )}
           </>
         )}
