@@ -63,7 +63,7 @@ const Editor = () => {
               fontWeight: "bold",
             }}
           >
-            Album Carousel
+            Music Carousel
           </button>
         </div>
 

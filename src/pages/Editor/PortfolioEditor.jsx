@@ -15,6 +15,12 @@ const PortfolioEditor = () => {
   const [portfolioCurrentPage, setPortfolioCurrentPage] = useState(1);
   const [deletingPortfolio, setDeletingPortfolio] = useState(null);
   const [reorderingPortfolio, setReorderingPortfolio] = useState(null);
+  const [editingPortfolio, setEditingPortfolio] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    title: "",
+    subtitle: "",
+    imgSrc: "",
+  });
   const [itemsPerPage] = useState(10);
 
   const portfolioIndexOfLastItem = portfolioCurrentPage * itemsPerPage;
@@ -24,6 +30,7 @@ const PortfolioEditor = () => {
     portfolioIndexOfLastItem,
   );
   const portfolioTotalPages = Math.ceil(portfolioList.length / itemsPerPage);
+
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
     try {
@@ -40,13 +47,22 @@ const PortfolioEditor = () => {
       setLoadingPortfolio(false);
     }
   };
+
   useEffect(() => {
-        fetchPortfolioList();
+    fetchPortfolioList();
   }, []);
 
   const handlePortfolioInputChange = (e) => {
     const { name, value } = e.target;
     setPortfolioFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -85,6 +101,57 @@ const PortfolioEditor = () => {
     }
   };
 
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+    setPortfolioLoading(true);
+    setPortfolioMessage("");
+
+    try {
+      const response = await fetch(
+        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/${editingPortfolio}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editFormData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setPortfolioMessage("Portfolio image updated successfully!");
+        setPortfolioMessageType("success");
+        setEditingPortfolio(null);
+        setEditFormData({ title: "", subtitle: "", imgSrc: "" });
+        fetchPortfolioList();
+      } else {
+        setPortfolioMessage(data.error || "Failed to update portfolio image");
+        setPortfolioMessageType("error");
+      }
+    } catch (error) {
+      setPortfolioMessage("Network error: " + error.message);
+      setPortfolioMessageType("error");
+    } finally {
+      setPortfolioLoading(false);
+    }
+  };
+
+  const startEdit = (portfolio) => {
+    setEditingPortfolio(portfolio.docId);
+    setEditFormData({
+      title: portfolio.title,
+      subtitle: portfolio.subtitle,
+      imgSrc: portfolio.imgSrc,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingPortfolio(null);
+    setEditFormData({ title: "", subtitle: "", imgSrc: "" });
+  };
+
   const handlePortfolioDelete = async (docId) => {
     if (
       !window.confirm("Are you sure you want to delete this portfolio image?")
@@ -119,7 +186,6 @@ const PortfolioEditor = () => {
     }
   };
 
-  // Portfolio Reorder Handler
   const handlePortfolioReorder = async (docId, direction) => {
     setReorderingPortfolio(docId);
 
@@ -151,17 +217,16 @@ const PortfolioEditor = () => {
       setReorderingPortfolio(null);
     }
   };
+
   const handlePortfolioPageChange = (pageNumber) => {
     setPortfolioCurrentPage(pageNumber);
   };
+
   return (
     <div>
       <h2>Add Portfolio Image</h2>
 
-      <form
-        onSubmit={handlePortfolioSubmit}
-        style={{ marginBottom: "30px" }}
-      >
+      <form onSubmit={handlePortfolioSubmit} style={{ marginBottom: "30px" }}>
         <div style={{ marginBottom: "15px" }}>
           <label
             htmlFor="title"
@@ -270,7 +335,6 @@ const PortfolioEditor = () => {
         </div>
       )}
 
-      {/* Portfolio Images List */}
       <div>
         <h3>Current Portfolio Images ({portfolioList.length} total)</h3>
 
@@ -292,7 +356,7 @@ const PortfolioEditor = () => {
                       marginBottom: "10px",
                       backgroundColor: "#f9f9f9",
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "flex-start",
                       gap: "15px",
                     }}
                   >
@@ -310,199 +374,303 @@ const PortfolioEditor = () => {
                       }}
                     />
                     <div style={{ flex: 1 }}>
-                      <h4 style={{ margin: "0 0 5px 0", color: "#333" }}>
-                        #{portfolio.id} - {portfolio.title}
-                      </h4>
-                      <p style={{ margin: "5px 0", color: "#666" }}>
-                        {portfolio.subtitle}
-                      </p>
-                      <p
-                        style={{
-                          margin: "5px 0",
-                          fontSize: "0.9em",
-                          wordBreak: "break-all",
-                        }}
-                      >
-                        <strong>Image URL:</strong>
-                        <a
-                          href={portfolio.imgSrc}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ marginLeft: "5px", color: "#007bff" }}
-                        >
-                          {portfolio.imgSrc}
-                        </a>
-                      </p>
-                      {portfolio.createdAt && (
-                        <p
-                          style={{
-                            margin: "5px 0",
-                            fontSize: "0.9em",
-                            color: "#666",
-                          }}
-                        >
-                          <strong>Added:</strong>{" "}
-                          {new Date(
-                            portfolio.createdAt.seconds * 1000,
-                          ).toLocaleDateString()}
-                        </p>
+                      {editingPortfolio === portfolio.docId ? (
+                        <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              Title:
+                            </label>
+                            <input
+                              type="text"
+                              name="title"
+                              value={editFormData.title}
+                              onChange={handleEditInputChange}
+                              required
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              Subtitle:
+                            </label>
+                            <input
+                              type="text"
+                              name="subtitle"
+                              value={editFormData.subtitle}
+                              onChange={handleEditInputChange}
+                              required
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              Image URL:
+                            </label>
+                            <input
+                              type="url"
+                              name="imgSrc"
+                              value={editFormData.imgSrc}
+                              onChange={handleEditInputChange}
+                              required
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ display: "flex", gap: "10px" }}>
+                            <button
+                              type="submit"
+                              disabled={portfolioLoading}
+                              style={{
+                                backgroundColor: portfolioLoading ? "#ccc" : "#28a745",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: portfolioLoading ? "not-allowed" : "pointer",
+                              }}
+                            >
+                              {portfolioLoading ? "Updating..." : "Save"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={cancelEdit}
+                              style={{
+                                backgroundColor: "#6c757d",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
+                      ) : (
+                        <>
+                          <h4 style={{ margin: "0 0 5px 0", color: "#333" }}>
+                            #{portfolio.id} - {portfolio.title}
+                          </h4>
+                          <p style={{ margin: "5px 0", color: "#666" }}>
+                            {portfolio.subtitle}
+                          </p>
+                          <p
+                            style={{
+                              margin: "5px 0",
+                              fontSize: "0.9em",
+                              wordBreak: "break-all",
+                            }}
+                          >
+                            <strong>Image URL:</strong>
+                            <a
+                              href={portfolio.imgSrc}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ marginLeft: "5px", color: "#007bff" }}
+                            >
+                              {portfolio.imgSrc}
+                            </a>
+                          </p>
+                          {portfolio.createdAt && (
+                            <p
+                              style={{
+                                margin: "5px 0",
+                                fontSize: "0.9em",
+                                color: "#666",
+                              }}
+                            >
+                              <strong>Added:</strong>{" "}
+                              {new Date(
+                                portfolio.createdAt.seconds * 1000,
+                              ).toLocaleDateString()}
+                            </p>
+                          )}
+                        </>
                       )}
                     </div>
 
-                    {/* Reorder Controls */}
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "5px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      <button
-                        onClick={() =>
-                          handlePortfolioReorder(portfolio.docId, "top")
-                        }
-                        disabled={
-                          reorderingPortfolio === portfolio.docId ||
-                          portfolio.id === 1
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === 1
-                              ? "#ccc"
-                              : "#28a745",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === 1
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move to top"
-                      >
-                        ⇈
-                      </button>
-                      <button
-                        onClick={() =>
-                          handlePortfolioReorder(portfolio.docId, "up")
-                        }
-                        disabled={
-                          reorderingPortfolio === portfolio.docId ||
-                          portfolio.id === 1
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === 1
-                              ? "#ccc"
-                              : "#17a2b8",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === 1
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move up"
-                      >
-                        ↑
-                      </button>
-                      <button
-                        onClick={() =>
-                          handlePortfolioReorder(portfolio.docId, "down")
-                        }
-                        disabled={
-                          reorderingPortfolio === portfolio.docId ||
-                          portfolio.id === portfolioList.length
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === portfolioList.length
-                              ? "#ccc"
-                              : "#17a2b8",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === portfolioList.length
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move down"
-                      >
-                        ↓
-                      </button>
-                      <button
-                        onClick={() =>
-                          handlePortfolioReorder(
-                            portfolio.docId,
-                            "bottom",
-                          )
-                        }
-                        disabled={
-                          reorderingPortfolio === portfolio.docId ||
-                          portfolio.id === portfolioList.length
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === portfolioList.length
-                              ? "#ccc"
-                              : "#28a745",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingPortfolio === portfolio.docId ||
-                            portfolio.id === portfolioList.length
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move to bottom"
-                      >
-                        ⇊
-                      </button>
-                    </div>
+                    {editingPortfolio !== portfolio.docId && (
+                      <>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <button
+                            onClick={() =>
+                              handlePortfolioReorder(portfolio.docId, "top")
+                            }
+                            disabled={
+                              reorderingPortfolio === portfolio.docId ||
+                              portfolio.id === 1
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === 1
+                                  ? "#ccc"
+                                  : "#28a745",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move to top"
+                          >
+                            ⇈
+                          </button>
+                          <button
+                            onClick={() =>
+                              handlePortfolioReorder(portfolio.docId, "up")
+                            }
+                            disabled={
+                              reorderingPortfolio === portfolio.docId ||
+                              portfolio.id === 1
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === 1
+                                  ? "#ccc"
+                                  : "#17a2b8",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move up"
+                          >
+                            ↑
+                          </button>
+                          <button
+                            onClick={() =>
+                              handlePortfolioReorder(portfolio.docId, "down")
+                            }
+                            disabled={
+                              reorderingPortfolio === portfolio.docId ||
+                              portfolio.id === portfolioList.length
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === portfolioList.length
+                                  ? "#ccc"
+                                  : "#17a2b8",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === portfolioList.length
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move down"
+                          >
+                            ↓
+                          </button>
+                          <button
+                            onClick={() =>
+                              handlePortfolioReorder(portfolio.docId, "bottom")
+                            }
+                            disabled={
+                              reorderingPortfolio === portfolio.docId ||
+                              portfolio.id === portfolioList.length
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === portfolioList.length
+                                  ? "#ccc"
+                                  : "#28a745",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingPortfolio === portfolio.docId ||
+                                portfolio.id === portfolioList.length
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move to bottom"
+                          >
+                            ⇊
+                          </button>
+                        </div>
 
-                    <button
-                      onClick={() =>
-                        handlePortfolioDelete(portfolio.docId)
-                      }
-                      disabled={deletingPortfolio === portfolio.docId}
-                      style={{
-                        backgroundColor:
-                          deletingPortfolio === portfolio.docId
-                            ? "#ccc"
-                            : "#dc3545",
-                        color: "white",
-                        padding: "8px 15px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor:
-                          deletingPortfolio === portfolio.docId
-                            ? "not-allowed"
-                            : "pointer",
-                      }}
-                    >
-                      {deletingPortfolio === portfolio.docId
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                          <button
+                            onClick={() => startEdit(portfolio)}
+                            style={{
+                              backgroundColor: "#ffc107",
+                              color: "black",
+                              padding: "8px 15px",
+                              border: "none",
+                              borderRadius: "4px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handlePortfolioDelete(portfolio.docId)}
+                            disabled={deletingPortfolio === portfolio.docId}
+                            style={{
+                              backgroundColor:
+                                deletingPortfolio === portfolio.docId
+                                  ? "#ccc"
+                                  : "#dc3545",
+                              color: "white",
+                              padding: "8px 15px",
+                              border: "none",
+                              borderRadius: "4px",
+                              cursor:
+                                deletingPortfolio === portfolio.docId
+                                  ? "not-allowed"
+                                  : "pointer",
+                            }}
+                          >
+                            {deletingPortfolio === portfolio.docId
+                              ? "Deleting..."
+                              : "Delete"}
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
@@ -530,7 +698,7 @@ const PortfolioEditor = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PortfolioEditor
+export default PortfolioEditor;

@@ -10,6 +10,7 @@ import {
   query,
   updateDoc,
   writeBatch,
+  getDoc,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
@@ -77,6 +78,71 @@ export default function albumRoute(firebaseApp) {
         });
       });
       res.status(200).json({ albums });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // GET route to retrieve a single album
+  router.get("/:docId", async (req, res) => {
+    try {
+      const { docId } = req.params;
+      const docRef = doc(db, "albums", docId);
+      const docSnapshot = await getDoc(docRef);
+
+      if (!docSnapshot.exists()) {
+        return res.status(404).json({
+          error: "Album not found"
+        });
+      }
+
+      res.status(200).json({
+        docId: docSnapshot.id,
+        ...docSnapshot.data()
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // PUT route to update an album
+  router.put("/:docId", async (req, res) => {
+    try {
+      const { docId } = req.params;
+      const { title, track, coverUrl } = req.body;
+
+      // Validate required fields
+      if (!title || !track || !coverUrl) {
+        return res.status(400).json({
+          error: "All fields (title, track, coverUrl) are required",
+        });
+      }
+
+      // Check if document exists
+      const docRef = doc(db, "albums", docId);
+      const docSnapshot = await getDoc(docRef);
+
+      if (!docSnapshot.exists()) {
+        return res.status(404).json({
+          error: "Album not found"
+        });
+      }
+
+      // Update the document
+      const updateData = {
+        title: title,
+        track: track,
+        coverUrl: coverUrl,
+        updatedAt: Timestamp.now()
+      };
+
+      await updateDoc(docRef, updateData);
+
+      res.status(200).json({
+        success: true,
+        message: "Album updated successfully",
+        data: updateData
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -168,8 +234,18 @@ export default function albumRoute(firebaseApp) {
         });
       }
 
+      // Check if document exists before deleting
+      const docRef = doc(db, "albums", docId);
+      const docSnapshot = await getDoc(docRef);
+
+      if (!docSnapshot.exists()) {
+        return res.status(404).json({
+          error: "Album not found"
+        });
+      }
+
       // Delete the document from Firestore
-      await deleteDoc(doc(db, "albums", docId));
+      await deleteDoc(docRef);
 
       // Reorder remaining items to fill the gap
       const querySnapshot = await getDocs(

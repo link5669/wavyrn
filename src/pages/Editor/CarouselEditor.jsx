@@ -15,6 +15,12 @@ const AlbumEditor = () => {
   const [albumCurrentPage, setAlbumCurrentPage] = useState(1);
   const [deletingAlbum, setDeletingAlbum] = useState(null);
   const [reorderingAlbum, setReorderingAlbum] = useState(null);
+  const [editingAlbum, setEditingAlbum] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    title: "",
+    track: "",
+    coverUrl: "",
+  });
   const [itemsPerPage] = useState(10);
 
   const albumIndexOfLastItem = albumCurrentPage * itemsPerPage;
@@ -24,6 +30,16 @@ const AlbumEditor = () => {
     albumIndexOfLastItem,
   );
   const albumTotalPages = Math.ceil(albumList.length / itemsPerPage);
+
+  // URL validation function
+  const isValidUrl = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
 
   const fetchAlbumList = async () => {
     setLoadingAlbums(true);
@@ -42,6 +58,20 @@ const AlbumEditor = () => {
     }
   };
 
+  // Handle Escape key to cancel editing
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && editingAlbum) {
+        cancelEdit();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [editingAlbum]);
+
   useEffect(() => {
     fetchAlbumList();
   }, []);
@@ -54,8 +84,24 @@ const AlbumEditor = () => {
     }));
   };
 
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleAlbumSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate URL before submitting
+    if (!isValidUrl(albumFormData.coverUrl)) {
+      setAlbumMessage("Please enter a valid cover URL");
+      setAlbumMessageType("error");
+      return;
+    }
+
     setAlbumLoading(true);
     setAlbumMessage("");
 
@@ -85,6 +131,67 @@ const AlbumEditor = () => {
     } finally {
       setAlbumLoading(false);
     }
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate URL before submitting
+    if (!isValidUrl(editFormData.coverUrl)) {
+      setAlbumMessage("Please enter a valid cover URL");
+      setAlbumMessageType("error");
+      return;
+    }
+
+    setAlbumLoading(true);
+    setAlbumMessage("");
+
+    try {
+      const response = await fetch(
+        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums/${editingAlbum}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(editFormData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAlbumMessage("Album updated successfully!");
+        setAlbumMessageType("success");
+        setEditingAlbum(null);
+        setEditFormData({ title: "", track: "", coverUrl: "" });
+        fetchAlbumList();
+      } else {
+        setAlbumMessage(data.error || "Failed to update album");
+        setAlbumMessageType("error");
+      }
+    } catch (error) {
+      setAlbumMessage("Network error: " + error.message);
+      setAlbumMessageType("error");
+    } finally {
+      setAlbumLoading(false);
+    }
+  };
+
+  const startEdit = (album) => {
+    setEditingAlbum(album.docId);
+    setEditFormData({
+      title: album.title,
+      track: album.track,
+      coverUrl: album.coverUrl,
+    });
+    setAlbumMessage(""); // Clear any existing messages
+  };
+
+  const cancelEdit = () => {
+    setEditingAlbum(null);
+    setEditFormData({ title: "", track: "", coverUrl: "" });
+    setAlbumMessage(""); // Clear any existing messages
   };
 
   const handleAlbumDelete = async (docId) => {
@@ -183,7 +290,7 @@ const AlbumEditor = () => {
             htmlFor="track"
             style={{ display: "block", marginBottom: "5px" }}
           >
-            Track/Artist:
+            Track URL:
           </label>
           <input
             type="text"
@@ -263,7 +370,7 @@ const AlbumEditor = () => {
 
       {/* Albums List */}
       <div>
-        <h3>Current Albums ({albumList.length} total)</h3>
+        <h3>Current Tracks ({albumList.length} total)</h3>
 
         {loadingAlbums ? (
           <div style={{ textAlign: "center", padding: "20px" }}>
@@ -281,204 +388,332 @@ const AlbumEditor = () => {
                       borderRadius: "4px",
                       padding: "15px",
                       marginBottom: "10px",
-                      backgroundColor: "#f9f9f9",
+                      backgroundColor: editingAlbum === album.docId ? "#f0f8ff" : "#f9f9f9",
                       display: "flex",
-                      alignItems: "center",
+                      alignItems: "flex-start",
                       gap: "15px",
                     }}
                   >
-                    <img
-                      src={album.coverUrl}
-                      alt={album.title}
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        objectFit: "cover",
-                        borderRadius: "4px",
-                      }}
-                      onError={(e) => {
-                        e.target.style.display = "none";
-                      }}
-                    />
-                    <div style={{ flex: 1 }}>
-                      <h4 style={{ margin: "0 0 5px 0", color: "#333" }}>
-                        #{album.id} - {album.title}
-                      </h4>
-                      <p style={{ margin: "5px 0", color: "#666" }}>
-                        {album.track}
-                      </p>
-                      <p
+                    {editingAlbum !== album.docId && (
+                      <img
+                        src={album.coverUrl}
+                        alt={album.title}
                         style={{
-                          margin: "5px 0",
-                          fontSize: "0.9em",
-                          wordBreak: "break-all",
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                          borderRadius: "4px",
                         }}
-                      >
-                        <strong>Cover URL:</strong>
-                        <a
-                          href={album.coverUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ marginLeft: "5px", color: "#007bff" }}
-                        >
-                          {album.coverUrl}
-                        </a>
-                      </p>
-                      {album.createdAt && (
-                        <p
-                          style={{
-                            margin: "5px 0",
-                            fontSize: "0.9em",
-                            color: "#666",
-                          }}
-                        >
-                          <strong>Added:</strong>{" "}
-                          {new Date(
-                            album.createdAt.seconds * 1000,
-                          ).toLocaleDateString()}
-                        </p>
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    )}
+
+                    <div style={{ flex: 1 }}>
+                      {editingAlbum === album.docId ? (
+                        <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              Album Title:
+                            </label>
+                            <input
+                              type="text"
+                              name="title"
+                              value={editFormData.title}
+                              onChange={handleEditInputChange}
+                              required
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              Track:
+                            </label>
+                            <input
+                              type="text"
+                              name="track"
+                              value={editFormData.track}
+                              onChange={handleEditInputChange}
+                              required
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              Cover URL:
+                            </label>
+                            <input
+                              type="url"
+                              name="coverUrl"
+                              value={editFormData.coverUrl}
+                              onChange={handleEditInputChange}
+                              required
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          <div style={{ display: "flex", gap: "10px" }}>
+                            <button
+                              type="submit"
+                              disabled={albumLoading}
+                              style={{
+                                backgroundColor: albumLoading ? "#ccc" : "#28a745",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: albumLoading ? "not-allowed" : "pointer",
+                              }}
+                            >
+                              {albumLoading ? "Updating..." : "Save"}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={cancelEdit}
+                              style={{
+                                backgroundColor: "#6c757d",
+                                color: "white",
+                                padding: "6px 12px",
+                                border: "none",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
+                      ) : (
+                        <>
+                          <h4 style={{ margin: "0 0 5px 0", color: "#333" }}>
+                            #{album.id} - {album.title}
+                          </h4>
+                          <p style={{ margin: "5px 0", color: "#666" }}>
+                            {album.track}
+                          </p>
+                          <p
+                            style={{
+                              margin: "5px 0",
+                              fontSize: "0.9em",
+                              wordBreak: "break-all",
+                            }}
+                          >
+                            <strong>Cover URL:</strong>
+                            <a
+                              href={album.coverUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ marginLeft: "5px", color: "#007bff" }}
+                            >
+                              {album.coverUrl}
+                            </a>
+                          </p>
+                          {album.createdAt && (
+                            <p
+                              style={{
+                                margin: "5px 0",
+                                fontSize: "0.9em",
+                                color: "#666",
+                              }}
+                            >
+                              <strong>Added:</strong>{" "}
+                              {new Date(
+                                album.createdAt.seconds * 1000,
+                              ).toLocaleDateString()}
+                            </p>
+                          )}
+                          {album.updatedAt && (
+                            <p
+                              style={{
+                                margin: "5px 0",
+                                fontSize: "0.9em",
+                                color: "#666",
+                              }}
+                            >
+                              <strong>Updated:</strong>{" "}
+                              {new Date(
+                                album.updatedAt.seconds * 1000,
+                              ).toLocaleDateString()}
+                            </p>
+                          )}
+                        </>
                       )}
                     </div>
 
-                    {/* Reorder Controls */}
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "5px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      <button
-                        onClick={() =>
-                          handleAlbumReorder(album.docId, "top")
-                        }
-                        disabled={
-                          reorderingAlbum === album.docId || album.id === 1
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingAlbum === album.docId || album.id === 1
-                              ? "#ccc"
-                              : "#28a745",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingAlbum === album.docId || album.id === 1
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move to top"
-                      >
-                        ⇈
-                      </button>
-                      <button
-                        onClick={() => handleAlbumReorder(album.docId, "up")}
-                        disabled={
-                          reorderingAlbum === album.docId || album.id === 1
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingAlbum === album.docId || album.id === 1
-                              ? "#ccc"
-                              : "#17a2b8",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingAlbum === album.docId || album.id === 1
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move up"
-                      >
-                        ↑
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleAlbumReorder(album.docId, "down")
-                        }
-                        disabled={
-                          reorderingAlbum === album.docId ||
-                          album.id === albumList.length
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingAlbum === album.docId ||
-                            album.id === albumList.length
-                              ? "#ccc"
-                              : "#17a2b8",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingAlbum === album.docId ||
-                            album.id === albumList.length
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move down"
-                      >
-                        ↓
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleAlbumReorder(album.docId, "bottom")
-                        }
-                        disabled={
-                          reorderingAlbum === album.docId ||
-                          album.id === albumList.length
-                        }
-                        style={{
-                          backgroundColor:
-                            reorderingAlbum === album.docId ||
-                            album.id === albumList.length
-                              ? "#ccc"
-                              : "#28a745",
-                          color: "white",
-                          padding: "4px 8px",
-                          border: "none",
-                          borderRadius: "3px",
-                          cursor:
-                            reorderingAlbum === album.docId ||
-                            album.id === albumList.length
-                              ? "not-allowed"
-                              : "pointer",
-                          fontSize: "12px",
-                        }}
-                        title="Move to bottom"
-                      >
-                        ⇊
-                      </button>
-                    </div>
+                    {editingAlbum !== album.docId && (
+                      <>
+                        {/* Reorder Controls */}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <button
+                            onClick={() =>
+                              handleAlbumReorder(album.docId, "top")
+                            }
+                            disabled={
+                              reorderingAlbum === album.docId || album.id === 1
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingAlbum === album.docId || album.id === 1
+                                  ? "#ccc"
+                                  : "#28a745",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingAlbum === album.docId || album.id === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move to top"
+                          >
+                            ⇈
+                          </button>
+                          <button
+                            onClick={() => handleAlbumReorder(album.docId, "up")}
+                            disabled={
+                              reorderingAlbum === album.docId || album.id === 1
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingAlbum === album.docId || album.id === 1
+                                  ? "#ccc"
+                                  : "#17a2b8",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingAlbum === album.docId || album.id === 1
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move up"
+                          >
+                            ↑
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAlbumReorder(album.docId, "down")
+                            }
+                            disabled={
+                              reorderingAlbum === album.docId ||
+                              album.id === albumList.length
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingAlbum === album.docId ||
+                                  album.id === albumList.length
+                                  ? "#ccc"
+                                  : "#17a2b8",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingAlbum === album.docId ||
+                                  album.id === albumList.length
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move down"
+                          >
+                            ↓
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleAlbumReorder(album.docId, "bottom")
+                            }
+                            disabled={
+                              reorderingAlbum === album.docId ||
+                              album.id === albumList.length
+                            }
+                            style={{
+                              backgroundColor:
+                                reorderingAlbum === album.docId ||
+                                  album.id === albumList.length
+                                  ? "#ccc"
+                                  : "#28a745",
+                              color: "white",
+                              padding: "4px 8px",
+                              border: "none",
+                              borderRadius: "3px",
+                              cursor:
+                                reorderingAlbum === album.docId ||
+                                  album.id === albumList.length
+                                  ? "not-allowed"
+                                  : "pointer",
+                              fontSize: "12px",
+                            }}
+                            title="Move to bottom"
+                          >
+                            ⇊
+                          </button>
+                        </div>
 
-                    <button
-                      onClick={() => handleAlbumDelete(album.docId)}
-                      disabled={deletingAlbum === album.docId}
-                      style={{
-                        backgroundColor:
-                          deletingAlbum === album.docId ? "#ccc" : "#dc3545",
-                        color: "white",
-                        padding: "8px 15px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor:
-                          deletingAlbum === album.docId
-                            ? "not-allowed"
-                            : "pointer",
-                      }}
-                    >
-                      {deletingAlbum === album.docId ? "Deleting..." : "Delete"}
-                    </button>
+                        {/* Edit and Delete buttons */}
+                        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                          <button
+                            onClick={() => startEdit(album)}
+                            style={{
+                              backgroundColor: "#ffc107",
+                              color: "black",
+                              padding: "8px 15px",
+                              border: "none",
+                              borderRadius: "4px",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleAlbumDelete(album.docId)}
+                            disabled={deletingAlbum === album.docId}
+                            style={{
+                              backgroundColor:
+                                deletingAlbum === album.docId ? "#ccc" : "#dc3545",
+                              color: "white",
+                              padding: "8px 15px",
+                              border: "none",
+                              borderRadius: "4px",
+                              cursor:
+                                deletingAlbum === album.docId
+                                  ? "not-allowed"
+                                  : "pointer",
+                            }}
+                          >
+                            {deletingAlbum === album.docId ? "Deleting..." : "Delete"}
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
-                ))}
+                ))} {/* Fixed: Added missing closing parenthesis and brace for map function */}
               </div>
             ) : (
               <div

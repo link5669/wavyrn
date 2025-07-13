@@ -10,6 +10,7 @@ import {
   query,
   updateDoc,
   writeBatch,
+  getDoc,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
@@ -80,6 +81,49 @@ export default function portfolioRoute(firebaseApp) {
         });
       });
       res.status(200).json({ portfolioImages });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // PUT route to update a portfolio image
+  router.put("/:docId", async (req, res) => {
+    try {
+      const { docId } = req.params;
+      const { title, subtitle, imgSrc } = req.body;
+
+      // Validate required fields
+      if (!title || !subtitle || !imgSrc) {
+        return res.status(400).json({
+          error: "All fields (title, subtitle, imgSrc) are required",
+        });
+      }
+
+      // Check if document exists
+      const docRef = doc(db, "portfolioImages", docId);
+      const docSnapshot = await getDoc(docRef);
+
+      if (!docSnapshot.exists()) {
+        return res.status(404).json({
+          error: "Portfolio image not found",
+        });
+      }
+
+      // Update the document
+      const updateData = {
+        title: title,
+        subtitle: subtitle,
+        imgSrc: imgSrc,
+        updatedAt: Timestamp.now(),
+      };
+
+      await updateDoc(docRef, updateData);
+
+      res.status(200).json({
+        success: true,
+        message: "Portfolio image updated successfully",
+        data: updateData,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
