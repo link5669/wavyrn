@@ -267,22 +267,32 @@ const Contact = ({ isMobile }) => {
                     </div>
                 </form>
             </div>
-            <footer
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+              padding: "30px 30%"
+            }}>
+              <img
                 style={{
-                    backgroundColor: "black",
-                    height: "50px", // Adjust height as needed
+                  maxHeight: "60px",
+                  flexShrink: 1,
+                  paddingRight: "20%",
                 }}
-            >
-                <p
-                    style={{
-                        color: "white",
-                        textAlign: "center",
-                        lineHeight: "50px",
-                    }}
-                >
-                    ©️2025 Wavyrn • All Rights Reserved
-                </p>
-            </footer>
+                src="/images/logo_red.png"
+              />
+              <p
+                style={{
+                  color: "white",
+                  margin: 0,
+                  lineHeight: "50px",
+                  whiteSpace: "nowrap"  // Prevents text wrapping
+                }}
+              >
+                ©️2025 Wavyrn • All Rights Reserved
+              </p>
+            </div>
         </>
     );
 };

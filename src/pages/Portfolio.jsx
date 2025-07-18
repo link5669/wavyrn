@@ -320,6 +320,32 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         </div>
         <hr style={dividerStyle} />
       </div>
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "10px",
+        padding: "30px 30%"
+      }}>
+        <img
+          style={{
+            maxHeight: "60px",
+            flexShrink: 1,
+            paddingRight: "20%",
+          }}
+          src="/images/logo_red.png"
+        />
+        <p
+          style={{
+            color: "white",
+            margin: 0,
+            lineHeight: "50px",
+            whiteSpace: "nowrap"  // Prevents text wrapping
+          }}
+        >
+          ©️2025 Wavyrn • All Rights Reserved
+        </p>
+      </div>
     </div>
   );
 }
