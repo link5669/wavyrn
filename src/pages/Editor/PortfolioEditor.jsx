@@ -99,14 +99,16 @@ const PortfolioEditor = () => {
 
     try {
       const response = await fetch(
-        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/${editingPortfolio}`,
+        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/update`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(editFormData),
-        }
+          body: JSON.stringify({
+             docId: editingPortfolio,
+             ...editFormData,
+           }),        }
       );
 
       const data = await response.json();
