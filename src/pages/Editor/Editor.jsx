@@ -3,9 +3,37 @@ import WavNavbar from "../../components/Navbar/Navbar";
 import SFXEditor from "./SFXEditor";
 import PortfolioEditor from "./PortfolioEditor";
 import AlbumEditor from "./CarouselEditor";
+import PasswordProtection from "../../components/EditorLogin"
 
 const Editor = () => {
-  const [activeTab, setActiveTab] = useState("sfx"); // 'sfx' or 'portfolio'
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [activeTab, setActiveTab] = useState("sfx");
+
+    useEffect(() => {
+      // Check if user is already authenticated
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        // Optionally verify token with backend
+        verifyToken(token);
+      }
+    }, []);
+
+    const verifyToken = async (token) => {
+      try {
+        const response = await fetch('https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/auth/verify-token', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (response.ok) {
+          setIsAuthenticated(true);
+        } else {
+          localStorage.removeItem('authToken');
+        }
+      } catch (err) {
+        localStorage.removeItem('authToken');
+      }
+    };
 
   return (
     <div
@@ -17,8 +45,10 @@ const Editor = () => {
     >
       <WavNavbar showLogo={true} />
       <div style={{ paddingTop: "70px" }} />
+      {!isAuthenticated ?
+        (<PasswordProtection onAuthenticated={() => setIsAuthenticated(true)} />) : (
       <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
-        {/* Tab Navigation */}
+
         <div style={{ marginBottom: "30px", borderBottom: "2px solid #eee" }}>
           <button
             onClick={() => setActiveTab("sfx")}
@@ -67,7 +97,6 @@ const Editor = () => {
           </button>
         </div>
 
-        {/* SFX Tab Content */}
         {activeTab === "sfx" && (
           <SFXEditor/>
         )}
@@ -80,7 +109,10 @@ const Editor = () => {
         {activeTab === "carousel" && (
           <AlbumEditor/>
         )}
+
       </div>
+        )
+      }
     </div>
   );
 };
