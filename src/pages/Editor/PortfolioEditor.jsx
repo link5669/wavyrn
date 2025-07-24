@@ -25,7 +25,7 @@ const PortfolioEditor = () => {
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
     try {
-      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio");
+      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio");
       const data = await response.json();
       if (response.ok) {
         setPortfolioList(data.portfolioImages || []);
@@ -65,7 +65,7 @@ const PortfolioEditor = () => {
     setPortfolioMessage("");
 
     try {
-      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio", {
+      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,7 +99,7 @@ const PortfolioEditor = () => {
 
     try {
       const response = await fetch(
-        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/update`,
+        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio/update`,
         {
           method: "PUT",
           headers: {
@@ -155,7 +155,7 @@ const PortfolioEditor = () => {
     setDeletingPortfolio(docId);
     try {
       const response = await fetch(
-        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/${docId}`,
+        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio/${docId}`,
         {
           method: "DELETE",
         },
@@ -184,7 +184,7 @@ const PortfolioEditor = () => {
 
     try {
       const response = await fetch(
-        "https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio/reorder",
+        "https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio/reorder",
         {
           method: "PUT",
           headers: {

@@ -105,7 +105,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     setIsVisible(true);
     setLoadingAlbums(true);
     try {
-      fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/albums").then((r) => {
+      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums").then((r) => {
         r.json().then((d) => {
           console.log(r.ok);
           if (r.ok) {
@@ -124,7 +124,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
     setLoadingSfx(true);
     try {
-      fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/soundEffects").then((r) => {
+      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects").then((r) => {
         r.json().then((d) => {
           console.log(d);
           if (r.ok) {
@@ -142,7 +142,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
     setLoadingSfx(true);
     try {
-      fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/soundEffects").then((r) => {
+      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects").then((r) => {
         r.json().then((d) => {
           console.log(d);
           if (r.ok) {
@@ -160,7 +160,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
     setLoadingPortfolio(true);
     try {
-      fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/portfolio").then((r) => {
+      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio").then((r) => {
         r.json().then((d) => {
           console.log(d);
           if (r.ok) {

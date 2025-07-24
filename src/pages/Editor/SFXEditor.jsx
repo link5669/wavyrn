@@ -32,7 +32,7 @@ const SFXEditor = () => {
   const fetchSfxList = async () => {
     setLoadingSfx(true);
     try {
-      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/soundEffects");
+      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects");
       const data = await response.json();
       if (response.ok) {
         setSfxList(data.soundEffects || []);
@@ -94,7 +94,7 @@ const SFXEditor = () => {
     setSfxMessage("");
 
     try {
-      const response = await fetch("https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/soundEffects", {
+      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const SFXEditor = () => {
 
     try {
       const response = await fetch(
-        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/soundEffects/${editingSfx}`,
+        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects/${editingSfx}`,
         {
           method: "PUT",
           headers: {
@@ -189,7 +189,7 @@ const SFXEditor = () => {
     setDeletingSfx(id);
     try {
       const response = await fetch(
-        `https://wavyrn-backend-k4sh6a558-mi-s-projects.vercel.app/api/soundEffects/${id}`,
+        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects/${id}`,
         {
           method: "DELETE",
         },
