@@ -25,7 +25,7 @@ const PortfolioEditor = () => {
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio");
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio`);
       const data = await response.json();
       if (response.ok) {
         setPortfolioList(data.portfolioImages || []);
@@ -65,7 +65,7 @@ const PortfolioEditor = () => {
     setPortfolioMessage("");
 
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio", {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -99,16 +99,17 @@ const PortfolioEditor = () => {
 
     try {
       const response = await fetch(
-        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio/update`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/update`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-             docId: editingPortfolio,
-             ...editFormData,
-           }),        }
+            docId: editingPortfolio,
+            ...editFormData,
+          }),
+        },
       );
 
       const data = await response.json();
@@ -155,7 +156,7 @@ const PortfolioEditor = () => {
     setDeletingPortfolio(docId);
     try {
       const response = await fetch(
-        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio/${docId}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/${docId}`,
         {
           method: "DELETE",
         },
@@ -184,7 +185,7 @@ const PortfolioEditor = () => {
 
     try {
       const response = await fetch(
-        "https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio/reorder",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/reorder`,
         {
           method: "PUT",
           headers: {
@@ -315,8 +316,7 @@ const PortfolioEditor = () => {
             borderRadius: "4px",
             backgroundColor:
               portfolioMessageType === "success" ? "#d4edda" : "#f8d7da",
-            color:
-              portfolioMessageType === "success" ? "#155724" : "#721c24",
+            color: portfolioMessageType === "success" ? "#155724" : "#721c24",
             border:
               portfolioMessageType === "success"
                 ? "1px solid #c3e6cb"
@@ -368,9 +368,18 @@ const PortfolioEditor = () => {
                     />
                     <div style={{ flex: 1 }}>
                       {editingPortfolio === portfolio.docId ? (
-                        <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
+                        <form
+                          onSubmit={handleEditSubmit}
+                          style={{ marginBottom: "10px" }}
+                        >
                           <div style={{ marginBottom: "10px" }}>
-                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Title:
                             </label>
                             <input
@@ -388,7 +397,13 @@ const PortfolioEditor = () => {
                             />
                           </div>
                           <div style={{ marginBottom: "10px" }}>
-                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Subtitle:
                             </label>
                             <input
@@ -406,7 +421,13 @@ const PortfolioEditor = () => {
                             />
                           </div>
                           <div style={{ marginBottom: "10px" }}>
-                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Image URL:
                             </label>
                             <input
@@ -428,12 +449,16 @@ const PortfolioEditor = () => {
                               type="submit"
                               disabled={portfolioLoading}
                               style={{
-                                backgroundColor: portfolioLoading ? "#ccc" : "#28a745",
+                                backgroundColor: portfolioLoading
+                                  ? "#ccc"
+                                  : "#28a745",
                                 color: "white",
                                 padding: "6px 12px",
                                 border: "none",
                                 borderRadius: "4px",
-                                cursor: portfolioLoading ? "not-allowed" : "pointer",
+                                cursor: portfolioLoading
+                                  ? "not-allowed"
+                                  : "pointer",
                               }}
                             >
                               {portfolioLoading ? "Updating..." : "Save"}
@@ -625,7 +650,13 @@ const PortfolioEditor = () => {
                           </button>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                          }}
+                        >
                           <button
                             onClick={() => startEdit(portfolio)}
                             style={{
@@ -640,7 +671,9 @@ const PortfolioEditor = () => {
                             Edit
                           </button>
                           <button
-                            onClick={() => handlePortfolioDelete(portfolio.docId)}
+                            onClick={() =>
+                              handlePortfolioDelete(portfolio.docId)
+                            }
                             disabled={deletingPortfolio === portfolio.docId}
                             style={{
                               backgroundColor:

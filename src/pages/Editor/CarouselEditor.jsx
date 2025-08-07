@@ -35,7 +35,7 @@ const AlbumEditor = () => {
   const fetchAlbumList = async () => {
     setLoadingAlbums(true);
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums");
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums`);
       const data = await response.json();
       if (response.ok) {
         setAlbumList(data.albums || []);
@@ -52,14 +52,14 @@ const AlbumEditor = () => {
   // Handle Escape key to cancel editing
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape' && editingAlbum) {
+      if (event.key === "Escape" && editingAlbum) {
         cancelEdit();
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [editingAlbum]);
 
@@ -97,7 +97,7 @@ const AlbumEditor = () => {
     setAlbumMessage("");
 
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums", {
+      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,14 +139,14 @@ const AlbumEditor = () => {
 
     try {
       const response = await fetch(
-        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums/${editingAlbum}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/${editingAlbum}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(editFormData),
-        }
+        },
       );
 
       const data = await response.json();
@@ -192,9 +192,12 @@ const AlbumEditor = () => {
 
     setDeletingAlbum(docId);
     try {
-      const response = await fetch(`https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums/${docId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/${docId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       const data = await response.json();
 
@@ -218,13 +221,16 @@ const AlbumEditor = () => {
     setReorderingAlbum(docId);
 
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums/reorder", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/reorder`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ docId, direction }),
         },
-        body: JSON.stringify({ docId, direction }),
-      });
+      );
 
       const data = await response.json();
 
@@ -379,7 +385,8 @@ const AlbumEditor = () => {
                       borderRadius: "4px",
                       padding: "15px",
                       marginBottom: "10px",
-                      backgroundColor: editingAlbum === album.docId ? "#f0f8ff" : "#f9f9f9",
+                      backgroundColor:
+                        editingAlbum === album.docId ? "#f0f8ff" : "#f9f9f9",
                       display: "flex",
                       alignItems: "flex-start",
                       gap: "15px",
@@ -403,9 +410,18 @@ const AlbumEditor = () => {
 
                     <div style={{ flex: 1 }}>
                       {editingAlbum === album.docId ? (
-                        <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
+                        <form
+                          onSubmit={handleEditSubmit}
+                          style={{ marginBottom: "10px" }}
+                        >
                           <div style={{ marginBottom: "10px" }}>
-                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Album Title:
                             </label>
                             <input
@@ -423,7 +439,13 @@ const AlbumEditor = () => {
                             />
                           </div>
                           <div style={{ marginBottom: "10px" }}>
-                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Track:
                             </label>
                             <input
@@ -441,7 +463,13 @@ const AlbumEditor = () => {
                             />
                           </div>
                           <div style={{ marginBottom: "10px" }}>
-                            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Cover URL:
                             </label>
                             <input
@@ -463,12 +491,16 @@ const AlbumEditor = () => {
                               type="submit"
                               disabled={albumLoading}
                               style={{
-                                backgroundColor: albumLoading ? "#ccc" : "#28a745",
+                                backgroundColor: albumLoading
+                                  ? "#ccc"
+                                  : "#28a745",
                                 color: "white",
                                 padding: "6px 12px",
                                 border: "none",
                                 borderRadius: "4px",
-                                cursor: albumLoading ? "not-allowed" : "pointer",
+                                cursor: albumLoading
+                                  ? "not-allowed"
+                                  : "pointer",
                               }}
                             >
                               {albumLoading ? "Updating..." : "Save"}
@@ -566,7 +598,8 @@ const AlbumEditor = () => {
                             }
                             style={{
                               backgroundColor:
-                                reorderingAlbum === album.docId || album.id === 1
+                                reorderingAlbum === album.docId ||
+                                album.id === 1
                                   ? "#ccc"
                                   : "#28a745",
                               color: "white",
@@ -574,7 +607,8 @@ const AlbumEditor = () => {
                               border: "none",
                               borderRadius: "3px",
                               cursor:
-                                reorderingAlbum === album.docId || album.id === 1
+                                reorderingAlbum === album.docId ||
+                                album.id === 1
                                   ? "not-allowed"
                                   : "pointer",
                               fontSize: "12px",
@@ -584,13 +618,16 @@ const AlbumEditor = () => {
                             ⇈
                           </button>
                           <button
-                            onClick={() => handleAlbumReorder(album.docId, "up")}
+                            onClick={() =>
+                              handleAlbumReorder(album.docId, "up")
+                            }
                             disabled={
                               reorderingAlbum === album.docId || album.id === 1
                             }
                             style={{
                               backgroundColor:
-                                reorderingAlbum === album.docId || album.id === 1
+                                reorderingAlbum === album.docId ||
+                                album.id === 1
                                   ? "#ccc"
                                   : "#17a2b8",
                               color: "white",
@@ -598,7 +635,8 @@ const AlbumEditor = () => {
                               border: "none",
                               borderRadius: "3px",
                               cursor:
-                                reorderingAlbum === album.docId || album.id === 1
+                                reorderingAlbum === album.docId ||
+                                album.id === 1
                                   ? "not-allowed"
                                   : "pointer",
                               fontSize: "12px",
@@ -618,7 +656,7 @@ const AlbumEditor = () => {
                             style={{
                               backgroundColor:
                                 reorderingAlbum === album.docId ||
-                                  album.id === albumList.length
+                                album.id === albumList.length
                                   ? "#ccc"
                                   : "#17a2b8",
                               color: "white",
@@ -627,7 +665,7 @@ const AlbumEditor = () => {
                               borderRadius: "3px",
                               cursor:
                                 reorderingAlbum === album.docId ||
-                                  album.id === albumList.length
+                                album.id === albumList.length
                                   ? "not-allowed"
                                   : "pointer",
                               fontSize: "12px",
@@ -647,7 +685,7 @@ const AlbumEditor = () => {
                             style={{
                               backgroundColor:
                                 reorderingAlbum === album.docId ||
-                                  album.id === albumList.length
+                                album.id === albumList.length
                                   ? "#ccc"
                                   : "#28a745",
                               color: "white",
@@ -656,7 +694,7 @@ const AlbumEditor = () => {
                               borderRadius: "3px",
                               cursor:
                                 reorderingAlbum === album.docId ||
-                                  album.id === albumList.length
+                                album.id === albumList.length
                                   ? "not-allowed"
                                   : "pointer",
                               fontSize: "12px",
@@ -668,7 +706,13 @@ const AlbumEditor = () => {
                         </div>
 
                         {/* Edit and Delete buttons */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                          }}
+                        >
                           <button
                             onClick={() => startEdit(album)}
                             style={{
@@ -687,7 +731,9 @@ const AlbumEditor = () => {
                             disabled={deletingAlbum === album.docId}
                             style={{
                               backgroundColor:
-                                deletingAlbum === album.docId ? "#ccc" : "#dc3545",
+                                deletingAlbum === album.docId
+                                  ? "#ccc"
+                                  : "#dc3545",
                               color: "white",
                               padding: "8px 15px",
                               border: "none",
@@ -698,13 +744,16 @@ const AlbumEditor = () => {
                                   : "pointer",
                             }}
                           >
-                            {deletingAlbum === album.docId ? "Deleting..." : "Delete"}
+                            {deletingAlbum === album.docId
+                              ? "Deleting..."
+                              : "Delete"}
                           </button>
                         </div>
                       </>
                     )}
                   </div>
-                ))} {/* Fixed: Added missing closing parenthesis and brace for map function */}
+                ))}{" "}
+                {/* Fixed: Added missing closing parenthesis and brace for map function */}
               </div>
             ) : (
               <div

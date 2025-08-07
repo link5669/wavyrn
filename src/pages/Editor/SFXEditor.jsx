@@ -32,7 +32,9 @@ const SFXEditor = () => {
   const fetchSfxList = async () => {
     setLoadingSfx(true);
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects");
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects`,
+      );
       const data = await response.json();
       if (response.ok) {
         setSfxList(data.soundEffects || []);
@@ -49,14 +51,14 @@ const SFXEditor = () => {
   // Handle Escape key to cancel editing
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape' && editingSfx) {
+      if (event.key === "Escape" && editingSfx) {
         cancelEdit();
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [editingSfx]);
 
@@ -94,13 +96,16 @@ const SFXEditor = () => {
     setSfxMessage("");
 
     try {
-      const response = await fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(sfxFormData),
         },
-        body: JSON.stringify(sfxFormData),
-      });
+      );
 
       const data = await response.json();
 
@@ -136,14 +141,14 @@ const SFXEditor = () => {
 
     try {
       const response = await fetch(
-        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects/${editingSfx}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects/${editingSfx}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(editFormData),
-        }
+        },
       );
 
       const data = await response.json();
@@ -189,7 +194,7 @@ const SFXEditor = () => {
     setDeletingSfx(id);
     try {
       const response = await fetch(
-        `https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects/${id}`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects/${id}`,
         {
           method: "DELETE",
         },
@@ -324,7 +329,8 @@ const SFXEditor = () => {
                       borderRadius: "4px",
                       padding: "15px",
                       marginBottom: "10px",
-                      backgroundColor: editingSfx === sfx.id ? "#f0f8ff" : "#f9f9f9",
+                      backgroundColor:
+                        editingSfx === sfx.id ? "#f0f8ff" : "#f9f9f9",
                     }}
                   >
                     <div
@@ -336,9 +342,18 @@ const SFXEditor = () => {
                     >
                       <div style={{ flex: 1 }}>
                         {editingSfx === sfx.id ? (
-                          <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
+                          <form
+                            onSubmit={handleEditSubmit}
+                            style={{ marginBottom: "10px" }}
+                          >
                             <div style={{ marginBottom: "10px" }}>
-                              <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              <label
+                                style={{
+                                  display: "block",
+                                  marginBottom: "5px",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Sound Effect Name:
                               </label>
                               <input
@@ -356,7 +371,13 @@ const SFXEditor = () => {
                               />
                             </div>
                             <div style={{ marginBottom: "10px" }}>
-                              <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                              <label
+                                style={{
+                                  display: "block",
+                                  marginBottom: "5px",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Sound Effect Link:
                               </label>
                               <input
@@ -378,12 +399,16 @@ const SFXEditor = () => {
                                 type="submit"
                                 disabled={sfxLoading}
                                 style={{
-                                  backgroundColor: sfxLoading ? "#ccc" : "#28a745",
+                                  backgroundColor: sfxLoading
+                                    ? "#ccc"
+                                    : "#28a745",
                                   color: "white",
                                   padding: "6px 12px",
                                   border: "none",
                                   borderRadius: "4px",
-                                  cursor: sfxLoading ? "not-allowed" : "pointer",
+                                  cursor: sfxLoading
+                                    ? "not-allowed"
+                                    : "pointer",
                                 }}
                               >
                                 {sfxLoading ? "Updating..." : "Save"}
@@ -461,7 +486,14 @@ const SFXEditor = () => {
                       </div>
 
                       {editingSfx !== sfx.id && (
-                        <div style={{ display: "flex", flexDirection: "column", gap: "5px", marginLeft: "15px" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "5px",
+                            marginLeft: "15px",
+                          }}
+                        >
                           <button
                             onClick={() => startEdit(sfx)}
                             style={{

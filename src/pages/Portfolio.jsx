@@ -105,7 +105,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     setIsVisible(true);
     setLoadingAlbums(true);
     try {
-      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums").then((r) => {
+      fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums`).then((r) => {
         r.json().then((d) => {
           console.log(r.ok);
           if (r.ok) {
@@ -124,7 +124,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
     setLoadingSfx(true);
     try {
-      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects").then((r) => {
+      fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects`).then((r) => {
         r.json().then((d) => {
           console.log(d);
           if (r.ok) {
@@ -142,7 +142,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
     setLoadingSfx(true);
     try {
-      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/soundEffects").then((r) => {
+      fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects`).then((r) => {
         r.json().then((d) => {
           console.log(d);
           if (r.ok) {
@@ -160,7 +160,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
     setLoadingPortfolio(true);
     try {
-      fetch("https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/portfolio").then((r) => {
+      fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio`).then((r) => {
         r.json().then((d) => {
           console.log(d);
           if (r.ok) {
@@ -320,13 +320,15 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         </div>
         <hr style={dividerStyle} />
       </div>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "10px",
-        padding: "30px 30%"
-      }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+          padding: "30px 30%",
+        }}
+      >
         <img
           style={{
             maxHeight: "60px",
@@ -340,7 +342,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             color: "white",
             margin: 0,
             lineHeight: "50px",
-            whiteSpace: "nowrap"  // Prevents text wrapping
+            whiteSpace: "nowrap", // Prevents text wrapping
           }}
         >
           ©️2025 Wavyrn • All Rights Reserved

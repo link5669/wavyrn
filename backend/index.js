@@ -6,6 +6,8 @@ import 'dotenv/config'
 
 import { initializeApp } from "firebase/app";
 import albumRoute from "./routes/albumcarousel.js";
+import urlShortenerRoute from './routes/urlShortenerRoute.js';
+import redirectRoute from './routes/redirectRoute.js';
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -37,4 +39,6 @@ app.get("/", (req, res) => {
 app.use("/api/soundEffects", soundEffectsRoute(firebaseapp));
 app.use("/api/portfolio", portfolioRoute(firebaseapp))
 app.use("/api/albums", albumRoute(firebaseapp))
+app.use('/api/urls', urlShortenerRoute(firebaseApp));
+app.use('/s', redirectRoute(firebaseApp));
 app.listen(port, () => console.log(`Server listening on port ${port}`));
