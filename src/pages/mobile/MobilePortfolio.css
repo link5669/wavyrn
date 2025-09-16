@@ -126,11 +126,11 @@
 }
 
 .arrow.left {
-    left: 10px;
+    left: -60px;
 }
 
 .arrow.right {
-    right: 10px;
+    right: -60px;
 }
 
 @keyframes shake {

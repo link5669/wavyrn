@@ -142,10 +142,10 @@
 
 .sfx-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     max-width: 100%;
-    margin: 40px 25%;
+    margin: 40px 15%;
     padding: 0 40px;
 }
 
@@ -182,11 +182,11 @@
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
-    max-width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    max-width: 80%;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 10%;
 }
 
 .portfolio-item {
@@ -251,14 +251,55 @@
     
     .sfx-grid {
         padding: 0 80px;
+        margin: 40px 20%;
     }
     
     .portfolio-grid {
-        padding: 0 80px;
+        padding: 0 10%;
+        max-width: 80%;
     }
     
     .loading-skeleton {
         padding: 0 80px;
+    }
+}
+
+/* Responsive SFX Grid for zoom levels */
+@media (max-width: 1400px) {
+    .sfx-grid {
+        margin: 40px 12%;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .sfx-grid {
+        margin: 40px 10%;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .sfx-grid {
+        margin: 40px 8%;
+        gap: 10px;
+    }
+    
+    .portfolio-grid {
+        padding: 0 8%;
+        max-width: 84%;
+    }
+}
+
+@media (max-width: 900px) {
+    .sfx-grid {
+        margin: 40px 5%;
+        gap: 8px;
+    }
+    
+    .portfolio-grid {
+        padding: 0 5%;
+        max-width: 90%;
     }
 }
 

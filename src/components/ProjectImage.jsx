@@ -19,22 +19,24 @@ const ProjectImage = ({ imgSrc, title, subtitle, noImg }) => {
     };
     const containerStyle = {
         position: "relative",
-        height: "7em",
-        width: "7em",
+        height: "100%",
+        width: "100%",
         overflow: "hidden",
-        margin: "6px",
-        display: "flex", // Add this
-        justifyContent: "center", // Add this
-        alignItems: "center", // Add this
+        margin: "0",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: "12px", // Match portfolio-item border radius
     };
 
     const imgStyle = {
         height: "100%",
-        width: "auto",
+        width: "100%", // Changed from "auto" to fill container
         display: "block",
         objectFit: "cover",
-        transform: `scale(${scale / 100})`, // Convert the scale value to proper format
-        transition: "transform 0.3s ease", // Add smooth transition for scaling
+        transform: `scale(${scale / 100})`,
+        transition: "transform 0.3s ease",
+        borderRadius: "12px", // Match container border radius
     };
 
     const overlayStyle = {

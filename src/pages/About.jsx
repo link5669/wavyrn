@@ -292,6 +292,10 @@ const About = ({ isMobile }) => {
                                 setSelectedUser={setSelectedUser}
                                 isMobile={isMobile}
                                 pfpImage={getPfpImage(user.name)}
+                                onClick={() => {
+                                    setSelectedUser(user);
+                                    setIsOverlayVisible(true);
+                                }}
                             />
                         ))}
                     </div>

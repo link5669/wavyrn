@@ -206,3 +206,10 @@ a.hover {
 .language-option.selected:hover {
     background-color: #b3002a;
 }
+
+/* Hide social media icons on screens 1210px or less */
+@media (max-width: 1210px) {
+    .nav-right .icon-button:not(.language-dropdown-container) {
+        display: none;
+    }
+}
