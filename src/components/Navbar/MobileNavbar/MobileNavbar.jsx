@@ -10,20 +10,72 @@ import { SiBluesky } from "react-icons/si";
 import { IconContext } from "react-icons";
 import "./MobileNavbar.css";
 import { Link, useLocation } from "react-router-dom";
+import { useLanguage } from "../../../contexts/LanguageContext";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+    const { language, changeLanguage } = useLanguage();
+    const { t } = useTranslation();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const languages = [
+      { code: "en", name: "English", flag: "🇺🇸" },
+      { code: "jp", name: "日本語", flag: "🇯🇵" },
+    ];
+
+    const handleLanguageSelect = (languageCode) => {
+      changeLanguage(languageCode);
+      setIsLanguageDropdownOpen(false);
+    };
+
+    const toggleLanguageDropdown = () => {
+      setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+    };
+
+    const selectedLang = languages.find((lang) => lang.code === language);
+
+
     const handleMailClick = () => {
         window.location.href = "mailto:contact@wavyrn.com";
     };
 
+
     return (
         <div style={{ maxWidth: "100vw" }}>
+          {/* Language Selector - Floating Top Right */}
+          <div className="language-selector floating">
+            <div className="language-trigger" onClick={toggleLanguageDropdown}>
+              <span className="flag">{selectedLang?.flag}</span>
+              <span className="language-code">
+                {selectedLang?.code.toUpperCase()}
+              </span>
+              <span
+                className={`dropdown-arrow ${isLanguageDropdownOpen ? "open" : ""}`}
+              >
+                ▼
+              </span>
+            </div>
+
+            {isLanguageDropdownOpen && (
+              <div className="language-dropdown">
+                {languages.map((language) => (
+                  <div
+                    key={language.code}
+                    className={`language-option ${selectedLanguage === language.code ? "selected" : ""}`}
+                    onClick={() => handleLanguageSelect(language.code)}
+                  >
+                    <span className="flag">{language.flag}</span>
+                    <span className="language-name">{language.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
             {/* Overlay for Greyed-out Background */}
             <div
                 className={`overlay ${isMenuOpen ? "active" : ""}`}
@@ -34,11 +86,19 @@ function Navbar() {
             <div className="navbar">
                 {/* Logo on the Left */}
                 <div className="nav-logo">
-                    <Link to="/portfolio">
+                    <Link to="/portfolio" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                         <img
                             src="https://www.dl.dropboxusercontent.com/scl/fo/8tncy3sxsivuxhnu4f5ss/ADPj2yAPHytKhsgF_ePkxr0/Logo%20files/PNGs%20-%20SVGs/2x/Asset%203%402x-8.png?rlkey=30rz3mieb7fb53lp5n6jr8quz&e=1&dl=0"
                             alt="Logo"
                         />
+                        <span style={{ 
+                            color: "white", 
+                            fontSize: "0.6em", 
+                            marginLeft: "3px",
+                            marginTop: "-2px",
+                            verticalAlign: "top",
+                            lineHeight: "1"
+                        }}>™</span>
                     </Link>
                 </div>
 
@@ -128,7 +188,7 @@ function Navbar() {
                         paddingTop: "50%",
                     }}
                 >
-                    About
+                    {t('nav.about')}
                 </Link>
                 <hr />
                 <Link
@@ -136,7 +196,7 @@ function Navbar() {
                     className="icon-button"
                     style={{ textDecoration: "none", fontSize: "1.3em" }}
                 >
-                    Portfolio
+                    {t('nav.portfolio')}
                 </Link>
                 <hr />
                 <Link
@@ -144,7 +204,7 @@ function Navbar() {
                     className="icon-button"
                     style={{ textDecoration: "none", fontSize: "1.3em" }}
                 >
-                    Blog
+                    {t('nav.blog')}
                 </Link>
                 <hr />
                 <Link
@@ -152,7 +212,7 @@ function Navbar() {
                     className="icon-button"
                     style={{ textDecoration: "none", fontSize: "1.3em" }}
                 >
-                    Contact
+                    {t('nav.contact')}
                 </Link>
             </div>
         </div>

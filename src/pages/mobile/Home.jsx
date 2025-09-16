@@ -5,7 +5,9 @@ import "../Home.css";
 import Navbar from "../../components/Navbar/MobileNavbar/MobileNavbar";
 import BottomSection from "../../components/BottomSection/BottomSection"; // Imp{ort the BottomSection component
 import { Link } from "react-router-dom";
+import { useTranslation } from "../../hooks/useTranslation";
 function App() {
+    const { t } = useTranslation();
     const [isAnimating, setIsAnimating] = useState(false);
     const [moveLogo, setMoveLogo] = useState(false);
     const [fadeOut, setFadeOut] = useState(false);
@@ -78,7 +80,7 @@ function App() {
                                     textDecoration: "none",
                                 }}
                             >
-                                <h3>About</h3>
+                                <h3>{t('nav.about')}</h3>
                             </Link>
                             <Link
                                 to="/portfolio"
@@ -87,7 +89,7 @@ function App() {
                                     textDecoration: "none",
                                 }}
                             >
-                                <h3>Portfolio</h3>
+                                <h3>{t('nav.portfolio')}</h3>
                             </Link>
                             <Link
                                 to="/blog"
@@ -96,7 +98,7 @@ function App() {
                                     textDecoration: "none",
                                 }}
                             >
-                                <h3>Blog</h3>
+                                <h3>{t('nav.blog')}</h3>
                             </Link>
                             <Link
                                 to="/contact"
@@ -105,7 +107,7 @@ function App() {
                                     textDecoration: "none",
                                 }}
                             >
-                                <h3>Contact</h3>
+                                <h3>{t('nav.contact')}</h3>
                             </Link>
                         </div>
                     </div>

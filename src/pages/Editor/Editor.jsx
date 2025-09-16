@@ -3,6 +3,9 @@ import WavNavbar from "../../components/Navbar/Navbar";
 import SFXEditor from "./SFXEditor";
 import PortfolioEditor from "./PortfolioEditor";
 import AlbumEditor from "./CarouselEditor";
+import NumberEditor from "./NumberEditor";
+import FilterEditor from "./FilterEditor";
+import BlogEditor from "./BlogEditor";
 import PasswordProtection from "../../components/EditorLogin";
 import URLShortenerEditor from "../../components/URLShortener";
 
@@ -102,6 +105,21 @@ const Editor = () => {
               Music Carousel
             </button>
             <button
+              onClick={() => setActiveTab("numbers")}
+              style={{
+                backgroundColor:
+                  activeTab === "numbers" ? "#007bff" : "transparent",
+                color: activeTab === "numbers" ? "white" : "#007bff",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "4px 4px 0 0",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              Number Editor
+            </button>
+            <button
               onClick={() => setActiveTab("url")}
               style={{
                 backgroundColor:
@@ -116,6 +134,36 @@ const Editor = () => {
             >
               URL Shortener
             </button>
+            <button
+              onClick={() => setActiveTab("filters")}
+              style={{
+                backgroundColor:
+                  activeTab === "filters" ? "#007bff" : "transparent",
+                color: activeTab === "filters" ? "white" : "#007bff",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "4px 4px 0 0",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              Filter Editor
+            </button>
+            <button
+              onClick={() => setActiveTab("blog")}
+              style={{
+                backgroundColor:
+                  activeTab === "blog" ? "#007bff" : "transparent",
+                color: activeTab === "blog" ? "white" : "#007bff",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "4px 4px 0 0",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              Blog Editor
+            </button>
           </div>
 
           {activeTab === "sfx" && <SFXEditor />}
@@ -125,7 +173,13 @@ const Editor = () => {
 
           {activeTab === "carousel" && <AlbumEditor />}
 
+          {activeTab === "numbers" && <NumberEditor />}
+
           {activeTab === "url" && <URLShortenerEditor />}
+
+          {activeTab === "filters" && <FilterEditor />}
+
+          {activeTab === "blog" && <BlogEditor />}
         </div>
       )}
     </div>

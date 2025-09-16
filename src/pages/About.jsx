@@ -1,18 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import Jobs from "../components/Jobs/Jobs";
-import AudioDirecting from "../components/services/AudioDirecting";
-import Dialogue from "../components/services/Dialogue";
-import Music from "../components/services/Music";
-import Production from "../components/services/Production";
-import SoundDesign from "../components/services/SoundDesign";
-import "./Services.css";
 import WavNavbar from "../components/Navbar/Navbar";
-import autoAnimate from "@formkit/auto-animate";
 import ProfilePic from "../components/ProfilePic/ProfilePic";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
 import "./AboutUs.css";
+import { useTranslation } from "../hooks/useTranslation";
 import {
     Ananta,
     Angelica,
@@ -32,60 +25,21 @@ import {
 import { useLocation } from "react-router-dom";
 import Overlay from "../components/Overlay/Overlay";
 import { getPfpImage } from "../utilities/utilities";
+import Footer from "../components/Footer";
 
 const About = ({ isMobile }) => {
-    const [selected, setSelected] = useState(0);
-    const [prevSelected, setPrevSelected] = useState(-1);
-    const serviceRefs = useRef({});
-    const footerRef = useRef(null);
-    const [expanded, setExpanded] = useState(-1);
-    const parent = useRef(null);
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedCat, setSelectedCat] = useState("All");
     const [visibleUsers, setVisibleUsers] = useState(allUsers);
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
     const { state } = useLocation();
-    const whiteRef = useRef(null);
-
-    useEffect(() => {
-        parent.current && autoAnimate(parent.current);
-    }, [parent]);
-
-    const setSelectedWrapper = (val) => {
-        if (selected === prevSelected || val === selected) return;
-
-        const previousServiceElement = serviceRefs.current[selected];
-        if (previousServiceElement) {
-            previousServiceElement.classList.add("exiting");
-            setTimeout(() => {
-                previousServiceElement.classList.remove("exiting");
-                setPrevSelected(selected);
-                setSelected(val);
-            }, 100);
-        }
-    };
-
-    useEffect(() => {
-        const currentServiceRef = serviceRefs.current[selected];
-        if (currentServiceRef) {
-            currentServiceRef.classList.add("entering");
-
-            setTimeout(() => {
-                currentServiceRef.classList.remove("entering");
-                updateFooterMargin();
-            }, 10);
-        }
-    }, [selected]);
+    const { t } = useTranslation();
 
     const [pfpParent, enableAnimations] = useAutoAnimate({
         duration: 400,
         easing: "ease-in-out",
         disrespectUserMotionPreference: false,
     });
-
-    const [transition, setTransition] = useState(
-        state != null ? !state.useAnimate : false,
-    );
 
     const onBackButtonEvent = (e) => {
         if (selectedUser != null) {
@@ -110,106 +64,201 @@ const About = ({ isMobile }) => {
         setIsOverlayVisible(true);
     };
 
+    // Service data with checklist and descriptive text
+    const services = [
+        {
+            title: t('about.services.audioDirection.title'),
+            icon: "https://www.dl.dropboxusercontent.com/scl/fi/ttxnaayqifzxvmuw472ow/Asset-6-4x-8.png?rlkey=3im1plyj5z0225vcg2nsgh0pt&e=1&dl=0",
+            checklist: t('about.services.audioDirection.checklist'),
+            description: t('about.services.audioDirection.description')
+        },
+        {
+            title: t('about.services.soundDesign.title'),
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/ANtFOOWXFy6WonZNKsniEyA/SVGs/icon_waveform_red.svg?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            checklist: t('about.services.soundDesign.checklist'),
+            description: t('about.services.soundDesign.description')
+        },
+        {
+            title: t('about.services.voiceOver.title'),
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/APpbd3eid8QkfpwoQxdIKXE/SVGs/icon_microphone_red.svg?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            checklist: t('about.services.voiceOver.checklist'),
+            description: t('about.services.voiceOver.description')
+        },
+        {
+            title: t('about.services.music.title'),
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AHW3rkoVBxJgBaohhKQKDSA/icon_semiquaver_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            checklist: t('about.services.music.checklist'),
+            description: t('about.services.music.description')
+        },
+        {
+            title: t('about.services.production.title'),
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AAeX50rU6qw3deUT5QL6e-Y/icon_headphones_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            checklist: t('about.services.production.checklist'),
+            description: t('about.services.production.description')
+        }
+    ];
+
     return (
         <>
             <WavNavbar showLogo={true} />
             <div
                 style={{
-                    backgroundColor: "black",
+                    backgroundColor: "white",
                     paddingTop: "45px",
+                    minHeight: "100vh",
+                    width: "100vw",
                 }}
             >
-                <div>
-                    <Jobs
-                        selected={selected}
-                        setSelected={setSelectedWrapper}
-                    />
-                    <br />
-                    <div
-                        style={{
-                            width: "100vw",
-                            alignContent: "center",
-                            display: "grid",
-                        }}
-                    >
-                        <b
-                            style={{
-                                fontSize: "2em",
-                                textAlign: "center",
-                                color: "white",
-                            }}
-                        >
-                            Audio made fantastic.
-                        </b>
+                {/* Hero Section */}
+                <div style={{ textAlign: "center", padding: "60px 0" }}>
+                    <h1 style={{ 
+                        fontSize: "3em", 
+                        color: "#CE0036", 
+                        margin: "0 0 20px 0",
+                        fontWeight: "bold"
+                    }}>
+                        {t('about.heroTitle')}
+                    </h1>
+                    <p style={{ 
+                        fontSize: ".9em", 
+                        color: "black", 
+                        maxWidth: "800px",
+                        margin: "0 auto 15px auto"
+                    }}>
+                        {t('about.heroSubtitle1')}
+                    </p>
+                    <p style={{ 
+                        fontSize: ".9em", 
+                        color: "black",
+                        maxWidth: "600px",
+                        margin: "0 auto"
+                    }}>
+                        {t('about.heroSubtitle2').includes('entire process') ? 
+                            t('about.heroSubtitle2').split('entire process').map((part, index) => 
+                                index === 0 ? part : (
+                                    <span key={index}>
+                                        <strong style={{ color: "#CE0036" }}>entire process</strong>
+                                        {part}
+                                    </span>
+                                )
+                            ) : t('about.heroSubtitle2')
+                        }
+                    </p>
+                </div>
+
+                {/* Services Section */}
+                <div style={{ 
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    padding: "0",
+                    width: "100%",
+                    gap: "30px"
+                }}>
+                    {/* Top Row - 3 services */}
+                    <div style={{
+                        display: "grid", 
+                        gridTemplateColumns: "repeat(3, 1fr)",
+                        gap: "30px",
+                        maxWidth: "1200px",
+                        width: "100%"
+                    }}>
+                        {services.slice(0, 3).map((service, index) => (
+                            <div key={index} className="service-card">
+                                <div className="service-card-inner">
+                                    <div className="service-card-front">
+                                        <div className="service-icon">
+                                            <img src={service.icon} alt={service.title} />
+                                        </div>
+                                        <h3 className="service-title">{service.title}</h3>
+                                        <ul className="service-checklist">
+                                            {service.checklist.map((item, idx) => (
+                                                <li key={idx}>
+                                                    <span className="checkbox">☐</span>
+                                                    {item}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className="service-card-back">
+                                        <div className="service-icon">
+                                            <img src={service.icon} alt={service.title} />
+                                        </div>
+                                        <h3 className="service-title">{service.title}</h3>
+                                        <p className="service-description">{service.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <br />
-                    <br />
-                    <div
-                        className="services-wrapper"
-                        style={{ color: "white" }}
-                        ref={parent}
-                    >
-                        {selected === 0 && (
-                            <span ref={(e) => (serviceRefs.current[0] = e)}>
-                                <AudioDirecting data-selected={0} />
-                            </span>
-                        )}
-                        {selected === 1 && (
-                            <span ref={(e) => (serviceRefs.current[1] = e)}>
-                                <Production data-selected={1} />
-                            </span>
-                        )}
-                        {selected === 2 && (
-                            <span ref={(e) => (serviceRefs.current[2] = e)}>
-                                <SoundDesign data-selected={2} />
-                            </span>
-                        )}
-                        {selected === 3 && (
-                            <span ref={(e) => (serviceRefs.current[3] = e)}>
-                                <Music data-selected={3} />
-                            </span>
-                        )}
-                        {selected === 4 && (
-                            <span ref={(e) => (serviceRefs.current[4] = e)}>
-                                <Dialogue data-selected={4} />
-                            </span>
-                        )}
+                    
+                    {/* Bottom Row - 2 services */}
+                    <div style={{
+                        display: "grid", 
+                        gridTemplateColumns: "repeat(2, 1fr)",
+                        gap: "30px",
+                        maxWidth: "800px",
+                        width: "100%"
+                    }}>
+                        {services.slice(3, 5).map((service, index) => (
+                            <div key={index + 3} className="service-card">
+                                <div className="service-card-inner">
+                                    <div className="service-card-front">
+                                        <div className="service-icon">
+                                            <img src={service.icon} alt={service.title} />
+                                        </div>
+                                        <h3 className="service-title">{service.title}</h3>
+                                        <ul className="service-checklist">
+                                            {service.checklist.map((item, idx) => (
+                                                <li key={idx}>
+                                                    <span className="checkbox">☐</span>
+                                                    {item}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    <div className="service-card-back">
+                                        <div className="service-icon">
+                                            <img src={service.icon} alt={service.title} />
+                                        </div>
+                                        <h3 className="service-title">{service.title}</h3>
+                                        <p className="service-description">{service.description}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div>
-            <div style={{ paddingTop: "5%" }} />
-            <h1 style={{ color: "white" }}>Our Team</h1>
 
-            {!isMobile && (
-                <hr
-                    style={{
-                        display: "block",
-                        height: "3px",
-                        border: 0,
-                        borderTop: "1px solid #ffffff",
-                        margin: "1em 0",
-                        marginLeft: "30%",
-                        marginRight: "30%",
-                        opacity: 100,
-                    }}
-                />
-            )}
+                {/* Team Section */}
+                <div style={{ padding: "80px 0" }}>
+                    <h1 style={{ 
+                        textAlign: "center", 
+                        color: "black", 
+                        fontSize: "2.5em",
+                        margin: "0 0 20px 0",
+                        position: "relative",
+                        marginLeft: "15%",
+                        marginRight: "15%",
+                    }}>
+                        {t('about.ourTeam')}
+                        <div style={{
+                            width: "100px",
+                            height: "2px",
+                            backgroundColor: "black",
+                            margin: "10px auto 0 auto"
+                        }}></div>
+                    </h1>
 
-            <div
-                style={{
-                    width: "100vw",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    paddingTop: "1%",
-                    paddingBottom: "2.2%",
-                    paddingRight: "3.5%",
-                    color: "white",
-                }}
-            >
-                {categories.map((category, index) => {
-                    return (
-                        <>
+                    {/* Filter Navigation */}
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "20px",
+                        margin: "40px 0",
+                        flexWrap: "wrap"
+                    }}>
+                        {categories.map((category, index) => (
                             <UserCategory
                                 key={category.category}
                                 setVisibleUsers={setVisibleUsers}
@@ -218,47 +267,35 @@ const About = ({ isMobile }) => {
                                 category={category.category}
                                 selectedCat={selectedCat}
                             />
-                        </>
-                    );
-                })}
-            </div>
-            <div
-                ref={pfpParent}
-                style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: isMobile ? "center" : "flex-start",
-                    paddingLeft: isMobile ? "5%" : "30%",
-                    paddingRight: isMobile ? "5%" : "30%",
-                    width: "100vw",
-                    color: "white",
-                    minHeight: "40vw",
-                    gap: "5em 0",
-                    paddingBottom: "40px",
-                }}
-            >
-                {visibleUsers.map((user, index) => (
+                        ))}
+                    </div>
+
+                    {/* Team Grid */}
                     <div
-                        key={user.name}
-                        className="users"
+                        ref={pfpParent}
+                        className="team-grid"
                         style={{
-                            justifyContent: "center",
-                            display: "flex",
+                            display: "grid",
+                            gridTemplateColumns: "repeat(5, 18%)",
+                            gap: "2px",
+                            padding: "0",
+                            width: "100%",
+                            paddingLeft: "15%",
+                            paddingRight: "15%",
                         }}
                     >
-                        <ProfilePic
-                            name={user.name}
-                            title={user.title}
-                            setSelectedUser={() =>
-                                handleProfileClick({
-                                    name: user.name,
-                                    title: user.title,
-                                })
-                            }
-                            isMobile={isMobile}
-                        />
+                        {visibleUsers.map((user, index) => (
+                            <ProfilePic
+                                key={user.name}
+                                name={user.name}
+                                title={user.title}
+                                setSelectedUser={setSelectedUser}
+                                isMobile={isMobile}
+                                pfpImage={getPfpImage(user.name)}
+                            />
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
 
             {selectedUser && (
@@ -266,11 +303,11 @@ const About = ({ isMobile }) => {
                     isVisible={isOverlayVisible}
                     onClose={() => {
                         setIsOverlayVisible(false);
-                        setTimeout(() => setSelectedUser(null), 300); // Wait for fade out
+                        setTimeout(() => setSelectedUser(null), 300);
                     }}
                     profileInfo={{
-                        name: selectedUser.name,
-                        title: selectedUser.title,
+                        name: t(`team.members.${selectedUser.name}.name`) || selectedUser.name,
+                        title: t(`team.members.${selectedUser.name}.title`) || selectedUser.title,
                         image: getPfpImage(selectedUser.name),
                     }}
                 >
@@ -307,20 +344,7 @@ const About = ({ isMobile }) => {
                     )}
                 </Overlay>
             )}
-            <div
-                ref={footerRef}
-                style={{ backgroundColor: "black", height: "50px" }}
-            >
-                <p
-                    style={{
-                        color: "white",
-                        textAlign: "center",
-                        lineHeight: "50px",
-                    }}
-                >
-                    ©️2025 Wavyrn • All Rights Reserved
-                </p>
-            </div>
+            <Footer />
         </>
     );
 };

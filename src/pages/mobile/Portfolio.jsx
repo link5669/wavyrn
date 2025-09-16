@@ -239,7 +239,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             paddingTop: "20px",
           }}
         >
-          <b>Portfolio</b>
+          <p>Our Work</p>
         </h1>
         <section
           style={{
@@ -249,7 +249,6 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         >
           <div
             style={{
-              marginBottom: "2vh",
               display: "flex",
               justifyContent: "center",
             }}
@@ -268,7 +267,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           </div>
         </section>
         <br />
-        <h2
+        {/* <h2
           style={{
             fontFamily: "Montserrat",
             color: "white",
@@ -279,8 +278,8 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           }}
         >
           Our Work
-        </h2>
-        <hr
+        </h2>*/}
+        {/* <hr
           style={{
             display: "block",
             height: "3px",
@@ -291,7 +290,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             marginRight: "35%",
             opacity: 100,
           }}
-        />
+        />*/}
         <section style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}>
           {albums > 0 && (
             <MusicCarousel
@@ -337,7 +336,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           </div>
         </section>
         <br />
-        <h2 style={{ fontFamily: "Montserrat", color: "white" }}>Credits</h2>
+        <h2 style={{ fontFamily: "Montserrat", color: "white" }}>Portfolio</h2>
         <hr
           style={{
             display: "block",

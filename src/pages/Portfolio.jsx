@@ -4,8 +4,10 @@ import WavNavbar from "../components/Navbar/Navbar";
 import "./Portfolio.css";
 import ProjectImage from "../components/ProjectImage";
 import { useState, useEffect, useRef } from "react";
+import { useTranslation } from "../hooks/useTranslation";
 
 function Portfolio({ title, dividerStyle, isMobile }) {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [buttons, setButtons] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -183,35 +185,29 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
   return (
     <div
-      className={`portfolio-container  ${isVisible ? "fade-in" : "fade-in-initial"}`}
+      className={`portfolio-container ${isVisible ? "fade-in" : "fade-in-initial"}`}
     >
       <div className={`navbar-fade-in ${isVisible ? "visible" : ""}`}>
         <WavNavbar showLogo={true} />
-      </div>{" "}
+      </div>
+      
       <div
         className={`content-wrapper ${isVisible ? "fade-in" : ""}`}
         style={{
           position: "relative",
-          margin: "0 auto",
+          width: "100%",
           minHeight: "100vh",
           paddingTop: "80px",
+          backgroundColor: "#2a2a2a",
         }}
       >
-        <br />
-        <br />
-        <section
-          style={{
-            height: title === "Arcade" && "20vh",
-            alignContent: "center",
-          }}
-        >
-          <div
-            style={{
-              marginBottom: "2vh",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <h1 className="hero-title">{t('portfolio.heroTitle')}</h1>
+            {/* <p className="hero-subtitle">Showcasing creative audio work across games, films, and media</p> */}
+            <br/>
+            <div className="video-container">
             <iframe
               width="450"
               height="270"
@@ -221,13 +217,16 @@ function Portfolio({ title, dividerStyle, isMobile }) {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
-              style={{ padding: "2vh" }}
+              className="portfolio-video"
             ></iframe>
           </div>
+          </div>
         </section>
-        <br />
-        <section style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}>
-          <div style={{ width: "60vw", margin: "auto" }}>
+
+        {/* Video Section */}
+        <section className="video-section">
+          <div className="section-header">
+          <div className="music-container">
             {albums.length > 0 && (
               <MusicCarousel
                 albums={albums}
@@ -241,112 +240,110 @@ function Portfolio({ title, dividerStyle, isMobile }) {
               />
             )}
           </div>
-        </section>
-        <br />
-        <br />
-        <section style={{ color: "white" }}>
-          <div className="sfx-container">
+          <div className="sfx-grid">
             {allSfx.length > 0 &&
               buttons.slice(0, 4).map((button) => (
-                <span
+                <button
                   key={button.id}
                   className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
                   data-text={button.text}
                   onClick={() => handleButtonClick(button.id)}
                 >
-                  <b data-text={button.name}>{button.text}</b>
-                </span>
+                  <span>{button.text}</span>
+                </button>
               ))}
           </div>
-        </section>
-        <br />
-        <section style={{ color: "white" }}>
-          <div className="sfx-container">
+          
+          <div className="sfx-grid">
             {allSfx.length > 0 &&
               buttons.slice(4, 8).map((button) => (
-                <span
+                <button
                   key={button.id}
                   className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
                   data-text={button.text}
                   onClick={() => handleButtonClick(button.id)}
                 >
-                  <b>{button.text}</b>
-                </span>
+                  <span>{button.text}</span>
+                </button>
               ))}
           </div>
+          </div>
+          
         </section>
-        <br />
-        <br />
-        <h2 style={{ fontFamily: "Montserrat", color: "white" }}>Portfolio</h2>
-        <hr
-          style={{
-            display: "block",
-            height: "3px",
-            border: 0,
-            borderTop: "1px solid #ffffff",
-            margin: "1em 0",
-            marginLeft: "35%",
-            marginRight: "35%",
-            opacity: 100,
-          }}
-        />
+
+        {/* Portfolio Section */}
+        <section className="portfolio-section">
+          <div className="section-header">
+            <h2 className="section-title">{t('portfolio.ourWork')}</h2>
+            {/* <p className="section-subtitle">Explore our diverse portfolio of audio projects</p> */}
+            <div className="section-divider"></div>
+          </div>
+          
+          <div className="portfolio-grid">
+            {loadingPortfolio ? (
+              <div className="loading-skeleton">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="skeleton-item"></div>
+                ))}
+              </div>
+            ) : (
+              portfolioImages.length > 0 &&
+              portfolioImages.map((project, index) => (
+                <div key={index} className="portfolio-item">
+                  <ProjectImage
+                    subtitle={project.subtitle}
+                    imgSrc={project.imgSrc}
+                    title={project.title}
+                  />
+                </div>
+              ))
+            )}
+          </div>
+        </section>
         <div
           style={{
-            display: "flex",
-            flexFlow: "row wrap",
+            display: "grid",
+            gridTemplateColumns: "1fr 150px 1fr",
+            alignItems: "center",
             justifyContent: "center",
-            paddingTop: isMobile ? "4%" : "2%",
+            paddingTop: "20px",
+            paddingBottom: "30px",
             paddingLeft: isMobile ? "5%" : "10%",
             paddingRight: isMobile ? "5%" : "10%",
-            paddingBottom: "2%",
+            maxWidth: "100vw",
+            backgroundColor: "black",
           }}
         >
-          {portfolioImages.length > 0 &&
-            portfolioImages.map((project, index) => (
-              <React.Fragment key={index}>
-                <ProjectImage
-                  subtitle={project.subtitle}
-                  imgSrc={project.imgSrc}
-                  title={project.title}
-                />
-                {!isMobile && (index + 1) % 6 === 0 && (
-                  <div style={{ flexBasis: "100%", height: 0 }}></div>
-                )}
-                {isMobile && (index + 1) % 2 === 0 && (
-                  <div style={{ flexBasis: "100%", height: 0 }}></div>
-                )}
-              </React.Fragment>
-            ))}
+          <div style={{ display: "flex", alignItems: "center", justifySelf: "end" }}>
+            <img
+              style={{
+                maxHeight: "45px",
+                flexShrink: 1,
+              }}
+              src="/images/logo_red.png"
+            />
+            <span style={{
+              color: "white",
+              fontSize: "0.5em",
+              marginLeft: "3px",
+              marginTop: "-8px",
+              verticalAlign: "top",
+              lineHeight: "1"
+            }}>™</span>
+          </div>
+          <div></div>
+          <p
+            style={{
+              color: "white",
+              margin: 0,
+              lineHeight: "50px",
+              whiteSpace: "nowrap",
+              justifySelf: "start",
+            }}
+          >
+{t('portfolio.copyright')}
+          </p>
         </div>
-        <hr style={dividerStyle} />
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "10px",
-          padding: "30px 30%",
-        }}
-      >
-        <img
-          style={{
-            maxHeight: "60px",
-            flexShrink: 1,
-            paddingRight: "20%",
-          }}
-          src="/images/logo_red.png"
-        />
-        <p
-          style={{
-            color: "white",
-            margin: 0,
-            lineHeight: "50px",
-            whiteSpace: "nowrap", // Prevents text wrapping
-          }}
-        >
-          ©️2025 Wavyrn • All Rights Reserved
-        </p>
       </div>
     </div>
   );

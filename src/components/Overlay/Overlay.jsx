@@ -1,7 +1,74 @@
 // components/Overlay.jsx
 import { useEffect } from "react";
 import { X_svg } from "../../utilities/svgs";
+import {
+    FacebookLink,
+    InstaLink,
+    MailLink,
+    ThreadsLink,
+    TikTokLink,
+    TwitterLink,
+    WebsiteLink,
+    BlueskyLink,
+    LinkedinLink,
+} from "../SocialLinks";
 import "./Overlay.css";
+
+// Social links mapping for each user
+const getUserSocialLinks = (userName) => {
+    const socialLinksMap = {
+        "Gret Price": [
+            <InstaLink key="insta" handle="gretplaysallflutes" />
+        ],
+        "Zionna Brown": [
+            <InstaLink key="insta" handle="zionnavee" />
+        ],
+        "Austin Leshock": [
+            <InstaLink key="insta" handle="au_shock" />,
+            <FacebookLink key="facebook" handle="profile.php?id=100008654137201" />
+        ],
+        "Marc Yu": [
+            <WebsiteLink key="website" link="https://marcyumusic.com" />,
+            <InstaLink key="insta" handle="MarcYuMusic" />,
+            <TwitterLink key="twitter" handle="MarcYuMusic" />,
+            <FacebookLink key="facebook" handle="MarcYuMusic" />,
+            <ThreadsLink key="threads" handle="MarcYuMusic" />,
+            <BlueskyLink key="bluesky" address="https://bsky.app/profile/marcyumusic.bsky.social" />
+        ],
+        "Sam Leigh": [
+            <WebsiteLink key="website" link="https://www.samleighstudio.com/" />,
+            <InstaLink key="insta" handle="@samleighsings" />,
+            <TikTokLink key="tiktok" handle="@samleighsings" />
+        ],
+        "Julian Cabrera": [
+            <WebsiteLink key="website" link="https://www.juliancabreraaudio.com/" />,
+            <InstaLink key="insta" handle="super_monzee" />,
+            <TwitterLink key="twitter" handle="@Super_MonZee" />
+        ],
+        "Michelle Lai": [
+            <WebsiteLink key="website" link="michellelaimusic.com" />,
+            <InstaLink key="insta" handle="michellelaimusic" />,
+            <MailLink key="mail" address="michellelaimusic@gmail.com" />,
+            <LinkedinLink key="linkedin" handle="michellelaimusic" />
+        ],
+        "Neil Small": [
+            <TwitterLink key="twitter" handle="@smallsoundss" />,
+            <InstaLink key="insta" handle="smallsoundss" />,
+            <BlueskyLink key="bluesky" address="https://bsky.app/profile/smallsoundss.bsky.social" />
+        ],
+        "Quinne Houck": [
+            <InstaLink key="insta" handle="enbeatsu" />,
+            <WebsiteLink key="website" link="https://enbeatsu.wixsite.com/" />,
+            <BlueskyLink key="bluesky" address="https://bsky.app/profile/enbeatsu.on.computer" />,
+            <WebsiteLink key="youtube" link="https://www.youtube.com/@enbeatsu" />,
+            <WebsiteLink key="bandcamp" link="https://enbeatsu.bandcamp.com/" />,
+            <WebsiteLink key="soundcloud" link="https://soundcloud.com/enbeatsu" />,
+            <LinkedinLink key="linkedin" handle="in/quinne-houck/" />
+        ]
+    };
+    
+    return socialLinksMap[userName] || [];
+};
 
 const Overlay = ({ isVisible, onClose, children, profileInfo }) => {
     useEffect(() => {
@@ -36,6 +103,13 @@ const Overlay = ({ isVisible, onClose, children, profileInfo }) => {
                         <div className="profile-info">
                             <h3>{profileInfo.name}</h3>
                             <p>{profileInfo.title}</p>
+                            <div className="social-links-header">
+                                {getUserSocialLinks(profileInfo.name).map((link, index) => (
+                                    <div key={index} style={{ paddingInline: "2%" }}>
+                                        {link}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <button className="close-button" onClick={onClose}>
@@ -52,7 +126,13 @@ const Overlay = ({ isVisible, onClose, children, profileInfo }) => {
                     </button>
                 </div>
                 <div className="overlay-body">
-                    <div className="scroll-content">{children}</div>
+                    <div className="scroll-content">
+                        <div className="overlay-content-wrapper">
+                            <div className="overlay-text-content">
+                                {children}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

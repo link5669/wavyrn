@@ -5,12 +5,15 @@ import emailjs from "@emailjs/browser";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import ContactSocialIcons from "../components/ContactSocialIcons";
+import Footer from "../components/Footer";
+import { useTranslation } from "../hooks/useTranslation";
 
 const Contact = ({ isMobile }) => {
-    const [name, setName] = useState("Name");
-    const [email, setEmail] = useState("Email");
-    const [subject, setSubject] = useState("Subject");
-    const [message, setMessage] = useState("Message");
+    const { t } = useTranslation();
+    const [name, setName] = useState(t('contact.form.name'));
+    const [email, setEmail] = useState(t('contact.form.email'));
+    const [subject, setSubject] = useState(t('contact.form.subject'));
+    const [message, setMessage] = useState(t('contact.form.message'));
     const [error, setError] = useState("");
     const [sent, setSent] = useState("");
 
@@ -21,16 +24,16 @@ const Contact = ({ isMobile }) => {
         const token = captchaRef.current.getValue();
         captchaRef.current.reset();
         if (!token) {
-            setError("Please complete the captcha!");
+            setError(t('contact.form.captchaError'));
             return;
         }
         if (
-            name == "Name" ||
-            email == "Email" ||
-            subject == "Subject" ||
-            message == "Message"
+            name == t('contact.form.name') ||
+            email == t('contact.form.email') ||
+            subject == t('contact.form.subject') ||
+            message == t('contact.form.message')
         ) {
-            setError("Please fill out all fields!");
+            setError(t('contact.form.fillFieldsError'));
             return;
         }
 
@@ -40,11 +43,11 @@ const Contact = ({ isMobile }) => {
             })
             .then(
                 () => {
-                    setSent("Sent");
+                    setSent(t('contact.form.sent'));
                     console.log("SUCCESS!");
                 },
                 (error) => {
-                    setSent("Error! Please reload the page and try again");
+                    setSent(t('contact.form.error'));
                     console.log("FAILED...", error.text);
                 },
             );
@@ -58,39 +61,51 @@ const Contact = ({ isMobile }) => {
                     minHeight: "100vh",
                     paddingTop: "90px",
                     width: "100vw",
+                    backgroundColor: "white",
                 }}
             >
                 <h2
                     style={{
                         textAlign: "center",
                         paddingTop: "1%",
-                        color: "white",
+                        color: "black",
                     }}
                 >
-                    Contact Us
+                    {t('contact.title')}
                 </h2>
                 <h3
                     style={{
                         textAlign: "center",
-                        color: "white",
+                        color: "black",
+                        fontSize: "1.1em",
                     }}
                 >
-                    contact@wavyrn.com
+                    {t('contact.subtitle')}
                 </h3>
                 <hr
                     style={{
                         display: "block",
                         height: "3px",
                         border: 0,
-                        borderTop: "1px solid #ffffff",
+                        borderTop: "1px solid #000000",
                         margin: "1em 0",
                         marginLeft: "30%",
                         marginRight: "30%",
                         opacity: 100,
                     }}
                 />
+                <h4
+                    style={{
+                        textAlign: "center",
+                        color: "black",
+                        fontSize: "1em",
+                        marginTop: "0.5em",
+                        marginBottom: "0.5em",
+                    }}
+                >
+                    {t('contact.email')}
+                </h4>
                 <ContactSocialIcons />
-                <hr style={{ width: "33%", marginLeft: "33%" }} />
                 <p style={{ textAlign: "center" }}>{sent}</p>
                 <form
                     style={{
@@ -118,10 +133,10 @@ const Contact = ({ isMobile }) => {
                             <input
                                 name="user_name"
                                 onFocus={() => {
-                                    if (name == "Name") setName("");
+                                    if (name == t('contact.form.name')) setName("");
                                 }}
                                 onBlur={() => {
-                                    if (name == "") setName("Name");
+                                    if (name == "") setName(t('contact.form.name'));
                                 }}
                                 type="text"
                                 onChange={(e) => setName(e.target.value)}
@@ -132,8 +147,9 @@ const Contact = ({ isMobile }) => {
                                     backgroundColor: "#f8f8f8",
                                     height: "4em",
                                     borderRadius: "10px",
-                                    outlineColor: "#eeeeee",
+                                    borderColor: "#000000",
                                     borderStyle: "solid",
+                                    borderWidth: "1px",
                                     width: "100%",
                                 }}
                             />
@@ -146,10 +162,10 @@ const Contact = ({ isMobile }) => {
                                 name="user_email"
                                 onChange={(e) => setEmail(e.target.value)}
                                 onFocus={() => {
-                                    if (email == "Email") setEmail("");
+                                    if (email == t('contact.form.email')) setEmail("");
                                 }}
                                 onBlur={() => {
-                                    if (email == "") setEmail("Email");
+                                    if (email == "") setEmail(t('contact.form.email'));
                                 }}
                                 type="text"
                                 value={email}
@@ -159,8 +175,9 @@ const Contact = ({ isMobile }) => {
                                     backgroundColor: "#f8f8f8",
                                     height: "4em",
                                     borderRadius: "10px",
-                                    outlineColor: "#eeeeee",
+                                    borderColor: "#000000",
                                     borderStyle: "solid",
+                                    borderWidth: "1px",
                                     width: "100%",
                                 }}
                             />
@@ -170,10 +187,10 @@ const Contact = ({ isMobile }) => {
                         name="subject"
                         onChange={(e) => setSubject(e.target.value)}
                         onFocus={() => {
-                            if (subject == "Subject") setSubject("");
+                            if (subject == t('contact.form.subject')) setSubject("");
                         }}
                         onBlur={() => {
-                            if (subject == "") setSubject("Subject");
+                            if (subject == "") setSubject(t('contact.form.subject'));
                         }}
                         type="text"
                         value={subject}
@@ -193,10 +210,10 @@ const Contact = ({ isMobile }) => {
                         onChange={(e) => setMessage(e.target.value)}
                         name="message"
                         onFocus={() => {
-                            if (message == "Message") setMessage("");
+                            if (message == t('contact.form.message')) setMessage("");
                         }}
                         onBlur={() => {
-                            if (message == "") setMessage("Message");
+                            if (message == "") setMessage(t('contact.form.message'));
                         }}
                         value={message}
                         style={{
@@ -212,87 +229,35 @@ const Contact = ({ isMobile }) => {
                             paddingTop: "20px",
                         }}
                     />
-                    <div style={{ width: "100%" }}>
-                        <Row>
-                            <Col xs={4}>
-                                {!isMobile ? (
-                                    <ReCAPTCHA
-                                        sitekey={
-                                            "6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
-                                        }
-                                        ref={captchaRef}
-                                    />
-                                ) : (
-                                    <></>
-                                )}
-                            </Col>
-                            <Col
-                                xs={4}
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                <input
-                                    onClick={(e) => handleSubmit(e)}
-                                    type="submit"
-                                    value="SEND"
-                                    style={{
-                                        width: "6em",
-                                        color: "white",
-                                        fontSize: "2em",
-                                        backgroundColor: "#bb1d1a",
-                                        borderRadius: "10px",
-                                        borderStyle: "none",
-                                        height: "100%",
-                                    }}
-                                />
-                            </Col>
-                            <Col xs={4} />
-                        </Row>
-                        {isMobile ? (
-                            <Col xs={4}>
-                                <ReCAPTCHA
-                                    sitekey={
-                                        "6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
-                                    }
-                                    ref={captchaRef}
-                                />
-                            </Col>
-                        ) : (
-                            <></>
-                        )}
+                    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", paddingBottom: "30px" }}>
+                        <ReCAPTCHA
+                            sitekey="6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
+                            ref={captchaRef}
+                        />
+                        <input
+                            onClick={(e) => handleSubmit(e)}
+                            type="submit"
+                            value={t('contact.form.sendButton')}
+                            style={{
+                                width: "9em",
+                                color: "white",
+                                fontSize: "1em",
+                                backgroundColor: "#ce0031",
+                                borderRadius: "5px",
+                                borderStyle: "none",
+                                height: "2.5em",
+                                padding: "0.5em 1em",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                textAlign: "center",
+                            }}
+                        />
                         {error}
                     </div>
                 </form>
             </div>
-            <div style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "10px",
-              padding: "30px 30%"
-            }}>
-              <img
-                style={{
-                  maxHeight: "60px",
-                  flexShrink: 1,
-                  paddingRight: "20%",
-                }}
-                src="/images/logo_red.png"
-              />
-              <p
-                style={{
-                  color: "white",
-                  margin: 0,
-                  lineHeight: "50px",
-                  whiteSpace: "nowrap"  // Prevents text wrapping
-                }}
-              >
-                ©️2025 Wavyrn • All Rights Reserved
-              </p>
-            </div>
+            <Footer />
         </>
     );
 };

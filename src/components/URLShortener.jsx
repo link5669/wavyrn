@@ -9,6 +9,12 @@ const URLShortenerEditor = () => {
     title: "",
   });
   const [editingId, setEditingId] = useState(null);
+  const [editingUrl, setEditingUrl] = useState(null);
+  const [editFormData, setEditFormData] = useState({
+    originalUrl: "",
+    customSlug: "",
+    title: "",
+  });
 
   const API_BASE = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api`;
 
@@ -91,6 +97,58 @@ const URLShortenerEditor = () => {
       title: url.title || "",
     });
     setEditingId(url.id);
+  };
+
+  const startEdit = (url) => {
+    setEditingUrl(url.id);
+    setEditFormData({
+      originalUrl: url.originalUrl,
+      customSlug: url.slug,
+      title: url.title || "",
+    });
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!editFormData.originalUrl) {
+      alert("Original URL is required");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("authToken");
+      const response = await fetch(`${API_BASE}/urls/${editingUrl}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(editFormData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUrls(
+          urls.map((url) =>
+            url.id === editingUrl ? { id: editingUrl, ...data.data } : url,
+          ),
+        );
+        setEditingUrl(null);
+        setEditFormData({ originalUrl: "", customSlug: "", title: "" });
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Error updating URL:", error);
+      alert("Error updating URL");
+    }
+  };
+
+  const cancelInlineEdit = () => {
+    setEditingUrl(null);
+    setEditFormData({ originalUrl: "", customSlug: "", title: "" });
   };
 
   const handleDelete = async (id) => {
@@ -289,97 +347,204 @@ const URLShortenerEditor = () => {
               <div
                 key={url.id}
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: editingUrl === url.id ? "#f0f8ff" : "white",
                   border: "1px solid #ddd",
                   borderRadius: "8px",
                   padding: "20px",
                 }}
               >
-                <div style={{ marginBottom: "10px" }}>
-                  {url.title && (
-                    <h4 style={{ margin: "0 0 8px 0", color: "#333" }}>
-                      {url.title}
-                    </h4>
-                  )}
-                  <div style={{ marginBottom: "8px" }}>
-                    <strong>Short URL: </strong>
-                    <a
-                      href={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/s/${url.slug}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: "#007bff", textDecoration: "none" }}
-                    >
-                      wavyrn.com/s/{url.slug}
-                    </a>
-                    <button
-                      onClick={() =>
-                        copyToClipboard(
-                          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/s/${url.slug}`,
-                        )
-                      }
-                      style={{
-                        marginLeft: "10px",
-                        backgroundColor: "#28a745",
-                        color: "white",
-                        border: "none",
-                        padding: "4px 8px",
-                        borderRadius: "3px",
-                        cursor: "pointer",
-                        fontSize: "12px",
-                      }}
-                    >
-                      Copy
-                    </button>
-                  </div>
-                  <div style={{ marginBottom: "8px", wordBreak: "break-all" }}>
-                    <strong>Original: </strong>
-                    <a
-                      href={url.originalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{ color: "#666" }}
-                    >
-                      {url.originalUrl}
-                    </a>
-                  </div>
-                  <div style={{ fontSize: "12px", color: "#888" }}>
-                    Clicks: {url.clicks || 0} | Created:{" "}
-                    {new Date(
-                      url.createdAt?.toDate?.() || url.createdAt,
-                    ).toLocaleDateString()}
-                  </div>
-                </div>
+                {editingUrl === url.id ? (
+                  <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label
+                        style={{
+                          display: "block",
+                          marginBottom: "5px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Original URL:
+                      </label>
+                      <input
+                        type="url"
+                        value={editFormData.originalUrl}
+                        onChange={(e) =>
+                          setEditFormData({ ...editFormData, originalUrl: e.target.value })
+                        }
+                        required
+                        style={{
+                          width: "100%",
+                          padding: "6px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label
+                        style={{
+                          display: "block",
+                          marginBottom: "5px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Custom Slug:
+                      </label>
+                      <input
+                        type="text"
+                        value={editFormData.customSlug}
+                        onChange={(e) =>
+                          setEditFormData({ ...editFormData, customSlug: e.target.value })
+                        }
+                        style={{
+                          width: "100%",
+                          padding: "6px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginBottom: "10px" }}>
+                      <label
+                        style={{
+                          display: "block",
+                          marginBottom: "5px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Title:
+                      </label>
+                      <input
+                        type="text"
+                        value={editFormData.title}
+                        onChange={(e) =>
+                          setEditFormData({ ...editFormData, title: e.target.value })
+                        }
+                        style={{
+                          width: "100%",
+                          padding: "6px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                      />
+                    </div>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                      <button
+                        type="submit"
+                        style={{
+                          backgroundColor: "#28a745",
+                          color: "white",
+                          padding: "6px 12px",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        onClick={cancelInlineEdit}
+                        style={{
+                          backgroundColor: "#6c757d",
+                          color: "white",
+                          padding: "6px 12px",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <>
+                    <div style={{ marginBottom: "10px" }}>
+                      {url.title && (
+                        <h4 style={{ margin: "0 0 8px 0", color: "#333" }}>
+                          {url.title}
+                        </h4>
+                      )}
+                      <div style={{ marginBottom: "8px" }}>
+                        <strong>Short URL: </strong>
+                        <a
+                          href={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/s/${url.slug}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "#007bff", textDecoration: "none" }}
+                        >
+                          wavyrn.com/s/{url.slug}
+                        </a>
+                        <button
+                          onClick={() =>
+                            copyToClipboard(`wavyrn.com/s/${url.slug}`)
+                          }
+                          style={{
+                            marginLeft: "10px",
+                            backgroundColor: "#28a745",
+                            color: "white",
+                            border: "none",
+                            padding: "4px 8px",
+                            borderRadius: "3px",
+                            cursor: "pointer",
+                            fontSize: "12px",
+                          }}
+                        >
+                          Copy
+                        </button>
+                      </div>
+                      <div style={{ marginBottom: "8px", wordBreak: "break-all" }}>
+                        <strong>Original: </strong>
+                        <a
+                          href={url.originalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "#666" }}
+                        >
+                          {url.originalUrl}
+                        </a>
+                      </div>
+                      <div style={{ fontSize: "12px", color: "#888" }}>
+                        Clicks: {url.clicks || 0} | Created:{" "}
+                        {new Date(
+                          url.createdAt?.toDate?.() || url.createdAt,
+                        ).toLocaleDateString()}
+                      </div>
+                    </div>
 
-                <div style={{ display: "flex", gap: "10px" }}>
-                  <button
-                    onClick={() => handleEdit(url)}
-                    style={{
-                      backgroundColor: "#17a2b8",
-                      color: "white",
-                      border: "none",
-                      padding: "6px 12px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(url.id)}
-                    style={{
-                      backgroundColor: "#dc3545",
-                      color: "white",
-                      border: "none",
-                      padding: "6px 12px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
+                    <div style={{ display: "flex", gap: "10px" }}>
+                      <button
+                        onClick={() => startEdit(url)}
+                        style={{
+                          backgroundColor: "#17a2b8",
+                          color: "white",
+                          border: "none",
+                          padding: "6px 12px",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          fontSize: "12px",
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(url.id)}
+                        style={{
+                          backgroundColor: "#dc3545",
+                          color: "white",
+                          border: "none",
+                          padding: "6px 12px",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          fontSize: "12px",
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>

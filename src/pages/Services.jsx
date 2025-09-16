@@ -8,8 +8,10 @@ import Production from "../components/services/Production";
 import SoundDesign from "../components/services/SoundDesign";
 import "./Services.css";
 import ExpandableHeading from "../components/ExpandableHeading/ExpandableHeading";
+import { useTranslation } from "../hooks/useTranslation";
 
 const Services = ({ isMobile }) => {
+    const { t } = useTranslation();
     const [selected, setSelected] = useState(0);
     const [prevSelected, setPrevSelected] = useState(-1);
     const serviceRefs = useRef({});
@@ -57,8 +59,8 @@ const Services = ({ isMobile }) => {
                 {isMobile ? (
                     <>
                         <ExpandableHeading
-                            title="Audio Directing"
-                            subtitle={"Project Management & Coordination"}
+                            title={t('services.audioDirecting.title')}
+                            subtitle={t('services.audioDirecting.subtitle')}
                             bg={
                                 "url('/images/Services_AudioDirecting.jpg?url')"
                             }
@@ -69,8 +71,8 @@ const Services = ({ isMobile }) => {
                             index={0}
                         />
                         <ExpandableHeading
-                            title="Production"
-                            subtitle={"Mixing, Mastering, & Music Editing"}
+                            title={t('services.production.title')}
+                            subtitle={t('services.production.subtitle')}
                             bg={"url('/images/Services_Production.png?url')"}
                             isMobile={isMobile}
                             body={<Production isMobile={isMobile} />}
@@ -79,10 +81,8 @@ const Services = ({ isMobile }) => {
                             index={1}
                         />
                         <ExpandableHeading
-                            title="Sound Design"
-                            subtitle={
-                                "Sound Effects, Ambiences, Foley, & Sonic Branding"
-                            }
+                            title={t('services.soundDesign.title')}
+                            subtitle={t('services.soundDesign.subtitle')}
                             bg={"url('/images/Services_SoundDesign.jpg?url')"}
                             isMobile={isMobile}
                             body={<SoundDesign isMobile={isMobile} />}
@@ -91,10 +91,8 @@ const Services = ({ isMobile }) => {
                             index={2}
                         />
                         <ExpandableHeading
-                            title="Music"
-                            subtitle={
-                                "Film, Games, Theme Parks, & Interactive Media"
-                            }
+                            title={t('services.music.title')}
+                            subtitle={t('services.music.subtitle')}
                             bg={"url('/images/Services_Music.png?url')"}
                             isMobile={isMobile}
                             body={<Music isMobile={isMobile} />}
@@ -103,8 +101,8 @@ const Services = ({ isMobile }) => {
                             index={3}
                         />
                         <ExpandableHeading
-                            title="Voice Acting"
-                            subtitle={"Writing, Casting & Editing"}
+                            title={t('services.voiceActing.title')}
+                            subtitle={t('services.voiceActing.subtitle')}
                             bg={"url('/images/Services_Dialogue.jpg?url')"}
                             isMobile={isMobile}
                             body={<Dialogue isMobile={isMobile} />}
@@ -154,20 +152,7 @@ const Services = ({ isMobile }) => {
                     </>
                 )}
             </div>
-            <div
-                ref={footerRef}
-                style={{ backgroundColor: "black", height: "50px" }}
-            >
-                <p
-                    style={{
-                        color: "white",
-                        textAlign: "center",
-                        lineHeight: "50px",
-                    }}
-                >
-                    ©️2025 Wavyrn • All Rights Reserved
-                </p>
-            </div>
+            <Footer />
         </>
     );
 };

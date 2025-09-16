@@ -65,3 +65,22 @@
     background: white;
     color: black;
 }
+
+.dropdown-arrow {
+    font-size: 10px;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+/* Remove the old bottom-row styles if you had them */
+.bottom-row {
+    display: none;
+}
+
+.copyright-text {
+    margin: 0;
+}

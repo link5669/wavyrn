@@ -5,6 +5,7 @@ const BLOG_PAGES = [
         title: "Broadway Blues: A New Musical Theater Film",
         author: <>by Angelica Ramos</>,
         date: <>May 30th, 2025</>,
+        image: "",
         byline: (
             <>
                 by Angelica Ramos
@@ -12,16 +13,34 @@ const BLOG_PAGES = [
                 May 30th, 2025
             </>
         ),
-        tags: ["Film", "Music", "Musical", "Production"],
-        image: "",
-        preview: <></>,
+        tags: [
+          [  "Film",  "PROJECT" ],
+          [  "Music", "TOPIC" ],
+          [  "Musical",  "PROJECT" ],
+          [  "Production",  "TOPIC" ],
+        ],       
+        preview: <><p>In a world full of indie game developments, feature films,
+        and podcasts, there are rare occasions when the Wavyrn
+        studio gets to dabble in other artistic mediums. But one
+        short film happened to involve a rather fun twist: a musical
+        theatre number!</p>
+        <p>
+                    <i>Broadway Blues</i> is a student animated short film about
+                    a performer that has fallen out of love with performance.
+                    His sister helps to rekindle his spirit… through song! “Live
+                    Like It’s a Dream”, written by Marc Yu and Adam Blotner, is
+                    the song that scores this film as the characters sing and
+                    dance their way through a dream sequence...
+                </p></>,
         content: (
             <>
                 <p align="center">
                     <iframe
-                        style={{ alignContent: "center" }}
-                        width="560"
-                        height="315"
+                        style={{ 
+                            alignContent: "center",
+                            width: "40%",
+                            height: "315px"
+                        }}
                         src="https://www.youtube.com/embed/5kXOXbqihp0?si=oaSZ6sfRMnwWlgNm"
                         title="YouTube video player"
                         frameBorder="0"
@@ -175,6 +194,7 @@ const BLOG_PAGES = [
         title: "Behind the Dialogue: Writing Delta Emblock’s Voice Lines for Resurgence of the Storm",
         author: <>by Subsourian</>,
         date: <>January 3rd, 2025</>,
+        image: "",
         byline: (
             <>
                 by Subsourian
@@ -182,7 +202,7 @@ const BLOG_PAGES = [
                 January 3rd, 2025
             </>
         ),
-        tags: ["VideoGame", "MOBA", "Voiceover"],
+        tags: [["VideoGame", "PROJECT"], ["MOBA",  "GENRE"], ["Voiceover",  "TOPIC"]],
         preview: (
             <>
                 I’m Subsourian, admin of the Starcraft Wiki, and I wrote and
@@ -252,13 +272,22 @@ const BLOG_PAGES = [
                 heaven help you if you’re her mission objective
                 <br />
                 <br />
-                <video controls width="400vw">
-                    <source
-                        src="https://www.dl.dropboxusercontent.com/scl/fi/z383xcakbz68p2cpatbp5/20250103-ROTS-DELTA-VO-BTS.mp4?rlkey=yvybmur15j8slvzp7r2nrv587&e=3&st=milmvzi7&dl=0"
-                        type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                </video>
+                <div style={{ textAlign: "center" }}>
+                    <video 
+                        controls 
+                        style={{ 
+                            maxWidth: "100%", 
+                            width: "100%", 
+                            height: "auto" 
+                        }}
+                    >
+                        <source
+                            src="https://www.dl.dropboxusercontent.com/scl/fi/z383xcakbz68p2cpatbp5/20250103-ROTS-DELTA-VO-BTS.mp4?rlkey=yvybmur15j8slvzp7r2nrv587&e=3&st=milmvzi7&dl=0"
+                            type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </>
         ),
     },
@@ -274,7 +303,7 @@ const BLOG_PAGES = [
                 August 11th, 2024
             </>
         ),
-        tags: ["VideoGame", "MOBA", "SoundDesign"],
+        tags: [[  "VideoGame",  "PROJECT" ], [ "MOBA",  "GENRE"], ["SoundDesign", "TOPIC"]],
         image: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Blog%20Posts/20240810%20ROTS-DELTA%20SFX%20BTS/Logo%20New%20Fix%203840x2160.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         preview: (
             <>
@@ -348,13 +377,22 @@ const BLOG_PAGES = [
                 pretty fun challenge.
                 <br />
                 <br />
-                <video controls width="400vw">
-                    <source
-                        src="https://www.dl.dropboxusercontent.com/scl/fi/yuvidf97uuilabd7l6gbw/CLIP-1.mp4?rlkey=83yo6wwywwjhcdcgvolfdrusb&dl=0"
-                        type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                </video>
+                <div style={{ textAlign: "center" }}>
+                    <video 
+                        controls 
+                        style={{ 
+                            maxWidth: "100%", 
+                            width: "100%", 
+                            height: "auto" 
+                        }}
+                    >
+                        <source
+                            src="https://www.dl.dropboxusercontent.com/scl/fi/yuvidf97uuilabd7l6gbw/CLIP-1.mp4?rlkey=83yo6wwywwjhcdcgvolfdrusb&dl=0"
+                            type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
                 <br />
                 <br />
                 Her weapons each have a distinct core sound that is used in
@@ -362,29 +400,41 @@ const BLOG_PAGES = [
                 resonant like a sniper usually is…
                 <br />
                 <br />
-                <video
-                    controls
-                    width="400vw"
-                    preload="metadata"
-                    crossOrigin="anonymous"
-                >
-                    <source
-                        src="https://www.dl.dropboxusercontent.com/scl/fi/93jmerneqtx53xfuvpcm5/CLIP-2.mp4?rlkey=ppe0lmz78jc3v90dvcb83m52b&dl=0"
-                        type="video/mp4"
-                    />
-                    Your browser does not support the video tag.
-                </video>
+                <div style={{ textAlign: "center" }}>
+                    <video
+                        controls
+                        style={{ 
+                            maxWidth: "100%", 
+                            width: "100%", 
+                            height: "auto" 
+                        }}
+                        preload="metadata"
+                        crossOrigin="anonymous"
+                    >
+                        <source
+                            src="https://www.dl.dropboxusercontent.com/scl/fi/93jmerneqtx53xfuvpcm5/CLIP-2.mp4?rlkey=ppe0lmz78jc3v90dvcb83m52b&dl=0"
+                            type="video/mp4"
+                        />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
                 <br />
                 <br />
                 And her railgun uses electrical crackling and sparking…
                 <br />
                 <br />
-                <video
-                    type="video/mp4"
-                    src="https://www.dl.dropboxusercontent.com/scl/fi/nr6ldpmh4jros3vyh19fl/CLIP-3.mp4?rlkey=kaon7gvpncnit6f13vnhtw237&dl=1"
-                    controls
-                    width="400vw"
-                />
+                <div style={{ textAlign: "center" }}>
+                    <video
+                        type="video/mp4"
+                        src="https://www.dl.dropboxusercontent.com/scl/fi/nr6ldpmh4jros3vyh19fl/CLIP-3.mp4?rlkey=kaon7gvpncnit6f13vnhtw237&dl=1"
+                        controls
+                        style={{ 
+                            maxWidth: "100%", 
+                            width: "100%", 
+                            height: "auto" 
+                        }}
+                    />
+                </div>
                 <br />
                 <br />
                 But her rocket launcher is more of a liquid plasma, pneumatic
@@ -397,12 +447,18 @@ const BLOG_PAGES = [
                 weapon she has in hand.
                 <br />
                 <br />
-                <video
-                    type="video/mp4"
-                    src="https://www.dl.dropboxusercontent.com/scl/fi/ccn6pjaehloumbb76q8uo/CLIP-4.mp4?rlkey=e1j881ptu6sz7dplaru329r82&dl=1"
-                    controls
-                    width="400vw"
-                />
+                <div style={{ textAlign: "center" }}>
+                    <video
+                        type="video/mp4"
+                        src="https://www.dl.dropboxusercontent.com/scl/fi/ccn6pjaehloumbb76q8uo/CLIP-4.mp4?rlkey=e1j881ptu6sz7dplaru329r82&dl=1"
+                        controls
+                        style={{ 
+                            maxWidth: "100%", 
+                            width: "100%", 
+                            height: "auto" 
+                        }}
+                    />
+                </div>
                 <br />
                 <br />
                 Her E ability is her primary escape and stealth option, and that
@@ -416,15 +472,20 @@ const BLOG_PAGES = [
                 her pylons as they come in and out.
                 <br />
                 <br />
-                <Player
-                    grey={[206, 0, 54]}
-                    accent={[255, 0, 0]}
-                    src={
-                        "https://www.dl.dropboxusercontent.com/scl/fi/qcoehhyzfpr209itpet1s/CLIP-5.wav?rlkey=jc6zxrrdmywaxwm9ldl2rhetx&dl=1"
-                    }
-                    height={30}
-                    style={{ width: "30vw" }}
-                />
+                <div style={{ textAlign: "center" }}>
+                    <Player
+                        grey={[206, 0, 54]}
+                        accent={[255, 0, 0]}d
+                        src={
+                            "https://www.dl.dropboxusercontent.com/scl/fi/qcoehhyzfpr209itpet1s/CLIP-5.wav?rlkey=jc6zxrrdmywaxwm9ldl2rhetx&dl=1"
+                        }
+                        height={30}
+                        style={{ 
+                            maxWidth: "100%", 
+                            width: "100%" 
+                        }}
+                    />
+                </div>
                 <br />
                 <br />
                 Delta in all is supposed to sort of represent humanity on

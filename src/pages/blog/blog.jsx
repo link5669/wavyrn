@@ -1,48 +1,78 @@
 import { useEffect } from "react";
-import BLOG_PAGES from "./pages";
 import Preview from "./preview";
 import React, { useState } from "react";
 import WavNavbar from "../../components/Navbar/Navbar";
 import "./blog.css";
+import Footer from "../../components/Footer";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+
 const Blog = ({ isMobile }) => {
     const [selectedTags, setSelectedTags] = useState(new Set());
-    const [tags, setTags] = useState([]);
+    const [tags, setTags] = useState({
+        TOPIC: [],
+        PROJECT: [],
+        GENRE: []
+    });
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const filteredPosts = BLOG_PAGES.filter((post) => {
-        if (selectedTags.size === 0) return true; // Show all when no tags selected
-        return post.tags.some((tag) => selectedTags.has(tag));
+    // AutoAnimate hook for smooth transitions
+    const [postsParent, enableAnimations] = useAutoAnimate({
+        duration: 400,
+        easing: "ease-in-out",
+        disrespectUserMotionPreference: false,
     });
 
-    const handleTagToggle = (tag) => {
+    const filteredPosts = posts.filter((post) => {
+        if (selectedTags.size === 0) return true; // Show all when no tags selected
+        return post.topics.some((topic) => selectedTags.has(topic)); // topics is an array of strings
+    });
+
+    const handleTagToggle = (tagName) => {
         setSelectedTags((prev) => {
             const newTags = new Set(prev);
-            if (newTags.has(tag)) {
-                newTags.delete(tag);
+            if (newTags.has(tagName)) {
+                newTags.delete(tagName);
             } else {
-                newTags.add(tag);
+                newTags.add(tagName);
             }
             return newTags;
         });
     };
 
-    useEffect(() => {
-        let tagCollector = [];
-        for (let i = 0; i < BLOG_PAGES.length; i++) {
-            for (let j = 0; j < BLOG_PAGES[i].tags.length; j++) {
-                if (
-                    tagCollector.filter((e) => e.tag == BLOG_PAGES[i].tags[j])
-                        .length > 0
-                ) {
-                    for (let k = 0; k < tagCollector.length; k++) {
-                        if (tagCollector[k].tag == BLOG_PAGES[i].tags[j])
-                            tagCollector[k].count++;
-                    }
-                } else {
-                    tagCollector.push({ tag: BLOG_PAGES[i].tags[j], count: 1 });
-                }
+    const fetchPosts = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog`);
+            const data = await response.json();
+            if (response.ok) {
+                setPosts(data.posts || []);
+            } else {
+                console.error("Failed to fetch posts:", data.error);
             }
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        } finally {
+            setLoading(false);
         }
-        setTags(tagCollector);
+    };
+
+    const fetchTags = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/tags`);
+            const data = await response.json();
+            if (response.ok) {
+                setTags(data.tags || { TOPIC: [], PROJECT: [], GENRE: [] });
+            } else {
+                console.error("Failed to fetch tags:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching tags:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPosts();
+        fetchTags();
     }, []);
 
     return (
@@ -50,82 +80,158 @@ const Blog = ({ isMobile }) => {
             <WavNavbar showLogo={true} />
             <div
                 style={{
-                    backgroundColor: "RGB(1,1,1)",
+                    backgroundColor: "white !important",
                     minHeight: "100vh",
+                    width: "100vw",
                     display: "flex",
                     flexDirection: "column",
                     paddingTop: "45px",
                 }}
             >
                 <div style={{ display: "flex", flex: 1 }}>
-                    <div className="posts-section">
-                        {filteredPosts.map((e) => (
-                            <Preview
-                                key={e.path}
-                                title={e.title}
-                                subtitle={e.byline}
-                                image={e.image}
-                                content={e.preview}
-                                link={e.path}
-                                isMobile={isMobile}
-                            />
-                        ))}
+                    <div className="posts-section" ref={postsParent}>
+                        {loading ? (
+                            <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
+                                Loading blog posts...
+                            </div>
+                        ) : filteredPosts.length > 0 ? (
+                            filteredPosts.map((post) => (
+                                <Preview
+                                    key={post.docId}
+                                    title={post.title}
+                                    subtitle={`by ${post.author}\n${post.date}`}
+                                    image=""
+                                    content={post.preview || post.content.substring(0, 200) + "..."}
+                                    link={`/blog/${post.docId}`}
+                                    isMobile={isMobile}
+                                />
+                            ))
+                        ) : (
+                            <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
+                                No blog posts found. {selectedTags.size > 0 ? "Try removing some filters." : "Check back later for new content!"}
+                            </div>
+                        )}
                     </div>
 
-                    {!isMobile && (
-                        <div className="tags-section">
-                            <br />
-                            <h2>Filter by Tags</h2>
+
+                    <div className="tags-section">
+                        <br />
+                        <h2>Filter by Tags</h2>
+                        
+                        {/* TOPIC Category */}
+                        <div style={{ marginBottom: "30px" }}>
+                            <h3 style={{ 
+                                color: "#CE0036", 
+                                fontSize: "1.2em", 
+                                marginBottom: "15px",
+                                fontWeight: "600"
+                            }}>
+                                TOPIC
+                            </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
-                                {tags.map((tag) => (
-                                    <li
-                                        key={tag.tag}
-                                        style={{ marginBottom: "10px" }}
-                                    >
+                                {tags.TOPIC?.map((tag) => (
+                                    <li key={tag.name} style={{ marginBottom: "8px" }}>
                                         <label
                                             style={{
                                                 display: "flex",
                                                 alignItems: "center",
                                                 cursor: "pointer",
+                                                fontSize: "0.95em"
                                             }}
                                         >
                                             <input
                                                 type="checkbox"
-                                                checked={selectedTags.has(
-                                                    tag.tag,
-                                                )}
-                                                onChange={() =>
-                                                    handleTagToggle(tag.tag)
-                                                }
-                                                style={{ marginRight: "8px" }}
+                                                checked={selectedTags.has(tag.name)}
+                                                onChange={() => handleTagToggle(tag.name)}
+                                                style={{ 
+                                                    marginRight: "10px",
+                                                    transform: "scale(1.1)"
+                                                }}
                                             />
-                                            {tag.tag} ({tag.count})
+                                            {tag.name} ({posts.filter(post => post.topics && post.topics.includes(tag.name)).length})
                                         </label>
                                     </li>
                                 ))}
                             </ul>
                         </div>
-                    )}
+
+                        {/* PROJECT Category */}
+                        <div style={{ marginBottom: "30px" }}>
+                            <h3 style={{ 
+                                color: "#CE0036", 
+                                fontSize: "1.2em", 
+                                marginBottom: "15px",
+                                fontWeight: "600"
+                            }}>
+                                PROJECT
+                            </h3>
+                            <ul style={{ listStyle: "none", padding: 0 }}>
+                                {tags.PROJECT?.map((tag) => (
+                                    <li key={tag.name} style={{ marginBottom: "8px" }}>
+                                        <label
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                cursor: "pointer",
+                                                fontSize: "0.95em"
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedTags.has(tag.name)}
+                                                onChange={() => handleTagToggle(tag.name)}
+                                                style={{ 
+                                                    marginRight: "10px",
+                                                    transform: "scale(1.1)"
+                                                }}
+                                            />
+                                            {tag.name} ({posts.filter(post => post.topics && post.topics.includes(tag.name)).length})
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* GENRE Category */}
+                        <div style={{ marginBottom: "30px" }}>
+                            <h3 style={{ 
+                                color: "#CE0036", 
+                                fontSize: "1.2em", 
+                                marginBottom: "15px",
+                                fontWeight: "600"
+                            }}>
+                                GENRE
+                            </h3>
+                            <ul style={{ listStyle: "none", padding: 0 }}>
+                                {tags.GENRE?.map((tag) => (
+                                    <li key={tag.name} style={{ marginBottom: "8px" }}>
+                                        <label
+                                            style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                cursor: "pointer",
+                                                fontSize: "0.95em"
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedTags.has(tag.name)}
+                                                onChange={() => handleTagToggle(tag.name)}
+                                                style={{ 
+                                                    marginRight: "10px",
+                                                    transform: "scale(1.1)"
+                                                }}
+                                            />
+                                            {tag.name} ({posts.filter(post => post.topics && post.topics.includes(tag.name)).length})
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
-                <footer
-                    style={{
-                        backgroundColor: "black",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: "50px",
-                    }}
-                >
-                    <p
-                        style={{
-                            color: "white",
-                            textAlign: "center",
-                            lineHeight: "50px",
-                        }}
-                    >
-                        ©️2025 Wavyrn • All Rights Reserved
-                    </p>
-                </footer>
+                <Footer />
             </div>
         </>
     );

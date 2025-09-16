@@ -47,6 +47,8 @@ const Production = ({ isMobile }) => {
                     height: "100%", // Ensure the div takes full height
                     minHeight: "400px", // Set a minimum height (adjust as needed)
                     position: "relative", // For absolute positioning of overlay
+                    borderRadius: "12px", // Add rounded corners
+                    overflow:"hidden"
                 }}
             >
                 {/* Overlay */}
@@ -86,9 +88,8 @@ const Production = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    Tell us about your audio vision and we’ll find the right
-                    team to execute it. We’re here to mix, master, and take your
-                    audio to the finish line.
+                  Tell us about your audio vision and we’ll find the right team to execute it. We’re here to mix, master, and take your audio to the finish line.
+
                 </h5>
                 <ul
                     style={{
@@ -106,7 +107,7 @@ const Production = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    <li>Podcast & Long-Form Production</li>
+                    <li>Podcasts & Audiobooks</li>
                     <li>Vocal Production & Synthesis</li>
                     <li>MIDI & Synth Programming</li>
                     <li>Mixing, Mastering, & Editing</li>
@@ -124,6 +125,10 @@ const Production = ({ isMobile }) => {
                         fontSize: isMobile && ".8em",
                         display: "flex",
                         alignItems: "center",
+                        borderRadius: "12px", // Add rounded corners
+                        backgroundColor: "rgba(255, 255, 255, 0.05)", // Optional: add subtle background
+                        padding: "20px", // Add some padding
+                        margin: "10px 0", // Add some margin
                     }}
                 >
                     <Col

@@ -1,5 +1,5 @@
 .mobile-carousel-container {
-    width: 100vw;
+    width: 100%;
     touch-action: pan-y; /* Allow vertical scrolling */
     overflow: hidden;
 }

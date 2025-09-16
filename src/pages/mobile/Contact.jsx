@@ -9,8 +9,9 @@ import WavNavbar from "../../components/Navbar/MobileNavbar/MobileNavbar";
 
 const Contact = ({ isMobile }) => {
     const [name, setName] = useState("Name");
-    const [email, setEmail] = useState("Email");
+    const [email, setEmail] = useState("Email Address");
     const [message, setMessage] = useState("Message");
+    const [subject, setSubject] = useState("Subject")
     const [error, setError] = useState("");
     const [sent, setSent] = useState("");
 
@@ -24,7 +25,7 @@ const Contact = ({ isMobile }) => {
         //     setError("Please complete the captcha!");
         //     return;
         // }
-        if (name == "Name" || email == "Email" || message == "Message") {
+        if (name == "Name" || email == "Email" || message == "Message" || subject == "Subject") {
             setError("Please fill out all fields!");
             return;
         }
@@ -50,7 +51,7 @@ const Contact = ({ isMobile }) => {
             <WavNavbar showLogo={true} />
             <div
                 style={{
-                    minHeight: "100vh",
+                    minHeight: "130vh",
                     width: "100vw",
                     backgroundColor: "#CE0036",
                 }}
@@ -66,18 +67,9 @@ const Contact = ({ isMobile }) => {
                     }}
                 >
                     <b>
-                        We'd love to <br />
-                        hear from you!
+                      Contact Us
                     </b>
                 </h2>
-                <h3
-                    style={{
-                        textAlign: "center",
-                        color: "white",
-                    }}
-                >
-                    <i>contact@wavyrn.com</i>
-                </h3>
                 <hr
                     style={{
                         display: "block",
@@ -90,6 +82,15 @@ const Contact = ({ isMobile }) => {
                         opacity: 100,
                     }}
                 />
+                <h3
+                    style={{
+                        textAlign: "center",
+                        color: "white",
+                    }}
+                >
+                  Let’s chat about your next project!
+                </h3>
+
                 <ContactSocialIcons />
                 <p style={{ textAlign: "center" }}>{sent}</p>
                 <form
@@ -138,13 +139,36 @@ const Contact = ({ isMobile }) => {
                         name="user_email"
                         onChange={(e) => setEmail(e.target.value)}
                         onFocus={() => {
-                            if (email == "Email") setEmail("");
+                            if (email == "Email Address") setEmail("");
                         }}
                         onBlur={() => {
-                            if (email == "") setEmail("Email");
+                            if (email == "") setEmail("Email Address");
                         }}
                         type="text"
                         value={email}
+                        style={{
+                            marginTop: "1.2em",
+                            padding: "10px",
+                            outline: "none",
+                            backgroundColor: "#f8f8f8",
+                            height: "4em",
+                            borderRadius: "10px",
+                            outlineColor: "#eeeeee",
+                            borderStyle: "solid",
+                            width: "100%",
+                        }}
+                    />
+                    <input
+                        name="subject"
+                        onChange={(e) => setEmail(e.target.value)}
+                        onFocus={() => {
+                            if (subject == "Subject") setSubject("");
+                        }}
+                        onBlur={() => {
+                            if (subject == "") setSubject("Subject");
+                        }}
+                        type="text"
+                        value={subject}
                         style={{
                             marginTop: "1.2em",
                             padding: "10px",
@@ -179,6 +203,13 @@ const Contact = ({ isMobile }) => {
                             width: "100%",
                             paddingTop: "20px",
                         }}
+                    />
+                    <ReCAPTCHA
+                    style={{paddingBottom: "20px"}}
+                        sitekey={
+                            "6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
+                        }
+                        ref={captchaRef}
                     />
                     <div style={{ width: "100%" }}>
                         <Row

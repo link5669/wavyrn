@@ -30,3 +30,172 @@
     filter: brightness(30%);
     animation-direction: reverse;
 }
+
+/* Service Card Flip Animation */
+.service-card {
+    perspective: 1000px;
+    height: 300px;
+    min-width: 0; /* Allow cards to shrink */
+}
+
+/* Responsive service grid */
+@media (max-width: 1200px) {
+    .service-card {
+        height: 280px;
+    }
+}
+
+@media (max-width: 900px) {
+    .service-card {
+        height: 260px;
+    }
+}
+
+.service-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    background-color: white;
+    border: 1px solid #CE0036;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-card:hover .service-card-inner {
+    transform: rotateY(180deg);
+}
+
+.service-card-front, .service-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.service-card-back {
+    transform: rotateY(180deg);
+}
+
+.service-icon {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #CE0036;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+}
+
+.service-icon img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: contain !important;
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.service-title {
+    color: #CE0036;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+.service-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+}
+
+.service-checklist li {
+    margin: 4px 0;
+    font-size: 0.85em;
+    color: black;
+    display: flex;
+    align-items: center;
+    line-height: 1.2;
+}
+
+.checkbox {
+    margin-right: 10px;
+    color: #CE0036;
+    font-size: 1.2em;
+}
+
+.service-description {
+    color: black;
+    font-size: 1em;
+    line-height: 1.5;
+    text-align: center;
+    margin: 0;
+}
+
+/* Team Member Cards */
+.team-member-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.team-member-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.member-image-placeholder {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.member-info {
+    padding: 15px;
+    text-align: center;
+}
+
+/* Team Grid Responsive */
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    padding: 0;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .team-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .team-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 0;
+    }
+}

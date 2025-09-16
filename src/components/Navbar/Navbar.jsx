@@ -1,14 +1,19 @@
 // Navbar.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaEnvelope, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
+import { FaEnvelope, FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { SiBluesky } from "react-icons/si";
 import "./Navbar.css";
 import { IconContext } from "react-icons";
+import { useLanguage } from "../../contexts/LanguageContext";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Navbar = ({ showLogo }) => {
     const location = useLocation();
     const [hoveredButton, setHoveredButton] = useState(null);
+    const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+    const { language, changeLanguage } = useLanguage();
+    const { t } = useTranslation();
 
     const getActiveClass = (path) => {
         const currentPath = location.pathname;
@@ -21,8 +26,24 @@ const Navbar = ({ showLogo }) => {
         window.location.href = "mailto:contact@wavyrn.com";
     };
 
+    const languages = [
+        { code: "en", name: "English", flag: "🇺🇸" },
+        { code: "jp", name: "日本語", flag: "🇯🇵" },
+    ];
+
+    const handleLanguageSelect = (languageCode) => {
+        changeLanguage(languageCode);
+        setIsLanguageDropdownOpen(false);
+    };
+
+    const toggleLanguageDropdown = () => {
+        setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
+    };
+
+    const selectedLang = languages.find((lang) => lang.code === language);
+
     return (
-        <div style={{ position: "fixed", zIndex: 150 }}>
+        <div style={{ position: "fixed", zIndex: 150, width: "100%", left: 0, right: 0 }}>
             <nav className={`navbar`}>
                 {" "}
                 <div className="nav-left">
@@ -39,7 +60,7 @@ const Navbar = ({ showLogo }) => {
                             onMouseEnter={() => setHoveredButton("/about")}
                             onMouseLeave={() => setHoveredButton(null)}
                         >
-                            <span style={{ color: "white" }}>About</span>
+                            <span style={{ color: "white" }}>{t('nav.about')}</span>
                         </Link>
                         <Link
                             to="/portfolio"
@@ -47,7 +68,7 @@ const Navbar = ({ showLogo }) => {
                             onMouseEnter={() => setHoveredButton("/portfolio")}
                             onMouseLeave={() => setHoveredButton(null)}
                         >
-                            <span style={{ color: "white" }}>Portfolio</span>
+                            <span style={{ color: "white" }}>{t('nav.portfolio')}</span>
                         </Link>
 
                         <Link to="/about" className="logo-container">
@@ -64,7 +85,7 @@ const Navbar = ({ showLogo }) => {
                             onMouseEnter={() => setHoveredButton("/blog")}
                             onMouseLeave={() => setHoveredButton(null)}
                         >
-                            <span style={{ color: "white" }}> Blog</span>
+                            <span style={{ color: "white" }}>{t('nav.blog')}</span>
                         </Link>
                         <Link
                             to="/contact"
@@ -72,7 +93,7 @@ const Navbar = ({ showLogo }) => {
                             onMouseEnter={() => setHoveredButton("/contact")}
                             onMouseLeave={() => setHoveredButton(null)}
                         >
-                            <span style={{ color: "white" }}>Contact</span>
+                            <span style={{ color: "white" }}>{t('nav.contact')}</span>
                         </Link>
                     </div>
                 )}
@@ -87,6 +108,7 @@ const Navbar = ({ showLogo }) => {
                             value={{
                                 color: "white",
                                 className: "global-class-name",
+                                size: "18px",
                             }}
                         >
                             <div>
@@ -104,6 +126,7 @@ const Navbar = ({ showLogo }) => {
                             value={{
                                 color: "white",
                                 className: "global-class-name",
+                                size: "18px",
                             }}
                         >
                             <div>
@@ -121,6 +144,7 @@ const Navbar = ({ showLogo }) => {
                             value={{
                                 color: "white",
                                 className: "global-class-name",
+                                size: "18px",
                             }}
                         >
                             <div>
@@ -138,6 +162,7 @@ const Navbar = ({ showLogo }) => {
                             value={{
                                 color: "white",
                                 className: "global-class-name",
+                                size: "18px",
                             }}
                         >
                             <div>
@@ -145,6 +170,54 @@ const Navbar = ({ showLogo }) => {
                             </div>
                         </IconContext.Provider>
                     </a>
+                    <a
+                        href="https://www.linkedin.com/company/wavyrn-audio/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="icon-button"
+                    >
+                        <IconContext.Provider
+                            value={{
+                                color: "white",
+                                className: "global-class-name",
+                                size: "18px",
+                            }}
+                        >
+                            <div>
+                                <FaLinkedin />
+                            </div>
+                        </IconContext.Provider>
+                    </a>
+                    
+                    {/* Language Dropdown */}
+                    <div className="language-dropdown-container">
+                        <div className="language-trigger" onClick={toggleLanguageDropdown}>
+                            <span className="flag">{selectedLang?.flag}</span>
+                            <span className="language-code">
+                                {selectedLang?.code.toUpperCase()}
+                            </span>
+                            <span
+                                className={`dropdown-arrow ${isLanguageDropdownOpen ? "open" : ""}`}
+                            >
+                                ▼
+                            </span>
+                        </div>
+
+                        {isLanguageDropdownOpen && (
+                            <div className="language-dropdown">
+                                {languages.map((lang) => (
+                                    <div
+                                        key={lang.code}
+                                        className={`language-option ${language === lang.code ? "selected" : ""}`}
+                                        onClick={() => handleLanguageSelect(lang.code)}
+                                    >
+                                        <span className="flag">{lang.flag}</span>
+                                        <span className="language-name">{lang.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </nav>
         </div>

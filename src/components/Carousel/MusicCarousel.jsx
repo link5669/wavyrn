@@ -8,9 +8,9 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
     const handleLeftClick = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? albums.length - 1 : prevIndex - 1,
-        );
+        const newIndex = currentIndex === 0 ? albums.length - 1 : currentIndex - 1;
+        setCurrentIndex(newIndex);
+        
         if (isPlaying) {
             let volume = audioRef.current.volume;
             const fadeOutInterval = setInterval(() => {
@@ -19,13 +19,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                     audioRef.current.volume = volume;
                 } else {
                     clearInterval(fadeOutInterval);
-                    audioRef.current = new Audio(
-                        albums[
-                            currentIndex === 0
-                                ? albums.length - 1
-                                : currentIndex - 1
-                        ].track,
-                    );
+                    audioRef.current = new Audio(albums[newIndex].track);
                     audioRef.current.addEventListener("ended", () => {
                         setIsPlaying(false);
                     });
@@ -37,9 +31,9 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     };
 
     const handleRightClick = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === albums.length - 1 ? 0 : prevIndex + 1,
-        );
+        const newIndex = currentIndex === albums.length - 1 ? 0 : currentIndex + 1;
+        setCurrentIndex(newIndex);
+        
         if (isPlaying) {
             let volume = audioRef.current.volume;
             const fadeOutInterval = setInterval(() => {
@@ -48,13 +42,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                     audioRef.current.volume = volume;
                 } else {
                     clearInterval(fadeOutInterval);
-                    audioRef.current = new Audio(
-                        albums[
-                            currentIndex === albums.length - 1
-                                ? 0
-                                : currentIndex + 1
-                        ].track,
-                    );
+                    audioRef.current = new Audio(albums[newIndex].track);
                     audioRef.current.addEventListener("ended", () => {
                         setIsPlaying(false);
                     });
@@ -135,7 +123,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     return (
         <div className="carousel-container">
             <div className="carousel">
-                <button className="arrow left" onClick={handleRightClick}>
+                <button className="arrow left" onClick={handleLeftClick}>
                     ‹
                 </button>
                 <div className="carousel-track" ref={parent}>
@@ -189,17 +177,22 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         if (index !== 1) {
-                                            if (index === 0) handleLeftClick();
-                                            if (index === 2) handleRightClick();
-                                            setTimeout(() => {
-                                                handlePlayPause(
-                                                    currentIndex + index - 1,
-                                                );
-                                            }, 300);
+                                            if (index === 0) {
+                                                const newIndex = currentIndex === 0 ? albums.length - 1 : currentIndex - 1;
+                                                handleLeftClick();
+                                                setTimeout(() => {
+                                                    handlePlayPause(newIndex);
+                                                }, 300);
+                                            }
+                                            if (index === 2) {
+                                                const newIndex = currentIndex === albums.length - 1 ? 0 : currentIndex + 1;
+                                                handleRightClick();
+                                                setTimeout(() => {
+                                                    handlePlayPause(newIndex);
+                                                }, 300);
+                                            }
                                         } else {
-                                            handlePlayPause(
-                                                currentIndex + index - 1,
-                                            );
+                                            handlePlayPause(currentIndex);
                                         }
                                     }}
                                     style={{
@@ -223,6 +216,11 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                     style={{
                                         fontSize: "14px",
                                         color: portfolio ? "white" : "black",
+                                        whiteSpace: "nowrap",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        maxWidth: "100%",
+                                        display: "block",
                                     }}
                                 >
                                     {album.title}
@@ -231,7 +229,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                         </div>
                     ))}
                 </div>
-                <button className="arrow right" onClick={handleLeftClick}>
+                <button className="arrow right" onClick={handleRightClick}>
                     ›
                 </button>
             </div>

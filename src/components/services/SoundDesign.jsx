@@ -48,6 +48,8 @@ const SoundDesign = ({ isMobile }) => {
                     height: "100%", // Ensure the div takes full height
                     minHeight: "400px", // Set a minimum height (adjust as needed)
                     position: "relative", // For absolute positioning of overlay
+                    borderRadius: "12px", // Add rounded corners
+                    overflow: "hidden"
                 }}
             >
                 {/* Overlay */}
@@ -87,9 +89,8 @@ const SoundDesign = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    Even the smallest footstep can describe your surroundings.
-                    Whether it’s a sonic logo or the cackle of a tavern
-                    fireplace, every sound is made unique.
+                  Even the smallest footstep can describe your surroundings. Whether it’s a sonic logo or the cackle of a tavern fireplace, every sound is made unique.
+
                 </h5>
                 <ul
                     style={{
@@ -107,10 +108,10 @@ const SoundDesign = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    <li>Sound Design & Foley</li>
+                    <li>Custom Palettes</li>
                     <li>UI & Sonic Branding</li>
-                    <li>One-Shots & Ambiences</li>
-                    <li>Wwise, FMOD, & Unity</li>
+                    <li>On-Site Recording</li>
+                    <li>Technical Implementation</li>
                     <li>Post-Production & Cinematics</li>
                 </ul>
             </div>
@@ -125,6 +126,10 @@ const SoundDesign = ({ isMobile }) => {
                         fontSize: isMobile && ".8em",
                         display: "flex",
                         alignItems: "center",
+                        borderRadius: "12px", // Add rounded corners
+                        backgroundColor: "rgba(255, 255, 255, 0.05)", // Optional: add subtle background
+                        padding: "20px", // Add some padding
+                        margin: "10px 0", // Add some margin
                     }}
                 >
                     <Col
@@ -142,11 +147,11 @@ const SoundDesign = ({ isMobile }) => {
                                 overflow: "hidden", // Prevent overflow
                             }}
                         >
-                            <li>Sound Design & Foley</li>
-                            <li>UI & Sonic Branding</li>
-                            <li>One-Shots & Ambiences</li>
-                            <li>Wwise, FMOD, & Unity</li>
-                            <li>Post-Production & Cinematics</li>
+                          <li>Custom Palettes</li>
+                          <li>UI & Sonic Branding</li>
+                          <li>On-Site Recording</li>
+                          <li>Technical Implementation</li>
+                          <li>Post-Production & Cinematics</li>
                         </ul>
                     </Col>
                     <Col
@@ -167,10 +172,8 @@ const SoundDesign = ({ isMobile }) => {
                                 width: "20vw",
                             }}
                         >
-                            Even the smallest footstep can describe your
-                            surroundings. Whether it’s a sonic logo or the
-                            cackle of a tavern fireplace, every sound is made
-                            unique.
+                          Even the smallest footstep can describe your surroundings. Whether it’s a sonic logo or the cackle of a tavern fireplace, every sound is made unique.
+
                         </h5>
                     </Col>
                 </Row>

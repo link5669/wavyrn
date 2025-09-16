@@ -6,6 +6,7 @@ const PortfolioEditor = () => {
     title: "",
     subtitle: "",
     imgSrc: "",
+    position: "",
   });
   const [portfolioLoading, setPortfolioLoading] = useState(false);
   const [portfolioMessage, setPortfolioMessage] = useState("");
@@ -20,7 +21,9 @@ const PortfolioEditor = () => {
     title: "",
     subtitle: "",
     imgSrc: "",
+    position: "",
   });
+  const [moveToIndexValues, setMoveToIndexValues] = useState({});
 
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
@@ -78,7 +81,7 @@ const PortfolioEditor = () => {
       if (response.ok) {
         setPortfolioMessage("Portfolio image added successfully!");
         setPortfolioMessageType("success");
-        setPortfolioFormData({ title: "", subtitle: "", imgSrc: "" });
+        setPortfolioFormData({ title: "", subtitle: "", imgSrc: "", position: "" });
         fetchPortfolioList();
       } else {
         setPortfolioMessage(data.error || "Failed to add portfolio image");
@@ -98,32 +101,61 @@ const PortfolioEditor = () => {
     setPortfolioMessage("");
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/update`,
+      // First, update the basic fields (title, subtitle, imgSrc)
+      const updateResponse = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/${editingPortfolio}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            docId: editingPortfolio,
-            ...editFormData,
+            title: editFormData.title,
+            subtitle: editFormData.subtitle,
+            imgSrc: editFormData.imgSrc,
           }),
         },
       );
 
-      const data = await response.json();
+      const updateData = await updateResponse.json();
 
-      if (response.ok) {
-        setPortfolioMessage("Portfolio image updated successfully!");
-        setPortfolioMessageType("success");
-        setEditingPortfolio(null);
-        setEditFormData({ title: "", subtitle: "", imgSrc: "" });
-        fetchPortfolioList();
-      } else {
-        setPortfolioMessage(data.error || "Failed to update portfolio image");
+      if (!updateResponse.ok) {
+        setPortfolioMessage(updateData.error || "Failed to update portfolio image");
         setPortfolioMessageType("error");
+        return;
       }
+
+      // If position changed, handle position update separately
+      const currentItem = portfolioList.find(item => item.docId === editingPortfolio);
+      if (currentItem && parseInt(editFormData.position) !== currentItem.id) {
+        const positionResponse = await fetch(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/position`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              docId: editingPortfolio,
+              position: parseInt(editFormData.position),
+            }),
+          },
+        );
+
+        const positionData = await positionResponse.json();
+
+        if (!positionResponse.ok) {
+          setPortfolioMessage(positionData.error || "Failed to update position");
+          setPortfolioMessageType("error");
+          return;
+        }
+      }
+
+      setPortfolioMessage("Portfolio image updated successfully!");
+      setPortfolioMessageType("success");
+      setEditingPortfolio(null);
+      setEditFormData({ title: "", subtitle: "", imgSrc: "", position: "" });
+      fetchPortfolioList();
     } catch (error) {
       setPortfolioMessage("Network error: " + error.message);
       setPortfolioMessageType("error");
@@ -138,12 +170,13 @@ const PortfolioEditor = () => {
       title: portfolio.title,
       subtitle: portfolio.subtitle,
       imgSrc: portfolio.imgSrc,
+      position: portfolio.id,
     });
   };
 
   const cancelEdit = () => {
     setEditingPortfolio(null);
-    setEditFormData({ title: "", subtitle: "", imgSrc: "" });
+    setEditFormData({ title: "", subtitle: "", imgSrc: "", position: "" });
   };
 
   const handlePortfolioDelete = async (docId) => {
@@ -205,6 +238,61 @@ const PortfolioEditor = () => {
         setPortfolioMessageType("error");
       }
     } catch (error) {
+      setPortfolioMessage("Network error: " + error.message);
+      setPortfolioMessageType("error");
+    } finally {
+      setReorderingPortfolio(null);
+    }
+  };
+
+  const handleMoveToIndex = async (docId, targetIndex) => {
+    // Convert to number and validate
+    const position = parseInt(targetIndex);
+    
+    console.log("Portfolio validation check:", { targetIndex, position, portfolioListLength: portfolioList.length });
+    
+    if (!targetIndex || targetIndex === "" || isNaN(position) || position < 1 || position > portfolioList.length) {
+      setPortfolioMessage(`Please enter a valid position between 1 and ${portfolioList.length}`);
+      setPortfolioMessageType("error");
+      return;
+    }
+
+    setReorderingPortfolio(docId);
+
+    try {
+      const requestBody = { docId, position };
+      console.log("Sending portfolio request:", requestBody);
+      console.log("Backend URL:", import.meta.env.VITE_REACT_APP_BACKEND_URL);
+      
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/position`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
+      const data = await response.json();
+      console.log("Portfolio response:", response.status, data);
+
+      if (response.ok) {
+        setPortfolioMessage(`Portfolio image moved to position ${position} successfully!`);
+        setPortfolioMessageType("success");
+        // Clear the input value for this portfolio image
+        setMoveToIndexValues(prev => ({
+          ...prev,
+          [docId]: ""
+        }));
+        fetchPortfolioList();
+      } else {
+        setPortfolioMessage(data.error || `Failed to move portfolio image (${response.status})`);
+        setPortfolioMessageType("error");
+      }
+    } catch (error) {
+      console.error("Move portfolio to index error:", error);
       setPortfolioMessage("Network error: " + error.message);
       setPortfolioMessageType("error");
     } finally {
@@ -291,6 +379,37 @@ const PortfolioEditor = () => {
             }}
             placeholder="Enter image URL"
           />
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label
+            htmlFor="position"
+            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+          >
+            Insert Position:
+          </label>
+          <input
+            type="number"
+            id="position"
+            name="position"
+            value={portfolioFormData.position}
+            onChange={handlePortfolioInputChange}
+            min="1"
+            max={portfolioList.length + 1}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "2px solid #007bff",
+              borderRadius: "4px",
+              backgroundColor: "#f8f9fa",
+            }}
+            placeholder={`Enter position (1 to ${portfolioList.length + 1})`}
+          />
+          <small style={{ color: "#666", fontSize: "12px", display: "block", marginTop: "5px" }}>
+            <strong>Current images:</strong> {portfolioList.length} | 
+            <strong> Leave empty</strong> to add at the end | 
+            <strong> Enter number</strong> to insert at that specific position
+          </small>
         </div>
 
         <button
@@ -443,6 +562,34 @@ const PortfolioEditor = () => {
                                 borderRadius: "4px",
                               }}
                             />
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Position:
+                            </label>
+                            <input
+                              type="number"
+                              name="position"
+                              value={editFormData.position}
+                              onChange={handleEditInputChange}
+                              min="1"
+                              max={portfolioList.length}
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                            <small style={{ color: "#666", fontSize: "11px" }}>
+                              Current position: {editFormData.position}
+                            </small>
                           </div>
                           <div style={{ display: "flex", gap: "10px" }}>
                             <button
@@ -648,6 +795,52 @@ const PortfolioEditor = () => {
                           >
                             ⇊
                           </button>
+                          
+                          {/* Move to specific index */}
+                          <div style={{ marginTop: "5px", borderTop: "1px solid #ddd", paddingTop: "5px" }}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                              <input
+                                type="number"
+                                value={moveToIndexValues[portfolio.docId] || ""}
+                                onChange={(e) => {
+                                  setMoveToIndexValues(prev => ({
+                                    ...prev,
+                                    [portfolio.docId]: e.target.value
+                                  }));
+                                }}
+                                min="1"
+                                max={portfolioList.length}
+                                placeholder={`1-${portfolioList.length}`}
+                                style={{
+                                  width: "60px",
+                                  padding: "2px 4px",
+                                  border: "1px solid #007bff",
+                                  borderRadius: "3px",
+                                  fontSize: "11px",
+                                  textAlign: "center",
+                                }}
+                                title="Enter position to move this portfolio image to"
+                              />
+                              <button
+                                onClick={() => {
+                                  handleMoveToIndex(portfolio.docId, moveToIndexValues[portfolio.docId]);
+                                }}
+                                disabled={reorderingPortfolio === portfolio.docId || !moveToIndexValues[portfolio.docId] || moveToIndexValues[portfolio.docId] === ""}
+                                style={{
+                                  backgroundColor: reorderingPortfolio === portfolio.docId || !moveToIndexValues[portfolio.docId] || moveToIndexValues[portfolio.docId] === "" ? "#ccc" : "#007bff",
+                                  color: "white",
+                                  padding: "2px 4px",
+                                  border: "none",
+                                  borderRadius: "2px",
+                                  cursor: reorderingPortfolio === portfolio.docId || !moveToIndexValues[portfolio.docId] || moveToIndexValues[portfolio.docId] === "" ? "not-allowed" : "pointer",
+                                  fontSize: "10px",
+                                }}
+                                title="Move to this position"
+                              >
+                                Move
+                              </button>
+                            </div>
+                          </div>
                         </div>
 
                         <div

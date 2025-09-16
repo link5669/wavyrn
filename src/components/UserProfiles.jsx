@@ -50,19 +50,6 @@ const Angelica = () => {
 const Gret = () => {
     return (
         <div style={{ display: "block", paddingBottom: "5%" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="gretplaysallflutes" />
-                </div>
-            </div>
-            <br />
             <p>
                 Gret is a Boston flute maker, sound designer, flute
                 performer/teacher, and foley artist. She studied Performance and
@@ -142,19 +129,6 @@ const Ananta = () => {
 const Zionna = () => {
     return (
         <div style={{ display: "block" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="zionnavee" />
-                </div>
-            </div>
-            <br />
             <p>
                 Surrounded by forests while growing up in her hometown in
                 Oregon, Zionna Brown has always had an affinity for nature.
@@ -238,23 +212,6 @@ const AustinB = (isMobile) => {
 const AustinL = () => {
     return (
         <div style={{ display: "block" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="au_shock" />
-                </div>
-
-                <div style={{ paddingInline: "2%" }}>
-                    <FacebookLink handle="profile.php?id=100008654137201" />
-                </div>
-            </div>
-            <br />
             <p>
                 Austin Leshock is a mix engineer, producer, and composer from
                 Wilmington, Delaware. As a graduate in Film Scoring and Music
@@ -279,34 +236,6 @@ const AustinL = () => {
 const Marc = (isMobile) => {
     return (
         <div style={{ display: "block" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="https://marcyumusic.com" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="MarcYuMusic" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <TwitterLink handle="MarcYuMusic" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <FacebookLink handle="MarcYuMusic" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <ThreadsLink handle="MarcYuMusic" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <BlueskyLink address="https://bsky.app/profile/marcyumusic.bsky.social" />
-                </div>
-            </div>
-            <br />
             <p>
                 Born in California, Marc has toured as a concert pianist and
                 made media appearances including The Tonight Show, The Oprah
@@ -475,25 +404,6 @@ const Max = () => {
 const Sam = () => {
     return (
         <div style={{ display: "block" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="https://www.samleighstudio.com/" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="@samleighsings" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <TikTokLink handle="@samleighsings" />
-                </div>
-            </div>
-            <br />
             <p>
                 Sam Rindfuss (aka Sam Leigh) is a vocalist and voice actor
                 working out of the Boston area. They are passionate about
@@ -552,26 +462,6 @@ const Caleb = () => {
 const Julian = (isMobile) => {
     return (
         <div style={{ display: "block" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    {/* <WebsiteLink link="https://youtu.be/1O9VpsFrXjI?si=SClror6ZFeKL0FuO" /> */}
-                    <WebsiteLink link="https://www.juliancabreraaudio.com/" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="super_monzee" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <TwitterLink handle="@Super_MonZee" />
-                </div>
-            </div>
-            <br />
             <p>
                 In the world of visual and interactive media, Julian Cabrera is
                 a Composer and Sound Designer. Julian's repertoire showcases a
@@ -658,27 +548,6 @@ const Julian = (isMobile) => {
 const Michelle = () => {
     return (
         <div style={{ display: "block" }}>
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="michellelaimusic.com" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="michellelaimusic" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <MailLink address="michellelaimusic@gmail.com" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <LinkedinLink handle="michellelaimusic" />
-                </div>
-            </div>
-            <br />
             <p>
                 Michelle is a composer for film, TV, and video games. Born in
                 Singapore and currently based in Boston, Massachusetts, Michelle
@@ -810,24 +679,6 @@ const Michelle = () => {
 const Neil = () => {
     return (
         <div style={{ display: "block" }}>
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <TwitterLink handle="@smallsoundss" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="smallsoundss" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <BlueskyLink address="https://bsky.app/profile/smallsoundss.bsky.social" />
-                </div>
-            </div>
-            <br />
             <p>
                 Neil Small is an award-winning audio director, technical audio
                 designer, and sound designer from Boston, Massachusetts. His
@@ -866,37 +717,6 @@ const Neil = () => {
 const Quinne = () => {
     return (
         <div style={{ display: "block" }}>
-            <br />
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <div style={{ paddingInline: "2%" }}>
-                    <InstaLink handle="enbeatsu" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="https://enbeatsu.wixsite.com/" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <BlueskyLink address="https://bsky.app/profile/enbeatsu.on.computer" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="https://www.youtube.com/@enbeatsu" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="https://enbeatsu.bandcamp.com/" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <WebsiteLink link="https://soundcloud.com/enbeatsu" />
-                </div>
-                <div style={{ paddingInline: "2%" }}>
-                    <LinkedinLink handle="in/quinne-houck/" />
-                </div>
-            </div>
-            <br />
             <p>
                 Quinne is a Boston-based composer, producer, songwriter, and
                 multi-instrumentalist from the West Coast with a love of

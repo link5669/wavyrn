@@ -44,10 +44,10 @@ const About = ({ isMobile }) => {
 
     const carouselItems = [
         <AudioDirecting isMobile={true} />,
-        <Production isMobile={true} />,
         <SoundDesign isMobile={true} />,
-        <Music isMobile={true} />,
         <Dialogue isMobile={true} />,
+        <Music isMobile={true} />,
+        <Production isMobile={true} />,
     ];
 
     useEffect(() => {
@@ -167,89 +167,89 @@ const About = ({ isMobile }) => {
                                     color: "white",
                                     textAlign: "center",
                                     fontSize: "2em",
-                                    marginBottom: "20px",
+                                    marginBottom: "10px",
                                 }}
                             >
-                                What We Do
+                              We Are Storytellers
                             </h1>
                             <Carousel items={carouselItems} />
                         </div>
                     )}
 
                     {activeTab === "Our Team" && (
-                        <div style={{ paddingBottom: "10vh" }}>
-                            <h1
-                                style={{
-                                    color: "white",
-                                    textAlign: "center",
-                                    fontSize: "2em",
-                                }}
-                            >
-                                Our Team
-                            </h1>
-                            <div
-                                ref={pfpParent}
-                                style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "repeat(2, 1fr)",
-                                    gap: "10px",
-                                    padding: "10px",
-                                    width: "95%",
-                                    margin: "0 auto",
-                                }}
-                            >
-                                {visibleUsers.map((user, index) => (
-                                    <div
-                                        key={user.name}
-                                        style={{
-                                            position: "relative",
-                                            border: "2px solid white",
-                                            borderRadius: "5px",
-                                            overflow: "hidden",
-                                        }}
-                                        onClick={() => {
-                                            setIsOverlayVisible(true);
-                                            setSelectedUser(user);
-                                        }}
-                                    >
-                                        <img
-                                            src={getPfpImage(user.name)}
-                                            alt={user.name}
-                                            style={{
-                                                width: "45vw",
-                                                height: isMobile
-                                                    ? "20vh"
-                                                    : "30vh",
-                                                display: "block",
-                                                objectFit: "cover",
-                                                objectPosition:
-                                                    user.name == "Sam Leigh"
-                                                        ? "0% 40%"
-                                                        : "0% 15%",
-                                            }}
-                                        />
-                                        <div
-                                            style={{
-                                                position: "absolute",
-                                                bottom: 0,
-                                                left: 0,
-                                                right: 0,
-                                                background:
-                                                    "linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)",
-                                                padding: "10px",
-                                                color: "white",
-                                                fontSize: ".9em",
-                                            }}
-                                        >
-                                            <b>{user.name}</b>
-                                            <p style={{ margin: 0 }}>
-                                                {user.title}
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                      <div style={{ paddingBottom: "10vh" }}>
+                          <h1
+                              style={{
+                                  color: "white",
+                                  textAlign: "center",
+                                  fontSize: "2em",
+                              }}
+                          >
+                              Our Team
+                          </h1>
+                          <div
+                              ref={pfpParent}
+                              style={{
+                                  display: "grid",
+                                  gridTemplateColumns: "repeat(2, 1fr)",
+                                  gap: "12px", // Increased gap for wider center margin (was 10px)
+                                  padding: "10px",
+                                  width: "95%",
+                                  margin: "0 auto",
+                              }}
+                          >
+                              {visibleUsers.map((user, index) => (
+                                  <div
+                                      key={user.name}
+                                      style={{
+                                          position: "relative",
+                                          border: "2px solid white",
+                                          borderRadius: "5px",
+                                          overflow: "hidden",
+                                      }}
+                                      onClick={() => {
+                                          setIsOverlayVisible(true);
+                                          setSelectedUser(user);
+                                      }}
+                                  >
+                                      <img
+                                          src={getPfpImage(user.name)}
+                                          alt={user.name}
+                                          style={{
+                                              width: "45vw",
+                                              height: isMobile
+                                                  ? "25vh" // Increased height (was 20vh)
+                                                  : "35vh", // Increased height (was 30vh)
+                                              display: "block",
+                                              objectFit: "cover",
+                                              objectPosition:
+                                                  user.name == "Sam Leigh"
+                                                      ? "0% 40%"
+                                                      : "0% 15%",
+                                          }}
+                                      />
+                                      <div
+                                          style={{
+                                              position: "absolute",
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0,
+                                              background:
+                                                  "linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)",
+                                              padding: "10px",
+                                              color: "white",
+                                              fontSize: ".75em", // Made smaller (was .9em)
+                                          }}
+                                      >
+                                          <b>{user.name}</b>
+                                          <p style={{ margin: 0 }}>
+                                              {user.title}
+                                          </p>
+                                      </div>
+                                  </div>
+                              ))}
+                          </div>
+                      </div>
                     )}
                 </div>
 

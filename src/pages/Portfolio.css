@@ -3,60 +3,150 @@
 .body {
     background-size: cover;
     position: relative;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     background-attachment: fixed;
-    background-color: black;
+    background-color: white;
     padding: 0px;
     opacity: 0;
     transition: opacity 0.5s ease;
-    background-color: black;
+    background-color: white;
 }
 
 .portfolio-container {
     min-height: 100vh;
-    background-color: black;
+    background-color: #1a1a1a;
+    width: 100vw;
+    max-width: 100%;
+    overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    padding: 80px 0 60px;
+    text-align: center;
+    border-bottom: 2px solid #CE0036;
     width: 100%;
 }
 
-.navbar-fade-in {
-    opacity: 0;
-    transition: opacity 1.5s ease;
+.hero-content {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
 }
 
-.navbar-fade-in.visible {
-    opacity: 1;
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.fade-in-initial {
-    opacity: 0;
-    transition: opacity 3s ease;
-}
-
-.fade-in {
-    opacity: 1;
-}
-
-.content-wrapper {
-    opacity: 0;
-    transition: opacity 0.8s ease;
-}
-
-.content-wrapper.fade-in {
-    opacity: 1;
-}
-
-.body.fade-in {
-    opacity: 1;
-}
-
-.sfx-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+.hero-subtitle {
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #ccc;
+    line-height: 1.6;
     max-width: 600px;
     margin: 0 auto;
+}
+
+/* Section Headers */
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 0 40px;
+    width: 100%;
+}
+
+.section-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.section-subtitle {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 25px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #CE0036 50%, transparent 100%);
+    margin: 0 auto;
+    border-radius: 2px;
+}
+
+/* Video Section */
+.video-section {
+    padding: 60px 0;
+    background: #2a2a2a;
+    text-align: center;
+    width: 100%;
+}
+
+.video-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.portfolio-video {
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.portfolio-video:hover {
+    transform: scale(1.02);
+}
+
+/* Music Section */
+.music-section {
+    padding: 60px 0;
+    background: #1a1a1a;
+    width: 100%;
+}
+
+.music-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* SFX Section */
+.sfx-section {
+    padding: 60px 0;
+    background: #2a2a2a;
+    text-align: center;
+    width: 100%;
+}
+
+.sfx-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 100%;
+    margin: 40px 25%;
+    padding: 0 40px;
 }
 
 .sfx-button {
@@ -81,7 +171,254 @@
     position: absolute;
     color: white;
     top: -2px;
+    left: -2px;}
+
+/* Portfolio Section */
+.portfolio-section {
+    padding: 60px 0;
+    background: #1a1a1a;
+    width: 100%;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.portfolio-item {
+    background: #2a2a2a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #333;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    /* border-color: #CE0036; */
+}
+
+/* Loading Skeleton */
+.loading-skeleton {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.skeleton-item {
+    background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    height: 200px;
+    border-radius: 12px;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Desktop Layout */
+@media (min-width: 1200px) {
+    .hero-content {
+        padding: 0 80px;
+    }
+    
+    .section-header {
+        padding: 0 80px;
+    }
+    
+    .video-container {
+        padding: 0 80px;
+    }
+    
+    .music-container {
+        padding: 0 80px;
+    }
+    
+    .sfx-grid {
+        padding: 0 80px;
+    }
+    
+    .portfolio-grid {
+        padding: 0 80px;
+    }
+    
+    .loading-skeleton {
+        padding: 0 80px;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-content {
+        padding: 0 20px;
+    }
+    
+    .section-header {
+        padding: 0 20px;
+    }
+    
+    .video-container {
+        padding: 0 20px;
+    }
+    
+    .music-container {
+        padding: 0 20px;
+    }
+    
+    .sfx-grid {
+        padding: 0 20px;
+    }
+    
+    .portfolio-grid {
+        padding: 0 20px;
+    }
+    
+    .loading-skeleton {
+        padding: 0 20px;
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .portfolio-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .sfx-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+}
+
+.navbar-fade-in {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.navbar-fade-in.visible {
+    opacity: 1;
+}
+
+.fade-in-initial {
+    opacity: 1;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.content-wrapper {
+    opacity: 1;
+    width: 100%;
+    max-width: 100%;
+}
+
+.content-wrapper.fade-in {
+    opacity: 1;
+}
+
+.body.fade-in {
+    opacity: 1;
+}
+
+/* Legacy SFX styles - keeping for compatibility */
+.sfx-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.sfx-button {
+    position: relative;
+    font-size: 1.4rem;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transition: none;
+    transition:
+        opacity 0.5s ease,
+        transform 0.2s ease;
+    font-family: Montserrat;
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+}
+
+.sfx-button:hover {
+    /* color: #CE0036; */
+    color: #c6c6c6;
+    /* background: rgba(206, 0, 54, 0.1); */
+    text-shadow: -5px 5px 5px rgba(0, 0, 0, 1);
+}
+
+.sfx-button:hover::before {
+    content: attr(data-text);
+    position: absolute;
+    color: white;
+    top: -2px;
     left: -2px;
+    z-index: -1;
+}
+
+/* Shake animation */
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    5% { transform: rotate(-10deg); }
+    10% { transform: rotate(-20deg); }
+    15% { transform: rotate(-30deg); }
+    20% { transform: rotate(-20deg); }
+    25% { transform: rotate(-10deg); }
+    30% { transform: rotate(0deg); }
+    35% { transform: rotate(-10deg); }
+    40% { transform: rotate(-20deg); }
+    45% { transform: rotate(-30deg); }
+    50% { transform: rotate(-20deg); }
+    55% { transform: rotate(-10deg); }
+    60% { transform: rotate(0deg); }
+    65% { transform: rotate(-10deg); }
+    70% { transform: rotate(-20deg); }
+    75% { transform: rotate(-30deg); }
+    80% { transform: rotate(-20deg); }
+    85% { transform: rotate(-10deg); }
+    90% { transform: rotate(0deg); }
+    95% { transform: rotate(10deg); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+.fade-out {
+    opacity: 0;
 }
 
 .enter-button {

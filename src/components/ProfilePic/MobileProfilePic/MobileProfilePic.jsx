@@ -1,8 +1,10 @@
 import { Col } from "react-bootstrap";
 import "./MobileProfilePic.css";
 import { getPfpImage } from "../utilities/utilities.js";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
+    const { t } = useTranslation();
     const parentStyle = {
         width: "6em",
         height: "9.89em",
@@ -68,9 +70,9 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
                 }}
             >
                 <p style={{ margin: 0 }}>
-                    <b>{name}</b>
+                    <b>{t(`team.members.${name}.name`) || name}</b>
                 </p>
-                <p style={{ margin: 0 }}>{title}</p>
+                <p style={{ margin: 0 }}>{t(`team.members.${name}.title`) || title}</p>
             </div>
         </Col>
     );

@@ -1,4 +1,12 @@
 /* Blog.css */
+
+/* Force white background for blog page on desktop only */
+@media (min-width: 769px) {
+    body {
+        background-color: white !important;
+    }
+}
+
 .tags-section {
     position: fixed;
     right: 0;
@@ -10,13 +18,26 @@
     overflow-y: auto;
     padding-top: 64px;
     color: white;
-    border-left: 3px solid white;
+    border-left: 3px solid #CE0036;
 }
 
 .posts-section {
     margin-right: 20%; /* Match tags-section width */
     overflow-y: auto;
-    background-color: RGB(1, 1, 1);
+}
+
+/* White background for posts section on desktop only */
+@media (min-width: 769px) {
+    .posts-section {
+        background-color: white !important;
+    }
+}
+
+/* Remove margin on mobile devices */
+@media (max-width: 768px) {
+    .posts-section {
+        margin-right: 0;
+    }
 }
 
 .coolBeans {

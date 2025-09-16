@@ -48,6 +48,8 @@ const Music = ({ isMobile }) => {
                     height: "100%", // Ensure the div takes full height
                     minHeight: "400px", // Set a minimum height (adjust as needed)
                     position: "relative", // For absolute positioning of overlay
+                    borderRadius: "12px", // Add rounded corners
+                    overflow: "hidden"
                 }}
             >
                 {/* Overlay */}
@@ -87,9 +89,8 @@ const Music = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    We are storytellers with a passion for audio. From short
-                    films to podcasts, rhythm games to FPS shooters, we’ll score
-                    the moment for you.
+                  We are storytellers with a passion for audio. From short films to podcasts, first-person to rhythm games, we’ll score the moment for you.
+
                 </h5>
                 <ul
                     style={{
@@ -107,11 +108,11 @@ const Music = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    <li>Music Production</li>
-                    <li>Orchestration & Arranging</li>
-                    <li>Interactive & Non-Linear Audio</li>
-                    <li>Live Session Recording</li>
-                    <li>Unique Instruments & Styles</li>
+                  <li>Unique Instruments & Styles</li>
+                  <li>Orchestration & Arranging</li>
+                  <li>Music Editing & Copying</li>
+                  <li>Live Session Recording</li>
+                  <li>Interactive Music Systems</li>
                 </ul>
             </div>
         );
@@ -125,6 +126,10 @@ const Music = ({ isMobile }) => {
                         fontSize: isMobile && ".8em",
                         display: "flex",
                         alignItems: "center",
+                        borderRadius: "12px", // Add rounded corners
+                        backgroundColor: "rgba(255, 255, 255, 0.05)", // Optional: add subtle background
+                        padding: "20px", // Add some padding
+                        margin: "10px 0", // Add some margin
                     }}
                 >
                     <Col
@@ -142,11 +147,11 @@ const Music = ({ isMobile }) => {
                                 overflow: "hidden", // Prevent overflow
                             }}
                         >
-                            <li>Music Production</li>
-                            <li>Orchestration & Arranging</li>
-                            <li>Interactive & Non-Linear Audio</li>
-                            <li>Live Session Recording</li>
                             <li>Unique Instruments & Styles</li>
+                            <li>Orchestration & Arranging</li>
+                            <li>Music Editing & Copying</li>
+                            <li>Live Session Recording</li>
+                            <li>Interactive Music Systems</li>
                         </ul>
                     </Col>
                     <Col
@@ -167,9 +172,8 @@ const Music = ({ isMobile }) => {
                                 width: "20vw",
                             }}
                         >
-                            We are storytellers with a passion for audio. From
-                            short films to podcasts, rhythm games to FPS
-                            shooters, we’ll score the moment for you.
+                          We are storytellers with a passion for audio. From short films to podcasts, first-person to rhythm games, we’ll score the moment for you.
+
                         </h5>
                     </Col>
                 </Row>

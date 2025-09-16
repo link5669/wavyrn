@@ -6,6 +6,7 @@ const AlbumEditor = () => {
     title: "",
     track: "",
     coverUrl: "",
+    position: "",
   });
   const [albumLoading, setAlbumLoading] = useState(false);
   const [albumMessage, setAlbumMessage] = useState("");
@@ -20,7 +21,9 @@ const AlbumEditor = () => {
     title: "",
     track: "",
     coverUrl: "",
+    position: "",
   });
+  const [moveToIndexValues, setMoveToIndexValues] = useState({});
 
   // URL validation function
   const isValidUrl = (string) => {
@@ -110,7 +113,7 @@ const AlbumEditor = () => {
       if (response.ok) {
         setAlbumMessage("Album added successfully!");
         setAlbumMessageType("success");
-        setAlbumFormData({ title: "", track: "", coverUrl: "" });
+        setAlbumFormData({ title: "", track: "", coverUrl: "", position: "" });
         fetchAlbumList();
       } else {
         setAlbumMessage(data.error || "Failed to add album");
@@ -138,29 +141,61 @@ const AlbumEditor = () => {
     setAlbumMessage("");
 
     try {
-      const response = await fetch(
+      // First, update the basic fields (title, track, coverUrl)
+      const updateResponse = await fetch(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/${editingAlbum}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(editFormData),
+          body: JSON.stringify({
+            title: editFormData.title,
+            track: editFormData.track,
+            coverUrl: editFormData.coverUrl,
+          }),
         },
       );
 
-      const data = await response.json();
+      const updateData = await updateResponse.json();
 
-      if (response.ok) {
-        setAlbumMessage("Album updated successfully!");
-        setAlbumMessageType("success");
-        setEditingAlbum(null);
-        setEditFormData({ title: "", track: "", coverUrl: "" });
-        fetchAlbumList();
-      } else {
-        setAlbumMessage(data.error || "Failed to update album");
+      if (!updateResponse.ok) {
+        setAlbumMessage(updateData.error || "Failed to update album");
         setAlbumMessageType("error");
+        return;
       }
+
+      // If position changed, handle position update separately
+      const currentItem = albumList.find(item => item.docId === editingAlbum);
+      if (currentItem && parseInt(editFormData.position) !== currentItem.id) {
+        const positionResponse = await fetch(
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/position`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              docId: editingAlbum,
+              position: parseInt(editFormData.position),
+            }),
+          },
+        );
+
+        const positionData = await positionResponse.json();
+
+        if (!positionResponse.ok) {
+          setAlbumMessage(positionData.error || "Failed to update position");
+          setAlbumMessageType("error");
+          return;
+        }
+      }
+
+      setAlbumMessage("Album updated successfully!");
+      setAlbumMessageType("success");
+      setEditingAlbum(null);
+      setEditFormData({ title: "", track: "", coverUrl: "", position: "" });
+      fetchAlbumList();
     } catch (error) {
       setAlbumMessage("Network error: " + error.message);
       setAlbumMessageType("error");
@@ -175,13 +210,14 @@ const AlbumEditor = () => {
       title: album.title,
       track: album.track,
       coverUrl: album.coverUrl,
+      position: album.id,
     });
     setAlbumMessage(""); // Clear any existing messages
   };
 
   const cancelEdit = () => {
     setEditingAlbum(null);
-    setEditFormData({ title: "", track: "", coverUrl: "" });
+    setEditFormData({ title: "", track: "", coverUrl: "", position: "" });
     setAlbumMessage(""); // Clear any existing messages
   };
 
@@ -242,6 +278,61 @@ const AlbumEditor = () => {
         setAlbumMessageType("error");
       }
     } catch (error) {
+      setAlbumMessage("Network error: " + error.message);
+      setAlbumMessageType("error");
+    } finally {
+      setReorderingAlbum(null);
+    }
+  };
+
+  const handleMoveToIndex = async (docId, targetIndex) => {
+    // Convert to number and validate
+    const position = parseInt(targetIndex);
+    
+    console.log("Validation check:", { targetIndex, position, albumListLength: albumList.length });
+    
+    if (!targetIndex || targetIndex === "" || isNaN(position) || position < 1 || position > albumList.length) {
+      setAlbumMessage(`Please enter a valid position between 1 and ${albumList.length}`);
+      setAlbumMessageType("error");
+      return;
+    }
+
+    setReorderingAlbum(docId);
+
+    try {
+      const requestBody = { docId, position };
+      console.log("Sending request:", requestBody); // Debug log
+      console.log("Backend URL:", import.meta.env.VITE_REACT_APP_BACKEND_URL); // Debug log
+      
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/position`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        },
+      );
+
+      const data = await response.json();
+      console.log("Response:", response.status, data); // Debug log
+
+      if (response.ok) {
+        setAlbumMessage(`Album moved to position ${position} successfully!`);
+        setAlbumMessageType("success");
+        // Clear the input value for this album
+        setMoveToIndexValues(prev => ({
+          ...prev,
+          [docId]: ""
+        }));
+        fetchAlbumList();
+      } else {
+        setAlbumMessage(data.error || `Failed to move album (${response.status})`);
+        setAlbumMessageType("error");
+      }
+    } catch (error) {
+      console.error("Move to index error:", error); // Debug log
       setAlbumMessage("Network error: " + error.message);
       setAlbumMessageType("error");
     } finally {
@@ -328,6 +419,37 @@ const AlbumEditor = () => {
             }}
             placeholder="Enter album cover URL"
           />
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label
+            htmlFor="position"
+            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+          >
+            Insert Position:
+          </label>
+          <input
+            type="number"
+            id="position"
+            name="position"
+            value={albumFormData.position}
+            onChange={handleAlbumInputChange}
+            min="1"
+            max={albumList.length + 1}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "2px solid #007bff",
+              borderRadius: "4px",
+              backgroundColor: "#f8f9fa",
+            }}
+            placeholder={`Enter position (1 to ${albumList.length + 1})`}
+          />
+          <small style={{ color: "#666", fontSize: "12px", display: "block", marginTop: "5px" }}>
+            <strong>Current albums:</strong> {albumList.length} | 
+            <strong> Leave empty</strong> to add at the end | 
+            <strong> Enter number</strong> to insert at that specific position
+          </small>
         </div>
 
         <button
@@ -485,6 +607,34 @@ const AlbumEditor = () => {
                                 borderRadius: "4px",
                               }}
                             />
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Position:
+                            </label>
+                            <input
+                              type="number"
+                              name="position"
+                              value={editFormData.position}
+                              onChange={handleEditInputChange}
+                              min="1"
+                              max={albumList.length}
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                            <small style={{ color: "#666", fontSize: "11px" }}>
+                              Current position: {editFormData.position}
+                            </small>
                           </div>
                           <div style={{ display: "flex", gap: "10px" }}>
                             <button
@@ -703,6 +853,52 @@ const AlbumEditor = () => {
                           >
                             ⇊
                           </button>
+                          
+                          {/* Move to specific index */}
+                          <div style={{ marginTop: "5px", borderTop: "1px solid #ddd", paddingTop: "5px" }}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+                              <input
+                                type="number"
+                                value={moveToIndexValues[album.docId] || ""}
+                                onChange={(e) => {
+                                  setMoveToIndexValues(prev => ({
+                                    ...prev,
+                                    [album.docId]: e.target.value
+                                  }));
+                                }}
+                                min="1"
+                                max={albumList.length}
+                                placeholder={`1-${albumList.length}`}
+                                style={{
+                                  width: "60px",
+                                  padding: "2px 4px",
+                                  border: "1px solid #007bff",
+                                  borderRadius: "3px",
+                                  fontSize: "11px",
+                                  textAlign: "center",
+                                }}
+                                title="Enter position to move this album to"
+                              />
+                              <button
+                                onClick={() => {
+                                  handleMoveToIndex(album.docId, moveToIndexValues[album.docId]);
+                                }}
+                                disabled={reorderingAlbum === album.docId || !moveToIndexValues[album.docId] || moveToIndexValues[album.docId] === ""}
+                                style={{
+                                  backgroundColor: reorderingAlbum === album.docId || !moveToIndexValues[album.docId] || moveToIndexValues[album.docId] === "" ? "#ccc" : "#007bff",
+                                  color: "white",
+                                  padding: "2px 4px",
+                                  border: "none",
+                                  borderRadius: "2px",
+                                  cursor: reorderingAlbum === album.docId || !moveToIndexValues[album.docId] || moveToIndexValues[album.docId] === "" ? "not-allowed" : "pointer",
+                                  fontSize: "10px",
+                                }}
+                                title="Move to this position"
+                              >
+                                Move
+                              </button>
+                            </div>
+                          </div>
                         </div>
 
                         {/* Edit and Delete buttons */}
