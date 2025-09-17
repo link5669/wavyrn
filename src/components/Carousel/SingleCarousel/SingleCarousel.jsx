@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSwipeable } from "react-swipeable";
 import "./SingleCarousel.css";
 
 const Carousel = ({ items }) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+    // Start at index 1 because we'll add clones (clone of last item will be at index 0)
+    const [currentIndex, setCurrentIndex] = useState(1);
+    const [isTransitioning, setIsTransitioning] = useState(true);
+
+    // Create extended items array with clones for seamless looping
+    const extendedItems = [
+        items[items.length - 1], // Clone of last item at the beginning
+        ...items,                // Original items
+        items[0]                 // Clone of first item at the end
+    ];
 
     const handlers = useSwipeable({
         onSwipedLeft: () => goToNext(),
@@ -15,20 +24,45 @@ const Carousel = ({ items }) => {
     });
 
     const goToPrevious = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? items.length - 1 : prevIndex - 1,
-        );
+        if (!isTransitioning || currentIndex <= 0) return;
+        setCurrentIndex(currentIndex - 1);
     };
 
     const goToNext = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === items.length - 1 ? 0 : prevIndex + 1,
-        );
+        if (!isTransitioning || currentIndex >= extendedItems.length - 1) return;
+        setCurrentIndex(currentIndex + 1);
     };
 
     const goToSlide = (index) => {
-        setCurrentIndex(index);
+        if (!isTransitioning) return;
+        setCurrentIndex(index + 1); // Add 1 because of the clone at the beginning
     };
+
+    // Handle seamless looping with useEffect for better reliability
+    useEffect(() => {
+        if (!isTransitioning) return;
+        
+        let timeout;
+        if (currentIndex === 0) {
+            // We're at the clone of the last item, jump to the real last item
+            timeout = setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(items.length);
+                setTimeout(() => setIsTransitioning(true), 50);
+            }, 500); // Wait for transition to complete
+        } else if (currentIndex === extendedItems.length - 1) {
+            // We're at the clone of the first item, jump to the real first item
+            timeout = setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(1);
+                setTimeout(() => setIsTransitioning(true), 50);
+            }, 500); // Wait for transition to complete
+        }
+        
+        return () => {
+            if (timeout) clearTimeout(timeout);
+        };
+    }, [currentIndex, items.length, extendedItems.length, isTransitioning]);
 
     return (
         <div
@@ -75,11 +109,17 @@ const Carousel = ({ items }) => {
               <div
                   style={{
                       display: "flex",
-                      transition: "transform 0.5s ease-in-out",
+                      transition: isTransitioning ? "transform 0.5s ease-in-out" : "none",
                       transform: `translateX(calc(-${currentIndex * 100}%))`, // Center the active item
+                      // iOS Safari text rendering fixes
+                      WebkitFontSmoothing: "antialiased",
+                      WebkitBackfaceVisibility: "hidden",
+                      WebkitTransform: "translateZ(0)",
+                      backfaceVisibility: "hidden",
+                      willChange: "transform",
                   }}
               >
-                  {items.map((item, index) => (
+                  {extendedItems.map((item, index) => (
                       <div
                           key={index}
                           style={{
@@ -98,6 +138,12 @@ const Carousel = ({ items }) => {
                               opacity: 1,
                               color: "white",
                               transition: "opacity 0.1s ease-in-out",
+                              // iOS Safari text rendering fixes
+                              WebkitFontSmoothing: "none",
+                              WebkitBackfaceVisibility: "hidden",
+                              backfaceVisibility: "hidden",
+                              WebkitTransform: "translateZ(0)",
+
                           }}
                       >
                           {item}
@@ -141,7 +187,7 @@ const Carousel = ({ items }) => {
                     <button
                         key={index}
                         className={`carousel-dot ${
-                            index === currentIndex ? "active" : ""
+                            index === currentIndex - 1 ? "active" : ""
                         }`}
                         onClick={() => goToSlide(index)}
                     />

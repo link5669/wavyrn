@@ -112,7 +112,7 @@ const About = ({ isMobile }) => {
                 {/* Hero Section */}
                 <div style={{ textAlign: "center", padding: "60px 0" }}>
                     <h1 style={{ 
-                        fontSize: "3em", 
+                        fontSize: "3.5em", 
                         color: "#CE0036", 
                         margin: "0 0 20px 0",
                         fontWeight: "bold"
@@ -120,7 +120,7 @@ const About = ({ isMobile }) => {
                         {t('about.heroTitle')}
                     </h1>
                     <p style={{ 
-                        fontSize: ".9em", 
+                        fontSize: "1.1em", 
                         color: "black", 
                         maxWidth: "800px",
                         margin: "0 auto 15px auto"
@@ -128,9 +128,9 @@ const About = ({ isMobile }) => {
                         {t('about.heroSubtitle1')}
                     </p>
                     <p style={{ 
-                        fontSize: ".9em", 
+                        fontSize: "1.1em", 
                         color: "black",
-                        maxWidth: "600px",
+                        maxWidth: "800px",
                         margin: "0 auto"
                     }}>
                         {t('about.heroSubtitle2').includes('entire process') ? 
@@ -165,27 +165,30 @@ const About = ({ isMobile }) => {
                     }}>
                         {services.slice(0, 3).map((service, index) => (
                             <div key={index} className="service-card">
-                                <div className="service-card-inner">
-                                    <div className="service-card-front">
-                                        <div className="service-icon">
-                                            <img src={service.icon} alt={service.title} />
-                                        </div>
-                                        <h3 className="service-title">{service.title}</h3>
-                                        <ul className="service-checklist">
-                                            {service.checklist.map((item, idx) => (
-                                                <li key={idx}>
-                                                    <span className="checkbox">☐</span>
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                {/* Static header with icon and title */}
+                                <div className="service-card-header">
+                                    <div className="service-icon">
+                                        <img src={service.icon} alt={service.title} />
                                     </div>
-                                    <div className="service-card-back">
-                                        <div className="service-icon">
-                                            <img src={service.icon} alt={service.title} />
+                                    <h3 className="service-title">{service.title}</h3>
+                                </div>
+                                
+                                {/* Flipping content area */}
+                                <div className="service-card-content">
+                                    <div className="service-card-content-inner">
+                                        <div className="service-card-front">
+                                            <ul className="service-checklist">
+                                                {service.checklist.map((item, idx) => (
+                                                    <li key={idx}>
+                                                        <span className="checkbox">☐</span>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                        <h3 className="service-title">{service.title}</h3>
-                                        <p className="service-description">{service.description}</p>
+                                        <div className="service-card-back">
+                                            <p className="service-description">{service.description}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -202,27 +205,30 @@ const About = ({ isMobile }) => {
                     }}>
                         {services.slice(3, 5).map((service, index) => (
                             <div key={index + 3} className="service-card">
-                                <div className="service-card-inner">
-                                    <div className="service-card-front">
-                                        <div className="service-icon">
-                                            <img src={service.icon} alt={service.title} />
-                                        </div>
-                                        <h3 className="service-title">{service.title}</h3>
-                                        <ul className="service-checklist">
-                                            {service.checklist.map((item, idx) => (
-                                                <li key={idx}>
-                                                    <span className="checkbox">☐</span>
-                                                    {item}
-                                                </li>
-                                            ))}
-                                        </ul>
+                                {/* Static header with icon and title */}
+                                <div className="service-card-header">
+                                    <div className="service-icon">
+                                        <img src={service.icon} alt={service.title} />
                                     </div>
-                                    <div className="service-card-back">
-                                        <div className="service-icon">
-                                            <img src={service.icon} alt={service.title} />
+                                    <h3 className="service-title">{service.title}</h3>
+                                </div>
+                                
+                                {/* Flipping content area */}
+                                <div className="service-card-content">
+                                    <div className="service-card-content-inner">
+                                        <div className="service-card-front">
+                                            <ul className="service-checklist">
+                                                {service.checklist.map((item, idx) => (
+                                                    <li key={idx}>
+                                                        <span className="checkbox">☐</span>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                        <h3 className="service-title">{service.title}</h3>
-                                        <p className="service-description">{service.description}</p>
+                                        <div className="service-card-back">
+                                            <p className="service-description">{service.description}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

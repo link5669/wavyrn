@@ -8,6 +8,11 @@
     flex-direction: column;
     justify-content: space-between; /* Space between top and bottom */
     align-items: center; /* Center content horizontally */
+    /* iOS Safari text rendering fixes */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
 }
 
 .carousel-inner {
@@ -26,6 +31,11 @@
     display: block;
     color: white; /* Ensure text is visible */
     min-height: 400px; /* Add a minimum height to ensure it takes up space */
+    /* iOS Safari text rendering fixes */
+    -webkit-font-smoothing: antialiased;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
 }
 
 .carousel-arrow {

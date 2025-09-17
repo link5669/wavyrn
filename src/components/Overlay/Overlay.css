@@ -33,12 +33,13 @@
     border-radius: 8px;
     color: white;
     overflow-x: hidden;
+    position: relative;
 }
 
 .overlay-header {
     padding: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
     border-bottom: 1px solid #333;
     position: sticky;
@@ -92,6 +93,10 @@
     padding: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
 }
 
 .close-button:hover {

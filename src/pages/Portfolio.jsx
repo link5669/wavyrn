@@ -197,7 +197,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           position: "relative",
           width: "100%",
           minHeight: "100vh",
-          paddingTop: "80px",
+          // paddingTop: "80px",
           backgroundColor: "#2a2a2a",
         }}
       >

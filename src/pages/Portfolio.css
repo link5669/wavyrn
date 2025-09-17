@@ -48,6 +48,7 @@
     font-family: 'Montserrat', sans-serif;
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding-top: 20px;
 }
 
 .hero-subtitle {
@@ -333,9 +334,6 @@
         padding: 0 20px;
     }
     
-    .hero-title {
-        font-size: 2.2rem;
-    }
     
     .hero-subtitle {
         font-size: 1rem;
@@ -357,8 +355,7 @@
 }
 
 .navbar-fade-in {
-    opacity: 0;
-    transition: opacity 1.5s ease;
+    opacity: 1;
 }
 
 .navbar-fade-in.visible {
