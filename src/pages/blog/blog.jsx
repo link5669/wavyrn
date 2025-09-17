@@ -115,8 +115,7 @@ const Blog = ({ isMobile }) => {
 
 
                     <div className="tags-section">
-                        <br />
-                        <h2>Filter by Tags</h2>
+                        <h2 style={{ color: "#CE0036", marginTop: "0", textAlign: "left" }}>FILTER</h2>
                         
                         {/* TOPIC Category */}
                         <div style={{ marginBottom: "30px" }}>

@@ -248,6 +248,6 @@ export const en = {
 
     // Footer
     footer: {
-        // Add footer translations here if needed
+        copyright: "©️ 2025 Wavyrn • All Rights Reserved"
     }
 };

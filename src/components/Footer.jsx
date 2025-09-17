@@ -1,4 +1,7 @@
+import { useTranslation } from "../hooks/useTranslation";
+
 const Footer = () => {
+    const { t } = useTranslation();
     return (
         <div
         style={{
@@ -35,7 +38,7 @@ const Footer = () => {
             whiteSpace: "nowrap", // Prevents text wrapping
           }}
         >
-          ©️2025 Wavyrn • All Rights Reserved
+          {t('footer.copyright')}
         </p>
       </div>
     );

@@ -9,20 +9,21 @@
 
 .tags-section {
     position: fixed;
-    right: 0;
-    top: 0;
-    width: 20%;
-    height: 100vh;
-    padding: 7vh 2vw 0;
-    background-color: black;
+    right: 2vw;
+    top: 64px;
+    margin-top: 1vw;
+    width: 18%;
+    background-color: white;
+    border: 3px solid #CE0036;
+    border-radius: 8px;
+    padding: 20px;
+    color: black;
+    max-height: calc(100vh - 120px);
     overflow-y: auto;
-    padding-top: 64px;
-    color: white;
-    border-left: 3px solid #CE0036;
 }
 
 .posts-section {
-    margin-right: 20%; /* Match tags-section width */
+    margin-right: 22%; /* Account for tags-section width + margin */
     overflow-y: auto;
 }
 

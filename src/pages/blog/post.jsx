@@ -50,10 +50,22 @@ const Post = ({ isMobile, e }) => {
         return (
             <>
                 <WavNavbar showLogo={true} />
-                <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
-                    Loading post...
+                <div style={{ 
+                    textAlign: "center", 
+                    padding: "40px", 
+                    color: "#666",
+                    minHeight: "100vh",
+                    backgroundColor: "RGB(1,1,1)"
+                }}>
+                    <div style={{
+                        margin: "7vh",
+                        padding: "2vw",
+                        backgroundColor: "white",
+                        borderRadius: "30px",
+                    }}>
+                        Loading post...
+                    </div>
                 </div>
-                <Footer />
             </>
         );
     }
@@ -62,8 +74,21 @@ const Post = ({ isMobile, e }) => {
         return (
             <>
                 <WavNavbar showLogo={true} />
-                <div style={{ textAlign: "center", padding: "40px", color: "#666" }}>
-                    {error || "Post not found"}
+                <div style={{ 
+                    textAlign: "center", 
+                    padding: "40px", 
+                    color: "#666",
+                    minHeight: "100vh",
+                    backgroundColor: "RGB(1,1,1)"
+                }}>
+                    <div style={{
+                        margin: "7vh",
+                        padding: "2vw",
+                        backgroundColor: "white",
+                        borderRadius: "30px",
+                    }}>
+                        {error || "Post not found"}
+                    </div>
                 </div>
                 <Footer />
             </>
@@ -140,10 +165,10 @@ const Post = ({ isMobile, e }) => {
                     
                     {e ? (
                         // Static content (legacy posts) - render as JSX
-                        <div>{post.content}</div>
+                        <div style={{ minHeight: "100vh" }}>{post.content}</div>
                     ) : (
                         // Dynamic content with markdown rendering
-                        <div>
+                        <div style={{ minHeight: "100vh" }}>
                             {/* Process content for inline color styling */}
                             {(() => {
                                 // Custom function to process inline styling syntax
@@ -287,7 +312,8 @@ const Post = ({ isMobile, e }) => {
                     )}
                 </div>
             </div>
-            <Footer />
+            {post && post.content && !loading && (
+            <Footer />)}
         </>
     );
 };

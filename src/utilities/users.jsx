@@ -49,6 +49,8 @@ const music = [
     { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
 ];
 const dialogue = [
+    { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
+    { name: `Ananta Arora`, title: `Co-Founder, \nStudio Manager` },
     {
         name: `Caleb Skelly`,
         title: `Sound Designer, VO Producer`,

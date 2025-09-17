@@ -3,9 +3,11 @@ import { FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import { SiBluesky } from "react-icons/si";
 import "./BottomSection.css";
 import { useSwipeable } from "react-swipeable";
+import { useTranslation } from "../../hooks/useTranslation";
 
 function BottomSection() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { t } = useTranslation();
 
   const handlers = useSwipeable({
     onSwipedUp: () => toggleExpanded(),
@@ -81,7 +83,7 @@ function BottomSection() {
               <b>Join our Newsletter</b>
             </a>
           </button>
-          <p>©️ 2025 Wavyrn • All Rights Reserved</p>
+          <p>{t('footer.copyright')}</p>
         </>
       )}
     </div>

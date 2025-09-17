@@ -107,18 +107,18 @@ export const jp = {
     // Portfolio page
     portfolio: {
         heroTitle: "",
-        ourWork: "",
+        ourWork: "制作実績",
         copyright: "",
         categories: {
-            videoGame: "",
-            audioLibrary: "",
-            single: "",
-            rhythmGame: "",
-            ttrpgShowcase: "",
-            shortFilm: "",
-            musical: "",
-            album: "",
-            podcast: ""
+            videoGame: "ビデオゲーム",
+            audioLibrary: "音響制作",
+            single: "シングル",
+            rhythmGame: "リズムゲーム",
+            ttrpgShowcase: "テーブルトークRPG",
+            shortFilm: "短編映画",
+            musical: "ミュージカル",
+            album: "アルバム",
+            podcast: "ポッドキャスト"
         }
     },
 
@@ -248,6 +248,6 @@ export const jp = {
 
     // Footer
     footer: {
-        // Add footer translations here if needed
+        copyright: "©️ 2025 Wavyrn • All Rights Reserved"
     }
 };
