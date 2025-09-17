@@ -384,6 +384,12 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                         style={{
                                             fontSize: "14px",
                                             color: "black",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            maxWidth: "100%",
+                                            display: "block",
+                                            fontWeight: "500",
                                         }}
                                     >
                                         {album.title}

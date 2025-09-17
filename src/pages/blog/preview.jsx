@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import "./blog.css";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const Preview = ({ isMobile, title, image, subtitle, content, link }) => {
     return (
@@ -27,7 +29,36 @@ const Preview = ({ isMobile, title, image, subtitle, content, link }) => {
                 src={image}
             />
             )}
-            <p>{content}</p>
+            {content && typeof content === 'string' && (
+                <div>
+                    <ReactMarkdown
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                            p: ({ children }) => <p style={{ marginBottom: "10px" }}>{children}</p>,
+                            h1: ({ children }) => <h1 style={{ fontSize: "1.2em", marginBottom: "8px" }}>{children}</h1>,
+                            h2: ({ children }) => <h2 style={{ fontSize: "1.1em", marginBottom: "6px" }}>{children}</h2>,
+                            h3: ({ children }) => <h3 style={{ fontSize: "1em", marginBottom: "4px" }}>{children}</h3>,
+                            ul: ({ children }) => <ul style={{ marginBottom: "8px", paddingLeft: "15px" }}>{children}</ul>,
+                            ol: ({ children }) => <ol style={{ marginBottom: "8px", paddingLeft: "15px" }}>{children}</ol>,
+                            li: ({ children }) => <li style={{ marginBottom: "2px" }}>{children}</li>,
+                            code: ({ children }) => (
+                                <code style={{ 
+                                    backgroundColor: "#f4f4f4", 
+                                    padding: "1px 4px", 
+                                    borderRadius: "3px",
+                                    fontSize: "12px"
+                                }}>
+                                    {Array.isArray(children) ? children.join('') : children}
+                                </code>
+                            ),
+                            strong: ({ children }) => <strong>{children}</strong>,
+                            em: ({ children }) => <em>{children}</em>,
+                        }}
+                    >
+                        {content}
+                    </ReactMarkdown>
+                </div>
+            )}
             <Link to={link}>
                 <button className="coolBeans">Learn more</button>
             </Link>

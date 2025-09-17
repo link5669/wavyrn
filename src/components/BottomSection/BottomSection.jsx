@@ -43,9 +43,6 @@ function BottomSection() {
           >
             <FaTwitter />
           </a>
-          <span style={{ paddingTop: "8px" }} onClick={toggleExpanded}>
-            <b>Connect with us!</b>
-          </span>
           <a
             href="https://bsky.app/profile/wavyrnaudio.bsky.social"
             target="_blank"

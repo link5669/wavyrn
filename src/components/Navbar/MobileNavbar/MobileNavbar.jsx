@@ -16,17 +16,23 @@ import { useTranslation } from "../../../hooks/useTranslation";
 function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
-    const { language, changeLanguage } = useLanguage();
+    const { language: currentLanguage, changeLanguage } = useLanguage();
     const { t } = useTranslation();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+        // Close language dropdown when menu opens
+        if (!isMenuOpen) {
+            setIsLanguageDropdownOpen(false);
+        }
     };
 
     const languages = [
       { code: "en", name: "English", flag: "🇺🇸" },
       { code: "jp", name: "日本語", flag: "🇯🇵" },
     ];
+
+    const selectedLang = languages.find((lang) => lang.code === currentLanguage);
 
     const handleLanguageSelect = (languageCode) => {
       changeLanguage(languageCode);
@@ -36,8 +42,6 @@ function Navbar() {
     const toggleLanguageDropdown = () => {
       setIsLanguageDropdownOpen(!isLanguageDropdownOpen);
     };
-
-    const selectedLang = languages.find((lang) => lang.code === language);
 
 
     const handleMailClick = () => {
@@ -50,7 +54,7 @@ function Navbar() {
           {/* Language Selector - Floating Top Right */}
           <div className="language-selector floating">
             <div className="language-trigger" onClick={toggleLanguageDropdown}>
-              <span className="flag">{selectedLang?.flag}</span>
+              <span className="flag" style={{ fontSize: "18px" }}>{selectedLang?.flag}</span>
               <span className="language-code">
                 {selectedLang?.code.toUpperCase()}
               </span>
@@ -61,15 +65,33 @@ function Navbar() {
               </span>
             </div>
 
-            {isLanguageDropdownOpen && (
-              <div className="language-dropdown">
+            {isLanguageDropdownOpen && !isMenuOpen && (
+              <div className="language-dropdown" style={{ 
+                position: "absolute", 
+                top: "100%", 
+                right: "0", 
+                backgroundColor: "rgba(0, 0, 0, 0.9)", 
+                border: "1px solid rgba(255, 255, 255, 0.2)", 
+                borderRadius: "6px", 
+                minWidth: "120px", 
+                zIndex: 1003,
+                padding: "5px 0"
+              }}>
                 {languages.map((language) => (
                   <div
                     key={language.code}
-                    className={`language-option ${selectedLanguage === language.code ? "selected" : ""}`}
+                    className={`language-option ${currentLanguage === language.code ? "selected" : ""}`}
                     onClick={() => handleLanguageSelect(language.code)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      color: "white"
+                    }}
                   >
-                    <span className="flag">{language.flag}</span>
+                    <span className="flag" style={{ fontSize: "18px" }}>{language.flag}</span>
                     <span className="language-name">{language.name}</span>
                   </div>
                 ))}

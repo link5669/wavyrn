@@ -1,17 +1,19 @@
 import ReCAPTCHA from "react-google-recaptcha";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import ContactSocialIcons from "../../components/ContactSocialIcons";
 import BottomSection from "../../components/BottomSection/BottomSection";
 import WavNavbar from "../../components/Navbar/MobileNavbar/MobileNavbar";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Contact = ({ isMobile }) => {
-    const [name, setName] = useState("Name");
-    const [email, setEmail] = useState("Email Address");
-    const [message, setMessage] = useState("Message");
-    const [subject, setSubject] = useState("Subject")
+    const { t } = useTranslation();
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [message, setMessage] = useState("");
+    const [subject, setSubject] = useState("");
     const [error, setError] = useState("");
     const [sent, setSent] = useState("");
 
@@ -25,22 +27,22 @@ const Contact = ({ isMobile }) => {
         //     setError("Please complete the captcha!");
         //     return;
         // }
-        if (name == "Name" || email == "Email" || message == "Message" || subject == "Subject") {
-            setError("Please fill out all fields!");
+        if (name.trim() === "" || email.trim() === "" || message.trim() === "" || subject.trim() === "") {
+            setError(t('contact.form.fillFieldsError'));
             return;
         }
 
         emailjs
-            .sendForm("service_4slc6on", "template_olgmh6l", form.current, {
-                publicKey: "kS8iWx3WR9GyvZWaN",
+            .sendForm("service_n3uw9ji", "template_4jgigf1", form.current, {
+                publicKey: "jk8hVoSyJiKGAFCRe",
             })
             .then(
                 () => {
-                    setSent("Sent");
+                    setSent(t('contact.form.sent'));
                     console.log("SUCCESS!");
                 },
                 (error) => {
-                    setSent("Error! Please reload the page and try again");
+                    setSent(t('contact.form.error'));
                     console.log("FAILED...", error.text);
                 },
             );
@@ -51,7 +53,7 @@ const Contact = ({ isMobile }) => {
             <WavNavbar showLogo={true} />
             <div
                 style={{
-                    minHeight: "130vh",
+                    minHeight: "105vh",
                     width: "100vw",
                     backgroundColor: "#CE0036",
                 }}
@@ -67,7 +69,7 @@ const Contact = ({ isMobile }) => {
                     }}
                 >
                     <b>
-                      Contact Us
+                      {t('contact.title')}
                     </b>
                 </h2>
                 <hr
@@ -88,7 +90,7 @@ const Contact = ({ isMobile }) => {
                         color: "white",
                     }}
                 >
-                  Let’s chat about your next project!
+                  {t('contact.subtitle')}
                 </h3>
 
                 <ContactSocialIcons />
@@ -114,15 +116,10 @@ const Contact = ({ isMobile }) => {
                     >
                         <input
                             name="user_name"
-                            onFocus={() => {
-                                if (name == "Name") setName("");
-                            }}
-                            onBlur={() => {
-                                if (name == "") setName("Name");
-                            }}
                             type="text"
                             onChange={(e) => setName(e.target.value)}
                             value={name}
+                            placeholder={t('contact.form.name')}
                             style={{
                                 padding: "10px",
                                 outline: "none",
@@ -138,14 +135,9 @@ const Contact = ({ isMobile }) => {
                     <input
                         name="user_email"
                         onChange={(e) => setEmail(e.target.value)}
-                        onFocus={() => {
-                            if (email == "Email Address") setEmail("");
-                        }}
-                        onBlur={() => {
-                            if (email == "") setEmail("Email Address");
-                        }}
                         type="text"
                         value={email}
+                        placeholder={t('contact.form.email')}
                         style={{
                             marginTop: "1.2em",
                             padding: "10px",
@@ -160,15 +152,10 @@ const Contact = ({ isMobile }) => {
                     />
                     <input
                         name="subject"
-                        onChange={(e) => setEmail(e.target.value)}
-                        onFocus={() => {
-                            if (subject == "Subject") setSubject("");
-                        }}
-                        onBlur={() => {
-                            if (subject == "") setSubject("Subject");
-                        }}
+                        onChange={(e) => setSubject(e.target.value)}
                         type="text"
                         value={subject}
+                        placeholder={t('contact.form.subject')}
                         style={{
                             marginTop: "1.2em",
                             padding: "10px",
@@ -184,13 +171,8 @@ const Contact = ({ isMobile }) => {
                     <textarea
                         onChange={(e) => setMessage(e.target.value)}
                         name="message"
-                        onFocus={() => {
-                            if (message == "Message") setMessage("");
-                        }}
-                        onBlur={() => {
-                            if (message == "") setMessage("Message");
-                        }}
                         value={message}
+                        placeholder={t('contact.form.message')}
                         style={{
                             padding: "10px",
                             marginTop: "1.2em",
@@ -207,7 +189,7 @@ const Contact = ({ isMobile }) => {
                     <ReCAPTCHA
                     style={{paddingBottom: "20px"}}
                         sitekey={
-                            "6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
+                        "6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
                         }
                         ref={captchaRef}
                     />
@@ -222,7 +204,7 @@ const Contact = ({ isMobile }) => {
                             <input
                                 onClick={(e) => handleSubmit(e)}
                                 type="submit"
-                                value="SEND"
+                                value={t('contact.form.sendButton')}
                                 style={{
                                     width: "6em",
                                     color: "white",

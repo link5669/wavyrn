@@ -21,6 +21,7 @@ const ProjectImage = ({ imgSrc, title, subtitle, noImg }) => {
     const imgStyle = {
         height: "100%",
         width: "auto",
+        borderRadius: "8px",
         display: "block",
         objectFit: "cover",
         transform: `scale(${scale / 100})`, // Convert the scale value to proper format

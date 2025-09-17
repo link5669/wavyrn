@@ -2,7 +2,7 @@ import "./ProfilePic.css";
 import { getPfpImage } from "../../utilities/utilities";
 import { useTranslation } from "../../hooks/useTranslation";
 
-const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage }) => {
+const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick }) => {
   const { t } = useTranslation();
   const handleClick = () => {
     if (
@@ -11,7 +11,13 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage }) => {
       name == "Miles Acquaviva"
     )
       return;
-    setSelectedUser({ name: name, title: title });
+    
+    // Use the onClick prop if provided, otherwise use the default behavior
+    if (onClick) {
+      onClick();
+    } else {
+      setSelectedUser({ name: name, title: title });
+    }
   };
 
   return (

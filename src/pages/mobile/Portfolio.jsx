@@ -9,6 +9,7 @@ import { useSearchParams } from "react-router-dom";
 import BottomSection from "../../components/BottomSection/BottomSection";
 import sfx from "../../utilities/SFX";
 import projects from "../../utilities/projects";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const getUniqueRandomSfx = (existingNames = []) => {
   const availableSfx = sfx.filter((s) => !existingNames.includes(s.name));
@@ -36,6 +37,7 @@ const initializeButtons = () => {
 };
 
 function Portfolio({ title, dividerStyle, isMobile }) {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -194,13 +196,14 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     setIsVisible(true);
     setLoadingAlbums(true);
     try {
-      fetch(
-        "https://wavyrn-backend-6f7b3a192f6c.herokuapp.com/api/albums",
-      ).then((r) => {
+      const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || "https://wavyrn-backend-6f7b3a192f6c.herokuapp.com";
+      console.log("Fetching albums from:", backendUrl + "/api/albums");
+      fetch(backendUrl + "/api/albums").then((r) => {
         r.json().then((d) => {
-          console.log(r.ok);
+          console.log("Albums response:", r.ok, d);
           if (r.ok) {
             setAlbums(d.albums);
+            console.log("Albums set:", d.albums);
           } else {
             console.error("Failed to fetch albums:", d.error);
           }
@@ -235,7 +238,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           style={{
             color: "white",
             fontSize: "2em",
-            paddingBottom: "5%",
+            paddingBottom: "0%",
             paddingTop: "20px",
           }}
         >
@@ -254,8 +257,8 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             }}
           >
             <iframe
-              width="350"
-              height="250"
+              width="300"
+              height="200"
               src="https://www.youtube.com/embed/GuOGbvwdMWk?si=f0lxC3rxtVjBykuK"
               title="YouTube video player"
               frameBorder="0"
@@ -292,17 +295,29 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           }}
         />*/}
         <section style={{ backgroundColor: title === "Arcade" && "#3FD49B" }}>
-          {albums > 0 && (
+          {console.log("Albums length:", albums?.length, "Albums:", albums)}
+          {albums && albums.length > 0 && (
             <MusicCarousel
               albums={albums}
               buttonStyle={{
                 backgroundColor: "white",
                 padding: "10px",
+                color: "black",
                 borderRadius: "15px",
                 cursor: "pointer",
               }}
               portfolio={true}
             />
+          )}
+          {loadingAlbums && (
+            <div style={{ color: "white", textAlign: "center", padding: "20px" }}>
+              Loading albums...
+            </div>
+          )}
+          {!loadingAlbums && (!albums || albums.length === 0) && (
+            <div style={{ color: "white", textAlign: "center", padding: "20px" }}>
+              {/* No albums available */}
+            </div>
           )}
         </section>
         <br />
@@ -336,7 +351,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           </div>
         </section>
         <br />
-        <h2 style={{ fontFamily: "Montserrat", color: "white" }}>Portfolio</h2>
+        <h2 style={{ fontFamily: "Montserrat", color: "white" }}>{t('nav.portfolio')}</h2>
         <hr
           style={{
             display: "block",

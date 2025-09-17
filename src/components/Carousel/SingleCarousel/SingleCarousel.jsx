@@ -16,13 +16,13 @@ const Carousel = ({ items }) => {
 
     const goToPrevious = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? 0 : prevIndex - 1,
+            prevIndex === 0 ? items.length - 1 : prevIndex - 1,
         );
     };
 
     const goToNext = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex === items.length - 1 ? items.length - 1 : prevIndex + 1,
+            prevIndex === items.length - 1 ? 0 : prevIndex + 1,
         );
     };
 
@@ -49,11 +49,11 @@ const Carousel = ({ items }) => {
                   top: "50%",
                   transform: "translateY(-50%)",
                   left: "10px",
-                  background: currentIndex === 0 ? "rgba(0, 0, 0, 0.1)" : "rgba(0, 0, 0, 0.3)",
+                  background: "rgba(0, 0, 0, 0.3)",
                   border: "none",
-                  color: currentIndex === 0 ? "rgba(255, 255, 255, 0.3)" : "white",
+                  color: "white",
                   fontSize: "18px",
-                  cursor: currentIndex === 0 ? "not-allowed" : "pointer",
+                  cursor: "pointer",
                   padding: "12px",
                   zIndex: 10,
                   borderRadius: "50%",
@@ -62,7 +62,6 @@ const Carousel = ({ items }) => {
                   justifyContent: "flex-end",
               }}
               onClick={goToPrevious}
-              disabled={currentIndex === 0}
           >
               <FaChevronLeft />
           </button>
@@ -113,11 +112,11 @@ const Carousel = ({ items }) => {
                   top: "50%",
                   transform: "translateY(-50%)",
                   right: "10px",
-                  background: currentIndex === items.length - 1 ? "rgba(0, 0, 0, 0.1)" : "rgba(0, 0, 0, 0.3)",
+                  background: "rgba(0, 0, 0, 0.3)",
                   border: "none",
-                  color: currentIndex === items.length - 1 ? "rgba(255, 255, 255, 0.3)" : "white",
+                  color: "white",
                   fontSize: "18px",
-                  cursor: currentIndex === items.length - 1 ? "not-allowed" : "pointer",
+                  cursor: "pointer",
                   padding: "12px",
                   zIndex: 10,
                   borderRadius: "50%",
@@ -126,7 +125,6 @@ const Carousel = ({ items }) => {
                   justifyContent: "flex-start",
               }}
               onClick={goToNext}
-              disabled={currentIndex === items.length - 1}
           >
               <FaChevronRight />
           </button>

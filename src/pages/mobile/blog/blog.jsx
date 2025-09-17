@@ -6,10 +6,12 @@ import DesktopNav from "../../../components/Navbar/Navbar";
 import MobileNav from "../../../components/Navbar/MobileNavbar/MobileNavbar";
 import BottomSection from "../../../components/BottomSection/BottomSection";
 import "./blog.css";
+import { useTranslation } from "../../../hooks/useTranslation";
 
 const STORAGE_KEY = "blogSelectedTags";
 
 const Blog = ({ isMobile }) => {
+    const { t } = useTranslation();
     const [selectedTags, setSelectedTags] = useState(() => {
         const savedTags = localStorage.getItem(STORAGE_KEY);
         return savedTags ? JSON.parse(savedTags) : ["View All"];
@@ -133,7 +135,7 @@ const Blog = ({ isMobile }) => {
                     }}
                 >
                     <h1 style={{ color: "white", fontSize: "2em", margin: "0 0 20px 0" }}>
-                        Blog
+                        {t('nav.blog')}
                     </h1>
 
                     {/* Filter Controls */}
@@ -155,7 +157,7 @@ const Blog = ({ isMobile }) => {
                                 marginBottom: "10px",
                             }}
                         >
-                            Open Filter
+                            {t('blog.openFilter')}
                             <span style={{
                                 transform: isFilterOpen ? "rotate(180deg)" : "rotate(0deg)",
                                 transition: "transform 0.3s ease"
@@ -210,7 +212,7 @@ const Blog = ({ isMobile }) => {
                                         }}>✓</span>
                                     )}
                                 </span>
-                                View All
+                                {t('blog.closeFilter')}
                             </button>
 
                             {/* Filter Categories */}
@@ -225,7 +227,7 @@ const Blog = ({ isMobile }) => {
                                 {/* TOPIC Column */}
                                 <div style={{ textAlign: "left" }}>
                                     <h3 style={{ color: "white", fontSize: "1.1em", marginBottom: "10px" }}>
-                                        TOPIC
+                                        {t('blog.topic')}
                                     </h3>
                                     {tags.TOPIC?.map((tag) => (
                                         <button
@@ -253,7 +255,7 @@ const Blog = ({ isMobile }) => {
                                 {/* PROJECT Column */}
                                 <div style={{ textAlign: "left" }}>
                                     <h3 style={{ color: "white", fontSize: "1.1em", marginBottom: "10px" }}>
-                                        PROJECT
+                                        {t('blog.project')}
                                     </h3>
                                     {tags.PROJECT?.map((tag) => (
                                         <button
@@ -281,7 +283,7 @@ const Blog = ({ isMobile }) => {
                                 {/* GENRE Column */}
                                 <div style={{ textAlign: "left" }}>
                                     <h3 style={{ color: "white", fontSize: "1.1em", marginBottom: "10px" }}>
-                                        GENRE
+                                        {t('blog.genre')}
                                     </h3>
                                     {tags.GENRE?.map((tag) => (
                                         <button

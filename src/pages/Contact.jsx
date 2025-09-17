@@ -10,10 +10,10 @@ import { useTranslation } from "../hooks/useTranslation";
 
 const Contact = ({ isMobile }) => {
     const { t } = useTranslation();
-    const [name, setName] = useState(t('contact.form.name'));
-    const [email, setEmail] = useState(t('contact.form.email'));
-    const [subject, setSubject] = useState(t('contact.form.subject'));
-    const [message, setMessage] = useState(t('contact.form.message'));
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [subject, setSubject] = useState("");
+    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [sent, setSent] = useState("");
 
@@ -28,10 +28,10 @@ const Contact = ({ isMobile }) => {
             return;
         }
         if (
-            name == t('contact.form.name') ||
-            email == t('contact.form.email') ||
-            subject == t('contact.form.subject') ||
-            message == t('contact.form.message')
+            name.trim() === "" ||
+            email.trim() === "" ||
+            subject.trim() === "" ||
+            message.trim() === ""
         ) {
             setError(t('contact.form.fillFieldsError'));
             return;
@@ -132,15 +132,10 @@ const Contact = ({ isMobile }) => {
                         >
                             <input
                                 name="user_name"
-                                onFocus={() => {
-                                    if (name == t('contact.form.name')) setName("");
-                                }}
-                                onBlur={() => {
-                                    if (name == "") setName(t('contact.form.name'));
-                                }}
                                 type="text"
                                 onChange={(e) => setName(e.target.value)}
                                 value={name}
+                                placeholder={t('contact.form.name')}
                                 style={{
                                     padding: "10px",
                                     outline: "none",
@@ -161,14 +156,9 @@ const Contact = ({ isMobile }) => {
                             <input
                                 name="user_email"
                                 onChange={(e) => setEmail(e.target.value)}
-                                onFocus={() => {
-                                    if (email == t('contact.form.email')) setEmail("");
-                                }}
-                                onBlur={() => {
-                                    if (email == "") setEmail(t('contact.form.email'));
-                                }}
                                 type="text"
                                 value={email}
+                                placeholder={t('contact.form.email')}
                                 style={{
                                     padding: "10px",
                                     outline: "none",
@@ -186,14 +176,9 @@ const Contact = ({ isMobile }) => {
                     <input
                         name="subject"
                         onChange={(e) => setSubject(e.target.value)}
-                        onFocus={() => {
-                            if (subject == t('contact.form.subject')) setSubject("");
-                        }}
-                        onBlur={() => {
-                            if (subject == "") setSubject(t('contact.form.subject'));
-                        }}
                         type="text"
                         value={subject}
+                        placeholder={t('contact.form.subject')}
                         style={{
                             outline: "none",
                             padding: "10px",
@@ -209,13 +194,8 @@ const Contact = ({ isMobile }) => {
                     <textarea
                         onChange={(e) => setMessage(e.target.value)}
                         name="message"
-                        onFocus={() => {
-                            if (message == t('contact.form.message')) setMessage("");
-                        }}
-                        onBlur={() => {
-                            if (message == "") setMessage(t('contact.form.message'));
-                        }}
                         value={message}
+                        placeholder={t('contact.form.message')}
                         style={{
                             padding: "10px",
                             marginTop: "1.2em",

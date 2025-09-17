@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import "./blog.css";
 import { Col, Container, Row } from "react-bootstrap";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
-const Preview = ({ isMobile, title, author, date, tags, link }) => {
+const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
     return (
         <Link to={link} style={{ textDecoration: "none" }}>
             <div
@@ -59,12 +61,43 @@ const Preview = ({ isMobile, title, author, date, tags, link }) => {
                 </Row>
 
                 {/* Tags */}
-
                 {tags.map((tag, index) => (
                     <span key={index} style={{ padding: "0.3rem 0" }}>
                         <b>#{tag} </b>
                     </span>
                 ))}
+
+                {/* Content Preview */}
+                {content && typeof content === 'string' && (
+                    <div style={{ marginTop: "1rem", zIndex: 100, position: "relative" }}>
+                        <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            components={{
+                                p: ({ children }) => <p style={{ marginBottom: "8px", fontSize: "0.9em", lineHeight: "1.4" }}>{children}</p>,
+                                h1: ({ children }) => <h1 style={{ fontSize: "1em", marginBottom: "6px" }}>{children}</h1>,
+                                h2: ({ children }) => <h2 style={{ fontSize: "0.95em", marginBottom: "4px" }}>{children}</h2>,
+                                h3: ({ children }) => <h3 style={{ fontSize: "0.9em", marginBottom: "3px" }}>{children}</h3>,
+                                ul: ({ children }) => <ul style={{ marginBottom: "6px", paddingLeft: "12px", fontSize: "0.85em" }}>{children}</ul>,
+                                ol: ({ children }) => <ol style={{ marginBottom: "6px", paddingLeft: "12px", fontSize: "0.85em" }}>{children}</ol>,
+                                li: ({ children }) => <li style={{ marginBottom: "2px" }}>{children}</li>,
+                                code: ({ children }) => (
+                                    <code style={{ 
+                                        backgroundColor: "rgba(255,255,255,0.2)", 
+                                        padding: "1px 3px", 
+                                        borderRadius: "2px",
+                                        fontSize: "0.8em"
+                                    }}>
+                                        {Array.isArray(children) ? children.join('') : children}
+                                    </code>
+                                ),
+                                strong: ({ children }) => <strong>{children}</strong>,
+                                em: ({ children }) => <em>{children}</em>,
+                            }}
+                        >
+                            {content}
+                        </ReactMarkdown>
+                    </div>
+                )}
             </div>
             <hr
                 style={{

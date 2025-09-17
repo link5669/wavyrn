@@ -31,8 +31,10 @@ import {
 } from "../../components/UserProfiles";
 import Overlay from "../../components/Overlay/Overlay";
 import { getPfpImage } from "../../utilities/utilities";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const About = ({ isMobile }) => {
+    const { t } = useTranslation();
     const [selected, setSelected] = useState(0);
     const [prevSelected, setPrevSelected] = useState(-1);
     const serviceRefs = useRef({});
@@ -134,7 +136,7 @@ const About = ({ isMobile }) => {
                             padding: "2px",
                         }}
                     >
-                        Services
+                        {t('nav.services')}
                     </button>
                     <button
                         onClick={() => setActiveTab("Our Team")}
@@ -150,7 +152,7 @@ const About = ({ isMobile }) => {
                             padding: "2px",
                         }}
                     >
-                        Our Team
+                        {t('about.ourTeam')}
                     </button>
                 </div>
 
@@ -170,7 +172,7 @@ const About = ({ isMobile }) => {
                                     marginBottom: "10px",
                                 }}
                             >
-                              We Are Storytellers
+                              {t('about.heroTitle')}
                             </h1>
                             <Carousel items={carouselItems} />
                         </div>
@@ -185,7 +187,7 @@ const About = ({ isMobile }) => {
                                   fontSize: "2em",
                               }}
                           >
-                              Our Team
+                              {t('about.ourTeam')}
                           </h1>
                           <div
                               ref={pfpParent}
@@ -241,9 +243,9 @@ const About = ({ isMobile }) => {
                                               fontSize: ".75em", // Made smaller (was .9em)
                                           }}
                                       >
-                                          <b>{user.name}</b>
+                                          <b>{t(`team.members.${user.name}.name`) || user.name}</b>
                                           <p style={{ margin: 0 }}>
-                                              {user.title}
+                                              {t(`team.members.${user.name}.title`) || user.title}
                                           </p>
                                       </div>
                                   </div>
@@ -263,8 +265,8 @@ const About = ({ isMobile }) => {
                                 setTimeout(() => setSelectedUser(null), 300); // Wait for fade out
                             }}
                             profileInfo={{
-                                name: selectedUser.name,
-                                title: selectedUser.title,
+                                name: t(`team.members.${selectedUser.name}.name`) || selectedUser.name,
+                                title: t(`team.members.${selectedUser.name}.title`) || selectedUser.title,
                                 image: getPfpImage(selectedUser.name),
                             }}
                         >

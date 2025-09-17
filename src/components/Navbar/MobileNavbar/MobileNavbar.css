@@ -95,7 +95,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
-    z-index: 1000; /* Ensure it's above other content */
+    z-index: 1000; /* Lower than language dropdown */
 }
 
 .slide-out-menu.open {
@@ -139,7 +139,7 @@
 .language-dropdown {
     position: absolute;
     top: 100%;
-    right: 50%;
+    right: 0;
     background-color: rgba(0, 0, 0, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;
@@ -149,6 +149,7 @@
     max-height: 200px;
     overflow-y: auto;
     backdrop-filter: blur(10px);
+    z-index: 1003;
 }
 
 .language-option {
@@ -202,7 +203,7 @@
     position: absolute;
     top: 15px;
     right: 55px;
-    z-index: 1001;
+    z-index: 1004;
 }
 
 .language-trigger {

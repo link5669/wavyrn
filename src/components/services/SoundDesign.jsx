@@ -72,7 +72,7 @@ const SoundDesign = ({ isMobile }) => {
                         color: "white",
                         zIndex: 102,
                         position: "relative",
-                        paddingTop: "5vh",
+                        paddingTop: "7vh",
                     }}
                 >
                     Sound Design
