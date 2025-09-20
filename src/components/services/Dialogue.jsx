@@ -104,6 +104,7 @@ const Dialogue = ({ isMobile }) => {
             zIndex: 101,
             position: "relative",
             color: "white", // Ensure text is visible
+            
           }}
         >
           <li> Casting & Screening</li>

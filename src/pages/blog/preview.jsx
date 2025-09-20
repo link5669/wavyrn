@@ -3,7 +3,25 @@ import "./blog.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const Preview = ({ isMobile, title, image, author, date, tags, content, link }) => {
+const Preview = ({ isMobile, title, image, author, date, tags, content, link, allTags }) => {
+    // Helper function to get display name for tags
+    const getTagDisplayName = (tag) => {
+        if (typeof tag === 'string') {
+            // If it's a string, find the corresponding tag object from the tags collection
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+            const allTagsArray = [...(allTags?.TOPIC || []), ...(allTags?.PROJECT || []), ...(allTags?.GENRE || [])];
+            const tagObj = allTagsArray.find(t => t.name === tag);
+            if (tagObj && currentLang === 'jp' && tagObj.nameJP) {
+                return tagObj.nameJP;
+            }
+            return tag;
+        }
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        if (currentLang === 'jp' && tag.nameJP) {
+            return tag.nameJP;
+        }
+        return tag.name;
+    };
     return (
         <div
             style={{
@@ -37,7 +55,7 @@ const Preview = ({ isMobile, title, image, author, date, tags, content, link }) 
                                     fontWeight: "500"
                                 }}
                             >
-                                {tag}
+                                {getTagDisplayName(tag)}
                             </span>
                         ))}
                     </div>

@@ -27,6 +27,7 @@ const ProjectImage = ({ imgSrc, title, subtitle, noImg }) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "12px", // Match portfolio-item border radius
+        clipPath: "inset(0 round 12px)", // Ensure rounded corners are maintained
     };
 
     const imgStyle = {

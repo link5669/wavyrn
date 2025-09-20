@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import BLOG_PAGES from "./pages";
 import Preview from "./preview";
 import React, { useState } from "react";
 import DesktopNav from "../../../components/Navbar/Navbar";
@@ -18,12 +17,45 @@ const Blog = ({ isMobile }) => {
     });
 
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const [tags, setTags] = useState([]); // Will store grouped tags
+    const [tags, setTags] = useState({
+        TOPIC: [],
+        PROJECT: [],
+        GENRE: []
+    });
+    const [tagsWithCounts, setTagsWithCounts] = useState({
+        TOPIC: [],
+        PROJECT: [],
+        GENRE: []
+    });
     const [animatingPosts, setAnimatingPosts] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const filteredPosts = BLOG_PAGES.filter((post) => {
+    // Helper function to get display name for tags
+    const getTagDisplayName = (tag) => {
+        if (typeof tag === 'string') {
+            // If it's a string, find the corresponding tag object from the tags collection
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+            const allTags = [...(tags.TOPIC || []), ...(tags.PROJECT || []), ...(tags.GENRE || [])];
+            const tagObj = allTags.find(t => t.name === tag);
+            if (tagObj && currentLang === 'jp' && tagObj.nameJP) {
+                return tagObj.nameJP;
+            }
+            return tag;
+        }
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        if (currentLang === 'jp' && tag.nameJP) {
+            return tag.nameJP;
+        }
+        return tag.name;
+    };
+
+    const filteredPosts = posts.filter((post) => {
         if (selectedTags.includes("View All")) return true;
-        return post.tags.some((tag) => selectedTags.includes(tag[0])); // tag[0] is the name
+        return post.topics.some((topic) => {
+            const topicName = typeof topic === 'string' ? topic : topic.name;
+            return selectedTags.includes(topicName);
+        });
     });
 
     // Save to localStorage whenever selectedTags changes
@@ -31,48 +63,93 @@ const Blog = ({ isMobile }) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedTags));
     }, [selectedTags]);
 
-    useEffect(() => {
-        // Group tags by sort category
-        const groupedTags = {
+    const fetchPosts = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog`);
+            const data = await response.json();
+            if (response.ok) {
+                setPosts(data.posts || []);
+            } else {
+                console.error("Failed to fetch posts:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchTags = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/tags`);
+            const data = await response.json();
+            if (response.ok) {
+                setTags(data.tags || { TOPIC: [], PROJECT: [], GENRE: [] });
+            } else {
+                console.error("Failed to fetch tags:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching tags:", error);
+        }
+    };
+
+    // Calculate tag counts from posts
+    const calculateTagCounts = (posts) => {
+        const tagCounts = {};
+        
+        posts.forEach(post => {
+            if (post.topics && Array.isArray(post.topics)) {
+                post.topics.forEach(topic => {
+                    const topicName = typeof topic === 'string' ? topic : topic.name;
+                    if (!tagCounts[topicName]) {
+                        tagCounts[topicName] = 0;
+                    }
+                    tagCounts[topicName]++;
+                });
+            }
+        });
+
+        // Convert to the expected format with name and count
+        const tagsWithCounts = {
             TOPIC: [],
             PROJECT: [],
             GENRE: []
         };
 
-        // Collect all unique tags from all posts
-        const tagCounts = {};
-
-        BLOG_PAGES.forEach(post => {
-            post.tags.forEach(tag => {
-                const tagName = tag[0]; // First element is the name
-                const sortCategory = tag[1]; // Second element is the sort category
-
-                if (!tagCounts[tagName]) {
-                    tagCounts[tagName] = { count: 0, sort: sortCategory };
-                }
-                tagCounts[tagName].count++;
-            });
-        });
-
-        // Organize tags by category
-        Object.keys(tagCounts).forEach(tagName => {
-            const tagInfo = tagCounts[tagName];
-            if (groupedTags[tagInfo.sort]) {
-                groupedTags[tagInfo.sort].push({
-                    name: tagName,
-                    count: tagInfo.count,
-                    sort: tagInfo.sort
+        // Get the tag categories from the API response
+        Object.keys(tags).forEach(category => {
+            if (tags[category] && Array.isArray(tags[category])) {
+                tags[category].forEach(tag => {
+                    const tagName = typeof tag === 'string' ? tag : tag.name;
+                    const count = tagCounts[tagName] || 0;
+                    tagsWithCounts[category].push({
+                        name: tagName,
+                        count: count
+                    });
                 });
             }
         });
 
-        setTags(groupedTags);
+        return tagsWithCounts;
+    };
+
+    useEffect(() => {
+        fetchPosts();
+        fetchTags();
     }, []);
+
+    // Calculate tag counts when posts or tags change
+    useEffect(() => {
+        if (posts.length > 0 && Object.keys(tags).length > 0) {
+            const calculatedTags = calculateTagCounts(posts);
+            setTagsWithCounts(calculatedTags);
+        }
+    }, [posts, tags]);
 
     // Handle tag selection with animation
     const toggleTag = (tagName) => {
         // Animate posts out first
-        setAnimatingPosts(filteredPosts.map(post => post.path));
+        setAnimatingPosts(filteredPosts.map(post => post.docId));
 
         setTimeout(() => {
             if (tagName === "View All") {
@@ -235,27 +312,30 @@ const Blog = ({ isMobile }) => {
                                     <h3 style={{ color: "white", fontSize: "1.1em", marginBottom: "10px" }}>
                                         {t('blog.topic')}
                                     </h3>
-                                    {tags.TOPIC?.map((tag) => (
-                                        <button
-                                            key={tag.name}
-                                            onClick={() => toggleTag(tag.name)}
-                                            style={{
-                                                display: "block",
-                                                width: "100%",
-                                                padding: "6px 12px",
-                                                backgroundColor: selectedTags.includes(tag.name) ? "#ddd" : "white",
-                                                border: "none",
-                                                borderRadius: "15px",
-                                                color: "black",
-                                                cursor: "pointer",
-                                                fontSize: "0.9em",
-                                                margin: "4px 0",
-                                                textAlign: "left",
-                                            }}
-                                        >
-                                            {tag.name} ({tag.count})
-                                        </button>
-                                    ))}
+                                    {tagsWithCounts.TOPIC?.map((tag) => {
+                                        const displayName = getTagDisplayName(tag);
+                                        return (
+                                            <button
+                                                key={tag.name}
+                                                onClick={() => toggleTag(tag.name)}
+                                                style={{
+                                                    display: "block",
+                                                    width: "100%",
+                                                    padding: "6px 12px",
+                                                    backgroundColor: selectedTags.includes(tag.name) ? "#ddd" : "white",
+                                                    border: "none",
+                                                    borderRadius: "15px",
+                                                    color: "black",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.9em",
+                                                    margin: "4px 0",
+                                                    textAlign: "left",
+                                                }}
+                                            >
+                                                {displayName} ({tag.count})
+                                            </button>
+                                        );
+                                    })}
                                 </div>
 
                                 {/* PROJECT Column */}
@@ -263,27 +343,30 @@ const Blog = ({ isMobile }) => {
                                     <h3 style={{ color: "white", fontSize: "1.1em", marginBottom: "10px" }}>
                                         {t('blog.project')}
                                     </h3>
-                                    {tags.PROJECT?.map((tag) => (
-                                        <button
-                                            key={tag.name}
-                                            onClick={() => toggleTag(tag.name)}
-                                            style={{
-                                                display: "block",
-                                                width: "100%",
-                                                padding: "6px 12px",
-                                                backgroundColor: selectedTags.includes(tag.name) ? "#ddd" : "white",
-                                                border: "none",
-                                                borderRadius: "15px",
-                                                color: "black",
-                                                cursor: "pointer",
-                                                fontSize: "0.9em",
-                                                margin: "4px 0",
-                                                textAlign: "left",
-                                            }}
-                                        >
-                                            {tag.name} ({tag.count})
-                                        </button>
-                                    ))}
+                                    {tagsWithCounts.PROJECT?.map((tag) => {
+                                        const displayName = getTagDisplayName(tag);
+                                        return (
+                                            <button
+                                                key={tag.name}
+                                                onClick={() => toggleTag(tag.name)}
+                                                style={{
+                                                    display: "block",
+                                                    width: "100%",
+                                                    padding: "6px 12px",
+                                                    backgroundColor: selectedTags.includes(tag.name) ? "#ddd" : "white",
+                                                    border: "none",
+                                                    borderRadius: "15px",
+                                                    color: "black",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.9em",
+                                                    margin: "4px 0",
+                                                    textAlign: "left",
+                                                }}
+                                            >
+                                                {displayName} ({tag.count})
+                                            </button>
+                                        );
+                                    })}
                                 </div>
 
                                 {/* GENRE Column */}
@@ -291,27 +374,30 @@ const Blog = ({ isMobile }) => {
                                     <h3 style={{ color: "white", fontSize: "1.1em", marginBottom: "10px" }}>
                                         {t('blog.genre')}
                                     </h3>
-                                    {tags.GENRE?.map((tag) => (
-                                        <button
-                                            key={tag.name}
-                                            onClick={() => toggleTag(tag.name)}
-                                            style={{
-                                                display: "block",
-                                                width: "100%",
-                                                padding: "6px 12px",
-                                                backgroundColor: selectedTags.includes(tag.name) ? "#ddd" : "white",
-                                                border: "none",
-                                                borderRadius: "15px",
-                                                color: "black",
-                                                cursor: "pointer",
-                                                fontSize: "0.9em",
-                                                margin: "4px 0",
-                                                textAlign: "left",
-                                            }}
-                                        >
-                                            {tag.name} ({tag.count})
-                                        </button>
-                                    ))}
+                                    {tagsWithCounts.GENRE?.map((tag) => {
+                                        const displayName = getTagDisplayName(tag);
+                                        return (
+                                            <button
+                                                key={tag.name}
+                                                onClick={() => toggleTag(tag.name)}
+                                                style={{
+                                                    display: "block",
+                                                    width: "100%",
+                                                    padding: "6px 12px",
+                                                    backgroundColor: selectedTags.includes(tag.name) ? "#ddd" : "white",
+                                                    border: "none",
+                                                    borderRadius: "15px",
+                                                    color: "black",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.9em",
+                                                    margin: "4px 0",
+                                                    textAlign: "left",
+                                                }}
+                                            >
+                                                {displayName} ({tag.count})
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>
@@ -331,29 +417,40 @@ const Blog = ({ isMobile }) => {
                 <div className="posts-section" style={{ flex: 1 }}>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <div>
-                            {filteredPosts.map((post) => (
-                                <div
-                                    key={post.path}
-                                    style={{
-                                        opacity: animatingPosts.includes(post.path) ? 0 : 1,
-                                        transform: animatingPosts.includes(post.path)
-                                            ? "translateY(20px)" : "translateY(0)",
-                                        transition: "opacity 0.2s ease, transform 0.2s ease",
-                                    }}
-                                >
-                                    <Preview
-                                        title={post.title}
-                                        author={post.author}
-                                        date={post.date}
-                                        subtitle={post.byline}
-                                        image={post.image}
-                                        content={post.preview}
-                                        link={post.path}
-                                        isMobile={isMobile}
-                                        tags={post.tags}
-                                    />
+                            {loading ? (
+                                <div style={{ textAlign: "center", padding: "40px", color: "white" }}>
+                                    Loading blog posts...
                                 </div>
-                            ))}
+                            ) : filteredPosts.length > 0 ? (
+                                filteredPosts.map((post) => (
+                                    <div
+                                        key={post.docId}
+                                        style={{
+                                            opacity: animatingPosts.includes(post.docId) ? 0 : 1,
+                                            transform: animatingPosts.includes(post.docId)
+                                                ? "translateY(20px)" : "translateY(0)",
+                                            transition: "opacity 0.2s ease, transform 0.2s ease",
+                                        }}
+                                    >
+                                        <Preview
+                                            title={post.title}
+                                            author={post.author}
+                                            date={post.date}
+                                            subtitle={post.byline}
+                                            image={post.image}
+                                            content={post.preview || post.content.substring(0, 200) + "..."}
+                                            link={`/blog/${post.docId}`}
+                                            isMobile={isMobile}
+                                            tags={post.topics || []}
+                                            allTags={tags}
+                                        />
+                                    </div>
+                                ))
+                            ) : (
+                                <div style={{ textAlign: "center", padding: "40px", color: "white" }}>
+                                    No blog posts found. {selectedTags.length > 1 ? "Try removing some filters." : "Check back later for new content!"}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

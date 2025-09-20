@@ -299,9 +299,6 @@ function App() {
           <Route path="/PatreonCatalogue" element={<PatreonRedirect />} />
           <Route path="/editor" element={<Editor />} />
           
-          {/* Short URL redirects */}
-          <Route path="/s/:slug" element={<ShortUrlRedirect />} />
-          
           {/* Catch-all route for potential short URLs at root level */}
           <Route path="/:slug" element={<ShortUrlRedirect />} />
         </Routes>

@@ -722,20 +722,30 @@ const Quinne = () => {
                 multi-instrumentalist from the West Coast with a love of
                 leitmotif, interactive music, and storytelling through sound. A
                 7th Semester Game and Interactive Media Scoring major at Berklee
-                College of Music, they’ve been writing music for over a decade
+                College of Music, they've been writing music for over a decade
                 in a variety of genres and have experience in composition, sound
                 design, mixing and production, score preparation, interactive
                 middleware, and game design. Their love of music has taken them
                 all across the musical landscape, learning about new genres and
                 styles and blending the sounds and sensations they discover to
                 tell tales through their music. Their work spans games like
-                Mushroom Kid’s Big Grass Sword, performances pieces like Not So
+                Mushroom Kid's Big Grass Sword, performances pieces like Not So
                 Happily Ever After for the San Marino High School dance program
-                and The Magpie’s Ballad for the Berklee Flute Choir, and a
+                and The Magpie's Ballad for the Berklee Flute Choir, and a
                 multitude of underscores for table-top roleplaying campaigns
-                including the Lost Mechanisms and The Poem of Ryuumi’s Head. If
+                including the Lost Mechanisms and The Poem of Ryuumi's Head. If
                 you listen hard enough, you can juuust hear them working on
-                their next D&D boss theme to kill a player’s character to.
+                their next D&D boss theme to kill a player's character to.
+            </p>
+        </div>
+    );
+};
+
+const Miguel = () => {
+    return (
+        <div style={{ display: "block" }}>
+            <p>
+                Miguel Manness is a sound designer and composer specializing in creating immersive audio experiences for games and interactive media. With a passion for storytelling through sound, Miguel brings creativity and technical expertise to every project he works on.
             </p>
         </div>
     );
@@ -756,4 +766,5 @@ export {
     Michelle,
     Neil,
     Quinne,
+    Miguel,
 };

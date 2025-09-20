@@ -39,7 +39,7 @@
 .overlay-header {
     padding: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: flex-start;
     border-bottom: 1px solid #333;
     position: sticky;
@@ -50,10 +50,10 @@
 
 .profile-section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 15px;
-    text-align: center;
+    gap: 20px;
+    text-align: left;
 }
 
 .overlay-profile-pic {
@@ -64,6 +64,13 @@
     border-radius: 50%;
     clip-path: circle();
     object-fit: cover;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
 }
 
 .profile-info h3 {
@@ -80,7 +87,7 @@
 .social-links-header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 8px;
     flex-wrap: wrap;
     gap: 8px;

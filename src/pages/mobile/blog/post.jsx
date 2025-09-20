@@ -13,10 +13,44 @@ import rehypeRaw from "rehype-raw";
 import "highlight.js/styles/github.css";
 
 const Post = ({ isMobile, e }) => {
+    const [tags, setTags] = useState({ TOPIC: [], PROJECT: [], GENRE: [] });
+    
+    // Helper function to get display name for tags
+    const getTagDisplayName = (tag) => {
+        if (typeof tag === 'string') {
+            // If it's a string, find the corresponding tag object from the tags collection
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+            const allTags = [...(tags.TOPIC || []), ...(tags.PROJECT || []), ...(tags.GENRE || [])];
+            const tagObj = allTags.find(t => t.name === tag);
+            if (tagObj && currentLang === 'jp' && tagObj.nameJP) {
+                return tagObj.nameJP;
+            }
+            return tag;
+        }
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        if (currentLang === 'jp' && tag.nameJP) {
+            return tag.nameJP;
+        }
+        return tag.name;
+    };
     const { docId } = useParams();
     const [post, setPost] = useState(e || null);
     const [loading, setLoading] = useState(!e);
     const [error, setError] = useState(null);
+
+    const fetchTags = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/tags`);
+            const data = await response.json();
+            if (response.ok) {
+                setTags(data.tags || { TOPIC: [], PROJECT: [], GENRE: [] });
+            } else {
+                console.error("Failed to fetch tags:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching tags:", error);
+        }
+    };
 
     useEffect(() => {
         // If we have a static post (e), use it directly
@@ -46,6 +80,7 @@ const Post = ({ isMobile, e }) => {
         if (docId) {
             fetchPost();
         }
+        fetchTags();
     }, [docId, e]);
 
     if (loading) {
@@ -161,7 +196,7 @@ const Post = ({ isMobile, e }) => {
                         fontSize: "14px",
                       }}
                     >
-                      {topic}
+                      {getTagDisplayName(topic)}
                     </span>
                   ))}
                 </div>

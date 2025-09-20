@@ -14,6 +14,7 @@ const FilterEditor = () => {
   // Tag form state
   const [tagFormData, setTagFormData] = useState({
     name: "",
+    nameJP: "",
     category: "TOPIC",
     position: "",
   });
@@ -30,6 +31,7 @@ const FilterEditor = () => {
   const [editingCategory, setEditingCategory] = useState(null);
   const [editTagData, setEditTagData] = useState({
     name: "",
+    nameJP: "",
     category: "",
   });
   const [editCategoryData, setEditCategoryData] = useState({
@@ -209,6 +211,7 @@ const FilterEditor = () => {
     setEditingTag(tag.docId);
     setEditTagData({
       name: tag.name,
+      nameJP: tag.nameJP || "",
       category: tag.category,
     });
   };
@@ -367,7 +370,7 @@ const FilterEditor = () => {
               htmlFor="name"
               style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
             >
-              Tag Name:
+              Tag Name (English):
             </label>
             <input
               type="text"
@@ -382,7 +385,30 @@ const FilterEditor = () => {
                 border: "1px solid #ccc",
                 borderRadius: "4px",
               }}
-              placeholder="Enter tag name"
+              placeholder="Enter tag name in English"
+            />
+          </div>
+
+          <div style={{ marginBottom: "15px" }}>
+            <label
+              htmlFor="nameJP"
+              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            >
+              Tag Name (Japanese):
+            </label>
+            <input
+              type="text"
+              id="nameJP"
+              name="nameJP"
+              value={tagFormData.nameJP}
+              onChange={handleTagInputChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+              }}
+              placeholder="Enter tag name in Japanese (optional)"
             />
           </div>
 
@@ -593,7 +619,7 @@ const FilterEditor = () => {
                             <form onSubmit={handleEditTagSubmit} style={{ marginBottom: "10px" }}>
                               <div style={{ marginBottom: "10px" }}>
                                 <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                                  Tag Name:
+                                  Tag Name (English):
                                 </label>
                                 <input
                                   type="text"
@@ -601,6 +627,23 @@ const FilterEditor = () => {
                                   value={editTagData.name}
                                   onChange={(e) => setEditTagData({ ...editTagData, name: e.target.value })}
                                   required
+                                  style={{
+                                    width: "100%",
+                                    padding: "6px",
+                                    border: "1px solid #ccc",
+                                    borderRadius: "4px",
+                                  }}
+                                />
+                              </div>
+                              <div style={{ marginBottom: "10px" }}>
+                                <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                                  Tag Name (Japanese):
+                                </label>
+                                <input
+                                  type="text"
+                                  name="nameJP"
+                                  value={editTagData.nameJP}
+                                  onChange={(e) => setEditTagData({ ...editTagData, nameJP: e.target.value })}
                                   style={{
                                     width: "100%",
                                     padding: "6px",
@@ -662,9 +705,14 @@ const FilterEditor = () => {
                             </form>
                           ) : (
                             <>
-                              <h5 style={{ margin: "0 0 5px 0", color: "#333" }}>
-                                #{tag.position} - {tag.name}
-                              </h5>
+                        <h5 style={{ margin: "0 0 5px 0", color: "#333" }}>
+                          #{tag.position} - {typeof tag.name === 'string' ? tag.name : String(tag.name)}
+                          {tag.nameJP && (
+                            <span style={{ color: "#666", fontSize: "0.9em", marginLeft: "8px" }}>
+                              ({tag.nameJP})
+                            </span>
+                          )}
+                        </h5>
                               <p style={{ margin: "5px 0", fontSize: "0.9em", color: "#666" }}>
                                 Category: {tag.category}
                               </p>
@@ -864,7 +912,7 @@ const FilterEditor = () => {
                   ) : (
                     <>
                       <h5 style={{ margin: "0 0 5px 0", color: "#333" }}>
-                        {category.name} - {category.displayName}
+                        {typeof category.name === 'string' ? category.name : String(category.name)} - {typeof category.displayName === 'string' ? category.displayName : String(category.displayName)}
                       </h5>
                       <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "5px" }}>
                         <span style={{ fontSize: "0.9em", color: "#666" }}>Color:</span>

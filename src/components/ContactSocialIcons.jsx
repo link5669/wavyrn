@@ -9,7 +9,7 @@ import {
 import { SiBluesky, SiLinkedin } from "react-icons/si";
 import { IconContext } from "react-icons";
 
-const ContactSocialIcons = () => {
+const ContactSocialIcons = ({color = "#ce0031"}) => {
   return (
     <div
       style={{
@@ -29,7 +29,7 @@ const ContactSocialIcons = () => {
               fill="currentColor"
               className="bi bi-instagram"
               viewBox="0 0 16 16"
-              style={{ color: "#ce0031" }}
+              style={{ color: color }}
             >
               <Insta_svg />{" "}
             </svg>
@@ -44,7 +44,7 @@ const ContactSocialIcons = () => {
               fill="currentColor"
               className="bi bi-twitter"
               viewBox="0 0 16 16"
-              style={{ color: "#ce0031" }}
+              style={{ color: color }}
             >
               <Twitter_svg />{" "}
             </svg>
@@ -59,7 +59,7 @@ const ContactSocialIcons = () => {
               fill="currentColor"
               className="bi bi-facebook"
               viewBox="0 0 24 24"
-              style={{ color: "#ce0031" }}
+              style={{ color: color }}
             >
               <Bluesky_svg />{" "}
             </svg>
@@ -74,7 +74,7 @@ const ContactSocialIcons = () => {
               fill="currentColor"
               className="bi bi-facebook"
               viewBox="0 0 16 16"
-              style={{ color: "#ce0031" }}
+              style={{ color: color }}
             >
               <Facebook_svg />{" "}
             </svg>
@@ -82,7 +82,7 @@ const ContactSocialIcons = () => {
         </div>
         <div style={{ paddingInline: "7%" }}>
           <a href="https://www.linkedin.com/company/wavyrnaudio/posts/?feedView=all">
-            <IconContext.Provider value={{ size: "16px", color: "#ce0031" }}>
+            <IconContext.Provider value={{ size: "16px", color: color }}>
               <SiLinkedin />
             </IconContext.Provider>
           </a>
@@ -96,7 +96,7 @@ const ContactSocialIcons = () => {
               fill="currentColor"
               className="bi bi-envelope"
               viewBox="0 0 16 16"
-              style={{ color: "#ce0031" }}
+              style={{ color: color }}
             >
               <Mail_svg />{" "}
             </svg>

@@ -16,6 +16,8 @@ const ProjectImage = ({ imgSrc, title, subtitle, noImg }) => {
         display: "flex", // Add this
         justifyContent: "center", // Add this
         alignItems: "center", // Add this
+        borderRadius: "8px", // Add border radius to container
+        clipPath: "inset(0 round 8px)", // Ensure rounded corners are maintained
     };
 
     const imgStyle = {

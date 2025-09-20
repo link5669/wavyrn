@@ -50,14 +50,23 @@
     position: relative;
     text-decoration: none;
     background-color: transparent;
-    transition: color 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     will-change: transform;
     z-index: 0;
     cursor: pointer;
 }
 
-.coolBeans:hover {
-    background-color: #ce0036;
-    color: white;
-    border: 2px solid black;
+.coolBeans:hover,
+.coolBeans:focus {
+    background-color: #ce0036 !important;
+    color: white !important;
+    border: 2px solid black !important;
+}
+
+/* Additional specificity for Link wrapper */
+a .coolBeans:hover,
+a .coolBeans:focus {
+    background-color: #ce0036 !important;
+    color: white !important;
+    border: 2px solid black !important;
 }

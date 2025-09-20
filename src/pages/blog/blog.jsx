@@ -5,8 +5,10 @@ import WavNavbar from "../../components/Navbar/Navbar";
 import "./blog.css";
 import Footer from "../../components/Footer";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Blog = ({ isMobile }) => {
+    const { t } = useTranslation();
     const [selectedTags, setSelectedTags] = useState(new Set());
     const [viewAll, setViewAll] = useState(true); // New state for "View all" checkbox
     const [tags, setTags] = useState({
@@ -23,6 +25,25 @@ const Blog = ({ isMobile }) => {
         easing: "ease-in-out",
         disrespectUserMotionPreference: false,
     });
+
+    // Helper function to get display name for tags
+    const getTagDisplayName = (tag) => {
+        if (typeof tag === 'string') {
+            // If it's a string, find the corresponding tag object from the tags collection
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+            const allTags = [...(tags.TOPIC || []), ...(tags.PROJECT || []), ...(tags.GENRE || [])];
+            const tagObj = allTags.find(t => t.name === tag);
+            if (tagObj && currentLang === 'jp' && tagObj.nameJP) {
+                return tagObj.nameJP;
+            }
+            return tag;
+        }
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        if (currentLang === 'jp' && tag.nameJP) {
+            return tag.nameJP;
+        }
+        return tag.name;
+    };
 
     const filteredPosts = posts.filter((post) => {
         if (viewAll || selectedTags.size === 0) return true; // Show all when "View all" is checked or no tags selected
@@ -118,6 +139,7 @@ const Blog = ({ isMobile }) => {
                                     content={post.preview || post.content.substring(0, 200) + "..."}
                                     link={`/blog/${post.docId}`}
                                     isMobile={isMobile}
+                                    allTags={tags}
                                 />
                             ))
                         ) : (
@@ -167,29 +189,33 @@ const Blog = ({ isMobile }) => {
                                 TOPIC
                             </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
-                                {tags.TOPIC?.map((tag) => (
-                                    <li key={tag.name} style={{ marginBottom: "8px" }}>
-                                        <label
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                cursor: "pointer",
-                                                fontSize: "0.95em"
-                                            }}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedTags.has(tag.name)}
-                                                onChange={() => handleTagToggle(tag.name)}
-                                                style={{ 
-                                                    marginRight: "10px",
-                                                    transform: "scale(1.1)"
+                                {tags.TOPIC?.map((tag) => {
+                                    const tagName = typeof tag === 'string' ? tag : tag.name;
+                                    const displayName = getTagDisplayName(tag);
+                                    return (
+                                        <li key={tagName} style={{ marginBottom: "8px" }}>
+                                            <label
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.95em"
                                                 }}
-                                            />
-                                            {tag.name} ({posts.filter(post => post.topics && post.topics.includes(tag.name)).length})
-                                        </label>
-                                    </li>
-                                ))}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedTags.has(tagName)}
+                                                    onChange={() => handleTagToggle(tagName)}
+                                                    style={{ 
+                                                        marginRight: "10px",
+                                                        transform: "scale(1.1)"
+                                                    }}
+                                                />
+                                                {displayName} ({posts.filter(post => post.topics && post.topics.includes(tagName)).length})
+                                            </label>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
 
@@ -204,29 +230,33 @@ const Blog = ({ isMobile }) => {
                                 PROJECT
                             </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
-                                {tags.PROJECT?.map((tag) => (
-                                    <li key={tag.name} style={{ marginBottom: "8px" }}>
-                                        <label
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                cursor: "pointer",
-                                                fontSize: "0.95em"
-                                            }}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedTags.has(tag.name)}
-                                                onChange={() => handleTagToggle(tag.name)}
-                                                style={{ 
-                                                    marginRight: "10px",
-                                                    transform: "scale(1.1)"
+                                {tags.PROJECT?.map((tag) => {
+                                    const tagName = typeof tag === 'string' ? tag : tag.name;
+                                    const displayName = getTagDisplayName(tag);
+                                    return (
+                                        <li key={tagName} style={{ marginBottom: "8px" }}>
+                                            <label
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.95em"
                                                 }}
-                                            />
-                                            {tag.name} ({posts.filter(post => post.topics && post.topics.includes(tag.name)).length})
-                                        </label>
-                                    </li>
-                                ))}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedTags.has(tagName)}
+                                                    onChange={() => handleTagToggle(tagName)}
+                                                    style={{ 
+                                                        marginRight: "10px",
+                                                        transform: "scale(1.1)"
+                                                    }}
+                                                />
+                                                {displayName} ({posts.filter(post => post.topics && post.topics.includes(tagName)).length})
+                                            </label>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
 
@@ -241,29 +271,33 @@ const Blog = ({ isMobile }) => {
                                 GENRE
                             </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
-                                {tags.GENRE?.map((tag) => (
-                                    <li key={tag.name} style={{ marginBottom: "8px" }}>
-                                        <label
-                                            style={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                cursor: "pointer",
-                                                fontSize: "0.95em"
-                                            }}
-                                        >
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedTags.has(tag.name)}
-                                                onChange={() => handleTagToggle(tag.name)}
-                                                style={{ 
-                                                    marginRight: "10px",
-                                                    transform: "scale(1.1)"
+                                {tags.GENRE?.map((tag) => {
+                                    const tagName = typeof tag === 'string' ? tag : tag.name;
+                                    const displayName = getTagDisplayName(tag);
+                                    return (
+                                        <li key={tagName} style={{ marginBottom: "8px" }}>
+                                            <label
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    cursor: "pointer",
+                                                    fontSize: "0.95em"
                                                 }}
-                                            />
-                                            {tag.name} ({posts.filter(post => post.topics && post.topics.includes(tag.name)).length})
-                                        </label>
-                                    </li>
-                                ))}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedTags.has(tagName)}
+                                                    onChange={() => handleTagToggle(tagName)}
+                                                    style={{ 
+                                                        marginRight: "10px",
+                                                        transform: "scale(1.1)"
+                                                    }}
+                                                />
+                                                {displayName} ({posts.filter(post => post.topics && post.topics.includes(tagName)).length})
+                                            </label>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>

@@ -248,6 +248,7 @@ export const jp = {
 
     // Footer
     footer: {
-        copyright: "©️ 2025 Wavyrn • All Rights Reserved"
+        copyright: "©️ 2025 Wavyrn • All Rights Reserved",
+        newsletter: "ニュースレター"
     }
 };

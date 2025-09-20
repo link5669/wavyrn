@@ -28,6 +28,7 @@ import {
     Michelle,
     Neil,
     Quinne,
+    Miguel,
 } from "../../components/UserProfiles";
 import Overlay from "../../components/Overlay/Overlay";
 import { getPfpImage } from "../../utilities/utilities";
@@ -229,6 +230,8 @@ const About = ({ isMobile }) => {
                                                   user.name == "Sam Leigh"
                                                       ? "0% 40%"
                                                       : "0% 15%",
+                                              transform: user.name == "Miguel Manness" ? "scale(1.2)" : "none",
+                                              transformOrigin: "center center"
                                           }}
                                       />
                                       <div
@@ -299,6 +302,8 @@ const About = ({ isMobile }) => {
                                 <Julian isMobile={isMobile} />
                             ) : selectedUser.name == "Quinne Houck" ? (
                                 <Quinne isMobile={isMobile} />
+                            ) : selectedUser.name == "Miguel Manness" ? (
+                                <Miguel />
                             ) : (
                                 <p>No bio yet!</p>
                             )}

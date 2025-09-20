@@ -74,7 +74,7 @@ function Navbar() {
                 border: "1px solid rgba(255, 255, 255, 0.2)", 
                 borderRadius: "6px", 
                 minWidth: "120px", 
-                zIndex: 1003,
+                zIndex: 0,
                 padding: "5px 0"
               }}>
                 {languages.map((language) => (

@@ -27,6 +27,11 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
           src={getPfpImage(name)}
           alt={name}
           className="profile-pic-image"
+          style={{
+            objectPosition: "center",
+            transform: name === "Miguel Manness" ? "scale(1.2)" : "none",
+            transformOrigin: "center center"
+          }}
         />
         <div className="profile-pic-overlay">
           <span className="overlay-text">Learn more...</span>

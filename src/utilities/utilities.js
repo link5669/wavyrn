@@ -45,7 +45,9 @@ const getPfpImage = (name) => {
                                       ? "https://www.dl.dropboxusercontent.com/scl/fo/li2h0eqzj2b68h5s8kg7i/AHtl5dwKnoc58Ls853q6Ko4/large.png?rlkey=val11gfxy2ws763kzq0ddn4c2&e=1&dl=0"
                                       : name == "Julian Cabrera"
                                         ? julian
-                                        : "https://via.placeholder.com/150";
+                                        : name == "Miguel Manness"
+                                          ? "https://media.discordapp.net/attachments/690615563864768513/1418828937156497559/IMG_8878.jpg?ex=68cf8aeb&is=68ce396b&hm=ec1e2ae9585bdf86ab0777d6300cc86eca0fa2be764db4f162b4a58be34db7f3&=&format=webp&width=1109&height=1465"
+                                          : "https://via.placeholder.com/150";
 };
 
 export { getPfpImage };

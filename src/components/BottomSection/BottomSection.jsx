@@ -80,7 +80,7 @@ function BottomSection() {
               style={{ textDecoration: "none", color: "white" }}
               href="http://eepurl.com/iR3Ccc"
             >
-              <b>Join our Newsletter</b>
+              <b>{t('footer.newsletter')}</b>
             </a>
           </button>
           <p>{t('footer.copyright')}</p>

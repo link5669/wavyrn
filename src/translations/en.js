@@ -248,6 +248,7 @@ export const en = {
 
     // Footer
     footer: {
-        copyright: "©️ 2025 Wavyrn • All Rights Reserved"
+        copyright: "©️ 2025 Wavyrn • All Rights Reserved",
+        newsletter: "Join our Newsletter"
     }
 };

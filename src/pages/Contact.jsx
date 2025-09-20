@@ -105,7 +105,7 @@ const Contact = ({ isMobile }) => {
                 >
                     {t('contact.email')}
                 </h4>
-                <ContactSocialIcons />
+                <ContactSocialIcons color="#ce0031" />
                 <p style={{ textAlign: "center" }}>{sent}</p>
                 <form
                     style={{

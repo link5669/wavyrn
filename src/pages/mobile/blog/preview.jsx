@@ -4,15 +4,34 @@ import { Col, Container, Row } from "react-bootstrap";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
+const Preview = ({ isMobile, title, author, date, tags, link, content, allTags }) => {
+    // Helper function to get display name for tags
+    const getTagDisplayName = (tag) => {
+        if (typeof tag === 'string') {
+            // If it's a string, find the corresponding tag object from the tags collection
+            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+            const allTagsArray = [...(allTags?.TOPIC || []), ...(allTags?.PROJECT || []), ...(allTags?.GENRE || [])];
+            const tagObj = allTagsArray.find(t => t.name === tag);
+            if (tagObj && currentLang === 'jp' && tagObj.nameJP) {
+                return tagObj.nameJP;
+            }
+            return tag;
+        }
+        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        if (currentLang === 'jp' && tag.nameJP) {
+            return tag.nameJP;
+        }
+        return tag.name;
+    };
     return (
         <Link to={link} style={{ textDecoration: "none" }}>
             <div
                 style={{
                     position: "relative", // Required for pseudo-element positioning
                     padding: "5vw",
-                    backgroundColor: "rgba(0,0,0,.8)",
-                    color: "white", // White text for contrast
+                    left: "15px",
+                    backgroundColor: "black",
+                    color: "black", // Black text for contrast
                     width: isMobile ? "90%" : "40vw", // Responsive width
                     maxWidth: "600px", // Max width for larger screens
                     textAlign: "left", // Center align text
@@ -24,11 +43,11 @@ const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
                 <div
                     style={{
                         position: "absolute",
-                        top: "8px", // Slight offset below
-                        left: "8px", // Slight offset to the right
+                        top: "-8px", // Slight offset below
+                        left: "-8px", // Slight offset to the right
                         width: "100%",
                         height: "100%",
-                        backgroundColor: "rgba(0,0,0,.5)",
+                        backgroundColor: "rgba(255, 255, 255, 1)",
                         borderRadius: isMobile ? "0px" : "10px", // Match main box
                         zIndex: 0, // Place behind the main box
                         padding: "2vw",
@@ -65,7 +84,7 @@ const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
                     zIndex: 100,
                     position: "relative",
                     textAlign: "left",
-                    color: "rgba(255, 255, 255, 0.8)"
+                    color: "rgba(0, 0, 0, 0.6)"
                 }}>
                     {date}
                 </div>
@@ -82,16 +101,16 @@ const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
                                 <span
                                     key={index}
                                     style={{
-                                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                        backgroundColor: "#CE0036",
                                         color: "white",
                                         padding: "3px 10px",
                                         borderRadius: "12px",
                                         fontSize: "12px",
                                         fontWeight: "500",
-                                        border: "1px solid rgba(255, 255, 255, 0.3)"
+                                        border: "1px solid #CE0036"
                                     }}
                                 >
-                                    #{tag[0] || tag}
+                                    #{getTagDisplayName(tag)}
                                 </span>
                             ))}
                         </div>
@@ -99,7 +118,7 @@ const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
                 )}
 
                 {/* Content Preview */}
-                {content && typeof content === 'string' && (
+                {/* {content && typeof content === 'string' && (
                     <div style={{ marginTop: "1rem", zIndex: 100, position: "relative" }}>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
@@ -128,7 +147,7 @@ const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
                             {content}
                         </ReactMarkdown>
                     </div>
-                )}
+                )} */}
             </div>
             <hr
                 style={{

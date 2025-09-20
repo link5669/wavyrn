@@ -230,7 +230,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           position: "relative",
           margin: "0 auto",
           minHeight: "100vh",
-          paddingBottom: "50px",
+          // paddingBottom: "50px",
         }}
       >
         {/* <br /> */}

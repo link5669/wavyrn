@@ -29,6 +29,7 @@ const soundDesign = [
     },
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
+    { name: `Miguel Manness`, title: `Sound Designer, Composer` },
     { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
 
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
@@ -46,6 +47,7 @@ const music = [
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
+    { name: `Miguel Manness`, title: `Sound Designer, Composer` },
     { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
 ];
 const dialogue = [
@@ -73,6 +75,7 @@ const allUsers = [
     },
     { name: `Austin Burkett`, title: `Sound Designer, Composer` },
     { name: `Julian Cabrera`, title: `Sound Designer, Composer` },
+    { name: `Miguel Manness`, title: `Sound Designer, Composer` },
 
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },

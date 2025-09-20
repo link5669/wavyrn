@@ -104,7 +104,7 @@ export default function urlShortenerRoute(firebaseApp) {
         message: "URL shortened successfully",
         id: docRef.id,
         data: urlData,
-        shortUrl: `${req.protocol}://${req.get('host')}/s/${slug}`
+        shortUrl: `${req.protocol}://${req.get('host')}/${slug}`
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -137,7 +137,43 @@ export default function urlShortenerRoute(firebaseApp) {
     }
   });
 
-  // GET route to retrieve a single shortened URL
+  // GET route to redirect by slug (for frontend SPA redirects)
+  router.get("/redirect/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      
+      // Query Firestore to find the URL by slug
+      const q = query(collection(db, "shortenedUrls"), where("slug", "==", slug));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        return res.status(404).json({
+          error: "Shortened URL not found"
+        });
+      }
+      
+      // Get the first (and should be only) document
+      const docSnapshot = querySnapshot.docs[0];
+      const urlData = docSnapshot.data();
+      
+      // Increment click count
+      const docRef = doc(db, "shortenedUrls", docSnapshot.id);
+      await updateDoc(docRef, {
+        clicks: urlData.clicks + 1
+      });
+      
+      // Return the original URL for frontend redirect
+      res.json({
+        originalUrl: urlData.originalUrl,
+        title: urlData.title,
+        clicks: urlData.clicks + 1
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // GET route to retrieve a single shortened URL by document ID
   router.get("/:id", async (req, res) => {
     try {
       const { id } = req.params;
