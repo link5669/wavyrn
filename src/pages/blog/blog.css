@@ -57,9 +57,7 @@
 }
 
 .coolBeans:hover {
-    background: white;
+    background-color: #ce0036;
     color: white;
-    background-color: black;
-    opacity: 0.9;
-    border: 2px solid #ce0036;
+    border: 2px solid black;
 }

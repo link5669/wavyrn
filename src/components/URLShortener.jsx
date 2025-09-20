@@ -469,16 +469,16 @@ const URLShortenerEditor = () => {
                       <div style={{ marginBottom: "8px" }}>
                         <strong>Short URL: </strong>
                         <a
-                          href={`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/s/${url.slug}`}
+                          href={`${window.location.protocol}//${window.location.host}/${url.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{ color: "#007bff", textDecoration: "none" }}
                         >
-                          wavyrn.com/s/{url.slug}
+                          {window.location.host}/{url.slug}
                         </a>
                         <button
                           onClick={() =>
-                            copyToClipboard(`wavyrn.com/s/${url.slug}`)
+                            copyToClipboard(`${window.location.host}/${url.slug}`)
                           }
                           style={{
                             marginLeft: "10px",

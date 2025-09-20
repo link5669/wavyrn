@@ -3,7 +3,7 @@ import "./blog.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-const Preview = ({ isMobile, title, image, subtitle, content, link }) => {
+const Preview = ({ isMobile, title, image, author, date, tags, content, link }) => {
     return (
         <div
             style={{
@@ -18,7 +18,31 @@ const Preview = ({ isMobile, title, image, subtitle, content, link }) => {
             }}
         >
             <h2 style={{ textAlign: "left" }}>{title}</h2>
-            <h4 style={{ color: "grey", fontSize: "1.4em" }}>{subtitle}</h4>
+            <h4 style={{ color: "grey", fontSize: "1.2em", marginBottom: "10px" }}>by {author}</h4>
+            <p style={{ color: "grey", fontSize: "1em", marginBottom: "15px" }}>{date}</p>
+            
+            {/* Tags */}
+            {tags && tags.length > 0 && (
+                <div style={{ marginBottom: "15px" }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                        {tags.map((tag, index) => (
+                            <span
+                                key={index}
+                                style={{
+                                    backgroundColor: "#CE0036",
+                                    color: "white",
+                                    padding: "4px 12px",
+                                    borderRadius: "16px",
+                                    fontSize: "14px",
+                                    fontWeight: "500"
+                                }}
+                            >
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )}
             {image !== ""  && (
             <img
                 style={{

@@ -109,6 +109,7 @@ const Post = ({ isMobile, e }) => {
 
         {/* Main content section - white background */}
         <div
+          className="mobile-page-container"
           style={{
             backgroundColor: "white",
             minHeight: "calc(100vh - 140px)", // Adjust for navbar and button area

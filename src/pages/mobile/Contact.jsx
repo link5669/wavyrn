@@ -52,6 +52,7 @@ const Contact = ({ isMobile }) => {
         <>
             <WavNavbar showLogo={true} />
             <div
+                className="mobile-page-container"
                 style={{
                     minHeight: "105vh",
                     width: "100vw",

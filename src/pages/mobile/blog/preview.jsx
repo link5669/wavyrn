@@ -47,25 +47,56 @@ const Preview = ({ isMobile, title, author, date, tags, link, content }) => {
                     {title}
                 </h2>
 
-                <Row
-                    style={{
-                        justifyContent: "space-between", // Space between author and date
-                        fontSize: "1em",
-                        marginBottom: "1rem",
-                        zIndex: 100,
-                        position: "relative",
-                    }}
-                >
-                    <Col style={{ textAlign: "left" }}>{author}</Col>
-                    <Col style={{ textAlign: "right" }}>{date}</Col>
-                </Row>
+                {/* Author/Byline */}
+                <div style={{
+                    fontSize: "1em",
+                    marginBottom: "8px",
+                    zIndex: 100,
+                    position: "relative",
+                    textAlign: "left"
+                }}>
+                    by {author}
+                </div>
+
+                {/* Date */}
+                <div style={{
+                    fontSize: "0.9em",
+                    marginBottom: "15px",
+                    zIndex: 100,
+                    position: "relative",
+                    textAlign: "left",
+                    color: "rgba(255, 255, 255, 0.8)"
+                }}>
+                    {date}
+                </div>
 
                 {/* Tags */}
-                {tags.map((tag, index) => (
-                    <span key={index} style={{ padding: "0.3rem 0" }}>
-                        <b>#{tag} </b>
-                    </span>
-                ))}
+                {tags && tags.length > 0 && (
+                    <div style={{ 
+                        marginBottom: "15px", 
+                        zIndex: 100, 
+                        position: "relative" 
+                    }}>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                            {tags.map((tag, index) => (
+                                <span
+                                    key={index}
+                                    style={{
+                                        backgroundColor: "rgba(255, 255, 255, 0.2)",
+                                        color: "white",
+                                        padding: "3px 10px",
+                                        borderRadius: "12px",
+                                        fontSize: "12px",
+                                        fontWeight: "500",
+                                        border: "1px solid rgba(255, 255, 255, 0.3)"
+                                    }}
+                                >
+                                    #{tag[0] || tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Content Preview */}
                 {content && typeof content === 'string' && (

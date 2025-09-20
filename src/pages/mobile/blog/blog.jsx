@@ -76,7 +76,12 @@ const Blog = ({ isMobile }) => {
 
         setTimeout(() => {
             if (tagName === "View All") {
-                setSelectedTags(["View All"]);
+                // Toggle "View All" - if it's currently selected, uncheck it, otherwise check it
+                if (selectedTags.includes("View All")) {
+                    setSelectedTags([]); // Uncheck "View All", show no filters
+                } else {
+                    setSelectedTags(["View All"]); // Check "View All", clear other filters
+                }
             } else {
                 let newSelectedTags = [...selectedTags];
 
@@ -115,6 +120,7 @@ const Blog = ({ isMobile }) => {
             )}
 
             <div
+                className="mobile-page-container"
                 style={{
                     backgroundColor: "#ce0036",
                     minHeight: "100vh",

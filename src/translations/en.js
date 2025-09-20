@@ -143,7 +143,7 @@ export const en = {
     // Blog page
     blog: {
         openFilter: "Open Filter",
-        closeFilter: "Close Filter",
+        closeFilter: "View All",
         topic: "TOPIC",
         project: "PROJECT",
         genre: "GENRE",

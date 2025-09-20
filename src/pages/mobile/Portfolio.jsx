@@ -218,7 +218,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
 
   return (
     <div
-      className={`portfolio-container  ${isVisible ? "fade-in" : "fade-in-initial"}`}
+      className={`portfolio-container mobile-page-container ${isVisible ? "fade-in" : "fade-in-initial"}`}
       style={{ backgroundColor: "#CE0036" }}
     >
       <div className={`navbar-fade-in ${isVisible ? "visible" : ""}`}>

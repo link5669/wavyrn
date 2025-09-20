@@ -94,6 +94,7 @@ const About = ({ isMobile }) => {
 
     return (
         <div
+            className="mobile-page-container"
             style={{
                 backgroundColor: "#ce0036",
                 minHeight: "100vh",

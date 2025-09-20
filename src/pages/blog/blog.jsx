@@ -8,6 +8,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 const Blog = ({ isMobile }) => {
     const [selectedTags, setSelectedTags] = useState(new Set());
+    const [viewAll, setViewAll] = useState(true); // New state for "View all" checkbox
     const [tags, setTags] = useState({
         TOPIC: [],
         PROJECT: [],
@@ -24,11 +25,12 @@ const Blog = ({ isMobile }) => {
     });
 
     const filteredPosts = posts.filter((post) => {
-        if (selectedTags.size === 0) return true; // Show all when no tags selected
+        if (viewAll || selectedTags.size === 0) return true; // Show all when "View all" is checked or no tags selected
         return post.topics.some((topic) => selectedTags.has(topic)); // topics is an array of strings
     });
 
     const handleTagToggle = (tagName) => {
+        setViewAll(false); // Uncheck "View all" when any filter is selected
         setSelectedTags((prev) => {
             const newTags = new Set(prev);
             if (newTags.has(tagName)) {
@@ -37,6 +39,16 @@ const Blog = ({ isMobile }) => {
                 newTags.add(tagName);
             }
             return newTags;
+        });
+    };
+
+    const handleViewAllToggle = () => {
+        setViewAll((prev) => {
+            const newViewAll = !prev;
+            if (newViewAll) {
+                setSelectedTags(new Set()); // Clear all selected tags when "View all" is checked
+            }
+            return newViewAll;
         });
     };
 
@@ -99,7 +111,9 @@ const Blog = ({ isMobile }) => {
                                 <Preview
                                     key={post.docId}
                                     title={post.title}
-                                    subtitle={`by ${post.author}\n${post.date}`}
+                                    author={post.author}
+                                    date={post.date}
+                                    tags={post.topics || []}
                                     image=""
                                     content={post.preview || post.content.substring(0, 200) + "..."}
                                     link={`/blog/${post.docId}`}
@@ -116,6 +130,31 @@ const Blog = ({ isMobile }) => {
 
                     <div className="tags-section">
                         <h2 style={{ color: "#CE0036", marginTop: "0", textAlign: "left" }}>FILTER</h2>
+                        
+                        {/* View All Checkbox */}
+                        <div style={{ marginBottom: "20px" }}>
+                            <label
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    cursor: "pointer",
+                                    fontSize: "1.1em",
+                                    fontWeight: "600",
+                                    color: "#CE0036"
+                                }}
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={viewAll}
+                                    onChange={handleViewAllToggle}
+                                    style={{ 
+                                        marginRight: "10px",
+                                        transform: "scale(1.2)"
+                                    }}
+                                />
+                                View All
+                            </label>
+                        </div>
                         
                         {/* TOPIC Category */}
                         <div style={{ marginBottom: "30px" }}>

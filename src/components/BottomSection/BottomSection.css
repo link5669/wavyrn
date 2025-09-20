@@ -84,3 +84,15 @@
 .copyright-text {
     margin: 0;
 }
+
+/* Utility class for mobile pages to add bottom padding for fixed footer */
+.mobile-page-container {
+    padding-bottom: 12vh; /* Slightly more than footer height (10vh) for safe spacing */
+}
+
+/* Add extra padding when footer might be expanded */
+@media (max-height: 600px) {
+    .mobile-page-container {
+        padding-bottom: 15vh; /* More padding for smaller screens where footer expansion is more likely */
+    }
+}

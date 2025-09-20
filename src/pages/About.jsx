@@ -74,13 +74,13 @@ const About = ({ isMobile }) => {
         },
         {
             title: t('about.services.soundDesign.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/ANtFOOWXFy6WonZNKsniEyA/SVGs/icon_waveform_red.svg?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AA0AEMcKF11NgdtOdI0RUu8/icon_waveform_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
             checklist: t('about.services.soundDesign.checklist'),
             description: t('about.services.soundDesign.description')
         },
         {
             title: t('about.services.voiceOver.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/APpbd3eid8QkfpwoQxdIKXE/SVGs/icon_microphone_red.svg?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/ABL84ZQNHZV0BcftDVrhgYo/icon_microphone_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
             checklist: t('about.services.voiceOver.checklist'),
             description: t('about.services.voiceOver.description')
         },

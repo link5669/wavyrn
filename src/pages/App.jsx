@@ -20,6 +20,7 @@ import ScrollToTop from "../components/ScrollToTop";
 import GeneralUseRedirect from "./GeneralUseRedirect";
 import PatreonRedirect from "./PatreonCatalogRedirect";
 import NewsletterRedirect from "./NewsletterRedirect";
+import ShortUrlRedirect from "../components/ShortUrlRedirect";
 import BLOG_PAGES from "./blog/pages";
 import MOBILE_BLOG_PAGES from "./mobile/blog/pages";
 import GenreTemplate from "./GenreTemplate";
@@ -102,8 +103,8 @@ function App() {
   return (
     <BrowserRouter>
       <LanguageProvider>
-        <ScrollToTop>
-          <Routes>
+      <ScrollToTop>
+        <Routes>
           <Route
             path="/"
             element={isMobile ? <MobileHome /> : <Home isMobile={isMobile} />}
@@ -297,6 +298,12 @@ function App() {
           <Route path="/GeneralUse" element={<GeneralUseRedirect />} />
           <Route path="/PatreonCatalogue" element={<PatreonRedirect />} />
           <Route path="/editor" element={<Editor />} />
+          
+          {/* Short URL redirects */}
+          <Route path="/s/:slug" element={<ShortUrlRedirect />} />
+          
+          {/* Catch-all route for potential short URLs at root level */}
+          <Route path="/:slug" element={<ShortUrlRedirect />} />
         </Routes>
       </ScrollToTop>
       </LanguageProvider>
