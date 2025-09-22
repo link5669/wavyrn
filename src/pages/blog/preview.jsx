@@ -100,7 +100,7 @@ const Preview = ({ isMobile, title, image, author, date, tags, content, link, al
                             em: ({ children }) => <em>{children}</em>,
                         }}
                     >
-                        {content.length > 300 ? content.substring(0, 400) + '...' : content}
+                        {content.length > 300 ? content.substring(0, 800) + '...' : content}
                     </ReactMarkdown>
                 </div>
             )}
