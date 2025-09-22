@@ -186,8 +186,9 @@ const Contact = ({ isMobile }) => {
                             backgroundColor: "#f8f8f8",
                             height: "4em",
                             borderRadius: "10px",
-                            outlineColor: "#eeeeee",
-                            borderStyle: "solid",
+                                    borderColor: "#000000",
+                                    borderStyle: "solid",
+                                    borderWidth: "1px",
                             width: "100%",
                         }}
                     />
@@ -203,8 +204,9 @@ const Contact = ({ isMobile }) => {
                             backgroundColor: "#f8f8f8",
                             height: "10em",
                             borderRadius: "10px",
-                            outlineColor: "#eeeeee",
-                            borderStyle: "solid",
+                                    borderColor: "#000000",
+                                    borderStyle: "solid",
+                                    borderWidth: "1px",
                             width: "100%",
                             paddingTop: "20px",
                         }}
