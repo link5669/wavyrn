@@ -59,6 +59,12 @@ const Blog = ({ isMobile }) => {
             } else {
                 newTags.add(tagName);
             }
+            
+            // If no tags are selected after this toggle, automatically check "View All"
+            if (newTags.size === 0) {
+                setViewAll(true);
+            }
+            
             return newTags;
         });
     };
