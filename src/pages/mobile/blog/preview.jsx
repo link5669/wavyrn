@@ -118,8 +118,14 @@ const Preview = ({ isMobile, title, author, date, tags, link, content, allTags }
                 )}
 
                 {/* Content Preview */}
-                {/* {content && typeof content === 'string' && (
-                    <div style={{ marginTop: "1rem", zIndex: 100, position: "relative" }}>
+                {content && typeof content === 'string' && (
+                    <div style={{ 
+                        marginTop: "1rem", 
+                        zIndex: 100, 
+                        position: "relative",
+                        lineHeight: "1.5",
+                        wordBreak: "break-word"
+                    }}>
                         <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
@@ -144,10 +150,10 @@ const Preview = ({ isMobile, title, author, date, tags, link, content, allTags }
                                 em: ({ children }) => <em>{children}</em>,
                             }}
                         >
-                            {content}
+                            {content.length > 200 ? content.substring(0, 200) + '...' : content}
                         </ReactMarkdown>
                     </div>
-                )} */}
+                )}
             </div>
             <hr
                 style={{
