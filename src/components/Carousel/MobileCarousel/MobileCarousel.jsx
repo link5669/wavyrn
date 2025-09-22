@@ -14,10 +14,71 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     const [touchStart, setTouchStart] = useState(0);
     const [lastSwipeDirection, setLastSwipeDirection] = useState("right");
     const [touchEnd, setTouchEnd] = useState(0);
+    const [arrowPositions, setArrowPositions] = useState({ left: -20, right: -20 });
     const audioRef = useRef(null);
     const carouselRef = useRef(null);
+    const albumRefs = useRef([]);
 
     const audioCache = useRef({});
+
+    // Function to calculate arrow positions based on visible albums
+    const calculateArrowPositions = () => {
+        if (albumRefs.current.length >= 3) {
+            const leftAlbum = albumRefs.current[0];
+            const centerAlbum = albumRefs.current[1];
+            const rightAlbum = albumRefs.current[2];
+            
+            if (leftAlbum && centerAlbum && rightAlbum && carouselRef.current) {
+                const carouselRect = carouselRef.current.getBoundingClientRect();
+                const leftAlbumRect = leftAlbum.getBoundingClientRect();
+                const centerAlbumRect = centerAlbum.getBoundingClientRect();
+                const rightAlbumRect = rightAlbum.getBoundingClientRect();
+                
+                // Calculate base positions
+                let leftPosition = leftAlbumRect.left - carouselRect.left - 20; // 20px offset
+                let rightPosition = rightAlbumRect.right - carouselRect.left + 20; // 20px offset
+                
+                // Ensure arrows don't overlap with center album
+                const centerLeft = centerAlbumRect.left - carouselRect.left;
+                const centerRight = centerAlbumRect.right - carouselRect.left;
+                const arrowWidth = 40; // Arrow width
+                const minDistance = 10; // Minimum distance from album edge
+                
+                // Adjust left arrow if it would overlap with center album
+                if (leftPosition + arrowWidth + minDistance > centerLeft) {
+                    leftPosition = centerLeft - arrowWidth - minDistance;
+                }
+                
+                // Adjust right arrow if it would overlap with center album
+                if (rightPosition - minDistance < centerRight) {
+                    rightPosition = centerRight + minDistance;
+                }
+                
+                // Ensure arrows don't go outside carousel bounds
+                const carouselWidth = carouselRect.width;
+                leftPosition = Math.max(leftPosition, 10); // At least 10px from left edge
+                rightPosition = Math.min(rightPosition, carouselWidth - arrowWidth - 10); // At least 10px from right edge
+                
+                setArrowPositions({ left: leftPosition, right: rightPosition });
+            }
+        }
+    };
+
+    // Update arrow positions when component mounts or albums change
+    useEffect(() => {
+        const timer = setTimeout(calculateArrowPositions, 100);
+        return () => clearTimeout(timer);
+    }, [currentIndex, albums]);
+
+    // Update arrow positions on window resize
+    useEffect(() => {
+        const handleResize = () => {
+            calculateArrowPositions();
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Preload all audio files on component mount
     useEffect(() => {
@@ -256,7 +317,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                     onClick={handleLeftClick}
                     style={{
                         position: "absolute",
-                        // left: "-20px",
+                        left: `${arrowPositions.left}px`, // Dynamic position based on leftmost album
                         top: "100px", // Position at the center of album cover which is 200px height
                         zIndex: 10,
                         background: "rgba(0,0,0,0.5)",
@@ -297,6 +358,9 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                         return (
                             <div
                                 key={album.id}
+                                ref={(el) => {
+                                    if (el) albumRefs.current[index] = el;
+                                }}
                                 style={{
                                     filter:
                                         index !== 1
@@ -405,7 +469,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                     onClick={handleRightClick}
                     style={{
                         position: "absolute",
-                        right: "0px",
+                        left: `${arrowPositions.right}px`, // Dynamic position based on rightmost album
                         top: "100px", // Position at the center of album cover which is 200px height
                         zIndex: 10,
                         background: "rgba(0,0,0,0.5)",

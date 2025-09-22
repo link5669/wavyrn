@@ -2,8 +2,10 @@ import "./Service.css";
 import HRDiv from "../HRDiv";
 import { Col, Row } from "react-bootstrap";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Music = ({ isMobile }) => {
+    const { t } = useTranslation();
     const leftColRef = useRef(null);
     const rightColRef = useRef(null);
 
@@ -93,7 +95,7 @@ const Music = ({ isMobile }) => {
                             margin: 0,
                         }}
                     >
-                        Music
+                        {t('about.services.music.title')}
                     </h2>
                 </div>
                 <h5
@@ -108,8 +110,7 @@ const Music = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                  We are storytellers with a passion for audio. From short films to podcasts, first-person to rhythm games, we’ll score the moment for you.
-
+                  {t('about.services.music.description')}
                 </h5>
                 <ul
                     style={{
@@ -127,11 +128,9 @@ const Music = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                  <li>Unique Instruments & Styles</li>
-                  <li>Orchestration & Arranging</li>
-                  <li>Music Editing & Copying</li>
-                  <li>Live Session Recording</li>
-                  <li>Interactive Music Systems</li>
+                  {t('about.services.music.checklist').map((item, index) => (
+                      <li key={index}>{item}</li>
+                  ))}
                 </ul>
             </div>
         );

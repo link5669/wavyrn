@@ -2,8 +2,10 @@ import { Col, Row } from "react-bootstrap";
 import HRDiv from "../HRDiv";
 import "./Service.css";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const AudioDirecting = ({ isMobile }) => {
+  const { t } = useTranslation();
   const leftColRef = useRef(null);
   const rightColRef = useRef(null);
 
@@ -92,7 +94,7 @@ const AudioDirecting = ({ isMobile }) => {
               margin: 0,
             }}
           >
-            Audio Direction
+            {t('about.services.audioDirection.title')}
           </h2>
         </div>
         <h5
@@ -107,9 +109,7 @@ const AudioDirecting = ({ isMobile }) => {
             color: "white", // Ensure text is visible
           }}
         >
-          We’re committed to bringing you the best audio production experience.
-          We’ll realize the audio process in its entirety for you, even the
-          planners.
+          {t('about.services.audioDirection.description')}
         </h5>
         <ul
           style={{
@@ -127,11 +127,9 @@ const AudioDirecting = ({ isMobile }) => {
             color: "white", // Ensure text is visible
           }}
         >
-          <li>Audio Scoping & Roadmaps</li>
-          <li>Budgeting & Contracting</li>
-          <li>Workflow Management</li>
-          <li>Audio Cataloging</li>
-          <li>Asset Review & QA</li>
+          {t('about.services.audioDirection.checklist').map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
       </div>
     );

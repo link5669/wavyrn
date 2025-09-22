@@ -51,7 +51,7 @@ const Blog = ({ isMobile }) => {
     };
 
     const filteredPosts = posts.filter((post) => {
-        if (selectedTags.includes("View All")) return true;
+        if (selectedTags.includes("View All") || selectedTags.includes(t('blog.viewAll'))) return true;
         return post.topics.some((topic) => {
             const topicName = typeof topic === 'string' ? topic : topic.name;
             return selectedTags.includes(topicName);
@@ -152,18 +152,18 @@ const Blog = ({ isMobile }) => {
         setAnimatingPosts(filteredPosts.map(post => post.docId));
 
         setTimeout(() => {
-            if (tagName === "View All") {
+            if (tagName === "View All" || tagName === t('blog.viewAll')) {
                 // Toggle "View All" - if it's currently selected, uncheck it, otherwise check it
-                if (selectedTags.includes("View All")) {
+                if (selectedTags.includes("View All") || selectedTags.includes(t('blog.viewAll'))) {
                     setSelectedTags([]); // Uncheck "View All", show no filters
                 } else {
-                    setSelectedTags(["View All"]); // Check "View All", clear other filters
+                    setSelectedTags([t('blog.viewAll')]); // Check "View All", clear other filters
                 }
             } else {
                 let newSelectedTags = [...selectedTags];
 
-                if (newSelectedTags.includes("View All")) {
-                    newSelectedTags = newSelectedTags.filter(tag => tag !== "View All");
+                if (newSelectedTags.includes("View All") || newSelectedTags.includes(t('blog.viewAll'))) {
+                    newSelectedTags = newSelectedTags.filter(tag => tag !== "View All" && tag !== t('blog.viewAll'));
                 }
 
                 if (newSelectedTags.includes(tagName)) {
@@ -173,7 +173,7 @@ const Blog = ({ isMobile }) => {
                 }
 
                 if (newSelectedTags.length === 0) {
-                    newSelectedTags = ["View All"];
+                    newSelectedTags = [t('blog.viewAll')];
                 }
 
                 setSelectedTags(newSelectedTags);
@@ -263,10 +263,10 @@ const Blog = ({ isMobile }) => {
                         >
                             {/* View All Button */}
                             <button
-                                onClick={() => toggleTag("View All")}
+                                onClick={() => toggleTag(t('blog.viewAll'))}
                                 style={{
                                     padding: "10px 20px",
-                                    backgroundColor: selectedTags.includes("View All") ? "#ddd" : "white",
+                                    backgroundColor: (selectedTags.includes("View All") || selectedTags.includes(t('blog.viewAll'))) ? "#ddd" : "white",
                                     border: "none",
                                     borderRadius: "20px",
                                     color: "black",
@@ -286,7 +286,7 @@ const Blog = ({ isMobile }) => {
                                     display: "inline-block",
                                     position: "relative",
                                 }}>
-                                    {selectedTags.includes("View All") && (
+                                    {(selectedTags.includes("View All") || selectedTags.includes(t('blog.viewAll'))) && (
                                         <span style={{
                                             position: "absolute",
                                             top: "50%",
@@ -296,7 +296,7 @@ const Blog = ({ isMobile }) => {
                                         }}>✓</span>
                                     )}
                                 </span>
-                                {t('blog.closeFilter')}
+                                {t('blog.viewAll')}
                             </button>
 
                             {/* Filter Categories */}

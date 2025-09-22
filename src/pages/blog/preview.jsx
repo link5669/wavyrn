@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import "./blog.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Preview = ({ isMobile, title, image, author, date, tags, content, link, allTags }) => {
+    const { t } = useTranslation();
+    
     // Helper function to get display name for tags
     const getTagDisplayName = (tag) => {
         if (typeof tag === 'string') {
@@ -105,7 +108,7 @@ const Preview = ({ isMobile, title, image, author, date, tags, content, link, al
                 </div>
             )}
             <Link to={link}>
-                <button className="coolBeans">Learn more</button>
+                <button className="coolBeans">{t('common.learnMore')}</button>
             </Link>
         </div>
     );

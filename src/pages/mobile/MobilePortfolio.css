@@ -76,13 +76,6 @@
     color: #666; /* Shadow color */
 }
 
-.sfx-button:hover::before {
-    content: attr(data-text);
-    position: absolute;
-    color: white;
-    top: -2px;
-    left: -2px;
-}
 
 .enter-button {
     border: 1px solid white;

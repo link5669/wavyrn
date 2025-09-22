@@ -4,9 +4,12 @@ import { useSwipeable } from "react-swipeable";
 import "./SingleCarousel.css";
 
 const Carousel = ({ items }) => {
-    // Start at index 0 for the first item
-    const [currentIndex, setCurrentIndex] = useState(0);
+    // Start at index 1 for seamless infinite scroll (0 is duplicate of last item)
+    const [currentIndex, setCurrentIndex] = useState(1);
     const [isTransitioning, setIsTransitioning] = useState(true);
+    
+    // Create extended array with duplicates for seamless infinite scroll
+    const extendedItems = [items[items.length - 1], ...items, items[0]];
 
     const handlers = useSwipeable({
         onSwipedLeft: () => goToNext(),
@@ -18,19 +21,38 @@ const Carousel = ({ items }) => {
 
     const goToPrevious = () => {
         if (!isTransitioning) return;
-        if (currentIndex <= 0) return;
-        setCurrentIndex(currentIndex - 1);
+        const newIndex = currentIndex - 1;
+        setCurrentIndex(newIndex);
+        
+        // If we're at the duplicate first item (index 0), jump to real last item
+        if (newIndex === 0) {
+            setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(items.length);
+                setTimeout(() => setIsTransitioning(true), 50);
+            }, 500);
+        }
     };
 
     const goToNext = () => {
         if (!isTransitioning) return;
-        if (currentIndex >= items.length - 1) return;
-        setCurrentIndex(currentIndex + 1);
+        const newIndex = currentIndex + 1;
+        setCurrentIndex(newIndex);
+        
+        // If we're at the duplicate last item (index extendedItems.length - 1), jump to real first item
+        if (newIndex === extendedItems.length - 1) {
+            setTimeout(() => {
+                setIsTransitioning(false);
+                setCurrentIndex(1);
+                setTimeout(() => setIsTransitioning(true), 50);
+            }, 500);
+        }
     };
 
     const goToSlide = (index) => {
         if (!isTransitioning) return;
-        setCurrentIndex(index);
+        // Adjust index to account for the duplicate items (add 1 to account for duplicate at start)
+        setCurrentIndex(index + 1);
     };
 
 
@@ -89,7 +111,7 @@ const Carousel = ({ items }) => {
                       willChange: "transform",
                   }}
               >
-                  {items.map((item, index) => (
+                  {extendedItems.map((item, index) => (
                       <div
                           key={index}
                           style={{
@@ -157,7 +179,7 @@ const Carousel = ({ items }) => {
                     <button
                         key={index}
                         className={`carousel-dot ${
-                            index === currentIndex ? "active" : ""
+                            index === (currentIndex - 1) ? "active" : ""
                         }`}
                         onClick={() => goToSlide(index)}
                     />

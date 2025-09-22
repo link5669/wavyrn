@@ -2,8 +2,10 @@ import "./Service.css";
 import HRDiv from "../HRDiv";
 import { Col, Row } from "react-bootstrap";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const SoundDesign = ({ isMobile }) => {
+    const { t } = useTranslation();
     const leftColRef = useRef(null);
     const rightColRef = useRef(null);
 
@@ -93,7 +95,7 @@ const SoundDesign = ({ isMobile }) => {
                             margin: 0,
                         }}
                     >
-                        Sound Design
+                        {t('about.services.soundDesign.title')}
                     </h2>
                 </div>
                 <h5
@@ -108,8 +110,7 @@ const SoundDesign = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                  Even the smallest footstep can describe your surroundings. Whether it’s a sonic logo or the cackle of a tavern fireplace, every sound is made unique.
-
+                  {t('about.services.soundDesign.description')}
                 </h5>
                 <ul
                     style={{
@@ -127,11 +128,9 @@ const SoundDesign = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    <li>Custom Palettes</li>
-                    <li>UI & Sonic Branding</li>
-                    <li>On-Site Recording</li>
-                    <li>Technical Implementation</li>
-                    <li>Post-Production & Cinematics</li>
+                    {t('about.services.soundDesign.checklist').map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
                 </ul>
             </div>
         );

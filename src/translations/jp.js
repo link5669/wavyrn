@@ -132,7 +132,7 @@ export const jp = {
             email: "メールアドレス", 
             subject: "お問い合わせ種別",
             message: "お問い合わせ内容",
-            sendButton: "",
+            sendButton: "送信",
             captchaError: "",
             fillFieldsError: "",
             sent: "送信",
@@ -257,5 +257,35 @@ export const jp = {
     footer: {
         copyright: "©️ 2025 Wavyrn • All Rights Reserved",
         newsletter: "ニュースレター"
+    },
+
+    // Common UI elements
+    common: {
+        learnMore: "詳細を見る",
+        send: "送信"
+    },
+
+    // Portfolio page
+    portfolio: {
+        heroTitle: "オーディオビジュアルリール2025",
+        ourWork: "制作実績",
+        videoGame: "ビデオゲーム",
+        audioLibrary: "音響制作",
+        single: "シングル",
+        rhythmGame: "リズムゲーム",
+        ttrpgShowcase: "テーブルトークRPG",
+        shortFilm: "短編映画",
+        musical: "ミュージカル",
+        album: "アルバム",
+        podcast: "ポッドキャスト"
+    },
+
+    // Blog page
+    blog: {
+        filter: "フィルター",
+        viewAll: "全て",
+        topic: "トピック",
+        project: "プロジェクト",
+        genre: "ジャンル"
     }
 };

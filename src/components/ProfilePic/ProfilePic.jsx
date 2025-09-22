@@ -34,7 +34,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
           }}
         />
         <div className="profile-pic-overlay">
-          <span className="overlay-text">Learn more...</span>
+          <span className="overlay-text">{t('common.learnMore')}...</span>
         </div>
       </div>
       <div className="profile-pic-info">

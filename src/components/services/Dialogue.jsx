@@ -1,8 +1,10 @@
 import "./Service.css";
 import { Col, Row } from "react-bootstrap";
 import { useRef, useEffect } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Dialogue = ({ isMobile }) => {
+  const { t } = useTranslation();
   const leftColRef = useRef(null);
   const rightColRef = useRef(null);
 
@@ -90,7 +92,7 @@ const Dialogue = ({ isMobile }) => {
               margin: 0,
             }}
           >
-            Voice-Over
+            {t('about.services.voiceOver.title')}
           </h2>
         </div>
         <h5
@@ -105,9 +107,7 @@ const Dialogue = ({ isMobile }) => {
             color: "white", // Ensure text is visible
           }}
         >
-          Orcs, paladins, and space pirates. We’ll cast the right voice, prepare
-          the scripts, produce the session, and deliver clean dialogue (yes, we
-          speak Elvish).
+          {t('about.services.voiceOver.description')}
         </h5>
         <ul
           style={{
@@ -126,11 +126,9 @@ const Dialogue = ({ isMobile }) => {
             
           }}
         >
-          <li> Casting & Screening</li>
-          <li> Budgeting & Contracting</li>
-          <li> Script Preparation </li>
-          <li> Recording Engineering</li>
-          <li> Post-Production Effects</li>
+          {t('about.services.voiceOver.checklist').map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
         </ul>
       </div>
     );

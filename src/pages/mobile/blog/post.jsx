@@ -1,5 +1,4 @@
 import ReactPlayer from "react-player";
-import { Player } from "react-simple-player";
 import WavNavbar from "../../../components/Navbar/MobileNavbar/MobileNavbar";
 import BottomSection from "../../../components/BottomSection/BottomSection";
 import { Link } from "react-router-dom";
@@ -218,7 +217,7 @@ const Post = ({ isMobile, e }) => {
                     <span
                       key={topic}
                       style={{
-                        backgroundColor: "#007bff",
+                        backgroundColor: "#CE0036",
                         color: "white",
                         padding: "4px 12px",
                         borderRadius: "16px",

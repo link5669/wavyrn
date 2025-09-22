@@ -167,12 +167,6 @@
     color: #666; /* Shadow color */
 }
 
-.sfx-button:hover::before {
-    content: attr(data-text);
-    position: absolute;
-    color: white;
-    top: -2px;
-    left: -2px;}
 
 /* Portfolio Section */
 .portfolio-section {
@@ -416,15 +410,6 @@
     color: #c6c6c6;
     /* background: rgba(206, 0, 54, 0.1); */
     text-shadow: -5px 5px 5px rgba(0, 0, 0, 1);
-}
-
-.sfx-button:hover::before {
-    content: attr(data-text);
-    position: absolute;
-    color: white;
-    top: -2px;
-    left: -2px;
-    z-index: -1;
 }
 
 /* Shake animation */

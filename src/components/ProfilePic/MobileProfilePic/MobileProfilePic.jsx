@@ -55,7 +55,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile }) => {
                         style={imgStyle}
                     />
                     {name !== "Josh Trochet" && name !== "Miles Acquaviva" && (
-                        <div className="overlay-text">Learn more...</div>
+                        <div className="overlay-text">{t('common.learnMore')}...</div>
                     )}
                 </div>
             </div>

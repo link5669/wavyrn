@@ -2,8 +2,10 @@ import "./Service.css";
 import HRDiv from "../HRDiv";
 import { Col, Row } from "react-bootstrap";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Production = ({ isMobile }) => {
+    const { t } = useTranslation();
     const leftColRef = useRef(null);
     const rightColRef = useRef(null);
 
@@ -92,7 +94,7 @@ const Production = ({ isMobile }) => {
                             margin: 0,
                         }}
                     >
-                        Production
+                        {t('about.services.production.title')}
                     </h2>
                 </div>
                 <h5
@@ -107,8 +109,7 @@ const Production = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                  Tell us about your audio vision and we’ll find the right team to execute it. We’re here to mix, master, and take your audio to the finish line.
-
+                  {t('about.services.production.description')}
                 </h5>
                 <ul
                     style={{
@@ -126,11 +127,9 @@ const Production = ({ isMobile }) => {
                         color: "white", // Ensure text is visible
                     }}
                 >
-                    <li>Podcasts & Audiobooks</li>
-                    <li>Vocal Production & Synthesis</li>
-                    <li>MIDI & Synth Programming</li>
-                    <li>Mixing, Mastering, & Editing</li>
-                    <li>Custom Plugin Solutions</li>
+                    {t('about.services.production.checklist').map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
                 </ul>
             </div>
         );

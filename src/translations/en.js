@@ -257,5 +257,35 @@ export const en = {
     footer: {
         copyright: "©️ 2025 Wavyrn • All Rights Reserved",
         newsletter: "Join our Newsletter"
+    },
+
+    // Common UI elements
+    common: {
+        learnMore: "Learn more",
+        send: "Send"
+    },
+
+    // Portfolio page
+    portfolio: {
+        heroTitle: "Audio Visual Reel 2025",
+        ourWork: "Our Work",
+        videoGame: "Video Game",
+        audioLibrary: "Audio Library",
+        single: "Single",
+        rhythmGame: "Rhythm Game",
+        ttrpgShowcase: "TTRPG Showcase",
+        shortFilm: "Short Film",
+        musical: "Musical",
+        album: "Album",
+        podcast: "Podcast"
+    },
+
+    // Blog page
+    blog: {
+        filter: "FILTER",
+        viewAll: "View All",
+        topic: "TOPIC",
+        project: "PROJECT",
+        genre: "GENRE"
     }
 };

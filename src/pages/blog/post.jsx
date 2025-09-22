@@ -203,7 +203,7 @@ const Post = ({ isMobile, e }) => {
                                     <span
                                         key={topic}
                                         style={{
-                                            backgroundColor: "#007bff",
+                                            backgroundColor: "#CE0036",
                                             color: "white",
                                             padding: "4px 12px",
                                             borderRadius: "16px",

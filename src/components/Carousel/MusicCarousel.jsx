@@ -6,7 +6,67 @@ import { useRef, useEffect } from "react";
 const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [arrowPositions, setArrowPositions] = useState({ left: 220, right: 220 });
     const audioRef = useRef(null);
+    const carouselRef = useRef(null);
+    const albumRefs = useRef([]);
+
+    // Function to calculate arrow positions based on center album
+    const calculateArrowPositions = () => {
+        if (albumRefs.current.length >= 3) {
+            const centerAlbum = albumRefs.current[1];
+            
+            if (centerAlbum && carouselRef.current) {
+                const carouselRect = carouselRef.current.getBoundingClientRect();
+                const centerAlbumRect = centerAlbum.getBoundingClientRect();
+                
+                // Calculate center album position relative to carousel
+                const centerLeft = centerAlbumRect.left - carouselRect.left;
+                const centerRight = centerAlbumRect.right - carouselRect.left;
+                const centerWidth = centerRight - centerLeft;
+                
+                // Calculate arrow positions to be equidistant from center
+                const arrowWidth = 50; // Arrow width (including padding)
+                
+                // Responsive buffer distance based on screen width
+                const screenWidth = window.innerWidth;
+                let bufferDistance = 180; // Default buffer
+                
+                if (screenWidth >= 900 && screenWidth <= 1300) {
+                    bufferDistance = 250; // Larger buffer for medium screens
+                }
+                
+                const distanceFromCenter = centerWidth / 2 + bufferDistance;
+                
+                let leftPosition = centerLeft - distanceFromCenter - arrowWidth;
+                let rightPosition = centerRight + distanceFromCenter;
+                
+                // Ensure arrows don't go outside carousel bounds
+                const carouselWidth = carouselRect.width;
+                leftPosition = Math.max(leftPosition, 10); // At least 10px from left edge
+                rightPosition = Math.min(rightPosition, carouselWidth - arrowWidth - 10); // At least 10px from right edge
+                
+                setArrowPositions({ left: leftPosition, right: rightPosition });
+            }
+        }
+    };
+
+    // Update arrow positions when component mounts or albums change
+    useEffect(() => {
+        const timer = setTimeout(calculateArrowPositions, 100);
+        return () => clearTimeout(timer);
+    }, [currentIndex, albums]);
+
+    // Update arrow positions on window resize
+    useEffect(() => {
+        const handleResize = () => {
+            calculateArrowPositions();
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const handleLeftClick = () => {
         const newIndex = currentIndex === 0 ? albums.length - 1 : currentIndex - 1;
         setCurrentIndex(newIndex);
@@ -122,13 +182,22 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
 
     return (
         <div className="carousel-container">
-            <div className="carousel">
-                <button className="arrow left" onClick={handleLeftClick}>
+            <div className="carousel" ref={carouselRef}>
+                <button 
+                    className="arrow left" 
+                    onClick={handleLeftClick}
+                    style={{
+                        left: `${arrowPositions.left}px`
+                    }}
+                >
                     ‹
                 </button>
                 <div className="carousel-track" ref={parent}>
                     {getVisibleAlbums().map((album, index) => (
                         <div
+                            ref={(el) => {
+                                if (el) albumRefs.current[index] = el;
+                            }}
                             style={{
                                 filter:
                                     index !== 1
@@ -229,7 +298,14 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                         </div>
                     ))}
                 </div>
-                <button className="arrow right" onClick={handleRightClick}>
+                <button 
+                    className="arrow right" 
+                    onClick={handleRightClick}
+                    style={{
+                        left: `${arrowPositions.right}px`,
+                        right: 'auto'
+                    }}
+                >
                     ›
                 </button>
             </div>

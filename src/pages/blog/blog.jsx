@@ -157,7 +157,7 @@ const Blog = ({ isMobile }) => {
 
 
                     <div className="tags-section">
-                        <h2 style={{ color: "#CE0036", marginTop: "0", textAlign: "left" }}>FILTER</h2>
+                        <h2 style={{ color: "#CE0036", marginTop: "0", textAlign: "left" }}>{t('blog.filter')}</h2>
                         
                         {/* View All Checkbox */}
                         <div style={{ marginBottom: "20px" }}>
@@ -180,7 +180,7 @@ const Blog = ({ isMobile }) => {
                                         transform: "scale(1.2)"
                                     }}
                                 />
-                                View All
+                                {t('blog.viewAll')}
                             </label>
                         </div>
                         
@@ -192,7 +192,7 @@ const Blog = ({ isMobile }) => {
                                 marginBottom: "15px",
                                 fontWeight: "600"
                             }}>
-                                TOPIC
+                                {t('blog.topic')}
                             </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
                                 {tags.TOPIC?.map((tag) => {
@@ -233,7 +233,7 @@ const Blog = ({ isMobile }) => {
                                 marginBottom: "15px",
                                 fontWeight: "600"
                             }}>
-                                PROJECT
+                                {t('blog.project')}
                             </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
                                 {tags.PROJECT?.map((tag) => {
@@ -274,7 +274,7 @@ const Blog = ({ isMobile }) => {
                                 marginBottom: "15px",
                                 fontWeight: "600"
                             }}>
-                                GENRE
+                                {t('blog.genre')}
                             </h3>
                             <ul style={{ listStyle: "none", padding: 0 }}>
                                 {tags.GENRE?.map((tag) => {
