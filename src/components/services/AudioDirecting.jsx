@@ -45,7 +45,7 @@ const AudioDirecting = ({ isMobile }) => {
           backgroundImage:
             "url(https://link5669.github.io/wavyrn-media/services/Services%20-%20Audio%20Directing.webp)",
           height: "100%",
-          minHeight: "400px", // Ensure the div has a minimum height
+          minHeight: "500px", // Increased height to fill more vertical space
           position: "relative",
           borderRadius: "12px", // Add rounded corners
           overflow: "hidden", // Ensure background image respects border radius
@@ -66,16 +66,35 @@ const AudioDirecting = ({ isMobile }) => {
         ></div>
 
         {/* Content */}
-        <h2
+        <div
           style={{
-            color: "white",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
             zIndex: 102,
             position: "relative",
-            paddingTop: "7vh",
+            paddingTop: "4vh",
           }}
         >
-          Audio Direction
-        </h2>
+          <img
+            src="https://www.dl.dropboxusercontent.com/scl/fi/ttxnaayqifzxvmuw472ow/Asset-6-4x-8.png?rlkey=3im1plyj5z0225vcg2nsgh0pt&e=1&dl=0"
+            alt="Audio Direction"
+            style={{
+              width: "45px",
+              height: "45px",
+              marginBottom: "15px",
+              filter: "brightness(0) invert(1)", // Make icon white
+            }}
+          />
+          <h2
+            style={{
+              color: "white",
+              margin: 0,
+            }}
+          >
+            Audio Direction
+          </h2>
+        </div>
         <h5
           style={{
             textAlign: "left",

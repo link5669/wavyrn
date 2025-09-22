@@ -162,6 +162,13 @@ export const en = {
 
     // Team members
     team: {
+        categories: {
+            all: "All",
+            production: "Production",
+            soundDesign: "Sound Design",
+            music: "Music",
+            voiceover: "Voiceover"
+        },
         members: {
             "Marc Yu": {
                 name: "Marc Yu",

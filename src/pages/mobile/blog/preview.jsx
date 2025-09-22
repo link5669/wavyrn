@@ -154,7 +154,8 @@ const Preview = ({ isMobile, title, author, date, tags, link, content, allTags }
                     border: "solid white 1px",
                     opacity: 1,
                     margin: "auto 10%",
-                    marginTop: isMobile && "6vw",
+                    marginTop:"7vw", // Further increased to account for drop shadow visual extension
+                    marginBottom:  "9vw" , // Increased bottom margin for even spacing
                 }}
             />
         </Link>

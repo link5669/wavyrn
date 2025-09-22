@@ -9,6 +9,7 @@ import paul from "/Team Profiles/IMG_0407.jpg";
 import josh from "/Team Profiles/Josh Trochet Profile Pic.png";
 import miles from "/Team Profiles/miles.png";
 import julian from "/Team Profiles/julian.jpg";
+import miguel from "/Team Profiles/Miguel.webp";
 
 const getPfpImage = (name) => {
     return name == "Marc Yu"
@@ -46,7 +47,7 @@ const getPfpImage = (name) => {
                                       : name == "Julian Cabrera"
                                         ? julian
                                         : name == "Miguel Manness"
-                                          ? "https://media.discordapp.net/attachments/690615563864768513/1418828937156497559/IMG_8878.jpg?ex=68cf8aeb&is=68ce396b&hm=ec1e2ae9585bdf86ab0777d6300cc86eca0fa2be764db4f162b4a58be34db7f3&=&format=webp&width=1109&height=1465"
+                                          ? miguel
                                           : "https://via.placeholder.com/150";
 };
 

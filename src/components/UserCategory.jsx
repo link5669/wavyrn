@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "../hooks/useTranslation";
 
 const UserCategory = ({
   setVisibleUsers,
@@ -7,6 +8,19 @@ const UserCategory = ({
   category,
   selectedCat,
 }) => {
+  const { t } = useTranslation();
+  
+  // Map category names to translation keys
+  const getCategoryTranslation = (categoryName) => {
+    const categoryMap = {
+      "All": "team.categories.all",
+      "Production": "team.categories.production", 
+      "Sound Design": "team.categories.soundDesign",
+      "Music": "team.categories.music",
+      "Voiceover": "team.categories.voiceover"
+    };
+    return categoryMap[categoryName] || categoryName;
+  };
   const [hovered, setHovered] = useState(false);
   return (
     <p
@@ -26,7 +40,7 @@ const UserCategory = ({
         fontWeight: selectedCat == category ? "bold" : "initial",
       }}
     >
-      {category}
+      {t(getCategoryTranslation(category))}
     </p>
   );
 };

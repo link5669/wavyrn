@@ -162,6 +162,13 @@ export const jp = {
 
     // Team members
     team: {
+        categories: {
+            all: "全て",
+            production: "音響制作",
+            soundDesign: "サウンドデザインー",
+            music: "音楽",
+            voiceover: "ボイスオーバー"
+        },
         members: {
             "Marc Yu": {
                 name: "マーク • ユー",

@@ -149,7 +149,6 @@ const Post = ({ isMobile, e }) => {
             backgroundColor: "white",
             minHeight: "calc(100vh - 140px)", // Adjust for navbar and button area
             width: "100%",
-            paddingBottom: "50px",
           }}
         >
           <Container
@@ -369,7 +368,33 @@ const Post = ({ isMobile, e }) => {
                 })()
               )}
             </div>
+            
             {/* Wavyrn Logo and Trademark */}
+            <div style={{
+              textAlign: "center",
+              marginTop: "40px",
+              paddingTop: "20px",
+              borderTop: "1px solid #e0e0e0"
+            }}>
+              <img 
+                src="/images/logo.png" 
+                alt="Wavyrn Logo" 
+                style={{
+                  height: "40px",
+                  marginBottom: "10px",
+                  display: "block",
+                  margin: "auto"
+                }}
+              />
+              <p style={{
+                color: "#666",
+                fontSize: "14px",
+                margin: "0",
+                fontStyle: "italic"
+              }}>
+                ©️2025 Wavyrn • All Rights Reserved
+              </p>
+            </div>
           </Container>
         </div>
       </div>

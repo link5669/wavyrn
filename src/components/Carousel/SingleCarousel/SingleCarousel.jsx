@@ -4,16 +4,9 @@ import { useSwipeable } from "react-swipeable";
 import "./SingleCarousel.css";
 
 const Carousel = ({ items }) => {
-    // Start at index 1 because we'll add clones (clone of last item will be at index 0)
-    const [currentIndex, setCurrentIndex] = useState(1);
+    // Start at index 0 for the first item
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(true);
-
-    // Create extended items array with clones for seamless looping
-    const extendedItems = [
-        items[items.length - 1], // Clone of last item at the beginning
-        ...items,                // Original items
-        items[0]                 // Clone of first item at the end
-    ];
 
     const handlers = useSwipeable({
         onSwipedLeft: () => goToNext(),
@@ -24,45 +17,22 @@ const Carousel = ({ items }) => {
     });
 
     const goToPrevious = () => {
-        if (!isTransitioning || currentIndex <= 0) return;
+        if (!isTransitioning) return;
+        if (currentIndex <= 0) return;
         setCurrentIndex(currentIndex - 1);
     };
 
     const goToNext = () => {
-        if (!isTransitioning || currentIndex >= extendedItems.length - 1) return;
+        if (!isTransitioning) return;
+        if (currentIndex >= items.length - 1) return;
         setCurrentIndex(currentIndex + 1);
     };
 
     const goToSlide = (index) => {
         if (!isTransitioning) return;
-        setCurrentIndex(index + 1); // Add 1 because of the clone at the beginning
+        setCurrentIndex(index);
     };
 
-    // Handle seamless looping with useEffect for better reliability
-    useEffect(() => {
-        if (!isTransitioning) return;
-        
-        let timeout;
-        if (currentIndex === 0) {
-            // We're at the clone of the last item, jump to the real last item
-            timeout = setTimeout(() => {
-                setIsTransitioning(false);
-                setCurrentIndex(items.length);
-                setTimeout(() => setIsTransitioning(true), 50);
-            }, 500); // Wait for transition to complete
-        } else if (currentIndex === extendedItems.length - 1) {
-            // We're at the clone of the first item, jump to the real first item
-            timeout = setTimeout(() => {
-                setIsTransitioning(false);
-                setCurrentIndex(1);
-                setTimeout(() => setIsTransitioning(true), 50);
-            }, 500); // Wait for transition to complete
-        }
-        
-        return () => {
-            if (timeout) clearTimeout(timeout);
-        };
-    }, [currentIndex, items.length, extendedItems.length, isTransitioning]);
 
     return (
         <div
@@ -119,7 +89,7 @@ const Carousel = ({ items }) => {
                       willChange: "transform",
                   }}
               >
-                  {extendedItems.map((item, index) => (
+                  {items.map((item, index) => (
                       <div
                           key={index}
                           style={{
@@ -131,7 +101,7 @@ const Carousel = ({ items }) => {
                               alignItems: "center",
                               justifyContent: "center",
                               border: "none",
-                              minHeight: "300px",
+                              minHeight: "500px",
                               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
                               width: "70%",
                               borderRadius: "12px",
@@ -187,7 +157,7 @@ const Carousel = ({ items }) => {
                     <button
                         key={index}
                         className={`carousel-dot ${
-                            index === currentIndex - 1 ? "active" : ""
+                            index === currentIndex ? "active" : ""
                         }`}
                         onClick={() => goToSlide(index)}
                     />

@@ -45,7 +45,7 @@ const Production = ({ isMobile }) => {
                     backgroundImage:
                         "url(https://link5669.github.io/wavyrn-media/services/Services%20-%20Production.webp?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0?url)",
                     height: "100%", // Ensure the div takes full height
-                    minHeight: "400px", // Set a minimum height (adjust as needed)
+                    minHeight: "500px", // Increased height to fill more vertical space
                     position: "relative", // For absolute positioning of overlay
                     borderRadius: "12px", // Add rounded corners
                     overflow:"hidden"
@@ -66,16 +66,35 @@ const Production = ({ isMobile }) => {
                 ></div>
 
                 {/* Content */}
-                <h2
+                <div
                     style={{
-                        color: "white",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
                         zIndex: 102,
                         position: "relative",
-                        paddingTop: "7vh",
+                        paddingTop: "4vh",
                     }}
                 >
-                    Production
-                </h2>
+                    <img
+                        src="https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AAeX50rU6qw3deUT5QL6e-Y/icon_headphones_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0"
+                        alt="Production"
+                        style={{
+                            width: "45px",
+                            height: "45px",
+                            marginBottom: "15px",
+                            filter: "brightness(0) invert(1)", // Make icon white
+                        }}
+                    />
+                    <h2
+                        style={{
+                            color: "white",
+                            margin: 0,
+                        }}
+                    >
+                        Production
+                    </h2>
+                </div>
                 <h5
                     style={{
                         textAlign: "left",

@@ -87,12 +87,18 @@
 
 /* Utility class for mobile pages to add bottom padding for fixed footer */
 .mobile-page-container {
-    padding-bottom: 12vh; /* Slightly more than footer height (10vh) for safe spacing */
+    padding-bottom: 12vh; /* Reasonable padding for collapsed footer (10vh) plus small buffer */
+    box-sizing: border-box; /* Include padding in height calculations */
+}
+
+/* Ensure content is never hidden behind the footer */
+.mobile-page-container > *:last-child {
+    margin-bottom: 0; /* Remove any bottom margin from last element */
 }
 
 /* Add extra padding when footer might be expanded */
 @media (max-height: 600px) {
     .mobile-page-container {
-        padding-bottom: 15vh; /* More padding for smaller screens where footer expansion is more likely */
+        padding-bottom: 15vh; /* Slightly more padding for smaller screens */
     }
 }

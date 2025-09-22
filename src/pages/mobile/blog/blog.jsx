@@ -96,7 +96,7 @@ const Blog = ({ isMobile }) => {
     // Calculate tag counts from posts
     const calculateTagCounts = (posts) => {
         const tagCounts = {};
-        
+
         posts.forEach(post => {
             if (post.topics && Array.isArray(post.topics)) {
                 post.topics.forEach(topic => {
@@ -289,8 +289,9 @@ const Blog = ({ isMobile }) => {
                                     {selectedTags.includes("View All") && (
                                         <span style={{
                                             position: "absolute",
-                                            top: "1px",
-                                            left: "4px",
+                                            top: "50%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
                                             fontSize: "10px",
                                         }}>✓</span>
                                     )}
@@ -408,6 +409,7 @@ const Blog = ({ isMobile }) => {
                                 opacity: 1,
                                 width: isMobile ? "80%" : "60%",
                                 margin: "20px 0 0 0",
+                                top: "-10px"
                             }}
                         />
                     </div>

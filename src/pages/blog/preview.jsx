@@ -25,9 +25,8 @@ const Preview = ({ isMobile, title, image, author, date, tags, content, link, al
     return (
         <div
             style={{
-                margin:  "0",
-                width: "70vw",
                 margin: "2vw 2vw",
+                width: "70vw",
                 padding: "2vw",
                 backgroundColor: "#fef2f2",
                 borderRadius: isMobile ? "0px" : "30px",
