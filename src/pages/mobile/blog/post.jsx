@@ -33,7 +33,7 @@ const Post = ({ isMobile, e }) => {
         }
         return tag.name;
     };
-    const { docId } = useParams();
+    const { identifier } = useParams();
     const [post, setPost] = useState(e || null);
     const [loading, setLoading] = useState(!e);
     const [error, setError] = useState(null);
@@ -63,12 +63,42 @@ const Post = ({ isMobile, e }) => {
         // Otherwise, fetch from database
         const fetchPost = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog/${docId}`);
+                if (!identifier) {
+                    setError("No post identifier provided");
+                    setLoading(false);
+                    return;
+                }
+
+                // Determine if identifier is a slug (URL-friendly) or docId (contains special chars)
+                const isSlug = /^[a-z0-9-]+$/.test(identifier);
+                let url;
+                
+                if (isSlug) {
+                    // Try slug first
+                    url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog/slug/${identifier}`;
+                } else {
+                    // Try docId
+                    url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog/${identifier}`;
+                }
+
+                const response = await fetch(url);
                 const data = await response.json();
+                
                 if (response.ok) {
                     setPost(data);
                 } else {
-                    setError(data.error || "Post not found");
+                    // If slug failed and identifier looks like a slug, try docId as fallback
+                    if (isSlug) {
+                        const fallbackResponse = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog/${identifier}`);
+                        const fallbackData = await fallbackResponse.json();
+                        if (fallbackResponse.ok) {
+                            setPost(fallbackData);
+                        } else {
+                            setError(data.error || "Post not found");
+                        }
+                    } else {
+                        setError(data.error || "Post not found");
+                    }
                 }
             } catch (error) {
                 setError("Failed to load post");
@@ -77,11 +107,11 @@ const Post = ({ isMobile, e }) => {
             }
         };
 
-        if (docId) {
+        if (identifier) {
             fetchPost();
         }
         fetchTags();
-    }, [docId, e]);
+    }, [identifier, e]);
 
     if (loading) {
         return (

@@ -441,7 +441,7 @@ const Blog = ({ isMobile }) => {
                                             subtitle={post.byline}
                                             image={post.image}
                                             content={post.preview || post.content.substring(0, 200) + "..."}
-                                            link={`/blog/${post.docId}`}
+                                            link={post.slug ? `/blog/${post.slug}` : `/blog/${post.docId}`}
                                             isMobile={isMobile}
                                             tags={post.topics || []}
                                             allTags={tags}

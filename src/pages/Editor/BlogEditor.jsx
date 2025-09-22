@@ -20,6 +20,7 @@ const BlogEditor = () => {
     content: "",
     preview: "",
     fontColor: "#000000",
+    slug: "",
   });
   
   // Edit states
@@ -32,6 +33,7 @@ const BlogEditor = () => {
     content: "",
     preview: "",
     fontColor: "#000000",
+    slug: "",
   });
   
   // UI states
@@ -179,6 +181,7 @@ const BlogEditor = () => {
           content: "",
           preview: "",
           fontColor: "#000000",
+          slug: "",
         });
         fetchPosts();
       } else {
@@ -224,6 +227,7 @@ const BlogEditor = () => {
           content: "",
           preview: "",
           fontColor: "#000000",
+          slug: "",
         });
         fetchPosts();
       } else {
@@ -248,6 +252,7 @@ const BlogEditor = () => {
       content: post.content,
       preview: post.preview || "",
       fontColor: post.fontColor || "#000000",
+      slug: post.slug || "",
     });
   };
 
@@ -292,6 +297,8 @@ const BlogEditor = () => {
       topics: [],
       content: "",
       preview: "",
+      fontColor: "#000000",
+      slug: "",
     });
     setMessage("");
   };
@@ -435,6 +442,29 @@ const BlogEditor = () => {
                 borderRadius: "4px",
               }}
               placeholder="Enter author name"
+            />
+          </div>
+
+          <div style={{ marginBottom: "15px" }}>
+            <label
+              htmlFor="slug"
+              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            >
+              Slug:
+            </label>
+            <input
+              type="text"
+              id="slug"
+              name="slug"
+              value={formData.slug}
+              onChange={handleInputChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+              }}
+              placeholder="e.g., my-awesome-blog-post (leave empty to auto-generate from title)"
             />
           </div>
 
@@ -806,6 +836,25 @@ const BlogEditor = () => {
                               border: "1px solid #ccc",
                               borderRadius: "4px",
                             }}
+                          />
+                        </div>
+                        
+                        <div style={{ marginBottom: "10px" }}>
+                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            Slug (URL-friendly identifier):
+                          </label>
+                          <input
+                            type="text"
+                            name="slug"
+                            value={editFormData.slug}
+                            onChange={handleEditInputChange}
+                            style={{
+                              width: "100%",
+                              padding: "6px",
+                              border: "1px solid #ccc",
+                              borderRadius: "4px",
+                            }}
+                            placeholder="e.g., my-awesome-blog-post (leave empty to auto-generate from title)"
                           />
                         </div>
                         

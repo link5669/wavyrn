@@ -137,7 +137,7 @@ const Blog = ({ isMobile }) => {
                                     tags={post.topics || []}
                                     image=""
                                     content={post.preview || post.content.substring(0, 200) + "..."}
-                                    link={`/blog/${post.docId}`}
+                                    link={post.slug ? `/blog/${post.slug}` : `/blog/${post.docId}`}
                                     isMobile={isMobile}
                                     allTags={tags}
                                 />

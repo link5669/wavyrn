@@ -262,9 +262,9 @@ function App() {
             }
           />
 
-          {/* Dynamic blog posts */}
+          {/* Dynamic blog posts by slug or docId */}
           <Route
-            path="/blog/:docId"
+            path="/blog/:identifier"
             element={
               isMobile ? (
                 <MobilePost isMobile={isMobile} />

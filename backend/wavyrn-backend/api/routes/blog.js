@@ -21,7 +21,7 @@ export default function blogRoute(firebaseApp) {
   // POST route to create a new blog post
   router.post("/", async (req, res) => {
     try {
-      const { title, author, date, topics, content, preview, fontColor } = req.body;
+      const { title, author, date, topics, content, preview, fontColor, slug } = req.body;
 
       // Validate required fields
       if (!title || !author || !content) {
@@ -37,6 +37,30 @@ export default function blogRoute(firebaseApp) {
         });
       }
 
+      // Generate slug if not provided
+      let finalSlug = slug;
+      if (!finalSlug) {
+        finalSlug = title
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+          .replace(/\s+/g, '-') // Replace spaces with hyphens
+          .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+          .trim();
+      }
+
+      // Check if slug already exists
+      const existingSlugQuery = query(
+        collection(db, "blogPosts"),
+        where("slug", "==", finalSlug)
+      );
+      const existingSlugSnapshot = await getDocs(existingSlugQuery);
+      
+      if (!existingSlugSnapshot.empty) {
+        return res.status(400).json({
+          error: "A blog post with this slug already exists",
+        });
+      }
+
       // Create the document to add to Firestore
       const blogData = {
         title: title,
@@ -46,6 +70,7 @@ export default function blogRoute(firebaseApp) {
         content: content,
         preview: preview || "",
         fontColor: fontColor || "#000000", // Default to black if not specified
+        slug: finalSlug,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
         published: true, // Instantly published as per requirements
@@ -86,7 +111,33 @@ export default function blogRoute(firebaseApp) {
     }
   });
 
-  // GET route to retrieve a single blog post
+  // GET route to retrieve a single blog post by slug
+  router.get("/slug/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const slugQuery = query(
+        collection(db, "blogPosts"),
+        where("slug", "==", slug)
+      );
+      const querySnapshot = await getDocs(slugQuery);
+
+      if (querySnapshot.empty) {
+        return res.status(404).json({
+          error: "Blog post not found"
+        });
+      }
+
+      const docSnapshot = querySnapshot.docs[0];
+      res.status(200).json({
+        docId: docSnapshot.id,
+        ...docSnapshot.data()
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  // GET route to retrieve a single blog post by docId (legacy support)
   router.get("/:docId", async (req, res) => {
     try {
       const { docId } = req.params;
@@ -112,7 +163,7 @@ export default function blogRoute(firebaseApp) {
   router.put("/:docId", async (req, res) => {
     try {
       const { docId } = req.params;
-      const { title, author, date, topics, content, preview, fontColor } = req.body;
+      const { title, author, date, topics, content, preview, fontColor, slug } = req.body;
 
       // Validate required fields
       if (!title || !author || !content) {
@@ -138,6 +189,32 @@ export default function blogRoute(firebaseApp) {
         });
       }
 
+      // Generate slug if not provided
+      let finalSlug = slug;
+      if (!finalSlug) {
+        finalSlug = title
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
+          .replace(/\s+/g, '-') // Replace spaces with hyphens
+          .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
+          .trim();
+      }
+
+      // Check if slug already exists (excluding current post)
+      const existingSlugQuery = query(
+        collection(db, "blogPosts"),
+        where("slug", "==", finalSlug)
+      );
+      const existingSlugSnapshot = await getDocs(existingSlugQuery);
+      
+      // Check if any existing post with this slug is not the current post
+      const conflictingPost = existingSlugSnapshot.docs.find(doc => doc.id !== docId);
+      if (conflictingPost) {
+        return res.status(400).json({
+          error: "A blog post with this slug already exists",
+        });
+      }
+
       // Update the document
       const updateData = {
         title: title,
@@ -146,6 +223,7 @@ export default function blogRoute(firebaseApp) {
         topics: topics,
         content: content,
         preview: preview || "",
+        slug: finalSlug,
         fontColor: fontColor || "#000000", // Default to black if not specified
         updatedAt: Timestamp.now(),
       };
