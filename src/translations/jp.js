@@ -263,29 +263,5 @@ export const jp = {
     common: {
         learnMore: "詳細を見る",
         send: "送信"
-    },
-
-    // Portfolio page
-    portfolio: {
-        heroTitle: "オーディオビジュアルリール2025",
-        ourWork: "制作実績",
-        videoGame: "ビデオゲーム",
-        audioLibrary: "音響制作",
-        single: "シングル",
-        rhythmGame: "リズムゲーム",
-        ttrpgShowcase: "テーブルトークRPG",
-        shortFilm: "短編映画",
-        musical: "ミュージカル",
-        album: "アルバム",
-        podcast: "ポッドキャスト"
-    },
-
-    // Blog page
-    blog: {
-        filter: "フィルター",
-        viewAll: "全て",
-        topic: "トピック",
-        project: "プロジェクト",
-        genre: "ジャンル"
     }
 };

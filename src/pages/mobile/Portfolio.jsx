@@ -242,7 +242,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             paddingTop: "20px",
           }}
         >
-          <p>Our Work</p>
+          <p>{t('portfolio.ourWork')}</p>
         </h1>
         <section
           style={{
@@ -280,7 +280,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
               "font-size 0.3s ease-in-out, font-weight 0.3s ease-in-out", // Smooth transition
           }}
         >
-          Our Work
+          Our WorkOu
         </h2>*/}
         {/* <hr
           style={{
