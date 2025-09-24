@@ -133,24 +133,120 @@ const Preview = ({ isMobile, title, author, date, tags, link, content, allTags }
                                 h1: ({ children }) => <h1 style={{ fontSize: "1em", marginBottom: "6px" }}>{children}</h1>,
                                 h2: ({ children }) => <h2 style={{ fontSize: "0.95em", marginBottom: "4px" }}>{children}</h2>,
                                 h3: ({ children }) => <h3 style={{ fontSize: "0.9em", marginBottom: "3px" }}>{children}</h3>,
+                                h4: ({ children }) => <h4 style={{ fontSize: "0.85em", marginBottom: "2px" }}>{children}</h4>,
+                                h5: ({ children }) => <h5 style={{ fontSize: "0.8em", marginBottom: "2px" }}>{children}</h5>,
+                                h6: ({ children }) => <h6 style={{ fontSize: "0.75em", marginBottom: "2px" }}>{children}</h6>,
                                 ul: ({ children }) => <ul style={{ marginBottom: "6px", paddingLeft: "12px", fontSize: "0.85em" }}>{children}</ul>,
                                 ol: ({ children }) => <ol style={{ marginBottom: "6px", paddingLeft: "12px", fontSize: "0.85em" }}>{children}</ol>,
                                 li: ({ children }) => <li style={{ marginBottom: "2px" }}>{children}</li>,
+                                blockquote: ({ children }) => (
+                                    <blockquote style={{ 
+                                        borderLeft: "3px solid #CE0036", 
+                                        paddingLeft: "8px", 
+                                        margin: "6px 0", 
+                                        fontStyle: "italic",
+                                        fontSize: "0.85em"
+                                    }}>
+                                        {children}
+                                    </blockquote>
+                                ),
                                 code: ({ children }) => (
                                     <code style={{ 
                                         backgroundColor: "rgba(255,255,255,0.2)", 
                                         padding: "1px 3px", 
                                         borderRadius: "2px",
-                                        fontSize: "0.8em"
+                                        fontSize: "0.8em",
+                                        fontFamily: "monospace"
                                     }}>
-                                        {Array.isArray(children) ? children.join('') : children}
+                                        {typeof children === 'string' ? children : 
+                                         Array.isArray(children) ? children.join('') : 
+                                         children}
                                     </code>
+                                ),
+                                pre: ({ children }) => (
+                                    <pre style={{ 
+                                        backgroundColor: "rgba(0,0,0,0.1)", 
+                                        padding: "6px", 
+                                        borderRadius: "4px",
+                                        overflow: "auto",
+                                        margin: "4px 0",
+                                        fontSize: "0.75em",
+                                        fontFamily: "monospace"
+                                    }}>
+                                        {children}
+                                    </pre>
+                                ),
+                                a: ({ href, children }) => (
+                                    <a 
+                                        href={href} 
+                                        style={{ 
+                                            color: "#CE0036", 
+                                            textDecoration: "underline",
+                                            fontSize: "0.9em"
+                                        }}
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                    >
+                                        {children}
+                                    </a>
+                                ),
+                                table: ({ children }) => (
+                                    <table style={{ 
+                                        borderCollapse: "collapse", 
+                                        width: "100%", 
+                                        fontSize: "0.8em",
+                                        margin: "4px 0"
+                                    }}>
+                                        {children}
+                                    </table>
+                                ),
+                                th: ({ children }) => (
+                                    <th style={{ 
+                                        border: "1px solid rgba(255,255,255,0.3)", 
+                                        padding: "4px", 
+                                        backgroundColor: "rgba(255,255,255,0.1)",
+                                        fontWeight: "bold"
+                                    }}>
+                                        {children}
+                                    </th>
+                                ),
+                                td: ({ children }) => (
+                                    <td style={{ 
+                                        border: "1px solid rgba(255,255,255,0.3)", 
+                                        padding: "4px"
+                                    }}>
+                                        {children}
+                                    </td>
                                 ),
                                 strong: ({ children }) => <strong>{children}</strong>,
                                 em: ({ children }) => <em>{children}</em>,
+                                del: ({ children }) => <del style={{ textDecoration: "line-through", opacity: 0.7 }}>{children}</del>,
+                                hr: () => <hr style={{ border: "1px solid rgba(255,255,255,0.3)", margin: "8px 0" }} />,
+                                text: ({ children }) => {
+                                    // Handle raw text that might contain asterisks
+                                    if (typeof children === 'string') {
+                                        return children;
+                                    }
+                                    return children;
+                                },
                             }}
                         >
-                            {content.length > 200 ? content.substring(0, 200) + '...' : content}
+                            {(() => {
+                                // Preprocess content to handle any markdown issues
+                                let processedContent = content.length > 200 ? content.substring(0, 200) + '...' : content;
+                                
+                                // Clean up any problematic patterns that might cause asterisks to appear
+                                processedContent = processedContent
+                                    .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>') // Handle bold+italic
+                                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Handle bold
+                                    .replace(/\*(.*?)\*/g, '<em>$1</em>') // Handle italic
+                                    .replace(/^\*\s/gm, '• ') // Convert list asterisks to bullets
+                                    .replace(/^\d+\.\s/gm, '• ') // Convert numbered lists to bullets for preview
+                                    .replace(/\n\*\s/g, '\n• ') // Convert line-start asterisks to bullets
+                                    .replace(/\*\s/g, '• '); // Convert remaining asterisks to bullets
+                                
+                                return processedContent;
+                            })()}
                         </ReactMarkdown>
                     </div>
                 )}
