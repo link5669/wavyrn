@@ -230,7 +230,7 @@ const About = ({ isMobile }) => {
                                                   user.name == "Sam Leigh"
                                                       ? "0% 40%"
                                                       : "0% 15%",
-                                              transform: user.name == "Miguel Manness" ? "scale(1.2)" : "none",
+                                              transform: user.name == "Miguel Meneses" ? "scale(1.2)" : "none",
                                               transformOrigin: "center center"
                                           }}
                                       />
@@ -302,7 +302,7 @@ const About = ({ isMobile }) => {
                                 <Julian isMobile={isMobile} />
                             ) : selectedUser.name == "Quinne Houck" ? (
                                 <Quinne isMobile={isMobile} />
-                            ) : selectedUser.name == "Miguel Manness" ? (
+                            ) : selectedUser.name == "Miguel Meneses" ? (
                                 <Miguel />
                             ) : (
                                 <p>No bio yet!</p>

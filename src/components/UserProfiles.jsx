@@ -745,7 +745,7 @@ const Miguel = () => {
     return (
         <div style={{ display: "block" }}>
             <p>
-                Miguel Manness is a sound designer and composer specializing in creating immersive audio experiences for games and interactive media. With a passion for storytelling through sound, Miguel brings creativity and technical expertise to every project he works on.
+                Miguel Meneses is a sound designer and composer specializing in creating immersive audio experiences for games and interactive media. With a passion for storytelling through sound, Miguel brings creativity and technical expertise to every project he works on.
             </p>
         </div>
     );

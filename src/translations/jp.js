@@ -2,7 +2,7 @@ export const jp = {
     // Navigation
     nav: {
         about: "ウェイヴァーンについて",
-        portfolio: "制作実績", 
+        portfolio: "制作実績",
         blog: "ブログ",
         contact: "お問い合わせ",
         services: "サービス"
@@ -19,14 +19,14 @@ export const jp = {
         heroSubtitle1: "私たちもドラマの一気見をし、ゲーマーであり、ポッドキャストを聴き、ボードゲームもします。",
         heroSubtitle2: "フルサービス音響制作スタジオとして、全制作工程に対応いたします。",
         ourTeam: "チーム",
-        
+
         // Services
         services: {
             audioDirection: {
                 title: "オーディオディレクション",
                 checklist: [
                     "音響の設計＆計画",
-                    "経費＆契約", 
+                    "経費＆契約",
                     "制作管理",
                     "音声カタログ",
                     "品質管理＆保証"
@@ -87,7 +87,7 @@ export const jp = {
             subtitle: ""
         },
         production: {
-            title: "", 
+            title: "",
             subtitle: ""
         },
         soundDesign: {
@@ -129,7 +129,7 @@ export const jp = {
         email: "contact@wavyrn.com",
         form: {
             name: "お名前",
-            email: "メールアドレス", 
+            email: "メールアドレス",
             subject: "お問い合わせ種別",
             message: "お問い合わせ内容",
             sendButton: "送信",
@@ -195,7 +195,7 @@ export const jp = {
                 title: "サウンドデザイナー、作曲家",
                 categories: "全て、サウンドデザイン、音楽"
             },
-            "Miguel Manness": {
+            "Miguel Meneses": {
                 name: "ミゲル • マネス",
                 title: "サウンドデザイナー、作曲家",
                 categories: "全て、サウンドデザイン、音楽"

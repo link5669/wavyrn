@@ -11,7 +11,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
       name == "Miles Acquaviva"
     )
       return;
-    
+
     // Use the onClick prop if provided, otherwise use the default behavior
     if (onClick) {
       onClick();
@@ -29,7 +29,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
           className="profile-pic-image"
           style={{
             objectPosition: "center",
-            transform: name === "Miguel Manness" ? "scale(1.2)" : "none",
+            transform: name === "Miguel Meneses" ? "scale(1.2)" : "none",
             transformOrigin: "center center"
           }}
         />

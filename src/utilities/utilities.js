@@ -46,7 +46,7 @@ const getPfpImage = (name) => {
                                       ? "https://www.dl.dropboxusercontent.com/scl/fo/li2h0eqzj2b68h5s8kg7i/AHtl5dwKnoc58Ls853q6Ko4/large.png?rlkey=val11gfxy2ws763kzq0ddn4c2&e=1&dl=0"
                                       : name == "Julian Cabrera"
                                         ? julian
-                                        : name == "Miguel Manness"
+                                        : name == "Miguel Meneses"
                                           ? miguel
                                           : "https://via.placeholder.com/150";
 };

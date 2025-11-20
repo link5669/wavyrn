@@ -112,30 +112,30 @@ const About = ({ isMobile }) => {
             >
                 {/* Hero Section */}
                 <div style={{ textAlign: "center", padding: "60px 0" }}>
-                    <h1 style={{ 
-                        fontSize: "3.5em", 
-                        color: "#CE0036", 
+                    <h1 style={{
+                        fontSize: "3.5em",
+                        color: "#CE0036",
                         margin: "0 0 20px 0",
                         fontWeight: "bold"
                     }}>
                         {t('about.heroTitle')}
                     </h1>
-                    <p style={{ 
-                        fontSize: "1.1em", 
-                        color: "black", 
+                    <p style={{
+                        fontSize: "1.1em",
+                        color: "black",
                         maxWidth: "800px",
                         margin: "0 auto 15px auto"
                     }}>
                         {t('about.heroSubtitle1')}
                     </p>
-                    <p style={{ 
-                        fontSize: "1.1em", 
+                    <p style={{
+                        fontSize: "1.1em",
                         color: "black",
                         maxWidth: "800px",
                         margin: "0 auto"
                     }}>
-                        {t('about.heroSubtitle2').includes('entire process') ? 
-                            t('about.heroSubtitle2').split('entire process').map((part, index) => 
+                        {t('about.heroSubtitle2').includes('entire process') ?
+                            t('about.heroSubtitle2').split('entire process').map((part, index) =>
                                 index === 0 ? part : (
                                     <span key={index}>
                                         <strong style={{ color: "#CE0036" }}>entire process</strong>
@@ -148,7 +148,7 @@ const About = ({ isMobile }) => {
                 </div>
 
                 {/* Services Section */}
-                <div style={{ 
+                <div style={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -158,7 +158,7 @@ const About = ({ isMobile }) => {
                 }}>
                     {/* Top Row - 3 services */}
                     <div style={{
-                        display: "grid", 
+                        display: "grid",
                         gridTemplateColumns: "repeat(3, 1fr)",
                         gap: "30px",
                         maxWidth: "1200px",
@@ -173,7 +173,7 @@ const About = ({ isMobile }) => {
                                     </div>
                                     <h3 className="service-title">{service.title}</h3>
                                 </div>
-                                
+
                                 {/* Flipping content area */}
                                 <div className="service-card-content">
                                     <div className="service-card-content-inner">
@@ -195,10 +195,10 @@ const About = ({ isMobile }) => {
                             </div>
                         ))}
                     </div>
-                    
+
                     {/* Bottom Row - 2 services */}
                     <div style={{
-                        display: "grid", 
+                        display: "grid",
                         gridTemplateColumns: "repeat(2, 1fr)",
                         gap: "30px",
                         maxWidth: "800px",
@@ -213,7 +213,7 @@ const About = ({ isMobile }) => {
                                     </div>
                                     <h3 className="service-title">{service.title}</h3>
                                 </div>
-                                
+
                                 {/* Flipping content area */}
                                 <div className="service-card-content">
                                     <div className="service-card-content-inner">
@@ -239,9 +239,9 @@ const About = ({ isMobile }) => {
 
                 {/* Team Section */}
                 <div style={{ padding: "80px 0" }}>
-                    <h1 style={{ 
-                        textAlign: "center", 
-                        color: "black", 
+                    <h1 style={{
+                        textAlign: "center",
+                        color: "black",
                         fontSize: "2.5em",
                         margin: "0 0 20px 0",
                         position: "relative",
@@ -350,7 +350,7 @@ const About = ({ isMobile }) => {
                         <Julian isMobile={isMobile} />
                     ) : selectedUser.name == "Quinne Houck" ? (
                         <Quinne isMobile={isMobile} />
-                    ) : selectedUser.name == "Miguel Manness" ? (
+                    ) : selectedUser.name == "Miguel Meneses" ? (
                         <Miguel />
                     ) : (
                         <p>No bio yet!</p>

@@ -2,7 +2,7 @@ export const en = {
     // Navigation
     nav: {
         about: "About",
-        portfolio: "Portfolio", 
+        portfolio: "Portfolio",
         blog: "Blog",
         contact: "Contact",
         services: "Services"
@@ -19,14 +19,14 @@ export const en = {
         heroSubtitle1: "Like you, we are binge-watchers, gamers, podcast listeners, and tabletop roleplayers.",
         heroSubtitle2: "As a full-service audio production studio, we manage the entire process for you.",
         ourTeam: "Our Team",
-        
+
         // Services
         services: {
             audioDirection: {
                 title: "AUDIO DIRECTION",
                 checklist: [
                     "Audio Scoping & Roadmaps",
-                    "Budgeting & Contracting", 
+                    "Budgeting & Contracting",
                     "Workflow Management",
                     "Audio Cataloging",
                     "Asset Review & QA"
@@ -87,7 +87,7 @@ export const en = {
             subtitle: "Project Management & Coordination"
         },
         production: {
-            title: "Production", 
+            title: "Production",
             subtitle: "Mixing, Mastering, & Music Editing"
         },
         soundDesign: {
@@ -129,7 +129,7 @@ export const en = {
         email: "contact@wavyrn.com",
         form: {
             name: "Name",
-            email: "Email Address", 
+            email: "Email Address",
             subject: "Subject",
             message: "Message",
             sendButton: "Send",
@@ -195,8 +195,8 @@ export const en = {
                 title: "Sound Designer, Composer",
                 categories: "All, Sound Design, Music"
             },
-            "Miguel Manness": {
-                name: "Miguel Manness",
+            "Miguel Meneses": {
+                name: "Miguel Meneses",
                 title: "Sound Designer, Composer",
                 categories: "All, Sound Design, Music"
             },
