@@ -215,6 +215,11 @@ export const en = {
                 title: "Composer, Mixer",
                 categories: "All, Music, Production"
             },
+            "Grace Pehrman": {
+                name: "Grace Pehrman",
+                title: "Executive Assistant",
+                categories: "All"
+            },
             "Michelle Lai": {
                 name: "Michelle Lai",
                 title: "Composer",

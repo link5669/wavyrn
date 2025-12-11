@@ -65,6 +65,7 @@ const dialogue = [
 const allUsers = [
     { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
     { name: `Ananta Arora`, title: `Co-Founder, \nStudio Manager` },
+    {name: `Grace Pehrman`, title: `Executive Assistant`},
     {
         name: `Max Jaime`,
         title: `Sound Designer, Composer, Mixer`,
@@ -79,7 +80,7 @@ const allUsers = [
 
     // { name: `Gret Price`, title: `Sound Designer, Foley Artist` },
     // { name: `Paul Edward May`, title: `Sound Designer, Voice Actor` },
-    { name: `Michelle Lai`, title: `Audio Director, Composer` },
+    // { name: `Michelle Lai`, title: `Audio Director, Composer` },
     { name: "Neil Small", title: "Sound Designer, Technical Assistant" },
     { name: `Austin Leshock`, title: `Composer, Mixer` },
     { name: "Quinne Houck", title: "Technical Assistant" },

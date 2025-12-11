@@ -13,6 +13,7 @@ import {
     LinkedinLink,
 } from "../SocialLinks";
 import "./Overlay.css";
+import { Link } from "react-router-dom";
 
 // Social links mapping for each user
 const getUserSocialLinks = (userName) => {
@@ -50,6 +51,12 @@ const getUserSocialLinks = (userName) => {
             <InstaLink key="insta" handle="michellelaimusic" />,
             <MailLink key="mail" address="michellelaimusic@gmail.com" />,
             <LinkedinLink key="linkedin" handle="michellelaimusic" />
+        ],
+        "Grace Pehrman": [
+            <LinkedinLink key="linkedin" handle="gracepehrman" />,
+            <InstaLink key="insta" handle="gracepehrman" />,
+            <FacebookLink key="facebook" handle="grace.pehrman" />,
+            <WebsiteLink key="website" link="https://gracepehrman.com/" />,
         ],
         "Neil Small": [
             <TwitterLink key="twitter" handle="@smallsoundss" />,

@@ -22,6 +22,7 @@ import {
     Neil,
     Quinne,
     Miguel,
+    Grace
 } from "../components/UserProfiles";
 import { useLocation } from "react-router-dom";
 import Overlay from "../components/Overlay/Overlay";
@@ -352,6 +353,8 @@ const About = ({ isMobile }) => {
                         <Quinne isMobile={isMobile} />
                     ) : selectedUser.name == "Miguel Meneses" ? (
                         <Miguel />
+                    ) : selectedUser.name == "Grace Pehrman" ? (
+                        <Grace />
                     ) : (
                         <p>No bio yet!</p>
                     )}

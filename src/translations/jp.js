@@ -215,6 +215,11 @@ export const jp = {
                 title: "作曲",
                 categories: "全て、音楽、音響制作"
             },
+            "Grace Pehrman": {
+                name: "グレース • ピアマン",
+                title: "エグゼクティブアシスタント",
+                categories: "全て"
+            },
             "Michelle Lai": {
                 name: "ミシェル • ライ",
                 title: "作曲",

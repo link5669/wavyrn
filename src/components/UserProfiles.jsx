@@ -126,6 +126,39 @@ const Ananta = () => {
     );
 };
 
+const Grace = () => {
+    return (
+        <div style={{ display: "block" }}>
+            <p>
+                Grace Pehrman, a New Jersey native, is a two-time Grammy-nominated performer and Berklee College of Music graduate whose vocal versatility spans rock, blues, soul, jazz, classical, and more.
+            </p>
+            <br />
+            <p>No stranger to the stage, Grace has performed with artists such as Usher and Pitch Slapped, appeared
+                on American Idol, and taken the stage at venues including the Kimmel Center and Agganis Arena.
+                Described by Katy Perry as a “bluesy Marilyn Monroe,” Grace embodies the essence of a classic
+                frontwoman- dynamic, expressive, and undeniably powerful. In addition to her solo work, she sings with
+                the background vocal group Mosaic, now honored with three Grammy nominations for their contributions
+                to Forrest Frank’s albums Child of God and Child of God II.
+            </p>
+            <br />
+            <p>As a solo artist, Grace has released original music to enthusiastic reception, earning growing momentum
+                across streaming platforms and live audiences alike. Building on this success, she is currently developing
+                her debut full-length album, anticipated for release in 2026.
+            </p>
+            <br />
+            <p>Grace has been singing and playing since age six, growing up on her church’s worship team and
+                performing in musical theatre. After releasing music with the a cappella group Vocal Forte, she went on to
+                study classical, traditional, and jazz styles under Regina Ottman and earned a scholarship to the
+                prestigious Berklee College of Music, graduating summa cum laude in 2022. During her time at Berklee,
+                she competed on American Idol Season 20, served as a lead vocalist for more than six of Berklee’s
+                competitive Singer’s Showcase productions, and became president of the internationally recognized a
+                cappella group Pitch Slapped, with whom she released the highly anticipated album Confidential in early
+                2025.
+            </p>
+        </div >
+    );
+};
+
 const Zionna = () => {
     return (
         <div style={{ display: "block" }}>
@@ -766,5 +799,6 @@ export {
     Michelle,
     Neil,
     Quinne,
+    Grace,
     Miguel,
 };

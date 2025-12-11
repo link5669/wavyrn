@@ -38,7 +38,7 @@ const Contact = ({ isMobile }) => {
         }
 
         emailjs
-            .sendForm("service_qmi40xs", "template_4jgigf1", form.current, {
+            .sendForm("service_n3uw9ji", "template_4jgigf1", form.current, {
                 publicKey: "jk8hVoSyJiKGAFCRe",
             })
             .then(
