@@ -168,7 +168,7 @@ const fantasyButtonStyle = {
   borderRadius: "15px",
   cursor: "pointer",
 };
-const fantasySubheadStyle = { fontFamily: "Montserrat", color: "#FFF7E3" };
+const fantasySubheadStyle = { fontFamily: "Quicksand", color: "#FFF7E3" };
 const fantasyWrapperStyle = {
   position: "relative",
   width: "70%",

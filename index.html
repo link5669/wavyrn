@@ -25,7 +25,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Wavyrn</title>
         <meta property="og:site_name" content="Wavyrn" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
         <link href="./src/output.css" rel="stylesheet" />
+        <style>
+            html, body, #root { font-family: "Quicksand", sans-serif !important; }
+        </style>
         <script
             src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js"
             crossorigin
@@ -49,7 +55,7 @@
             background-color: white;
         "
     >
-        <div id="root" style="font-family: Montserrat; margin-bottom: 0"></div>
+        <div id="root" style="margin-bottom: 0"></div>
         <script type="module" src="/src/main.jsx"></script>
     </body>
 </html>

@@ -1,10 +1,12 @@
 export const jp = {
     // Navigation
     nav: {
+        home: "ホーム",
         about: "ウェイヴァーンについて",
         portfolio: "制作実績",
         blog: "ブログ",
         contact: "お問い合わせ",
+        contactUs: "お問い合わせ",
         services: "サービス"
     },
 
@@ -18,6 +20,8 @@ export const jp = {
         heroTitle: "私たちは物語を伝えます。",
         heroSubtitle1: "私たちもドラマの一気見をし、ゲーマーであり、ポッドキャストを聴き、ボードゲームもします。",
         heroSubtitle2: "フルサービス音響制作スタジオとして、全制作工程に対応いたします。",
+        heroSubtitle2Line1: "フルサービス音響制作スタジオとして、",
+        heroSubtitle2Line2: "全制作工程に対応いたします。",
         ourTeam: "チーム",
 
         // Services
@@ -107,6 +111,11 @@ export const jp = {
     // Portfolio page
     portfolio: {
         heroTitle: "",
+        heroTitleMain: "Volume",
+        heroTitleAccent: "Up.",
+        heroSubtitle: "Audio Showcase 2026",
+        carouselTitle: "Choose Your Own Adventure",
+        carouselSubtitle: "Interactive Demo Reel",
         ourWork: "制作実績",
         copyright: "",
         categories: {
@@ -126,6 +135,7 @@ export const jp = {
     contact: {
         title: "お問い合わせ",
         subtitle: "プロジェクトについてご相談ください！",
+        subtitleHighlight: "ご相談ください！",
         email: "contact@wavyrn.com",
         form: {
             name: "お名前",
@@ -144,6 +154,9 @@ export const jp = {
     blog: {
         openFilter: "絞り込む",
         closeFilter: "全て",
+        viewAll: "全て",
+        filter: "フィルター",
+        featuredStories: "注目の記事",
         topic: "トピック",
         project: "プロジェクト",
         genre: "ジャンル",
@@ -260,8 +273,16 @@ export const jp = {
 
     // Footer
     footer: {
-        copyright: "©️ 2025 Wavyrn • All Rights Reserved",
-        newsletter: "ニュースレター"
+        copyright: "© {{year}} Wavyrn • All Rights Reserved",
+        tagline: "Audio made fantastic.",
+        quickLinks: "Quick Links",
+        joinNewsletter: "ニュースレターに登録",
+        enterEmail: "メールアドレスを入力",
+        subscribe: "登録",
+        aboutUs: "ウェイヴァーンについて",
+        privacyPolicy: "プライバシーポリシー",
+        termsOfService: "利用規約",
+        faq: "よくある質問",
     },
 
     // Common UI elements

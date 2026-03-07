@@ -272,7 +272,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         <br />
         {/* <h2
           style={{
-            fontFamily: "Montserrat",
+            fontFamily: "Quicksand",
             color: "white",
             fontSize: `${fontSize}em`, // Dynamic font size
             fontWeight: fontWeight, // Dynamic font weight
@@ -351,7 +351,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           </div>
         </section>
         <br />
-        <h2 style={{ fontFamily: "Montserrat", color: "white" }}>{t('nav.portfolio')}</h2>
+        <h2 style={{ fontFamily: "Quicksand", color: "white" }}>{t('nav.portfolio')}</h2>
         <hr
           style={{
             display: "block",

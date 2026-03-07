@@ -173,7 +173,7 @@ const horrorButtonStyle = {
   borderRadius: "15px",
   cursor: "pointer",
 };
-const horrorSubheadStyle = { fontFamily: "Montserrat", color: "#FFF7E3" };
+const horrorSubheadStyle = { fontFamily: "Quicksand", color: "#FFF7E3" };
 const horrorWrapperStyle = {
   position: "relative",
   width: "70%",

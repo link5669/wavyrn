@@ -39,7 +39,7 @@ const soundDesign = [
 const music = [
     { name: `Marc Yu`, title: `Co-Founder,\n Audio Director` },
     // { name: `Ela Morana`, title: `Technical Sound Designer, Composer` },
-    { name: `Michelle Lai`, title: `Audio Director, Composer` },
+    // { name: `Michelle Lai`, title: `Audio Director, Composer` },
     {
         name: `Max Jaime`,
         title: `Sound Designer, Composer, Mixer`,
@@ -99,7 +99,7 @@ const categories = [
     { categoryList: production, category: `Production` },
     { categoryList: soundDesign, category: `Sound Design` },
     { categoryList: music, category: `Music` },
-    { categoryList: dialogue, category: `Voiceover` },
+    { categoryList: dialogue, category: `Voice-Over` },
 ];
 
 export {

@@ -7,7 +7,6 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
   const handleClick = () => {
     if (
       name == "Josh Trochet" ||
-      name == "Paul Edward May" ||
       name == "Miles Acquaviva"
     )
       return;

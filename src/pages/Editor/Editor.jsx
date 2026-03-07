@@ -51,7 +51,7 @@ const Editor = () => {
       }}
     >
       <WavNavbar showLogo={true} />
-      <div style={{ paddingTop: "70px" }} />
+      <div style={{ paddingTop: "100px" }} />
       {!isAuthenticated ? (
         <PasswordProtection onAuthenticated={() => setIsAuthenticated(true)} />
       ) : (

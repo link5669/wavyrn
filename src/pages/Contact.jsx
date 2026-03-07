@@ -3,10 +3,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { useState } from "react";
-import { Row, Col } from "react-bootstrap";
-import ContactSocialIcons from "../components/ContactSocialIcons";
 import Footer from "../components/Footer";
 import { useTranslation } from "../hooks/useTranslation";
+import "./Contact.css";
 
 const Contact = ({ isMobile }) => {
     const { t } = useTranslation();
@@ -16,6 +15,7 @@ const Contact = ({ isMobile }) => {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [sent, setSent] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const form = useRef();
     const captchaRef = useRef(null);
@@ -37,6 +37,7 @@ const Contact = ({ isMobile }) => {
             return;
         }
 
+        setIsSubmitting(true);
         emailjs
             .sendForm("service_n3uw9ji", "template_4jgigf1", form.current, {
                 publicKey: "jk8hVoSyJiKGAFCRe",
@@ -46,196 +47,110 @@ const Contact = ({ isMobile }) => {
                     setSent(t('contact.form.sent'));
                     console.log("SUCCESS!");
                 },
-                (error) => {
+                (err) => {
+                    setIsSubmitting(false);
                     setSent(t('contact.form.error'));
-                    console.log("FAILED...", error.text);
+                    console.log("FAILED...", err.text);
                 },
             );
     };
 
+    const subtitle = t("contact.subtitle");
+    const highlight = t("contact.subtitleHighlight");
+    const subtitleParts = highlight && subtitle.includes(highlight)
+        ? subtitle.split(highlight)
+        : [subtitle];
+
     return (
         <>
             <WavNavbar showLogo={true} />
-            <div
-                style={{
-                    minHeight: "100vh",
-                    paddingTop: "90px",
-                    width: "100vw",
-                    backgroundColor: "white",
-                }}
-            >
-                <h2
-                    style={{
-                        textAlign: "center",
-                        paddingTop: "1%",
-                        color: "black",
-                    }}
-                >
-                    {t('contact.title')}
-                </h2>
-                <h3
-                    style={{
-                        textAlign: "center",
-                        color: "black",
-                        fontSize: "1.1em",
-                    }}
-                >
-                    {t('contact.subtitle')}
-                </h3>
-                <hr
-                    style={{
-                        display: "block",
-                        height: "3px",
-                        border: 0,
-                        borderTop: "1px solid #000000",
-                        margin: "1em 0",
-                        marginLeft: "30%",
-                        marginRight: "30%",
-                        opacity: 100,
-                    }}
-                />
-                <h4
-                    style={{
-                        textAlign: "center",
-                        color: "black",
-                        fontSize: "1em",
-                        marginTop: "0.5em",
-                        marginBottom: "0.5em",
-                    }}
-                >
-                    {t('contact.email')}
-                </h4>
-                <ContactSocialIcons color="#ce0031" />
-                <p style={{ textAlign: "center" }}>{sent}</p>
-                <form
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        paddingLeft: "25%",
-                        paddingRight: "25%",
-                        alignItems: "center",
-                    }}
-                    id="contact-form"
-                    ref={form}
-                >
+            <div className="contact-page">
+                <h1 className="contact-title">{t("contact.title")}</h1>
+                <p className="contact-subtitle">
+                    {subtitleParts.length === 2 ? (
+                        <>{subtitleParts[0]}<span className="contact-subtitle-accent">{highlight}</span></>
+                    ) : (
+                        subtitle
+                    )}
+                </p>
+                <hr className="contact-hr" />
+                <p className="contact-email">{t("contact.email")}</p>
+                {/* <ContactSocialIcons color="#e01e3d" /> */}
+                {(sent || error) && (
+                    <p className={`contact-message ${error ? "error" : ""}`}>{error || sent}</p>
+                )}
+                <form id="contact-form" ref={form} className="contact-form">
                     <input type="hidden" name="contact_number" />
-                    <Row
-                        style={{
-                            width: "100%",
-                            marginLeft: 0,
-                            marginRight: 0,
-                        }}
-                    >
-                        <Col
-                            xs={6}
-                            style={{ paddingLeft: 0, paddingRight: "5px" }}
-                        >
+                    <div className="contact-row">
+                        <div className="contact-field">
+                            <label htmlFor="contact-name" className="contact-label">{t("contact.form.name")} *</label>
                             <input
+                                id="contact-name"
                                 name="user_name"
                                 type="text"
+                                className="contact-input"
                                 onChange={(e) => setName(e.target.value)}
                                 value={name}
-                                placeholder={t('contact.form.name')}
-                                style={{
-                                    padding: "10px",
-                                    outline: "none",
-                                    backgroundColor: "#f8f8f8",
-                                    height: "4em",
-                                    borderRadius: "10px",
-                                    borderColor: "#000000",
-                                    borderStyle: "solid",
-                                    borderWidth: "1px",
-                                    width: "100%",
-                                }}
+                                // placeholder={t("contact.form.name")}
                             />
-                        </Col>
-                        <Col
-                            xs={6}
-                            style={{ paddingLeft: "5px", paddingRight: 0 }}
-                        >
+                        </div>
+                        </div>
+                    
+                        <div className="contact-field">
+                            <label htmlFor="contact-email" className="contact-label">{t("contact.form.email")} *</label>
                             <input
+                                id="contact-email"
                                 name="user_email"
+                                type="email"
+                                className="contact-input"
                                 onChange={(e) => setEmail(e.target.value)}
-                                type="text"
                                 value={email}
-                                placeholder={t('contact.form.email')}
-                                style={{
-                                    padding: "10px",
-                                    outline: "none",
-                                    backgroundColor: "#f8f8f8",
-                                    height: "4em",
-                                    borderRadius: "10px",
-                                    borderColor: "#000000",
-                                    borderStyle: "solid",
-                                    borderWidth: "1px",
-                                    width: "100%",
-                                }}
+                                // placeholder={t("contact.form.email")}
                             />
-                        </Col>
-                    </Row>
-                    <input
-                        name="subject"
-                        onChange={(e) => setSubject(e.target.value)}
-                        type="text"
-                        value={subject}
-                        placeholder={t('contact.form.subject')}
-                        style={{
-                            outline: "none",
-                            padding: "10px",
-                            marginTop: "1.2em",
-                            backgroundColor: "#f8f8f8",
-                            height: "4em",
-                            borderRadius: "10px",
-                                    borderColor: "#000000",
-                                    borderStyle: "solid",
-                                    borderWidth: "1px",
-                            width: "100%",
-                        }}
-                    />
-                    <textarea
-                        onChange={(e) => setMessage(e.target.value)}
-                        name="message"
-                        value={message}
-                        placeholder={t('contact.form.message')}
-                        style={{
-                            padding: "10px",
-                            marginTop: "1.2em",
-                            marginBottom: "1.2em",
-                            backgroundColor: "#f8f8f8",
-                            height: "10em",
-                            borderRadius: "10px",
-                                    borderColor: "#000000",
-                                    borderStyle: "solid",
-                                    borderWidth: "1px",
-                            width: "100%",
-                            paddingTop: "20px",
-                        }}
-                    />
-                    <div style={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center", gap: "20px", paddingBottom: "30px" }}>
+                        </div>
+                    <div className="contact-field">
+                        <label htmlFor="contact-subject" className="contact-label">{t("contact.form.subject")} *</label>
+                        <input
+                            id="contact-subject"
+                            name="subject"
+                            type="text"
+                            className="contact-input"
+                            onChange={(e) => setSubject(e.target.value)}
+                            value={subject}
+                            // placeholder={t("contact.form.subject")}
+                        />
+                    </div>
+                    <div className="contact-field">
+                        <label htmlFor="contact-message" className="contact-label">{t("contact.form.message")} *</label>
+                        <textarea
+                            id="contact-message"
+                            name="message"
+                            className="contact-textarea"
+                            onChange={(e) => setMessage(e.target.value)}
+                            value={message}
+                            // placeholder={t("contact.form.message")}
+                        />
+                    </div>
+                    <div className="contact-captcha-wrap">
                         <ReCAPTCHA
                             sitekey="6Lcjzm0pAAAAADPgllq3V1121dMrCMYnZwaRSLr5"
                             ref={captchaRef}
                         />
-                        <input
+                    </div>
+                    <div className="contact-submit-wrap">
+                        <button
+                            type="button"
+                            className={`contact-submit ${isSubmitting ? "contact-submit--submitting" : ""}`}
                             onClick={(e) => handleSubmit(e)}
-                            type="submit"
-                            value={t('contact.form.sendButton')}
-                            style={{
-                                width: "9em",
-                                color: "white",
-                                fontSize: "1em",
-                                backgroundColor: "#ce0031",
-                                borderRadius: "5px",
-                                borderStyle: "none",
-                                height: "2.5em",
-                                padding: "0.5em 1em",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                textAlign: "center",
-                            }}
-                        />
-                        {error}
+                            disabled={isSubmitting}
+                        >
+                            <span className="contact-submit-text">{t("contact.form.sendButton")}</span>
+                            <span className="contact-submit-check" aria-hidden="true">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </span>
+                        </button>
                     </div>
                 </form>
             </div>

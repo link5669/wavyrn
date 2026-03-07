@@ -21,7 +21,7 @@ export default function blogRoute(firebaseApp) {
   // POST route to create a new blog post
   router.post("/", async (req, res) => {
     try {
-      const { title, author, date, topics, content, preview, fontColor, slug } = req.body;
+      const { title, author, date, topics, content, preview, fontColor, slug, previewImage } = req.body;
 
       // Validate required fields
       if (!title || !author || !content) {
@@ -71,6 +71,7 @@ export default function blogRoute(firebaseApp) {
         preview: preview || "",
         fontColor: fontColor || "#000000", // Default to black if not specified
         slug: finalSlug,
+        previewImage: previewImage || "",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
         published: true, // Instantly published as per requirements
@@ -163,7 +164,7 @@ export default function blogRoute(firebaseApp) {
   router.put("/:docId", async (req, res) => {
     try {
       const { docId } = req.params;
-      const { title, author, date, topics, content, preview, fontColor, slug } = req.body;
+      const { title, author, date, topics, content, preview, fontColor, slug, previewImage } = req.body;
 
       // Validate required fields
       if (!title || !author || !content) {
@@ -225,6 +226,7 @@ export default function blogRoute(firebaseApp) {
         preview: preview || "",
         slug: finalSlug,
         fontColor: fontColor || "#000000", // Default to black if not specified
+        previewImage: previewImage !== undefined ? previewImage : (docSnapshot.data().previewImage || ""),
         updatedAt: Timestamp.now(),
       };
 

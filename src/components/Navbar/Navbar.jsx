@@ -1,7 +1,7 @@
 // Navbar.jsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaEnvelope, FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { SiBluesky } from "react-icons/si";
 import "./Navbar.css";
 import { IconContext } from "react-icons";
@@ -18,12 +18,9 @@ const Navbar = ({ showLogo }) => {
     const getActiveClass = (path) => {
         const currentPath = location.pathname;
         if (hoveredButton === path) return "hovered";
-        if (currentPath === path) return "active";
+        if (path === "/" && (currentPath === "/" || currentPath === "/jp")) return "active";
+        if (path !== "/" && currentPath === path) return "active";
         return "";
-    };
-
-    const handleMailClick = () => {
-        window.location.href = "mailto:contact@wavyrn.com";
     };
 
     const languages = [
@@ -42,58 +39,38 @@ const Navbar = ({ showLogo }) => {
 
     const selectedLang = languages.find((lang) => lang.code === language);
 
+    const navLinks = [
+        { path: "/", labelKey: "nav.home" },
+        { path: "/about", labelKey: "nav.about" },
+        { path: "/portfolio", labelKey: "nav.portfolio" },
+        { path: "/blog", labelKey: "nav.blog" },
+        { path: "/contact", labelKey: "nav.contactUs" },
+    ];
+
     return (
         <div style={{ position: "fixed", zIndex: 150, width: "100%", left: 0, right: 0 }}>
-            <nav className={`navbar`}>
-                {" "}
+            <nav className="navbar">
                 <div className="nav-left">
-                    <button className="icon-button" onClick={handleMailClick}>
-                        <FaEnvelope />
-                    </button>
-                    <span className="email-text">contact@wavyrn.com</span>
+                    {navLinks.map(({ path, labelKey }) => (
+                        <Link
+                            key={path}
+                            to={path}
+                            className={`nav-item ${getActiveClass(path)}`}
+                            onMouseEnter={() => setHoveredButton(path)}
+                            onMouseLeave={() => setHoveredButton(null)}
+                        >
+                            <span>{t(labelKey)}</span>
+                        </Link>
+                    ))}
                 </div>
                 {showLogo && (
                     <div className="nav-center">
-                        <Link
-                            to="/about"
-                            className={`nav-item ${getActiveClass("/about")}`}
-                            onMouseEnter={() => setHoveredButton("/about")}
-                            onMouseLeave={() => setHoveredButton(null)}
-                        >
-                            <span style={{ color: "white" }}>{t('nav.about')}</span>
-                        </Link>
-                        <Link
-                            to="/portfolio"
-                            className={`nav-item ${getActiveClass("/portfolio")}`}
-                            onMouseEnter={() => setHoveredButton("/portfolio")}
-                            onMouseLeave={() => setHoveredButton(null)}
-                        >
-                            <span style={{ color: "white" }}>{t('nav.portfolio')}</span>
-                        </Link>
-
-                        <Link to="/about" className="logo-container">
+                        <Link to="/" className="logo-container">
                             <img
-                                src="/images/no_text_white.png"
-                                alt="Wavyrn Logo"
+                                src="/images/logo_red.png"
+                                alt="Wavyrn"
                                 className="logo"
                             />
-                        </Link>
-
-                        <Link
-                            to="/blog"
-                            className={`nav-item ${getActiveClass("/blog")}`}
-                            onMouseEnter={() => setHoveredButton("/blog")}
-                            onMouseLeave={() => setHoveredButton(null)}
-                        >
-                            <span style={{ color: "white" }}>{t('nav.blog')}</span>
-                        </Link>
-                        <Link
-                            to="/contact"
-                            className={`nav-item ${getActiveClass("/contact")}`}
-                            onMouseEnter={() => setHoveredButton("/contact")}
-                            onMouseLeave={() => setHoveredButton(null)}
-                        >
-                            <span style={{ color: "white" }}>{t('nav.contact')}</span>
                         </Link>
                     </div>
                 )}
@@ -103,17 +80,10 @@ const Navbar = ({ showLogo }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="icon-button"
+                        aria-label="Instagram"
                     >
-                        <IconContext.Provider
-                            value={{
-                                color: "white",
-                                className: "global-class-name",
-                                size: "18px",
-                            }}
-                        >
-                            <div>
-                                <FaInstagram />
-                            </div>
+                        <IconContext.Provider value={{ color: "white", className: "global-class-name", size: "18px" }}>
+                            <FaInstagram />
                         </IconContext.Provider>
                     </a>
                     <a
@@ -121,17 +91,10 @@ const Navbar = ({ showLogo }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="icon-button"
+                        aria-label="Twitter"
                     >
-                        <IconContext.Provider
-                            value={{
-                                color: "white",
-                                className: "global-class-name",
-                                size: "18px",
-                            }}
-                        >
-                            <div>
-                                <FaTwitter />
-                            </div>
+                        <IconContext.Provider value={{ color: "white", className: "global-class-name", size: "18px" }}>
+                            <FaTwitter />
                         </IconContext.Provider>
                     </a>
                     <a
@@ -139,17 +102,10 @@ const Navbar = ({ showLogo }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="icon-button"
+                        aria-label="Bluesky"
                     >
-                        <IconContext.Provider
-                            value={{
-                                color: "white",
-                                className: "global-class-name",
-                                size: "18px",
-                            }}
-                        >
-                            <div>
-                                <SiBluesky />
-                            </div>
+                        <IconContext.Provider value={{ color: "white", className: "global-class-name", size: "18px" }}>
+                            <SiBluesky />
                         </IconContext.Provider>
                     </a>
                     <a
@@ -157,52 +113,30 @@ const Navbar = ({ showLogo }) => {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="icon-button"
+                        aria-label="Facebook"
                     >
-                        <IconContext.Provider
-                            value={{
-                                color: "white",
-                                className: "global-class-name",
-                                size: "18px",
-                            }}
-                        >
-                            <div>
-                                <FaFacebook />
-                            </div>
+                        <IconContext.Provider value={{ color: "white", className: "global-class-name", size: "18px" }}>
+                            <FaFacebook />
                         </IconContext.Provider>
                     </a>
                     <a
-                        href="https://www.linkedin.com/company/wavyrn-audio/"
+                        href="https://www.linkedin.com/company/wavyrnaudio/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="icon-button"
+                        aria-label="LinkedIn"
                     >
-                        <IconContext.Provider
-                            value={{
-                                color: "white",
-                                className: "global-class-name",
-                                size: "18px",
-                            }}
-                        >
-                            <div>
-                                <FaLinkedin />
-                            </div>
+                        <IconContext.Provider value={{ color: "white", className: "global-class-name", size: "18px" }}>
+                            <FaLinkedin />
                         </IconContext.Provider>
                     </a>
-                    
-                    {/* Language Dropdown */}
+
                     <div className="language-dropdown-container">
                         <div className="language-trigger" onClick={toggleLanguageDropdown}>
                             <span className="flag">{selectedLang?.flag}</span>
-                            <span className="language-code">
-                                {selectedLang?.code.toUpperCase()}
-                            </span>
-                            <span
-                                className={`dropdown-arrow ${isLanguageDropdownOpen ? "open" : ""}`}
-                            >
-                                ▼
-                            </span>
+                            <span className="language-code">{selectedLang?.code.toUpperCase()}</span>
+                            <span className={`dropdown-arrow ${isLanguageDropdownOpen ? "open" : ""}`}>▼</span>
                         </div>
-
                         {isLanguageDropdownOpen && (
                             <div className="language-dropdown">
                                 {languages.map((lang) => (

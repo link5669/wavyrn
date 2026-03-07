@@ -21,6 +21,7 @@ const BlogEditor = () => {
     preview: "",
     fontColor: "#000000",
     slug: "",
+    previewImage: "",
   });
   
   // Edit states
@@ -34,6 +35,7 @@ const BlogEditor = () => {
     preview: "",
     fontColor: "#000000",
     slug: "",
+    previewImage: "",
   });
   
   // UI states
@@ -118,6 +120,19 @@ const BlogEditor = () => {
     }));
   };
 
+  const handlePreviewImageFile = (e, isEdit = false) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      if (isEdit) setEditFormData((prev) => ({ ...prev, previewImage: dataUrl }));
+      else setFormData((prev) => ({ ...prev, previewImage: dataUrl }));
+    };
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  };
+
   const handleTopicToggle = (topicName) => {
     setFormData((prev) => ({
       ...prev,
@@ -182,6 +197,7 @@ const BlogEditor = () => {
           preview: "",
           fontColor: "#000000",
           slug: "",
+          previewImage: "",
         });
         fetchPosts();
       } else {
@@ -228,6 +244,7 @@ const BlogEditor = () => {
           preview: "",
           fontColor: "#000000",
           slug: "",
+          previewImage: "",
         });
         fetchPosts();
       } else {
@@ -253,6 +270,7 @@ const BlogEditor = () => {
       preview: post.preview || "",
       fontColor: post.fontColor || "#000000",
       slug: post.slug || "",
+      previewImage: post.previewImage || "",
     });
   };
 
@@ -299,6 +317,7 @@ const BlogEditor = () => {
       preview: "",
       fontColor: "#000000",
       slug: "",
+      previewImage: "",
     });
     setMessage("");
   };
@@ -686,6 +705,46 @@ const BlogEditor = () => {
           </div>
 
           <div style={{ marginBottom: "15px" }}>
+            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+              Preview image (blog card):
+            </label>
+            <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
+              Upload an image or paste a URL. This image is shown on the blog listing.
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "flex-start" }}>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handlePreviewImageFile(e, false)}
+                style={{ fontSize: "14px" }}
+              />
+              <input
+                type="url"
+                name="previewImage"
+                value={formData.previewImage?.startsWith("data:") ? "" : (formData.previewImage || "")}
+                onChange={handleInputChange}
+                placeholder="Or paste image URL"
+                style={{
+                  flex: "1",
+                  minWidth: "200px",
+                  padding: "8px",
+                  border: "1px solid #ccc",
+                  borderRadius: "4px",
+                }}
+              />
+            </div>
+            {formData.previewImage && (
+              <div style={{ marginTop: "10px" }}>
+                <img
+                  src={formData.previewImage}
+                  alt="Preview"
+                  style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
+                />
+              </div>
+            )}
+          </div>
+
+          <div style={{ marginBottom: "15px" }}>
             <label
               htmlFor="content"
               style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
@@ -949,6 +1008,43 @@ const BlogEditor = () => {
                               resize: "vertical",
                             }}
                           />
+                        </div>
+                        
+                        <div style={{ marginBottom: "10px" }}>
+                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
+                            Preview image (blog card):
+                          </label>
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "flex-start" }}>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => handlePreviewImageFile(e, true)}
+                              style={{ fontSize: "13px" }}
+                            />
+                            <input
+                              type="url"
+                              name="previewImage"
+                              value={editFormData.previewImage?.startsWith("data:") ? "" : (editFormData.previewImage || "")}
+                              onChange={handleEditInputChange}
+                              placeholder="Or paste image URL"
+                              style={{
+                                flex: "1",
+                                minWidth: "180px",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          </div>
+                          {editFormData.previewImage && (
+                            <div style={{ marginTop: "8px" }}>
+                              <img
+                                src={editFormData.previewImage}
+                                alt="Preview"
+                                style={{ maxWidth: "180px", maxHeight: "100px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
+                              />
+                            </div>
+                          )}
                         </div>
                         
                         <div style={{ marginBottom: "10px" }}>

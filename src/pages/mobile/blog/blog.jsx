@@ -439,7 +439,7 @@ const Blog = ({ isMobile }) => {
                                             author={post.author}
                                             date={post.date}
                                             subtitle={post.byline}
-                                            image={post.image}
+                                            image={post.previewImage || post.image}
                                             content={post.preview || post.content.substring(0, 200) + "..."}
                                             link={post.slug ? `/blog/${post.slug}` : `/blog/${post.docId}`}
                                             isMobile={isMobile}

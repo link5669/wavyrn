@@ -1,10 +1,17 @@
 import React from "react";
 import MusicCarousel from "../components/Carousel/MusicCarousel";
 import WavNavbar from "../components/Navbar/Navbar";
+import DarkOverlay from "../components/DarkOverlay/DarkOverlay";
+import TrapezoidFrame from "../components/TrapezoidFrame/TrapezoidFrame";
 import "./Portfolio.css";
 import ProjectImage from "../components/ProjectImage";
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "../hooks/useTranslation";
+import Footer from "../components/Footer";
+
+const PORTFOLIO_HERO_BG =
+  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Blog/20260221%20Blog.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+const PORTFOLIO_VIDEO_PLACEHOLDER = "https://www.w3schools.com/html/mov_bbb.mp4";
 
 function Portfolio({ title, dividerStyle, isMobile }) {
   const { t } = useTranslation();
@@ -16,6 +23,37 @@ function Portfolio({ title, dividerStyle, isMobile }) {
   const [loadingSfx, setLoadingSfx] = useState(false);
   const [portfolioImages, setPortfolioImages] = useState([]);
   const [loadingPortfolio, setLoadingPortfolio] = useState(false);
+  const [heroVideoOpen, setHeroVideoOpen] = useState(false);
+  const [animatingSfxId, setAnimatingSfxId] = useState(null);
+  const heroVideoRef = useRef(null);
+  const heroVideoBackdropRef = useRef(null);
+
+  const SfxWaveformIcon = () => {
+    const viewHeight = 14;
+    const barWidth = 2.2;
+    const gap = 1.4;
+    const heights = [2, 5, 9, 6, 4, 7, 10, 7, 4, 6, 9, 5, 2];
+    const totalWidth = heights.length * barWidth + (heights.length - 1) * gap;
+    return (
+      <svg className="sfx-waveform" viewBox={`0 0 ${totalWidth} ${viewHeight}`} fill="currentColor" aria-hidden>
+        {heights.map((h, i) => {
+          const y = (viewHeight - h) / 2;
+          const x = i * (barWidth + gap);
+          return (
+            <rect
+              key={i}
+              className={`sfx-bar sfx-bar-${i}`}
+              x={x}
+              y={y}
+              width={barWidth}
+              height={h}
+              rx="0.5"
+            />
+          );
+        })}
+      </svg>
+    );
+  };
 
   const getUniqueRandomSfx = (existingNames = [], sfx) => {
     const availableSfx = sfx.filter((s) => !existingNames.includes(s.name));
@@ -36,7 +74,6 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         id: i,
         text: sfx.name,
         visible: true,
-        shake: false,
       });
     }
 
@@ -56,17 +93,22 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     if (allSfx.length === 0) return;
     const button = buttons.find((btn) => btn.id === id);
 
+    setAnimatingSfxId(id);
+    setTimeout(() => setAnimatingSfxId(null), 1000);
+
     const sfxItem = allSfx.find((item) => item.name === button.text);
     if (sfxItem) {
       const audio = new Audio(sfxItem.link);
       audio.play();
     }
 
-    setButtons((prevButtons) =>
-      prevButtons.map((btn) =>
-        btn.id === id ? { ...btn, visible: false } : btn,
-      ),
-    );
+    setTimeout(() => {
+      setButtons((prevButtons) =>
+        prevButtons.map((btn) =>
+          btn.id === id ? { ...btn, visible: false } : btn,
+        ),
+      );
+    }, 1000);
 
     setTimeout(() => {
       setButtons((prevButtons) =>
@@ -80,28 +122,8 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             : btn,
         ),
       );
-    }, 1000);
+    }, 2000);
   };
-
-  useEffect(() => {
-    const shakeInterval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * buttons.length);
-      setButtons((prevButtons) =>
-        prevButtons.map((btn, index) =>
-          index === randomIndex ? { ...btn, shake: true } : btn,
-        ),
-      );
-
-      // Reset the shake after the animation duration
-      setTimeout(() => {
-        setButtons((prevButtons) =>
-          prevButtons.map((btn) => ({ ...btn, shake: false })),
-        );
-      }, 500); // Shake duration
-    }, 3000); // Shake every 3 seconds
-
-    return () => clearInterval(shakeInterval);
-  }, [buttons.length]);
 
   useEffect(() => {
     setIsVisible(true);
@@ -112,7 +134,6 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           console.log(r.ok);
           if (r.ok) {
             setAlbums(d.albums);
-            console.log(d.albums);
           } else {
             console.error("Failed to fetch albums:", d.error);
           }
@@ -180,8 +201,11 @@ function Portfolio({ title, dividerStyle, isMobile }) {
   }, []);
 
   useEffect(() => {
-    console.log(albums[0]);
-  }, [albums]);
+    if (heroVideoOpen) {
+      const el = heroVideoBackdropRef.current;
+      if (el) requestAnimationFrame(() => el.focus());
+    }
+  }, [heroVideoOpen]);
 
   return (
     <div
@@ -198,35 +222,82 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           width: "100%",
           minHeight: "100vh",
           // paddingTop: "80px",
-          backgroundColor: "#2a2a2a",
+          backgroundColor: "#151515",
         }}
       >
         {/* Hero Section */}
-        <section className="hero-section">
-          <div className="hero-content">
-            <h1 className="hero-title">{t('portfolio.heroTitle')}</h1>
-            {/* <p className="hero-subtitle">Showcasing creative audio work across games, films, and media</p> */}
-            <br/>
-            <div className="video-container">
-            <iframe
-              width="450"
-              height="270"
-              src="https://www.youtube.com/embed/GuOGbvwdMWk?si=f0lxC3rxtVjBykuK"
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; "
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-              className="portfolio-video"
-            ></iframe>
-          </div>
+        <section className="portfolio-hero">
+          <div
+            className="portfolio-hero-bg"
+            style={{ backgroundImage: `url(${PORTFOLIO_HERO_BG})` }}
+          />
+          <DarkOverlay opacity={0.3} className="portfolio-hero-overlay" />
+          <TrapezoidFrame className="portfolio-hero-trapezoid" />
+          <div className="portfolio-hero-inner">
+            <h1 className="portfolio-hero-title">
+              {t("portfolio.heroTitleMain")}{" "}
+              <span className="portfolio-hero-title-accent">{t("portfolio.heroTitleAccent")}</span>
+            </h1>
+            <button
+              type="button"
+              className="portfolio-hero-play"
+              onClick={() => setHeroVideoOpen(true)}
+              aria-label="Play video"
+            >
+              <span className="portfolio-hero-play-icon" aria-hidden />
+            </button>
+            <p className="portfolio-hero-subtitle">{t("portfolio.heroSubtitle")}</p>
           </div>
         </section>
+
+        {/* Hero video modal: full screen with 5vw margin */}
+        {heroVideoOpen && (
+          <div
+            ref={heroVideoBackdropRef}
+            className="portfolio-hero-video-backdrop"
+            onClick={() => setHeroVideoOpen(false)}
+            onKeyDown={(e) => e.key === "Escape" && setHeroVideoOpen(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Video"
+            tabIndex={0}
+          >
+            <button
+              type="button"
+              className="portfolio-hero-video-close"
+              onClick={(e) => {
+                e.stopPropagation();
+                setHeroVideoOpen(false);
+              }}
+              aria-label="Close video"
+            >
+              ×
+            </button>
+            <div
+              className="portfolio-hero-video-wrap"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <video
+                ref={heroVideoRef}
+                className="portfolio-hero-video"
+                src={PORTFOLIO_VIDEO_PLACEHOLDER}
+                controls
+                autoPlay
+                playsInline
+                onEnded={() => heroVideoRef.current?.pause()}
+              />
+            </div>
+          </div>
+        )}
 
         {/* Video Section */}
         <section className="video-section">
           <div className="section-header">
           <div className="music-container">
+            <div className="portfolio-carousel-header">
+              <h2 className="portfolio-carousel-title">{t("portfolio.carouselTitle")}</h2>
+              <p className="portfolio-carousel-subtitle">{t("portfolio.carouselSubtitle")}</p>
+            </div>
             {albums.length > 0 && (
               <MusicCarousel
                 albums={albums}
@@ -245,11 +316,15 @@ function Portfolio({ title, dividerStyle, isMobile }) {
               buttons.slice(0, 4).map((button) => (
                 <button
                   key={button.id}
-                  className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
+                  type="button"
+                  className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""} ${animatingSfxId === button.id ? "waveform-animate" : ""}`}
                   data-text={button.text}
                   onClick={() => handleButtonClick(button.id)}
                 >
-                  <span>{button.text}</span>
+                  <span className="sfx-waveform-wrap">
+                    <SfxWaveformIcon />
+                  </span>
+                  <span className="sfx-button-label">{button.text}</span>
                 </button>
               ))}
           </div>
@@ -259,11 +334,15 @@ function Portfolio({ title, dividerStyle, isMobile }) {
               buttons.slice(4, 8).map((button) => (
                 <button
                   key={button.id}
-                  className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""}`}
+                  type="button"
+                  className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""} ${animatingSfxId === button.id ? "waveform-animate" : ""}`}
                   data-text={button.text}
                   onClick={() => handleButtonClick(button.id)}
                 >
-                  <span>{button.text}</span>
+                  <span className="sfx-waveform-wrap">
+                    <SfxWaveformIcon />
+                  </span>
+                  <span className="sfx-button-label">{button.text}</span>
                 </button>
               ))}
           </div>
@@ -276,7 +355,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
           <div className="section-header">
             <h2 className="section-title">{t('portfolio.ourWork')}</h2>
             {/* <p className="section-subtitle">Explore our diverse portfolio of audio projects</p> */}
-            <div className="section-divider"></div>
+            {/* <div className="section-divider"></div> */}
           </div>
           
           <div className="portfolio-grid">
@@ -300,51 +379,8 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             )}
           </div>
         </section>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 150px 1fr",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingTop: "20px",
-            paddingBottom: "30px",
-            paddingLeft: isMobile ? "5%" : "10%",
-            paddingRight: isMobile ? "5%" : "10%",
-            maxWidth: "100vw",
-            backgroundColor: "black",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", justifySelf: "end" }}>
-            <img
-              style={{
-                maxHeight: "45px",
-                flexShrink: 1,
-              }}
-              src="/images/logo_red.png"
-            />
-            <span style={{
-              color: "white",
-              fontSize: "0.5em",
-              marginLeft: "3px",
-              marginTop: "-8px",
-              verticalAlign: "top",
-              lineHeight: "1"
-            }}>™</span>
-          </div>
-          <div></div>
-          <p
-            style={{
-              color: "white",
-              margin: 0,
-              lineHeight: "50px",
-              whiteSpace: "nowrap",
-              justifySelf: "start",
-            }}
-          >
-{t('portfolio.copyright')}
-          </p>
+        <Footer/>
         </div>
-      </div>
     </div>
   );
 }

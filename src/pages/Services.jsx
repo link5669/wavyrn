@@ -53,7 +53,7 @@ const Services = ({ isMobile }) => {
             <div
                 style={{
                     minHeight: "87vh",
-                    paddingTop: "45px",
+                    paddingTop: "65px",
                 }}
             >
                 {isMobile ? (

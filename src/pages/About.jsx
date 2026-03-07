@@ -76,25 +76,25 @@ const About = ({ isMobile }) => {
         },
         {
             title: t('about.services.soundDesign.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AA0AEMcKF11NgdtOdI0RUu8/icon_waveform_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_waveform_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.soundDesign.checklist'),
             description: t('about.services.soundDesign.description')
         },
         {
             title: t('about.services.voiceOver.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/ABL84ZQNHZV0BcftDVrhgYo/icon_microphone_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_microphone_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.voiceOver.checklist'),
             description: t('about.services.voiceOver.description')
         },
         {
             title: t('about.services.music.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AHW3rkoVBxJgBaohhKQKDSA/icon_semiquaver_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_semiquaver_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.music.checklist'),
             description: t('about.services.music.description')
         },
         {
             title: t('about.services.production.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AAeX50rU6qw3deUT5QL6e-Y/icon_headphones_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0",
+            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_headphones_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.production.checklist'),
             description: t('about.services.production.description')
         }
@@ -104,63 +104,45 @@ const About = ({ isMobile }) => {
         <>
             <WavNavbar showLogo={true} />
             <div
+                className="about-page"
                 style={{
                     backgroundColor: "white",
-                    paddingTop: "45px",
+                    paddingTop: "65px",
                     minHeight: "100vh",
                     width: "100vw",
+                    overflowX: "hidden",
                 }}
             >
-                {/* Hero Section */}
-                <div style={{ textAlign: "center", padding: "60px 0" }}>
-                    <h1 style={{
-                        fontSize: "3.5em",
-                        color: "#CE0036",
-                        margin: "0 0 20px 0",
-                        fontWeight: "bold"
-                    }}>
-                        {t('about.heroTitle')}
-                    </h1>
-                    <p style={{
-                        fontSize: "1.1em",
-                        color: "black",
-                        maxWidth: "800px",
-                        margin: "0 auto 15px auto"
-                    }}>
-                        {t('about.heroSubtitle1')}
-                    </p>
-                    <p style={{
-                        fontSize: "1.1em",
-                        color: "black",
-                        maxWidth: "800px",
-                        margin: "0 auto"
-                    }}>
-                        {t('about.heroSubtitle2').includes('entire process') ?
-                            t('about.heroSubtitle2').split('entire process').map((part, index) =>
-                                index === 0 ? part : (
-                                    <span key={index}>
-                                        <strong style={{ color: "#CE0036" }}>entire process</strong>
-                                        {part}
-                                    </span>
-                                )
-                            ) : t('about.heroSubtitle2')
-                        }
-                    </p>
-                </div>
+                {/* Hero + Services – shared background with overlay */}
+                <div className="about-hero-and-services">
+                    {/* Hero Section – two-line headline with red accent */}
+                    <div className="about-hero" style={{ textAlign: "center", padding: "60px 0", maxWidth: "800px", margin: "0 auto" }}>
+                        <span className="about-hero-line1">{t('about.heroSubtitle2Line1')}</span>
+                        <span className="about-hero-line2">
+                            {(() => {
+                                const line2 = t('about.heroSubtitle2Line2');
+                                if (line2.includes('entire')) {
+                                    const [before, after] = line2.split('entire');
+                                    return <>{before}<span className="about-hero-accent">entire</span>{after}</>;
+                                }
+                                return line2;
+                            })()}
+                        </span>
+                        <hr className="about-hero-hr" />
+                    </div>
 
-                {/* Services Section */}
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    padding: "0",
-                    width: "100%",
-                    gap: "30px"
-                }}>
+                    {/* Services Section */}
+                    <div className="about-services-wrap" style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        padding: "0 0 120px 0",
+                        width: "100%",
+                        gap: "30px"
+                    }}>
                     {/* Top Row - 3 services */}
-                    <div style={{
+                    <div className="about-services-grid about-services-grid--top" style={{
                         display: "grid",
-                        gridTemplateColumns: "repeat(3, 1fr)",
                         gap: "30px",
                         maxWidth: "1200px",
                         width: "100%"
@@ -182,7 +164,7 @@ const About = ({ isMobile }) => {
                                             <ul className="service-checklist">
                                                 {service.checklist.map((item, idx) => (
                                                     <li key={idx}>
-                                                        <span className="checkbox">☐</span>
+                                                        <span className="checkbox">✔</span>
                                                         {item}
                                                     </li>
                                                 ))}
@@ -198,9 +180,8 @@ const About = ({ isMobile }) => {
                     </div>
 
                     {/* Bottom Row - 2 services */}
-                    <div style={{
+                    <div className="about-services-grid about-services-grid--bottom" style={{
                         display: "grid",
-                        gridTemplateColumns: "repeat(2, 1fr)",
                         gap: "30px",
                         maxWidth: "800px",
                         width: "100%"
@@ -222,7 +203,7 @@ const About = ({ isMobile }) => {
                                             <ul className="service-checklist">
                                                 {service.checklist.map((item, idx) => (
                                                     <li key={idx}>
-                                                        <span className="checkbox">☐</span>
+                                                        <span className="checkbox">✔</span>
                                                         {item}
                                                     </li>
                                                 ))}
@@ -236,36 +217,19 @@ const About = ({ isMobile }) => {
                             </div>
                         ))}
                     </div>
+                    </div>
                 </div>
 
                 {/* Team Section */}
-                <div style={{ padding: "80px 0" }}>
-                    <h1 style={{
-                        textAlign: "center",
-                        color: "black",
-                        fontSize: "2.5em",
-                        margin: "0 0 20px 0",
-                        position: "relative",
-                        marginLeft: "15%",
-                        marginRight: "15%",
-                    }}>
+                <div className="about-team-section" style={{ padding: "60px 0 100px 0" }}>
+                    <h1 className="about-team-heading">
                         {t('about.ourTeam')}
-                        <div style={{
-                            width: "100px",
-                            height: "2px",
-                            backgroundColor: "black",
-                            margin: "10px auto 0 auto"
-                        }}></div>
+                        <span className="about-team-heading-line" />
                     </h1>
 
                     {/* Filter Navigation */}
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "20px",
-                        margin: "40px 0",
-                        flexWrap: "wrap"
-                    }}>
+                    <div className="about-team-filters-wrap">
+                        <div className="about-team-filters">
                         {categories.map((category, index) => (
                             <UserCategory
                                 key={category.category}
@@ -274,24 +238,16 @@ const About = ({ isMobile }) => {
                                 categoryList={category.categoryList}
                                 category={category.category}
                                 selectedCat={selectedCat}
+                                buttonClassName="about-filter-btn"
+                                isActive={selectedCat === category.category}
                             />
                         ))}
+                        </div>
                     </div>
 
                     {/* Team Grid */}
-                    <div
-                        ref={pfpParent}
-                        className="team-grid"
-                        style={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(5, 18%)",
-                            gap: "2px",
-                            padding: "0",
-                            width: "100%",
-                            paddingLeft: "15%",
-                            paddingRight: "15%",
-                        }}
-                    >
+                    <div className="team-grid-wrapper">
+                        <div ref={pfpParent} className="team-grid">
                         {visibleUsers.map((user, index) => (
                             <ProfilePic
                                 key={user.name}
@@ -303,9 +259,10 @@ const About = ({ isMobile }) => {
                                 onClick={() => {
                                     setSelectedUser(user);
                                     setIsOverlayVisible(true);
-                                }}
-                            />
+                            }}
+                        />
                         ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,6 +278,7 @@ const About = ({ isMobile }) => {
                         name: t(`team.members.${selectedUser.name}.name`) || selectedUser.name,
                         title: t(`team.members.${selectedUser.name}.title`) || selectedUser.title,
                         image: getPfpImage(selectedUser.name),
+                        userKey: selectedUser.name,
                     }}
                 >
                     {selectedUser.name == "Sam Leigh" ? (

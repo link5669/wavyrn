@@ -1,44 +1,478 @@
 /* Blog.css */
 
-/* Force white background for blog page on desktop only */
-@media (min-width: 769px) {
-    body {
-        background-color: white !important;
-    }
+/* Fill the page: body normally centers content (index.css), which leaves gray strips on the sides */
+body:has(.blog-page-wrap) {
+    display: block;
+    place-items: unset;
+    background-color: #0d0d0d;
 }
 
-.tags-section {
-    position: fixed;
-    right: 2vw;
-    top: 64px;
-    margin-top: 1vw;
-    width: 18%;
-    background-color: white;
-    border: 3px solid #CE0036;
+body:has(.blog-page-wrap) #root {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* ========== Featured Stories banner ========== */
+.blog-featured-banner {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem 4rem;
+    background-color: #1a1510;
+    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Blog/20260221%20Blog.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.blog-featured-banner-overlay {
+    background: rgba(40, 35, 30, 0.7);
+}
+
+.blog-featured-trapezoid {
+    z-index: 0;
+}
+
+.blog-featured-banner-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+}
+
+.blog-featured-title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+}
+
+.blog-featured-title-line {
+    width: 420px;
+    height: 1px;
+    background-color: #969696;
+    margin: 2.2rem auto 2rem;
+}
+
+.blog-featured-card {
+    display: block;
+    text-align: left;
+    padding: 1.75rem 2rem 2.5rem;
+    background: rgba(30, 28, 26, 0.55);
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    color: #fff;
+    text-decoration: none;
+    position: relative;
+    /* padding: 50px; */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.blog-featured-card:hover {
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.blog-featured-card-title {
+    margin: 0 0 0.75rem;
+    font-size: clamp(1.45rem, 2.6vw, 2.0rem);
+    font-weight: 700;
+    color: #fff;
+    text-align: left;
+    line-height: 1.25;
+}
+
+.blog-featured-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-featured-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(80, 75, 70, 0.9);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 999px;
+}
+
+.blog-featured-excerpt {
+    margin: 0 3rem 0 0;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.blog-featured-play {
+    position: absolute;
+    font-size: 2rem;
+    bottom: -12px;
+    right: -12px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #CE0036;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(206, 0, 54, 0.5);
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.blog-featured-card:hover .blog-featured-play {
+    background: #fff;
+    color: #CE0036;
+    transform: scale(1.05);
+}
+
+.blog-featured-play-icon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 4px;
+}
+
+/* ========== Post preview cards (horizontal, dark theme) ========== */
+.blog-preview-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1rem;
+    max-width: 72vw;
+    margin: 0 2vw 1.5rem;
+    padding: 1rem;
+    background: #1f1f1f;
+    border: 2px solid #CE0036;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.blog-preview-card--mobile {
+    flex-direction: column;
+    max-width: 100%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+/* Image area: same fill behavior on desktop and mobile (background always fills the box) */
+.blog-preview-card-image-wrap {
+    flex: 0 0 34%;
+    width: 34%;
+    height: 320px;
+    min-height: 320px;
+    max-height: 220px;
+    position: relative;
+    background-color: #2a2a2a;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    align-self: flex-start;
+}
+
+/* Mobile: same fill (cover/center), only dimensions change */
+.blog-preview-card--mobile .blog-preview-card-image-wrap {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    align-self: flex-start;
+}
+
+/* Screen-reader only: keep img for semantics, visual is background on wrap */
+.blog-preview-card-image-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.blog-preview-card:not(.blog-preview-card--mobile) .blog-preview-card-image-wrap {
+    border-radius: 10px 0 0 10px;
+}
+
+.blog-preview-card--mobile .blog-preview-card-image-wrap {
+    border-radius: 10px 10px 0 0;
+}
+
+.blog-preview-card-body {
+    flex: 1;
+    /* padding: 1.5rem 1.15rem; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.blog-preview-card-title {
+    margin: 0 0 0.4rem;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    text-align: left;
+}
+
+.blog-preview-card-date {
+    margin: 0 0 0.75rem;
+    font-size: 1.0rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.blog-preview-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.blog-preview-card-tag {
+    padding: 0.25rem 0.75rem;
+    background: #2d2d2d;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 999px;
+}
+
+.blog-preview-card-excerpt {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.75);
+    flex: 1;
+}
+
+.blog-preview-card-excerpt p {
+    margin: 0 0 0.5em;
+}
+
+.blog-preview-card-excerpt p:last-child {
+    margin-bottom: 0;
+}
+
+.blog-preview-card-excerpt a {
+    color: #CE0036;
+    text-decoration: none;
+}
+
+.blog-preview-card-excerpt a:hover {
+    text-decoration: underline;
+}
+
+.blog-preview-card-excerpt strong {
+    font-weight: 700;
+}
+
+.blog-preview-card-excerpt em {
+    font-style: italic;
+}
+
+.blog-preview-card-cta {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    background: #CE0036;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
     border-radius: 8px;
-    padding: 20px;
-    color: black;
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.blog-preview-card-cta:hover {
+    background: #fff;
+    color: #CE0036;
+    transform: translateX(2px) scale(1.05);
+}
+
+/* Blog page wrapper – dark background, fill viewport width.
+   Use overflow-x: clip so sticky sidebar is not trapped (overflow-x: hidden can break position: sticky). */
+.blog-page-wrap {
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    background-color: #0d0d0d;
+    overflow-x: clip;
+}
+
+.blog-loading-state,
+.blog-empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Two columns: posts left, filter sidebar right (sidebar sticks and floats on scroll) */
+.blog-main {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-top: 3rem;
+    padding: 0 0 2rem 2vw; /* no right padding so sidebar fills to edge */
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .posts-section {
-    margin-right: 22%; /* Account for tags-section width + margin */
+    flex: 1;
+    min-width: 0;
+    padding: 2rem 0 3rem;
+}
+
+@media (min-width: 769px) {
+    .posts-section {
+        background-color: #0d0d0d !important;
+    }
+}
+
+/* Sidebar: sticky so it sticks at top of viewport when user scrolls; red border, close to content */
+.tags-section {
+    flex: 0 0 280px;
+    position: sticky;
+    top: 7.5rem; /* just below navbar so filter sticks at top of viewport when scrolled */
+    align-self: flex-start;
+    margin-top: 2rem; /* align top of filter with top of first post preview */
+    padding-bottom: 12rem;
+    z-index: 10; /* above post cards when sticky */
+    background-color: #1a1a1a;
+    border: 2px solid #CE0036;
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    max-height: calc(100vh - 6rem);
     overflow-y: auto;
 }
 
-/* White background for posts section on desktop only */
-@media (min-width: 769px) {
-    .posts-section {
-        background-color: white !important;
+.tags-section h2 {
+    color: #CE0036 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.412);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tags-section h3 {
+    color: #CE0036 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.384);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tags-section label {
+    color: #fff !important;
+}
+
+.tags-section hr {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.tags-section .blog-filter-category {
+    padding-top: 0;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .blog-main {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .tags-section {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100%;
+        position: static;
+        max-height: none;
     }
 }
 
-/* Remove margin on mobile devices */
-@media (max-width: 768px) {
-    .posts-section {
-        margin-right: 0;
-    }
+/* ========== Blog pagination ========== */
+.blog-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 2rem 2vw 3rem;
+}
+
+.blog-pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #CE0036;
+    background: #000;
+    border: 2px solid #CE0036;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.blog-pagination-btn:hover:not(:disabled) {
+    background: #fff;
+    color: #CE0036;
+}
+
+.blog-pagination-btn:hover {
+    border: 2px solid #fff;
+}
+
+.blog-pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.blog-pagination-btn--active {
+    background: #CE0036;
+    color: #fff;
+}
+
+.blog-pagination-btn--active:hover:not(:disabled) {
+    background: #fff;
+    color: #CE0036;
+}
+
+.blog-pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    color: #CE0036;
+    border: 2px solid #CE0036;
+    border-radius: 8px;
+    background: #000;
 }
 
 .coolBeans {

@@ -167,7 +167,7 @@ const Post = ({ isMobile, e }) => {
                 style={{
                     float: "left",
                     backgroundColor: "RGB(1,1,1)",
-                    paddingTop: "35px",
+                    paddingTop: "55px",
                     width: "100vw",
                     minHeight: "100vh",
                 }}

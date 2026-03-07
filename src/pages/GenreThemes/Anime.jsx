@@ -166,7 +166,7 @@ const animeButtonStyle = {
   borderRadius: "15px",
   cursor: "pointer",
 };
-const animeSubheadStyle = { fontFamily: "Montserrat", color: "#000000" };
+const animeSubheadStyle = { fontFamily: "Quicksand", color: "#000000" };
 const animeWrapperStyle = {
   position: "relative",
   width: "70%",

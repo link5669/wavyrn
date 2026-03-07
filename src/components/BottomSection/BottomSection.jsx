@@ -83,7 +83,7 @@ function BottomSection() {
               <b>{t('footer.newsletter')}</b>
             </a>
           </button>
-          <p>{t('footer.copyright')}</p>
+          <p>{t('footer.copyright').replace('{{year}}', new Date().getFullYear())}</p>
         </>
       )}
     </div>

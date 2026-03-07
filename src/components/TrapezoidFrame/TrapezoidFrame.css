@@ -1,0 +1,39 @@
+.trapezoid-frame-wrapper {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.trapezoid-frame-corner {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+}
+
+.trapezoid-frame-corner--left {
+    left: 0;
+}
+
+.trapezoid-frame-corner--right {
+    right: 0;
+}
+
+.trapezoid-frame-corner svg {
+    width: 100%;
+    height: 100%;
+}
+
+.trapezoid-frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trapezoid-frame-svg {
+    width: 100%;
+    height: 100%;
+}

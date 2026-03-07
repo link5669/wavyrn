@@ -1,10 +1,12 @@
 export const en = {
     // Navigation
     nav: {
+        home: "Home",
         about: "About",
         portfolio: "Portfolio",
         blog: "Blog",
         contact: "Contact",
+        contactUs: "Contact Us",
         services: "Services"
     },
 
@@ -18,6 +20,8 @@ export const en = {
         heroTitle: "We Are Storytellers.",
         heroSubtitle1: "Like you, we are binge-watchers, gamers, podcast listeners, and tabletop roleplayers.",
         heroSubtitle2: "As a full-service audio production studio, we manage the entire process for you.",
+        heroSubtitle2Line1: "As a full-service production studio,",
+        heroSubtitle2Line2: "we manage the entire process for you.",
         ourTeam: "Our Team",
 
         // Services
@@ -107,7 +111,12 @@ export const en = {
     // Portfolio page
     portfolio: {
         heroTitle: "Audio Visual Reel 2025",
-        ourWork: "Our Work",
+        heroTitleMain: "Volume",
+        heroTitleAccent: "Up.",
+        heroSubtitle: "Audio Showcase 2026",
+        carouselTitle: "Choose Your Own Adventure",
+        carouselSubtitle: "Interactive Demo Reel",
+        ourWork: "Featured Credits",
         copyright: "©️ 2025 Wavyrn • All Rights Reserved",
         categories: {
             videoGame: "Video Game",
@@ -126,6 +135,7 @@ export const en = {
     contact: {
         title: "Contact Us",
         subtitle: "Let's chat about your next project!",
+        subtitleHighlight: "next project!",
         email: "contact@wavyrn.com",
         form: {
             name: "Name",
@@ -144,9 +154,12 @@ export const en = {
     blog: {
         openFilter: "Open Filter",
         closeFilter: "View All",
-        topic: "TOPIC",
-        project: "PROJECT",
-        genre: "GENRE",
+        viewAll: "View All",
+        filter: "FILTER",
+        featuredStories: "Featured Stories",
+        topic: "Topic",
+        project: "Project",
+        genre: "Genre",
         categories: {
             production: "Production",
             soundDesign: "Sound Design",
@@ -167,7 +180,7 @@ export const en = {
             production: "Production",
             soundDesign: "Sound Design",
             music: "Music",
-            voiceover: "Voiceover"
+            voiceover: "Voice-Over"
         },
         members: {
             "Marc Yu": {
@@ -260,8 +273,16 @@ export const en = {
 
     // Footer
     footer: {
-        copyright: "©️ 2025 Wavyrn • All Rights Reserved",
-        newsletter: "Join our Newsletter"
+        copyright: "© {{year}} Wavyrn • All Rights Reserved",
+        tagline: "Audio made fantastic.",
+        quickLinks: "Quick Links",
+        joinNewsletter: "Join our newsletter!",
+        enterEmail: "Enter your email",
+        subscribe: "Subscribe",
+        aboutUs: "About Us",
+        privacyPolicy: "Privacy Policy",
+        termsOfService: "Terms of Service",
+        faq: "FAQ",
     },
 
     // Common UI elements

@@ -1,116 +1,88 @@
 import { Link } from "react-router-dom";
-import "./blog.css";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import "./blog.css";
 import { useTranslation } from "../../hooks/useTranslation";
+
+const DEFAULT_PREVIEW_IMAGE = "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600";
 
 const Preview = ({ isMobile, title, image, author, date, tags, content, link, allTags }) => {
     const { t } = useTranslation();
-    
-    // Helper function to get display name for tags
+
     const getTagDisplayName = (tag) => {
-        if (typeof tag === 'string') {
-            // If it's a string, find the corresponding tag object from the tags collection
-            const currentLang = localStorage.getItem('selectedLanguage') || 'en';
+        if (typeof tag === "string") {
+            const currentLang = localStorage.getItem("selectedLanguage") || "en";
             const allTagsArray = [...(allTags?.TOPIC || []), ...(allTags?.PROJECT || []), ...(allTags?.GENRE || [])];
-            const tagObj = allTagsArray.find(t => t.name === tag);
-            if (tagObj && currentLang === 'jp' && tagObj.nameJP) {
-                return tagObj.nameJP;
-            }
+            const tagObj = allTagsArray.find((t) => t.name === tag);
+            if (tagObj && currentLang === "jp" && tagObj.nameJP) return tagObj.nameJP;
             return tag;
         }
-        const currentLang = localStorage.getItem('selectedLanguage') || 'en';
-        if (currentLang === 'jp' && tag.nameJP) {
-            return tag.nameJP;
-        }
+        const currentLang = localStorage.getItem("selectedLanguage") || "en";
+        if (currentLang === "jp" && tag.nameJP) return tag.nameJP;
         return tag.name;
     };
+
+    // Take first 280 chars for preview; strip custom blocks so they don't show as raw
+    const rawTrimmed =
+        typeof content === "string"
+            ? content.substring(0, 280).trim() + (content.length > 280 ? "..." : "")
+            : "";
+    const excerpt = rawTrimmed
+        .replace(/\{image:[^}]+\}/g, "")
+        .replace(/\{youtube:[^}]+\}/g, "")
+        .replace(/\{player:[^}]+\}/g, "")
+        .replace(/\{video:[^}]+\}/g, "")
+        .replace(/\{color:#[A-Fa-f0-9]{6}\}(.*?)\{\/color\}/gs, "$1")
+        .replace(/\{indent:\d+\}(.*?)\{\/indent\}/gs, "$1")
+        .trim();
+
+    // Convert bold/italic markdown (asterisks) to HTML so asterisks never show (handles truncated or unclosed ** / *)
+    const excerptForRender = excerpt
+        .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*\*$/g, "") // orphan ** at end from truncation
+        .replace(/\*([^*\s][^*]*?)\*/g, "<em>$1</em>")
+        .replace(/\*$/g, ""); // orphan * at end
+
+    const imgSrc = image && image !== "" ? image : DEFAULT_PREVIEW_IMAGE;
+
     return (
-        <div
-            style={{
-                margin: "2vw 2vw",
-                width: "70vw",
-                padding: "2vw",
-                backgroundColor: "#fef2f2",
-                borderRadius: isMobile ? "0px" : "30px",
-                border: "1px solid #fecaca",
-                boxShadow: "0 2px 8px rgba(206, 0, 54, 0.1)",
-            }}
-        >
-            <h2 style={{ textAlign: "left" }}>{title}</h2>
-            <h4 style={{ color: "grey", fontSize: "1.2em", marginBottom: "10px" }}>by {author}</h4>
-            <p style={{ color: "grey", fontSize: "1em", marginBottom: "15px" }}>{date}</p>
-            
-            {/* Tags */}
-            {tags && tags.length > 0 && (
-                <div style={{ marginBottom: "15px" }}>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+        <article className={`blog-preview-card ${isMobile ? "blog-preview-card--mobile" : ""}`}>
+            <div
+                className="blog-preview-card-image-wrap"
+                style={{ backgroundImage: `url(${imgSrc})` }}
+                role="img"
+                aria-label=""
+            >
+                <img src={imgSrc} alt="" className="blog-preview-card-image-sr-only" />
+            </div>
+            <div className="blog-preview-card-body">
+                <h2 className="blog-preview-card-title">{title}</h2>
+                <p className="blog-preview-card-date">{date}</p>
+                {tags && tags.length > 0 && (
+                    <div className="blog-preview-card-tags">
                         {tags.map((tag, index) => (
-                            <span
-                                key={index}
-                                style={{
-                                    backgroundColor: "#CE0036",
-                                    color: "white",
-                                    padding: "4px 12px",
-                                    borderRadius: "16px",
-                                    fontSize: "14px",
-                                    fontWeight: "500"
-                                }}
-                            >
+                            <span key={index} className="blog-preview-card-tag">
                                 {getTagDisplayName(tag)}
                             </span>
                         ))}
                     </div>
-                </div>
-            )}
-            {image !== ""  && (
-            <img
-                style={{
-                    paddingTop: "1vw",
-                    paddingBottom: "1vw",
-                    width: "40vw",
-                }}
-                src={image}
-            />
-            )}
-            {content && typeof content === 'string' && (
-                <div style={{
-                    lineHeight: "1.5",
-                    marginBottom: "15px",
-                    wordBreak: "break-word"
-                }}>
-                    <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        components={{
-                            p: ({ children }) => <p style={{ marginBottom: "10px" }}>{children}</p>,
-                            h1: ({ children }) => <h1 style={{ fontSize: "1.2em", marginBottom: "8px" }}>{children}</h1>,
-                            h2: ({ children }) => <h2 style={{ fontSize: "1.1em", marginBottom: "6px" }}>{children}</h2>,
-                            h3: ({ children }) => <h3 style={{ fontSize: "1em", marginBottom: "4px" }}>{children}</h3>,
-                            ul: ({ children }) => <ul style={{ marginBottom: "8px", paddingLeft: "15px" }}>{children}</ul>,
-                            ol: ({ children }) => <ol style={{ marginBottom: "8px", paddingLeft: "15px" }}>{children}</ol>,
-                            li: ({ children }) => <li style={{ marginBottom: "2px" }}>{children}</li>,
-                            code: ({ children }) => (
-                                <code style={{ 
-                                    backgroundColor: "#f4f4f4", 
-                                    padding: "1px 4px", 
-                                    borderRadius: "3px",
-                                    fontSize: "12px"
-                                }}>
-                                    {Array.isArray(children) ? children.join('') : children}
-                                </code>
-                            ),
-                            strong: ({ children }) => <strong>{children}</strong>,
-                            em: ({ children }) => <em>{children}</em>,
-                        }}
-                    >
-                        {content.length > 300 ? content.substring(0, 800) + '...' : content}
-                    </ReactMarkdown>
-                </div>
-            )}
-            <Link to={link}>
-                <button className="coolBeans">{t('common.learnMore')}</button>
-            </Link>
-        </div>
+                )}
+                {excerptForRender ? (
+                    <div className="blog-preview-card-excerpt">
+                        <ReactMarkdown
+                            remarkPlugins={[remarkGfm]}
+                            rehypePlugins={[rehypeRaw]}
+                            children={excerptForRender}
+                        />
+                    </div>
+                ) : null}
+                <Link to={link} className="blog-preview-card-cta">
+                    {t("common.learnMore")} →
+                </Link>
+            </div>
+        </article>
     );
 };
 

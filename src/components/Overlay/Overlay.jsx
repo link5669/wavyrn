@@ -111,15 +111,16 @@ const Overlay = ({ isVisible, onClose, children, profileInfo }) => {
                             <h3>{profileInfo.name}</h3>
                             <p>{profileInfo.title}</p>
                             <div className="social-links-header">
-                                {getUserSocialLinks(profileInfo.name).map((link, index) => (
-                                    <div key={index} style={{ paddingInline: "2%" }}>
+                                {getUserSocialLinks(profileInfo.userKey || profileInfo.name).map((link, index) => (
+                                    <div key={index}>
                                         {link}
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </div>
-                    <button className="close-button" onClick={onClose}>
+                    <div className="overlay-divider" aria-hidden="true" />
+                    <button className="close-button" onClick={onClose} aria-label="Close">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"

@@ -31,14 +31,116 @@
     animation-direction: reverse;
 }
 
+/* About hero + services – shared full-bleed background with gray overlay */
+.about-hero-and-services {
+    position: relative;
+    background-color: #fff;
+    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/SHRB%20Banner.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.about-hero-and-services::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 30, 35, 0.75);
+    pointer-events: none;
+}
+
+.about-hero-and-services .about-hero,
+.about-hero-and-services .about-services-wrap {
+    position: relative;
+    z-index: 1;
+}
+
+/* Hero text – white on dark overlay, two-line with red accent */
+.about-hero-and-services .about-hero {
+    color: #fff;
+}
+
+.about-hero-and-services .about-hero .about-hero-line1 {
+    display: block;
+    font-size: 2.3em;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.about-hero-and-services .about-hero .about-hero-line2 {
+    display: block;
+    font-size: 2.3em;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.about-hero-and-services .about-hero .about-hero-accent {
+    color: #e01e3d;
+}
+
+.about-hero-hr {
+    border: none;
+    border-top: 3px solid #AAAAAA;
+    margin: 1rem auto 0;
+    max-width: 370px;
+}
+
+/* Service cards in hero section – dark red gradient, glow border, red checkmarks */
+.about-hero-and-services .service-card {
+    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"),
+        linear-gradient(180deg, rgba(120, 30, 40, 0.4) 0%, rgba(80, 20, 30, 0.6) 50%, rgba(50, 15, 22, 0.85) 100%);
+    background-size: cover, cover;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    border: 1px solid rgba(206, 0, 54, 0.6);
+    box-shadow: 0 0 20px rgba(206, 0, 54, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.about-hero-and-services .service-card .service-title,
+.about-hero-and-services .service-checklist li {
+    color: #fff;
+}
+
+.about-hero-and-services .service-checklist .checkbox {
+    margin-right: 1px;
+    color: #CE0036;
+    font-size: 1.1em;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.about-hero-and-services .service-icon img {
+    filter: brightness(0) invert(1);
+}
+
+/* Service grids: limit column width so cards are narrower on the x-axis */
+.about-services-grid {
+    justify-content: center;
+}
+
+.about-services-grid--top {
+    grid-template-columns: repeat(3, minmax(0, 324px));
+}
+
+.about-services-grid--bottom {
+    grid-template-columns: repeat(2, minmax(0, 324px));
+}
+
 /* Service Card Flip Animation */
 .service-card {
     height: 320px;
+    width: 100%;
     min-width: 0; /* Allow cards to shrink */
     background-color: white;
-    border: 1px solid #CE0036;
-    border-radius: 15px;
-    padding: 20px;
+    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid #D3315D;
+    border-radius: 35px;
+    padding: 14px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -48,13 +150,13 @@
 /* Responsive service grid */
 @media (max-width: 1200px) {
     .service-card {
-        height: 280px;
+        height: 240px;
     }
 }
 
 @media (max-width: 900px) {
     .service-card {
-        height: 260px;
+        height: 220px;
     }
 }
 
@@ -63,7 +165,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 /* Flipping content area */
@@ -110,7 +212,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 0 30px 0; /* Added bottom padding */
+    padding: 0 0 20px 0;
     /* Firefox-specific fixes */
     -moz-transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
@@ -126,7 +228,7 @@
 .service-icon {
     font-size: 2.5em;
     margin-bottom: 10px;
-    color: #CE0036;
+    color: rgb(254, 254, 254);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -143,8 +245,8 @@
 }
 
 .service-title {
-    color: #CE0036;
-    font-size: 1.1em;
+    color: white;
+    font-size: 1.5em;
     font-weight: bold;
     margin: 0 0 15px 0;
     text-align: center;
@@ -161,20 +263,22 @@
 .service-checklist li {
     margin: 4px 0;
     font-size: 0.85em;
-    color: black;
+    color: white;
     display: flex;
     align-items: center;
     line-height: 1.2;
 }
 
+.service-card .service-checklist .checkbox,
 .checkbox {
     margin-right: 10px;
     color: #CE0036;
     font-size: 1.2em;
+    flex-shrink: 0;
 }
 
 .service-description {
-    color: black;
+    color: white;
     font-size: 1em;
     line-height: 1.5;
     text-align: center;
@@ -209,91 +313,256 @@
     text-align: center;
 }
 
-/* Team Grid Responsive */
+/* ========== About page: prevent horizontal overflow ========== */
+.about-page {
+    box-sizing: border-box;
+    max-width: 100vw;
+}
+
+/* ========== About page team section (dark theme, new card style) ========== */
+.about-team-section {
+    background-color: #141414;
+    overflow-x: hidden;
+}
+
+.about-team-heading {
+    text-align: center;
+    color: #fff;
+    font-size: 2.5em;
+    margin: 0 0 20px 0;
+    position: relative;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.about-team-heading-line {
+    display: block;
+    width: 500px;
+    height: 2px;
+    background-color: #CE0036;
+    margin: 25px auto 0 auto;
+}
+
+.about-team-filters-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.about-team-filters {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 10px;
+    border: .5px solid #353535;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.about-filter-btn {
+    margin: 0;
+    padding: 0.5em 0.5em;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+    border: 1px solid #CE0036;
+    background-color: transparent;
+    color: #CE0036;
+    min-width: 120px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.about-filter-btn:hover {
+    border-color: #e60040;
+    background-color: #2a2a2a;
+}
+
+.about-filter-btn--active {
+    background-color: #CE0036;
+    border-color: #CE0036;
+    color: #fff;
+}
+
+/* Profile cards: image fills container; name card floats on top, inset from all edges */
+.about-team-section .team-grid .profile-pic-container {
+    border-radius: 12px;
+    border: 2px solid #CE0036;
+    overflow: hidden;
+    background-color: #BDDBFF;
+    position: relative;
+    box-sizing: border-box;
+    max-width: none !important;
+    width: 100%;
+}
+
+.about-team-section .team-grid .profile-pic-wrapper {
+    background-color: #BDDBFF;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 0 !important;
+    padding-bottom: calc(340 / 200 * 100%) !important;
+}
+
+.about-team-section .team-grid .profile-pic-wrapper:hover {
+    background-color: #BDDBFF;
+}
+
+/* Image must fill parent wrapper (profile card image area) – override base and inline */
+.about-team-section .team-grid .profile-pic-image {
+    box-shadow: none;
+    box-sizing: border-box;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    min-height: 100% !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+}
+
+/* Name card: floats on top of image, near bottom, inset from container edges */
+.about-team-section .team-grid .profile-pic-info {
+    position: absolute !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    width: auto !important;
+    background-color: #2F2F2F;
+    padding: 14px 32px 18px 32px !important;
+    padding-inline: 32px !important;
+    margin: 0 !important;
+    height: 66px;
+    min-height: 66px;
+    z-index: 2;
+    border: 2px solid #CE0036;
+    border-radius: 10px;
+    box-shadow: none;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.about-team-section .team-grid .profile-pic-name {
+    color: #FFFFFF;
+    font-size: 0.78em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    overflow: visible;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.about-team-section .team-grid .profile-pic-title {
+    color: #FFFFFF;
+    font-size: 0.62em;
+    font-weight: normal;
+    line-height: 1.25;
+    overflow: visible;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Centered wrapper – no extra right margin; grid stays within viewport */
+.team-grid-wrapper {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 15%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Team Grid – gap scales with viewport; minmax(0,1fr) lets columns shrink so grid stays inside container */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 25px; /* Increased base gap for larger screens */
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(14px, 2.2vw, 28px);
     padding: 0;
     width: 100%;
-    /* Ensure minimum gap at all screen sizes through media queries */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.team-grid .profile-pic-container {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.team-grid .profile-pic-wrapper {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 200 / 340;
 }
 
 @media (max-width: 1200px) {
+    .team-grid-wrapper {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
     .team-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 900px) {
+    .team-grid-wrapper {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
     .team-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px; /* Consistent minimum gap */
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
 @media (max-width: 600px) {
+    .team-grid-wrapper {
+        padding-left: 4%;
+        padding-right: 4%;
+    }
     .team-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px; /* Maintain minimum gap even on small screens */
-        padding: 0 5%; /* Add small padding to prevent edge touching */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: clamp(14px, 3vw, 24px);
     }
 }
 
 @media (max-width: 400px) {
-    .team-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px; /* Slightly smaller gap for very narrow screens but still visible */
-        padding: 0 3%; /* Reduced padding for very small screens */
+    .team-grid-wrapper {
+        padding-left: 3%;
+        padding-right: 3%;
     }
-}
-
-/* Responsive padding for team section on desktop */
-/* Specific for 13-inch MacBook and similar resolutions */
-@media (max-width: 1500px) and (min-width: 1280px) {
     .team-grid {
-        padding-left: 8% !important;
-        padding-right: 8% !important;
-        gap: 25px !important; /* Extra large gap for MacBook 13" */
-    }
-}
-
-@media (max-width: 1500px) {
-    .team-grid {
-        padding-left: 10% !important;
-        padding-right: 10% !important;
-        gap: 20px !important; /* Larger gap for better visibility */
-    }
-}
-
-@media (max-width: 1400px) {
-    .team-grid {
-        padding-left: 12% !important;
-        padding-right: 12% !important;
-        gap: 20px !important; /* Increased from 15px */
-    }
-}
-
-@media (max-width: 1200px) {
-    .team-grid {
-        padding-left: 10% !important;
-        padding-right: 10% !important;
-        gap: 20px !important; /* Increased from 15px */
-    }
-}
-
-@media (max-width: 1000px) {
-    .team-grid {
-        padding-left: 8% !important;
-        padding-right: 8% !important;
-        gap: 20px !important; /* Increased from 15px */
-    }
-}
-
-@media (max-width: 900px) {
-    .team-grid {
-        padding-left: 5% !important;
-        padding-right: 5% !important;
-        gap: 20px !important; /* Increased for better visibility */
+        gap: clamp(12px, 2.5vw, 20px);
     }
 }

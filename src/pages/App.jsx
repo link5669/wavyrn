@@ -1,9 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Home";
-import MobileHome from "./mobile/Home";
-import MobileAbout from "./mobile/About";
-import MobilePortfolio from "./mobile/Portfolio";
-import MobileContact from "./mobile/Contact";
 import "./App.css";
 import { useState, useEffect } from "react";
 import { LanguageProvider } from "../contexts/LanguageContext";
@@ -13,16 +9,13 @@ import Contact from "./Contact";
 import ZoomRedirect from "./ZoomRedirect";
 import DiscordRedirect from "./Discord";
 import Blog from "./blog/blog";
-import MobileBlog from "./mobile/blog/blog";
 import Post from "./blog/post";
-import MobilePost from "./mobile/blog/post";
 import ScrollToTop from "../components/ScrollToTop";
 import GeneralUseRedirect from "./GeneralUseRedirect";
 import PatreonRedirect from "./PatreonCatalogRedirect";
 import NewsletterRedirect from "./NewsletterRedirect";
 import ShortUrlRedirect from "../components/ShortUrlRedirect";
 import BLOG_PAGES from "./blog/pages";
-import MOBILE_BLOG_PAGES from "./mobile/blog/pages";
 import GenreTemplate from "./GenreTemplate";
 import {
   animationAlbumData,
@@ -105,67 +98,29 @@ function App() {
       <LanguageProvider>
       <ScrollToTop>
         <Routes>
-          <Route
-            path="/"
-            element={isMobile ? <MobileHome /> : <Home isMobile={isMobile} />}
-          />
+          <Route path="/" element={<Home isMobile={isMobile} />} />
 
           {/* Japanese route */}
-          <Route
-            path="/jp"
-            element={isMobile ? <MobileHome /> : <Home isMobile={isMobile} />}
-          />
+          <Route path="/jp" element={<Home isMobile={isMobile} />} />
 
           {/* subpages */}
           <Route path="/services" element={<Services isMobile={isMobile} />} />
           <Route
             path="/portfolio"
             element={
-              isMobile ? (
-                <MobilePortfolio
-                  albums={animationAlbumData}
-                  audioData={arcadeAudioData}
-                  isMobile={isMobile}
-                />
-              ) : (
-                <Portfolio
-                  albums={animationAlbumData}
-                  audioData={arcadeAudioData}
-                  isMobile={isMobile}
-                />
-              )
+              <Portfolio
+                albums={animationAlbumData}
+                audioData={arcadeAudioData}
+                isMobile={isMobile}
+              />
             }
           />
           <Route
             path="/about"
-            element={
-              isMobile ? (
-                <MobileAbout isMobile={isMobile} />
-              ) : (
-                <About animate={false} isMobile={isMobile} />
-              )
-            }
+            element={<About animate={false} isMobile={isMobile} />}
           />
-          <Route
-            path="/contact"
-            element={
-              isMobile ? (
-                <MobileContact isMobile={isMobile} />
-              ) : (
-                <Contact isMobile={isMobile} />
-              )
-            }
-          />
-          <Route
-            path="/blog"
-            element={
-              isMobile ? (
-                <MobileBlog isMobile={isMobile} />
-              ) : (
-                <Blog isMobile={isMobile} />
-              )
-            }
-          />
+          <Route path="/contact" element={<Contact isMobile={isMobile} />} />
+          <Route path="/blog" element={<Blog isMobile={isMobile} />} />
           <Route
             path="/genres/animation"
             element={
@@ -263,31 +218,14 @@ function App() {
           />
 
           {/* Dynamic blog posts by slug or docId */}
-          <Route
-            path="/blog/:identifier"
-            element={
-              isMobile ? (
-                <MobilePost isMobile={isMobile} />
-              ) : (
-                <Post isMobile={isMobile} />
-              )
-            }
-          />
+          <Route path="/blog/:identifier" element={<Post isMobile={isMobile} />} />
 
           {/* Legacy blog pages */}
-          {!isMobile ? BLOG_PAGES.map((e) => (
+          {BLOG_PAGES.map((e) => (
             <Route
               path={e.path}
               key={e.title}
-              element={
-                <Post e={e} isMobile={isMobile} />
-              }
-            />
-          )) : MOBILE_BLOG_PAGES.map((e) => (
-            <Route
-              path={e.path}
-              key={e.title}
-              element={<MobilePost e={e} isMobile={isMobile} />}
+              element={<Post e={e} isMobile={isMobile} />}
             />
           ))}
 

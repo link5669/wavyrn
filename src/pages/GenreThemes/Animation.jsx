@@ -166,7 +166,7 @@ const animationButtonStyle = {
   borderRadius: "15px",
   cursor: "pointer",
 };
-const animationSubheadStyle = { fontFamily: "Montserrat" };
+const animationSubheadStyle = { fontFamily: "Quicksand" };
 
 const animationWrapperStyle = {
   position: "relative",

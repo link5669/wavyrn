@@ -5,11 +5,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #ce0031;
+    padding: 16px 24px;
+    background-color: #000000;
     z-index: 100;
     width: 100%;
-    height: 4em;
+    min-height: 6em;
     position: relative;
 }
 
@@ -18,40 +18,43 @@
     background: none !important;
 }
 
-.nav-left,
-.nav-right {
-    padding-left: 20px;
+.nav-left {
     display: flex;
-    gap: 12px;
+    gap: 8px;
     align-items: center;
-    padding-right: 20px;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    max-width: 50%;
+    padding-right: 8vw;
+}
+
+.nav-left .nav-item {
+    padding: 6px 12px;
 }
 
 .nav-center {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 
-/* Adjust the gap between About-Portfolio and Blog-Contact */
-.nav-center > *:nth-child(1),
-.nav-center > *:nth-child(2) {
-    margin-right: -10px;
-}
-
-.nav-center > *:nth-child(4),
-.nav-center > *:nth-child(5) {
-    margin-left: -10px;
+.nav-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex: 1;
+    justify-content: flex-end;
+    padding-right: 0;
 }
 
 .icon-button {
     background: transparent;
     border: none;
-    color: white; /* Changed from black to white */
+    color: white;
     font-size: 24px;
     cursor: pointer;
     padding: 8px;
@@ -61,42 +64,49 @@
     justify-content: center;
 }
 
-.email-text {
-    color: white; /* Changed from black to white */
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
 .icon-button:hover {
-    opacity: 0.7;
-    fill: "white";
+    opacity: 0.8;
 }
 
 .logo-container {
-    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 0 12px;
+    height: 100%;
+    min-height: 4em;
 }
 
 .logo {
-    width: 40px; /* Make sure this matches the final size in the animation */
-    height: auto;
+    height: 3.5em;
+    width: auto;
+    max-height: 52px;
+    display: block;
+    object-fit: contain;
     transition: transform 0.3s ease;
 }
 
-.logo:hover {
+.logo-container:hover .logo {
     transform: scale(1.05);
 }
 
 .nav-item {
     text-decoration: none;
-    color: white; /* Changed from black to white */
+    color: #b0b0b0;
     position: relative;
-    padding: 5px 0;
+    padding: 6px 0;
+    font-size: 15px;
+    white-space: nowrap;
 }
 
-a.hover {
-    color: "white";
+.nav-item span {
+    color: inherit;
+}
+
+.nav-item:hover span,
+.nav-item.hovered span,
+.nav-item.active span {
+    color: white;
 }
 
 .nav-item::after {
@@ -106,31 +116,27 @@ a.hover {
     left: 50%;
     width: 0;
     height: 2px;
-    background-color: white; /* Changed from black to white */
+    background-color: white;
     transition: width 0.3s ease;
     transform: translateX(-50%);
 }
 
-/* Active state (current page) */
 .nav-item.active::after {
     width: 100%;
 }
 
-/* Hover state */
 .nav-item.hovered::after {
     width: 100%;
 }
 
-/* When any item is hovered, retract the active underline */
-.nav-center:hover .nav-item.active:not(.hovered)::after {
+.nav-left:hover .nav-item.active:not(.hovered)::after {
     width: 0;
-    color: white;
 }
 
-/* Language Dropdown Styles */
+/* Language dropdown – dark grey button */
 .language-dropdown-container {
     position: relative;
-    margin-left: 8px;
+    margin-left: 4px;
 }
 
 .language-trigger {
@@ -138,22 +144,23 @@ a.hover {
     align-items: center;
     gap: 6px;
     padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
+    background-color: #2a2a2a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
     color: white;
     font-size: 14px;
 }
 
 .language-trigger:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+    background-color: #353535;
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 .flag {
     font-size: 16px;
+    line-height: 1;
 }
 
 .language-code {
@@ -207,9 +214,8 @@ a.hover {
     background-color: #b3002a;
 }
 
-/* Hide social media icons on screens 1210px or less */
 @media (max-width: 1210px) {
-    .nav-right .icon-button:not(.language-dropdown-container) {
+    .nav-right .icon-button {
         display: none;
     }
 }

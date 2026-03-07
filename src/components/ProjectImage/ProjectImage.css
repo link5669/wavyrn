@@ -1,0 +1,251 @@
+.project-image {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    transition: box-shadow 0.3s ease;
+}
+
+.project-image:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Fill wrap shrinks so image animates into top 62% */
+.project-image__fill-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    transition: height 0.22s ease;
+    backface-visibility: hidden;
+}
+
+.project-image:hover .project-image__fill-wrap {
+    height: 62%;
+}
+
+.project-image__fill {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.project-image__fill-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    vertical-align: bottom;
+    object-fit: cover;
+}
+
+/* Spacer reserves top 62% so album art shows; collapses on hover */
+.project-image__spacer {
+    width: 100%;
+    height: 62%;
+    min-height: 0;
+    max-height: 62%;
+    flex-shrink: 0;
+    overflow: hidden;
+    transition: height 0.22s ease, max-height 0.22s ease;
+}
+
+.project-image:hover .project-image__spacer {
+    height: 0;
+    max-height: 0;
+}
+
+/* Small image area grows in with transition */
+.project-image__img-wrap {
+    position: relative;
+    width: 100%;
+    max-height: 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E61937;
+    overflow: hidden;
+    /* border-radius: 12px 12px 0 0; */
+    padding: 0 12px;
+    box-sizing: border-box;
+    z-index: 1;
+    opacity: 0;
+    transition: max-height 0.22s ease, opacity 0.2s ease;
+}
+
+.project-image:hover .project-image__img-wrap {
+    max-height: 62%;
+    opacity: 1;
+    padding: 12px 12px 0;
+    transition: max-height 0.22s ease, opacity 0.2s ease, padding 0.22s ease;
+}
+
+.project-image__img-wrap-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    /* border: 1px solid rgba(30, 30, 30, 0.9); */
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-image:hover .project-image__img-wrap-inner {
+    /* border-color: rgba(40, 40, 40, 0.95); */
+}
+
+.project-image__img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.project-image:hover .project-image__img {
+    object-fit: cover;
+    object-position: center;
+}
+
+.project-image__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.project-image:hover .project-image__overlay {
+    opacity: 0;
+}
+
+/* Red panel at bottom; overflow: visible so red panels can extend up to cover seam on hover */
+.project-image__overlay-panel {
+    flex: 0 0 0;
+    min-height: 0;
+    max-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+    transition: max-height 0.22s ease, flex 0.22s ease;
+}
+
+.project-image:hover .project-image__overlay-panel {
+    flex: 1;
+    max-height: 38%;
+}
+
+/* Red slides in from card edges; panels meet at image edges (12px padding), not at center */
+.project-image__overlay-panel-left,
+.project-image__overlay-panel-right {
+    position: absolute;
+    border-radius: 0px;
+    top: 0;
+    bottom: 0;
+    width: calc(100% - 12px);
+    background: #E61937;
+    transition: transform 0.22s ease;
+}
+
+/* Left panel: card left → image right edge (ends at 12px from card right) */
+.project-image__overlay-panel-left {
+    left: 0;
+    transform: translateX(-100%);
+}
+
+/* Right panel: image left edge (12px from card left) → card right */
+.project-image__overlay-panel-right {
+    left: 12px;
+    transform: translateX(100%);
+}
+
+/* On hover, extend red panels slightly upward to cover seam but keep image rounded corners visible */
+.project-image:hover .project-image__overlay-panel-left,
+.project-image:hover .project-image__overlay-panel-right {
+    top: -2px;
+    height: calc(100% + 2px);
+}
+
+.project-image:hover .project-image__overlay-panel-left {
+    transform: translateX(0);
+}
+
+.project-image:hover .project-image__overlay-panel-right {
+    transform: translateX(0);
+}
+
+.project-image__overlay-panel .project-image__text {
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.22s ease, opacity 0.2s ease;
+}
+
+.project-image:hover .project-image__overlay-panel .project-image__text {
+    transform: scaleX(1);
+}
+
+.project-image__text {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    color: #fff;
+    font-size: 0.80em;
+    font-weight: bold;
+    text-align: left;
+    pointer-events: none;
+    opacity: 0;
+    padding: 12px 12px 10px;
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.2s ease;
+}
+
+.project-image:hover .project-image__text {
+    opacity: 1;
+}
+
+.project-image__title {
+    display: block;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 700;
+    margin: 0 0 4px;
+    line-height: 1.2;
+}
+
+.project-image__subtitle {
+    display: block;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.9em;
+    font-weight: 400;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.project-image:not(:hover) .project-image__text {
+    opacity: 0;
+}
+
+.project-image:hover .project-image__text {
+    opacity: 1;
+}

@@ -161,7 +161,7 @@ const arcadeButtonStyle = {
   borderRadius: "15px",
   cursor: "pointer",
 };
-const arcadeSubheadStyle = { fontFamily: "Montserrat", color: "#FFF7E3" };
+const arcadeSubheadStyle = { fontFamily: "Quicksand", color: "#FFF7E3" };
 const arcadeWrapperStyle = {
   position: "relative",
   width: "70%",
