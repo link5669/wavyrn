@@ -120,21 +120,82 @@
     color: #888;
 }
 
-.site-footer-submit {
-    padding: 12px 20px;
-    background-color: #e01e3d;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background-color 0.2s;
+.site-footer-submit-wrap {
+    display: flex;
+    align-items: center;
 }
 
-.site-footer-submit:hover {
-    background-color: #c01a35;
+.site-footer-submit-btn {
+    position: relative;
+    padding: 0.65em 2.5em;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: #e01e3d;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.6s ease, color 0.6s ease;
+    min-width: 140px;
+    overflow: hidden;
+}
+
+.site-footer-submit-btn:hover:not(.site-footer-submit-btn--loading):not(.site-footer-submit-btn--success):not(:disabled) {
+    background: #fff;
+    color: #e01e3d;
+}
+
+.site-footer-submit-btn:disabled {
+    cursor: not-allowed;
+}
+
+.site-footer-submit-btn--loading {
+    background: #e01e3d;
+    cursor: wait;
+}
+
+.site-footer-submit-text {
+    display: inline-block;
+    transition: transform 0.5s ease 0.5s, opacity 0.5s ease 0.5s;
+}
+
+.site-footer-submit-done {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.4s ease 1s;
+    color: #fff;
+    pointer-events: none;
+}
+
+.site-footer-submit-btn--success {
+    background: #22c55e;
+    color: #fff;
+    cursor: default;
+}
+
+.site-footer-submit-btn--success .site-footer-submit-text {
+    transform: translateY(1em);
+    opacity: 0;
+}
+
+.site-footer-submit-btn--success .site-footer-submit-done {
+    opacity: 1;
+}
+
+.site-footer-newsletter-message {
+    margin: 0.5rem 0 0;
+    font-size: 0.9rem;
+}
+
+.site-footer-newsletter-message--success {
+    color: #86efac;
+}
+
+.site-footer-newsletter-message--error {
+    color: #fca5a5;
 }
 
 .site-footer-bottom {

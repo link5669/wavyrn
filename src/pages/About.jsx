@@ -28,6 +28,7 @@ import { useLocation } from "react-router-dom";
 import Overlay from "../components/Overlay/Overlay";
 import { getPfpImage } from "../utilities/utilities";
 import Footer from "../components/Footer";
+import SingleCarousel from "../components/Carousel/SingleCarousel/SingleCarousel";
 
 const About = ({ isMobile }) => {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -37,11 +38,43 @@ const About = ({ isMobile }) => {
     const { state } = useLocation();
     const { t } = useTranslation();
 
-    const [pfpParent, enableAnimations] = useAutoAnimate({
-        duration: 400,
-        easing: "ease-in-out",
-        disrespectUserMotionPreference: false,
-    });
+    const teamGridPlugin = (el, action, oldCoords, newCoords) => {
+        if (action === "remain") {
+            const deltaX = (oldCoords?.left ?? 0) - (newCoords?.left ?? 0);
+            const deltaY = (oldCoords?.top ?? 0) - (newCoords?.top ?? 0);
+            return new KeyframeEffect(
+                el,
+                [
+                    { transform: `translate(${deltaX}px, ${deltaY}px)` },
+                    { transform: "translate(0, 0)" },
+                ],
+                { duration: 400, easing: "ease-in-out" }
+            );
+        }
+        if (action === "add") {
+            return new KeyframeEffect(
+                el,
+                [
+                    { transform: "scale(0.98)", opacity: 0 },
+                    { transform: "scale(0.98)", opacity: 0, offset: 0.5 },
+                    { transform: "scale(1)", opacity: 1 },
+                ],
+                { duration: 600, easing: "ease-in" }
+            );
+        }
+        if (action === "remove") {
+            return new KeyframeEffect(
+                el,
+                [
+                    { transform: "scale(1)", opacity: 1 },
+                    { transform: "scale(0.98)", opacity: 0 },
+                ],
+                { duration: 400, easing: "ease-out" }
+            );
+        }
+    };
+
+    const [pfpParent, enableAnimations] = useAutoAnimate(teamGridPlugin);
 
     const onBackButtonEvent = (e) => {
         if (selectedUser != null) {
@@ -99,6 +132,7 @@ const About = ({ isMobile }) => {
             description: t('about.services.production.description')
         }
     ];
+    const displayedUsers = isMobile ? allUsers : visibleUsers;
 
     return (
         <>
@@ -121,6 +155,10 @@ const About = ({ isMobile }) => {
                         <span className="about-hero-line2">
                             {(() => {
                                 const line2 = t('about.heroSubtitle2Line2');
+                                if (line2.includes('entire process')) {
+                                    const [before, after] = line2.split('entire process');
+                                    return <>{before}<span className="about-hero-accent">entire process</span>{after}</>;
+                                }
                                 if (line2.includes('entire')) {
                                     const [before, after] = line2.split('entire');
                                     return <>{before}<span className="about-hero-accent">entire</span>{after}</>;
@@ -136,10 +174,12 @@ const About = ({ isMobile }) => {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: "center",
-                        padding: "0 0 120px 0",
+                        padding: isMobile ? "0 0 20px 0" : "0 0 120px 0",
                         width: "100%",
                         gap: "30px"
                     }}>
+                    {/* Desktop: grid layout (hidden on mobile) */}
+                    <div className="about-services-desktop">
                     {/* Top Row - 3 services */}
                     <div className="about-services-grid about-services-grid--top" style={{
                         display: "grid",
@@ -218,6 +258,34 @@ const About = ({ isMobile }) => {
                         ))}
                     </div>
                     </div>
+
+                    {/* Mobile: swipeable carousel (one card per slide, visible only on mobile) */}
+                    <div className="about-services-mobile">
+                        <SingleCarousel
+                            items={services.map((service, index) => (
+                                <div key={index} className="about-mobile-service-slide">
+                                    <div className="about-mobile-service-card">
+                                        <div className="about-mobile-service-header">
+                                            <div className="about-mobile-service-icon">
+                                                <img src={service.icon} alt={service.title} />
+                                            </div>
+                                            <h3 className="about-mobile-service-title">{service.title}</h3>
+                                        </div>
+                                        <ul className="about-mobile-service-checklist">
+                                            {service.checklist.map((item, idx) => (
+                                                <li key={idx}>
+                                                    <span className="checkbox">✔</span>
+                                                    {item}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        <p className="about-mobile-service-description">{service.description}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        />
+                    </div>
+                    </div>
                 </div>
 
                 {/* Team Section */}
@@ -228,27 +296,29 @@ const About = ({ isMobile }) => {
                     </h1>
 
                     {/* Filter Navigation */}
-                    <div className="about-team-filters-wrap">
-                        <div className="about-team-filters">
-                        {categories.map((category, index) => (
-                            <UserCategory
-                                key={category.category}
-                                setVisibleUsers={setVisibleUsers}
-                                setSelectedCat={setSelectedCat}
-                                categoryList={category.categoryList}
-                                category={category.category}
-                                selectedCat={selectedCat}
-                                buttonClassName="about-filter-btn"
-                                isActive={selectedCat === category.category}
-                            />
-                        ))}
+                    {!isMobile && (
+                        <div className="about-team-filters-wrap">
+                            <div className="about-team-filters">
+                            {categories.map((category) => (
+                                <UserCategory
+                                    key={category.category}
+                                    setVisibleUsers={setVisibleUsers}
+                                    setSelectedCat={setSelectedCat}
+                                    categoryList={category.categoryList}
+                                    category={category.category}
+                                    selectedCat={selectedCat}
+                                    buttonClassName="about-filter-btn"
+                                    isActive={selectedCat === category.category}
+                                />
+                            ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Team Grid */}
                     <div className="team-grid-wrapper">
                         <div ref={pfpParent} className="team-grid">
-                        {visibleUsers.map((user, index) => (
+                        {displayedUsers.map((user) => (
                             <ProfilePic
                                 key={user.name}
                                 name={user.name}

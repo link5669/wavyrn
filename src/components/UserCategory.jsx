@@ -47,7 +47,9 @@ const UserCategory = ({
       onMouseLeave={() => setHovered(false)}
       style={baseStyle}
     >
+      <b>
       {t(getCategoryTranslation(category))}
+      </b>
     </p>
   );
 };

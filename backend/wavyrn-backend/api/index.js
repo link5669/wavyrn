@@ -1,9 +1,10 @@
+import "./loadenv.js";
+
 import express from "express";
 import cors from "cors";
 import soundEffectsRoute from "./routes/soundeffects.js";
 import portfolioRoute from "./routes/portfolioimage.js";
 import authRoute from "./routes/auth.js";
-import 'dotenv/config'
 
 import { initializeApp } from "firebase/app";
 import albumRoute from "./routes/albumcarousel.js";
@@ -11,6 +12,7 @@ import urlShortenerRoute from './routes/urlShortenerRoute.js';
 import redirectRoute from './routes/redirectRoute.js';
 import filtersRoute from './routes/filters.js';
 import blogRoute from './routes/blog.js';
+import newsletterRoute from './routes/newsletter.js';
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -21,6 +23,13 @@ const firebaseConfig = {
   appId: process.env.APP_ID,
   measurementId: process.env.MEASUREMENT_ID
 };
+
+if (!firebaseConfig.projectId || !firebaseConfig.apiKey) {
+  console.error(
+    "[Firebase] Missing env vars (e.g. PROJECT_ID, API_KEY). Set them in api/.env or backend/wavyrn-backend/.env. " +
+    "Firestore requests will fail with INVALID_ARGUMENT until fixed."
+  );
+}
 
 const firebaseapp = initializeApp(firebaseConfig);
 
@@ -47,5 +56,6 @@ app.use("/api/auth", authRoute());
 app.use('/api/urls', urlShortenerRoute(firebaseapp));
 app.use('/api/filters', filtersRoute(firebaseapp));
 app.use('/api/blog', blogRoute(firebaseapp));
+app.use('/api/newsletter', newsletterRoute);
 app.use('/s', redirectRoute(firebaseapp));
 app.listen(port, () => console.log(`Server listening on port ${port}`));

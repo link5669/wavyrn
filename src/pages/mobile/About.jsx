@@ -70,11 +70,43 @@ const About = ({ isMobile }) => {
         }
     }, [selected]);
 
-    const [pfpParent, enableAnimations] = useAutoAnimate({
-        duration: 400,
-        easing: "ease-in-out",
-        disrespectUserMotionPreference: false,
-    });
+    const teamGridPlugin = (el, action, oldCoords, newCoords) => {
+        if (action === "remain") {
+            const deltaX = (oldCoords?.left ?? 0) - (newCoords?.left ?? 0);
+            const deltaY = (oldCoords?.top ?? 0) - (newCoords?.top ?? 0);
+            return new KeyframeEffect(
+                el,
+                [
+                    { transform: `translate(${deltaX}px, ${deltaY}px)` },
+                    { transform: "translate(0, 0)" },
+                ],
+                { duration: 400, easing: "ease-in-out" }
+            );
+        }
+        if (action === "add") {
+            return new KeyframeEffect(
+                el,
+                [
+                    { transform: "scale(0.98)", opacity: 0 },
+                    { transform: "scale(0.98)", opacity: 0, offset: 0.5 },
+                    { transform: "scale(1)", opacity: 1 },
+                ],
+                { duration: 600, easing: "ease-in" }
+            );
+        }
+        if (action === "remove") {
+            return new KeyframeEffect(
+                el,
+                [
+                    { transform: "scale(1)", opacity: 1 },
+                    { transform: "scale(0.98)", opacity: 0 },
+                ],
+                { duration: 400, easing: "ease-out" }
+            );
+        }
+    };
+
+    const [pfpParent, enableAnimations] = useAutoAnimate(teamGridPlugin);
 
     const onBackButtonEvent = (e) => {
         if (selectedUser != null) {

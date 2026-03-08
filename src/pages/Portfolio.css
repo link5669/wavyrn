@@ -26,11 +26,11 @@
     bottom: 0;
 }
 
-/* Portfolio Hero Section */
+/* Portfolio Hero Section – same height as home hero (60vh) */
 .portfolio-hero {
     position: relative;
     width: 100%;
-    min-height: 420px;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,8 +47,18 @@
     background-color: #1a1510;
 }
 
+.portfolio-hero-bg-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #1a1510;
+}
+
 .portfolio-hero-overlay {
     z-index: 0;
+    cursor: pointer;
 }
 
 .portfolio-hero-trapezoid {
@@ -69,11 +79,12 @@
 
 .portfolio-hero-title {
     margin: 0;
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(2.8rem, 5.8vw, 3.8rem);
     font-weight: 700;
     color: #fff;
     letter-spacing: 0.02em;
     font-family: "Quicksand", sans-serif;
+    padding-bottom: 1.5rem;
 }
 
 .portfolio-hero-title-accent {
@@ -81,8 +92,8 @@
 }
 
 .portfolio-hero-play {
-    width: 72px;
-    height: 72px;
+    width: 108px;
+    height: 108px;
     border-radius: 50%;
     border: 2px solid #fff;
     background: transparent;
@@ -92,28 +103,32 @@
     justify-content: center;
     margin: 0.75rem 0;
     transition: background 0.2s, border-color 0.2s;
+    /* padding-bottom: 0.5rem; */
+    margin-bottom: 2rem;
 }
 
 .portfolio-hero-play:hover {
     background: rgba(255, 255, 255, 0.1);
 }
 
+/* Always show play icon (opens modal with sound); background video state is independent */
 .portfolio-hero-play-icon {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 12px 0 12px 22px;
+    border-width: 14px 0 14px 26px;
     border-color: transparent transparent transparent #fff;
-    margin-left: 4px;
+    margin-left: 5px;
 }
 
 .portfolio-hero-subtitle {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
     font-weight: 400;
     color: #fff;
     font-style: italic;
     font-family: "Quicksand", sans-serif;
+    font-synthesis: style; /* allow synthetic italic when Quicksand italic isn't loaded */
 }
 
 /* Hero video modal: full viewport with 5vw margin */
@@ -131,11 +146,13 @@
 
 .portfolio-hero-video-wrap {
     position: relative;
+    z-index: 1;
     width: 100%;
     max-width: calc(100vw - 10vw);
     height: calc(100vh - 10vw);
     max-height: calc(100vh - 10vw);
     background: #000;
+    pointer-events: auto;
 }
 
 /* Close button sits in the backdrop margin, outside the video */
@@ -167,6 +184,7 @@
     height: 100%;
     object-fit: contain;
     display: block;
+    pointer-events: auto;
 }
 
 /* Legacy hero (if still referenced) */
@@ -528,6 +546,10 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .portfolio-hero-inner {
+        padding-top: 4rem;
+    }
+
     .hero-content {
         padding: 0 20px;
     }
@@ -541,7 +563,7 @@
     }
     
     .music-container {
-        padding: 0 20px;
+        padding: 0 10px;
     }
     
     .sfx-grid {
@@ -564,16 +586,105 @@
     .section-title {
         font-size: 1.8rem;
     }
+
+    .video-section .music-container {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .video-section .carousel {
+        width: 100%;
+    }
+
+    .video-section .carousel-track-scaler {
+        display: inline-flex;
+        position: static;
+        left: auto;
+        transform: scale(0.6);
+        transform-origin: top center;
+    }
+
+    .video-section .carousel-viewport {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: calc(100vw - 16px);
+        min-height: 252px;
+        height: 252px;
+        overflow: hidden;
+    }
+
+    .video-section .carousel,
+    .video-section .carousel-container {
+        min-height: 252px;
+        height: 252px;
+    }
+
+    .video-section .arrow {
+        display: none;
+    }
+
+    .video-section .carousel-item__play-row {
+        padding: 18px 22px;
+        border-radius: 12px;
+        gap: 14px;
+    }
+
+    .video-section .carousel-item__play-btn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .video-section .carousel-item__play-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .video-section .carousel-item__play-title {
+        font-size: 18px;
+    }
     
     .portfolio-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 20px;
     }
-    
+
+    /* SFX: two buttons per row, smaller so they fit */
     .sfx-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 15px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        max-width: 100%;
+        margin: 14px auto;
+        padding: 0;
     }
+
+    .sfx-button {
+        padding: 0.85rem 0.65rem;
+        min-height: 62px;
+        font-size: 0.9rem;
+    }
+
+    .sfx-waveform {
+        width: 42px;
+        height: 18px;
+    }
+
+    .sfx-button-label {
+        font-size: 0.85rem;
+        line-height: 1.15;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        max-width: 100%;
+        padding: 0 10px;
+    }
+}
+
+/* Desktop: no narrow viewport, no scaling */
+@media (min-width: 769px) {
+    .video-section .carousel-track-scaler { transform: none; }
 }
 
 .navbar-fade-in {

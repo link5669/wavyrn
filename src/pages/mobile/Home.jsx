@@ -6,9 +6,39 @@ import "../Home.css";
 
 const TESTIMONIALS = [
     {
-        quote: "Hexany Audio is the ultimate example of a truly reliable partner... the quality level that they're consistently able to hit, their ability to very quickly iterate on feedback, their deep knowledge of every single aspect of game audio, and their willingness to consistently go the extra mile. All those aspects make working with Hexany a real pleasure.",
-        name: "Michael Tanner",
-        company: "Hidden Cat Games",
+        quote: "Working with Wavyrn has been nothing short of a phenomenal experience. They are a group of great people and professionals. Their deep knowledge of all things audio has been a great asset to our game and our studio. They are more than just a group of contractors they are truly equal partners. I'd recommend them to anyone in need of audio expertise at any budget and any level.",
+        name: "Carlos Ortiz",
+        company: "Towering Stairway",
+    },
+    {
+        quote: "I hired Wavyrn Audio to make a few tracks for my horror game lily's world XD. I appreciated their professionalism and receptiveness to feedback; they care a lot about their songs fitting the tone of your game well. Because of their clear communication and quality of work, I came back to them for even more work.",
+        name: "Emily Pitcher",
+        company: "Sondering Studio",
+    },
+    {
+        quote: "Their composer (Austin) is a remarkably bright and cheerful collaborator who truly went above and beyond to ensure every one of my ideas was perfectly implemented. He took all the time in the world to provide me with a result I loved, responding to every question or take almost instantly. What stood out most was his genuine understanding and patience, making the entire process feel supportive and stress-free.",
+        name: "Ethan Kim",
+        company: "ethanpiefan",
+    },
+    {
+        quote: "I've had an incredibly positive and insightful experience working with Wavyrn. Their team maintains exceptional professionalism and consistently provides thoughtful, high-quality feedback. Through their expertise and guidance, they significantly elevate every aspect of the production quality, offering invaluable advice and creative support at any stage of development!",
+        name: "Parama B.",
+        company: "",
+    },
+    {
+        quote: "Working with Wavyrn was an absolute delight. Talented and professional, my music composition and audio editing needs were expedient and exceptional. I didn't have to compromise my vision because Wavyrn captured it and brought it to life with their expert sound design and truly incredible music.",
+        name: "Hunter Kea",
+        company: "",
+    },
+    {
+        quote: "Working with the amazingly talented folks at Wavyrn, I have had nothing but positive experiences. They breathed so much life to my projects, all of which would not have been the same without Wavyrn!",
+        name: "Addison Fujimoto",
+        company: "tortietoons",
+    },
+    {
+        quote: "Wavyrn worked with me to refine and realize those ideas, offering revisions and suggestions while taking my reviews and making an audio product that fit the theme perfectly. Audio really brings a film together, especially one that relies so heavily on musical cues-- and having such a professional team that could work on my level made the finished product better than I could've hoped for!",
+        name: "Sam Holovacs",
+        company: "Puddle",
     },
 ];
 

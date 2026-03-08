@@ -1,187 +1,184 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSwipeable } from "react-swipeable";
 import "./SingleCarousel.css";
 
+const TRANSITION_MS = 500;
+const SWIPE_THROTTLE_MS = 700;
+
 const Carousel = ({ items }) => {
-    // Start at index 1 for seamless infinite scroll (0 is duplicate of last item)
+    const n = items.length;
     const [currentIndex, setCurrentIndex] = useState(1);
-    const [isTransitioning, setIsTransitioning] = useState(true);
-    
-    // Create extended array with duplicates for seamless infinite scroll
-    const extendedItems = [items[items.length - 1], ...items, items[0]];
+    const [skipTransition, setSkipTransition] = useState(false);
+    const lastSwipeTimeRef = useRef(0);
+
+    const extendedItems = n > 0 ? [items[n - 1], ...items, items[0]] : [];
+
+    const throttle = () => {
+        const now = Date.now();
+        if (now - lastSwipeTimeRef.current < SWIPE_THROTTLE_MS) return true;
+        lastSwipeTimeRef.current = now;
+        return false;
+    };
+
+    const handleTransitionEnd = (e) => {
+        if (e.target !== e.currentTarget) return;
+        if (currentIndex === 0) {
+            setSkipTransition(true);
+            setCurrentIndex(n);
+            requestAnimationFrame(() => requestAnimationFrame(() => setSkipTransition(false)));
+        } else if (currentIndex === extendedItems.length - 1) {
+            setSkipTransition(true);
+            setCurrentIndex(1);
+            requestAnimationFrame(() => requestAnimationFrame(() => setSkipTransition(false)));
+        }
+    };
+
+    const goToNext = () => {
+        if (throttle() || n === 0) return;
+        setCurrentIndex((prev) => prev + 1);
+    };
+
+    const goToPrevious = () => {
+        if (throttle() || n === 0) return;
+        setCurrentIndex((prev) => prev - 1);
+    };
+
+    const goToSlide = (index) => {
+        if (Date.now() - lastSwipeTimeRef.current < SWIPE_THROTTLE_MS) return;
+        lastSwipeTimeRef.current = Date.now();
+        if (index >= 0 && index < n) setCurrentIndex(index + 1);
+    };
+
+    const logicalIndex = n > 0 ? (currentIndex - 1 + n) % n : 0;
 
     const handlers = useSwipeable({
         onSwipedLeft: () => goToNext(),
         onSwipedRight: () => goToPrevious(),
         swipeDuration: 500,
         preventScrollOnSwipe: true,
-        trackMouse: true,
+        trackMouse: false,
     });
 
-    const goToPrevious = () => {
-        if (!isTransitioning) return;
-        const newIndex = currentIndex - 1;
-        setCurrentIndex(newIndex);
-        
-        // If we're at the duplicate first item (index 0), jump to real last item
-        if (newIndex === 0) {
-            setTimeout(() => {
-                setIsTransitioning(false);
-                setCurrentIndex(items.length);
-                setTimeout(() => setIsTransitioning(true), 50);
-            }, 500);
-        }
-    };
-
-    const goToNext = () => {
-        if (!isTransitioning) return;
-        const newIndex = currentIndex + 1;
-        setCurrentIndex(newIndex);
-        
-        // If we're at the duplicate last item (index extendedItems.length - 1), jump to real first item
-        if (newIndex === extendedItems.length - 1) {
-            setTimeout(() => {
-                setIsTransitioning(false);
-                setCurrentIndex(1);
-                setTimeout(() => setIsTransitioning(true), 50);
-            }, 500);
-        }
-    };
-
-    const goToSlide = (index) => {
-        if (!isTransitioning) return;
-        // Adjust index to account for the duplicate items (add 1 to account for duplicate at start)
-        setCurrentIndex(index + 1);
-    };
-
+    if (extendedItems.length === 0) return null;
 
     return (
         <div
+            className="single-carousel-root"
             style={{
                 position: "relative",
                 width: "100%",
-                maxWidth: "100vw", // Ensure it doesn't exceed viewport width
+                maxWidth: "100vw",
                 overflow: "hidden",
-                margin: "0 auto", // Center the carousel
-
+                margin: "0 auto",
             }}
             {...handlers}
         >
-          {/* Left Arrow */}
-          <button
-              style={{
-                  position: "absolute",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  left: "10px",
-                  background: "rgba(0, 0, 0, 0.3)",
-                  border: "none",
-                  color: "white",
-                  fontSize: "18px",
-                  cursor: "pointer",
-                  padding: "12px",
-                  zIndex: 10,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-              }}
-              onClick={goToPrevious}
-          >
-              <FaChevronLeft />
-          </button>
-          {/* Carousel Track */}
-          <div
-              style={{
-                  width: "100%",
-                  overflow: "hidden",
-              }}
-          >
-              <div
-                  style={{
-                      display: "flex",
-                      transition: isTransitioning ? "transform 0.5s ease-in-out" : "none",
-                      transform: `translateX(calc(-${currentIndex * 100}%))`, // Center the active item
-                      // iOS Safari text rendering fixes
-                      WebkitFontSmoothing: "antialiased",
-                      WebkitBackfaceVisibility: "hidden",
-                      WebkitTransform: "translateZ(0)",
-                      backfaceVisibility: "hidden",
-                      willChange: "transform",
-                  }}
-              >
-                  {extendedItems.map((item, index) => (
-                      <div
-                          key={index}
-                          style={{
-                              flex: "0 0 100%",
-                              boxSizing: "border-box",
-                              paddingTop: "2%",
-                              paddingInline: "15%",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              border: "none",
-                              minHeight: "500px",
-                              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                              width: "70%",
-                              borderRadius: "12px",
-                              opacity: 1,
-                              color: "white",
-                              transition: "opacity 0.1s ease-in-out",
-                              // iOS Safari text rendering fixes
-                              WebkitFontSmoothing: "none",
-                              WebkitBackfaceVisibility: "hidden",
-                              backfaceVisibility: "hidden",
-                              WebkitTransform: "translateZ(0)",
-
-                          }}
-                      >
-                          {item}
-                      </div>
-                  ))}
-              </div>
-          </div>
-          {/* Right Arrow */}
-          <button
-              style={{
-                  position: "absolute",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  right: "10px",
-                  background: "rgba(0, 0, 0, 0.3)",
-                  border: "none",
-                  color: "white",
-                  fontSize: "18px",
-                  cursor: "pointer",
-                  padding: "12px",
-                  zIndex: 10,
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-              }}
-              onClick={goToNext}
-          >
-              <FaChevronRight />
-          </button>
-
-            {/* Dots */}
+            <button
+                type="button"
+                className="single-carousel-arrow single-carousel-arrow-left"
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    left: "10px",
+                    background: "rgba(0, 0, 0, 0.3)",
+                    border: "none",
+                    color: "white",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                    padding: "12px",
+                    zIndex: 10,
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                }}
+                onClick={goToPrevious}
+                aria-label="Previous"
+            >
+                <FaChevronLeft />
+            </button>
+            <div className="single-carousel-viewport" style={{ width: "100%", overflow: "hidden" }}>
+                <div
+                    className="single-carousel-track"
+                    style={{
+                        display: "flex",
+                        transition: skipTransition ? "none" : `transform ${TRANSITION_MS}ms ease-in-out`,
+                        transform: `translateX(-${currentIndex * 100}%)`,
+                        WebkitFontSmoothing: "antialiased",
+                        WebkitBackfaceVisibility: "hidden",
+                        backfaceVisibility: "hidden",
+                        willChange: "transform",
+                    }}
+                    onTransitionEnd={handleTransitionEnd}
+                >
+                    {extendedItems.map((item, index) => (
+                        <div
+                            key={index}
+                            className="single-carousel-slide"
+                            style={{
+                                flex: "0 0 100%",
+                                width: "100%",
+                                boxSizing: "border-box",
+                                paddingTop: "2%",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                border: "none",
+                                minHeight: "500px",
+                                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                                borderRadius: "12px",
+                                color: "white",
+                                WebkitFontSmoothing: "antialiased",
+                                WebkitBackfaceVisibility: "hidden",
+                                backfaceVisibility: "hidden",
+                            }}
+                        >
+                            {item}
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <button
+                type="button"
+                className="single-carousel-arrow single-carousel-arrow-right"
+                style={{
+                    position: "absolute",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    right: "10px",
+                    background: "rgba(0, 0, 0, 0.3)",
+                    border: "none",
+                    color: "white",
+                    fontSize: "18px",
+                    cursor: "pointer",
+                    padding: "12px",
+                    zIndex: 10,
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                }}
+                onClick={goToNext}
+                aria-label="Next"
+            >
+                <FaChevronRight />
+            </button>
             <div
                 style={{
                     display: "flex",
                     justifyContent: "center",
-                    marginTop: "20px", // Add margin for spacing
+                    marginTop: "20px",
                 }}
             >
                 {items.map((_, index) => (
                     <button
                         key={index}
-                        className={`carousel-dot ${
-                            index === (currentIndex - 1) ? "active" : ""
-                        }`}
+                        type="button"
+                        className={`carousel-dot ${index === logicalIndex ? "active" : ""}`}
                         onClick={() => goToSlide(index)}
+                        aria-label={`Go to slide ${index + 1}`}
                     />
                 ))}
             </div>

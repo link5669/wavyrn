@@ -1,12 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useSwipeable } from "react-swipeable";
 import "./styles.css";
 
-const SLIDE_DURATION_MS = 200;
+const SLIDE_DURATION_MS = 420;
+const SLIDE_EASING = "cubic-bezier(0.33, 1, 0.68, 1)";
 const SLOT_WIDTH = 240;
 const GAP = 12;
 const STEP_PX = SLOT_WIDTH + GAP; // one slot + gap for consistent slide distance
+/** Center of slot 2 in track coords (slot 2 = index 2: 2*(240+12) + 120 = 624). */
+const CENTER_SLOT_2_PX = 624;
 
-const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
+const SIZE_CENTER = 250;
+const SIZE_SIDE = 205;
+
+/** During slide: current center shrinks, next/prev grows. Returns size for (slotIndex, slideOffset). */
+function getVisualCenterSlot(slideOffset, isMobile) {
+    const baseCenter = isMobile ? 3 : 2;
+    if (slideOffset === 1) return baseCenter + 1;
+    if (slideOffset === -1) return baseCenter - 1;
+    return baseCenter;
+}
+
+function getSlotSize(slotIndex, slideOffset, isMobile) {
+    const centerSize = SIZE_CENTER;
+    const sideSize = SIZE_SIDE;
+    const centerSlot = getVisualCenterSlot(slideOffset, isMobile);
+    return slotIndex === centerSlot ? centerSize : sideSize;
+}
+
+/** Which slot is the "center" for styling (play row, brightness). During slide, the incoming album is center. */
+function isEffectiveCenter(slotIndex, slideOffset, isMobile) {
+    return slotIndex === getVisualCenterSlot(slideOffset, isMobile);
+}
+
+const MusicCarousel = ({ buttonStyle, albums, portfolio = false, isMobile = false }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const [slideOffset, setSlideOffset] = useState(0); // 0 = show slots 1,2,3; 1 = show 2,3,4 (after next)
@@ -37,9 +64,10 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
 
     const handleTransitionEnd = (e) => {
         if (e.target !== e.currentTarget || !isTransitioning) return;
+        const n = albums.length;
         const nextIndex = slideOffset === 1
-            ? (currentIndex + 1) % albums.length
-            : (currentIndex - 1 + albums.length) % albums.length;
+            ? (currentIndex + 1) % n
+            : (currentIndex - 1 + n) % n;
         setSkipTransition(true);
         setCurrentIndex(nextIndex);
         setSlideOffset(0);
@@ -51,9 +79,10 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
 
     useEffect(() => {
         if (slideOffset === 0) return;
+        const n = albums.length;
         const newIndex = slideOffset === 1
-            ? (currentIndex + 1) % albums.length
-            : (currentIndex - 1 + albums.length) % albums.length;
+            ? (currentIndex + 1) % n
+            : (currentIndex - 1 + n) % n;
         if (isPlaying && audioRef.current) {
             let volume = audioRef.current.volume;
             const fadeOutInterval = setInterval(() => {
@@ -77,7 +106,19 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
     }, [slideOffset]);
 
     const fiveAlbums = getFiveAlbums();
-    const translateX = -(1 + slideOffset) * STEP_PX;
+    const stepPx = STEP_PX;
+    const slotWidth = SLOT_WIDTH;
+    const mobileCenterNudgePx = 0;
+    const translateX = -(1 + slideOffset) * stepPx + mobileCenterNudgePx;
+
+    const swipeHandlers = useSwipeable({
+        onSwipedLeft: () => handleRightClick(),
+        onSwipedRight: () => handleLeftClick(),
+        preventScrollOnSwipe: true,
+        trackMouse: false,
+        delta: 50,
+        swipeDuration: 500,
+    });
 
     const handlePlayPause = (playState) => {
         if (isPlaying) {
@@ -140,27 +181,41 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                         <path d="M15 18l-6-6 6-6" />
                     </svg>
                 </button>
-                <div className="carousel-viewport">
+                <div className="carousel-viewport" {...(isMobile ? swipeHandlers : {})}>
+                    <div className="carousel-edge-fade carousel-edge-fade--left" aria-hidden="true" />
+                    <div className="carousel-edge-fade carousel-edge-fade--right" aria-hidden="true" />
+                    <div className="carousel-track-scaler">
                     <div
                         className="carousel-track"
                         style={{
                             transform: `translateX(${translateX}px)`,
-                            transition: skipTransition ? "none" : `transform ${SLIDE_DURATION_MS}ms ease-in-out`,
+                            transition: skipTransition ? "none" : `transform ${SLIDE_DURATION_MS}ms ${SLIDE_EASING}`,
+                            gap:  GAP,
                         }}
                         onTransitionEnd={handleTransitionEnd}
                     >
                         {fiveAlbums.map((album, slotIndex) => {
-                            const isCenter = slotIndex === 2;
-                            const size = isCenter ? 250 : 205; /* side albums 5% larger than 195 */
+                            const size = getSlotSize(slotIndex, slideOffset, isMobile);
+                            const isCenter = isEffectiveCenter(slotIndex, slideOffset, isMobile);
+                            const visualCenterSlot = getVisualCenterSlot(slideOffset, isMobile);
+                            const centerSize = SIZE_CENTER;
+                            const centeredOffsetY = (centerSize - size) / 2;
+                            const transitionStyle = skipTransition
+                                ? {}
+                                : { transition: `width ${SLIDE_DURATION_MS}ms ${SLIDE_EASING}, height ${SLIDE_DURATION_MS}ms ${SLIDE_EASING}, margin-top ${SLIDE_DURATION_MS}ms ${SLIDE_EASING}, filter ${SLIDE_DURATION_MS}ms ${SLIDE_EASING}` };
                             return (
                                 <div
                                     key={`${album.id}-${slotIndex}`}
-                                    className={`carousel-album-wrap carousel-slot ${isCenter ? "carousel-album-wrap--center" : ""} ${slotIndex === 1 ? "carousel-album-wrap--left-edge" : ""} ${slotIndex === 3 ? "carousel-album-wrap--right-edge" : ""}`}
+                                    className={`carousel-album-wrap carousel-slot ${isCenter ? "carousel-album-wrap--center" : ""}`}
                                     ref={(el) => {
                                         if (el) albumRefs.current[slotIndex] = el;
                                     }}
                                     style={{
+                                        width: slotWidth,
+                                        minWidth: slotWidth,
                                         filter: isCenter ? "brightness(100%)" : "brightness(60%)",
+                                        marginTop: centeredOffsetY,
+                                        ...transitionStyle,
                                     }}
                                 >
                                     <div
@@ -175,19 +230,27 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                             borderRadius: isCenter ? 6 : 4,
                                             flexShrink: 0,
                                             cursor: "pointer",
+                                            ...transitionStyle,
                                         }}
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             if (!isCenter) {
-                                                if (slotIndex < 2) handleLeftClick();
-                                                if (slotIndex > 2) handleRightClick();
+                                                if (slotIndex < visualCenterSlot) handleLeftClick();
+                                                if (slotIndex > visualCenterSlot) handleRightClick();
                                             }
                                         }}
                                     />
-                                    {isCenter && (
+                                    {isCenter && (() => {
+                                        const n = albums.length;
+                                        const playIndex = slideOffset === 0 ? currentIndex : slideOffset === 1 ? (currentIndex + 1) % n : (currentIndex - 1 + n) % n;
+                                        return (
                                         <div
                                             className="carousel-item__play-row"
-                                            style={{ width: size }}
+                                            style={{
+                                                width: isMobile ? 330 : size,
+                                                maxWidth: isMobile ? "none" : "100%",
+                                                ...transitionStyle,
+                                            }}
                                             onClick={(e) => e.stopPropagation()}
                                         >
                                             <button
@@ -195,7 +258,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                                 className="carousel-item__play-btn"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    handlePlayPause(currentIndex);
+                                                    handlePlayPause(playIndex);
                                                 }}
                                             >
                                                 {isPlaying ? (
@@ -206,10 +269,12 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false }) => {
                                             </button>
                                             <span className="carousel-item__play-title">{album.title}</span>
                                         </div>
-                                    )}
+                                        );
+                                    })()}
                                 </div>
                             );
                         })}
+                    </div>
                     </div>
                 </div>
                 <button 

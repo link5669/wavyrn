@@ -2,6 +2,8 @@
     width: 100%;
     touch-action: pan-y; /* Allow vertical scrolling */
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 .mobile-carousel-track {
@@ -9,6 +11,7 @@
     justify-content: center;
     align-items: center;
     touch-action: pan-y;
+    margin: 0 auto;
 }
 
 .mobile-carousel-item {
@@ -38,4 +41,13 @@
 
 .arrowa.right {
     left: 0px;
+}
+
+/* Push arrows further out from content on mobile */
+.carousel-arrow.left-arrow {
+    transform: translateX(-24px);
+}
+
+.carousel-arrow.right-arrow {
+    transform: translateX(24px);
 }

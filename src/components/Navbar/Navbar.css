@@ -49,6 +49,7 @@
     flex: 1;
     justify-content: flex-end;
     padding-right: 0;
+    padding-right: 1vw;
 }
 
 .icon-button {
@@ -217,5 +218,111 @@
 @media (max-width: 1210px) {
     .nav-right .icon-button {
         display: none;
+    }
+}
+
+/* Hamburger – hidden on desktop */
+.navbar-hamburger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-hamburger svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Overlay when mobile menu is open */
+.navbar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+    z-index: 130;
+}
+
+.navbar-overlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Slide-out menu */
+.navbar-slide-out {
+    position: fixed;
+    top: 0;
+    right: -80%;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background-color: #ce0036;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    padding-top: 60px;
+    z-index: 140;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-slide-out.open {
+    right: 0;
+}
+
+.navbar-slide-out-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.navbar-slide-out-link {
+    width: 100%;
+    padding: 12px 0;
+    color: white;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: opacity 0.2s ease;
+}
+
+.navbar-slide-out-link:hover {
+    opacity: 0.9;
+}
+
+.navbar-slide-out-link:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile: show hamburger, hide desktop nav links */
+@media (max-width: 768px) {
+    .nav-links-desktop {
+        display: none !important;
+    }
+
+    .navbar-hamburger {
+        display: flex;
+    }
+
+    .nav-center {
+        position: static;
+        transform: none;
+        margin-right: auto;
     }
 }

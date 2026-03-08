@@ -117,16 +117,16 @@ const Post = ({ isMobile, e }) => {
                 <WavNavbar showLogo={true} />
                 <div style={{ 
                     textAlign: "center", 
-                    padding: "40px", 
+                    padding: isMobile ? "16px" : "40px", 
                     color: "#666",
                     minHeight: "100vh",
                     backgroundColor: "RGB(1,1,1)"
                 }}>
                     <div style={{
-                        margin: "7vh",
-                        padding: "2vw",
+                        margin: isMobile ? "2.5rem 1rem 1rem 1rem" : "7vh",
+                        padding: isMobile ? "1rem" : "2vw",
                         backgroundColor: "white",
-                        borderRadius: "30px",
+                        borderRadius: isMobile ? "16px" : "30px",
                     }}>
                         Loading post...
                     </div>
@@ -141,16 +141,16 @@ const Post = ({ isMobile, e }) => {
                 <WavNavbar showLogo={true} />
                 <div style={{ 
                     textAlign: "center", 
-                    padding: "40px", 
+                    padding: isMobile ? "16px" : "40px", 
                     color: "#666",
                     minHeight: "100vh",
                     backgroundColor: "RGB(1,1,1)"
                 }}>
                     <div style={{
-                        margin: "7vh",
-                        padding: "2vw",
+                        margin: isMobile ? "2.5rem 1rem 1rem 1rem" : "7vh",
+                        padding: isMobile ? "1rem" : "2vw",
                         backgroundColor: "white",
-                        borderRadius: "30px",
+                        borderRadius: isMobile ? "16px" : "30px",
                     }}>
                         {error || "Post not found"}
                     </div>
@@ -174,11 +174,11 @@ const Post = ({ isMobile, e }) => {
             >
                 <div
                     style={{
-                        margin: "7vh",
-                        padding: "2vw",
+                        margin: isMobile ? "2.5rem 1rem 1rem 1rem" : "7vh",
+                        padding: isMobile ? "1rem" : "2vw",
                         paddingBottom: "10px",
                         backgroundColor: "white",
-                        borderRadius: "30px",
+                        borderRadius: isMobile ? "16px" : "30px",
                     }}
                 >
                     <h2 style={{ textAlign: "left" }}>{post.title}</h2>
@@ -222,7 +222,8 @@ const Post = ({ isMobile, e }) => {
                             style={{
                                 paddingTop: "1vw",
                                 paddingBottom: "1vw",
-                                width: "40vw",
+                                width: isMobile ? "100%" : "40vw",
+                                maxWidth: "100%",
                             }}
                             src={post.image}
                         />

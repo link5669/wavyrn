@@ -6,22 +6,39 @@
 
 /* Hero section – top of home page */
 .home-hero {
-    min-height: 60vh;
+    position: relative;
+    height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
     padding-top: 10rem;
     background-color: #0d0d0d;
+    overflow: hidden;
+}
+
+.home-hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.home-hero-trapezoid {
+    z-index: 1;
 }
 
 .home-hero-content {
+    position: relative;
+    z-index: 2;
     text-align: center;
     max-width: 640px;
 }
 
 .home-hero-title {
-    margin: 0;
+    margin: 0 0 1.5rem 0;
     font-size: clamp(1rem, 3.5vw, 3.5rem);
     font-weight: 600;
     color: #fff;
@@ -34,16 +51,16 @@
 }
 
 .home-hero-line {
-    width: 60%;
-    max-width: 280px;
-    height: 2px;
-    background-color: #fff;
-    margin: 1.25rem auto 1.5rem;
+    width: 100%;
+    max-width: 880px;
+    height: 1px;
+    background-color: #999;
+    margin: 2.25rem auto 2.25rem;
 }
 
 .home-hero-subtitle {
     margin: 0;
-    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-size: clamp(2rem, 3.2vw, 2.25rem);
     font-weight: 400;
     color: #fff;
     line-height: 1.5;
@@ -51,13 +68,13 @@
 
 .home-hero-button {
     display: inline-block;
-    margin-top: 6rem;
-    padding: 6px 14px;
+    margin-top: 3rem;
+    padding: 12px 24px;
     border: 1px solid #fff;
     border-radius: 999px;
     background: transparent;
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 2.0em;
     font-weight: 500;
     text-decoration: none;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -66,6 +83,45 @@
 .home-hero-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
+}
+
+/* Hero: larger section, title moved down, room for button on mobile */
+@media (max-width: 768px) {
+    .home-hero {
+        height: auto;
+        min-height: 65vh;
+        padding-top: 5rem;
+        padding-bottom: 3rem;
+        align-items: flex-start;
+    }
+
+    .home-hero-content {
+        padding-top: 4rem;
+        width: 100%;
+    }
+
+    .home-hero-title {
+        font-size: 2.75rem;
+        line-height: 1.2;
+    }
+
+    .home-hero-subtitle {
+        font-size: 1.5rem;
+        line-height: 1.45;
+    }
+
+    .home-hero-line {
+        padding-top: 2vw;
+        height: 1px;
+        transform: scaleY(0.5);
+        transform-origin: center;
+    }
+
+    .home-hero-button {
+        font-size: 1.35rem;
+        padding: 10px 20px;
+        margin-top: 2.5rem;
+    }
 }
 
 /* Carousel – square images, rounded corners, dark background */
@@ -121,12 +177,14 @@
     width: 100%;
     min-width: 0;
     max-width: 100%;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .home-carousel-item {
     flex: 0 0 auto;
     width: 280px;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / 1;
     border-radius: 12px;
     overflow: hidden;
     background-color: #1a1a1a;
@@ -137,6 +195,19 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+    .home-carousel-section {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .home-carousel-item {
+        width: 108px;
+        border-radius: 8px;
+    }
 }
 
 @media (min-width: 768px) {
@@ -149,7 +220,7 @@
 /* Testimonials – stack of three, clipped card, swap animation */
 .home-testimonials {
     position: relative;
-    min-height: 420px;
+    min-height: 520px;
     padding: 3rem 10%;
     background-color: #0d0d0d;
     display: grid;
@@ -165,21 +236,21 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: -50%;
+    top: -70%;
     height: 200%;
     background-size: cover;
-    background-position: center bottom;
+    background-position: center 100%;
     background-repeat: no-repeat;
     filter: blur(4px);
     z-index: 0;
     will-change: transform;
 }
 
-/* 50% opaque gray overlay on top of the blurred image */
+/* Dark overlay on top of the blurred image */
 .home-testimonials-bg-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(45, 45, 50, 0.5);
+    background: rgba(25, 25, 28, 0.72);
     z-index: 0;
 }
 
@@ -188,7 +259,7 @@
     z-index: 1;
     grid-column: 2;
     margin: 0;
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(2.5rem, 4.5vw, 3.5rem);
     font-weight: 300;
     color: #fff;
     letter-spacing: 0.08em;
@@ -204,7 +275,7 @@
     align-self: center;
     width: 100%;
     max-width: 520px;
-    min-height: 340px;
+    min-height: 440px;
     padding: 0 24px 24px 0;
 }
 
@@ -215,7 +286,8 @@
     left: 0;
     top: 0;
     width: 100%;
-    min-height: 300px;
+    height: 400px;
+    min-height: 400px;
     background: #000;
     border: 1px solid #555;
     clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%);
@@ -229,7 +301,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-height: 300px;
+    height: 400px;
+    min-height: 400px;
 }
 
 .home-testimonial-card-mid .home-testimonial-content {
@@ -244,7 +317,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-height: 300px;
+    height: 400px;
+    min-height: 400px;
 }
 
 /* Card wrapper: position via transform; smooth sliding transition */
@@ -253,7 +327,8 @@
     left: 0;
     top: 0;
     width: calc(100% - 24px);
-    min-height: 300px;
+    height: 400px;
+    min-height: 400px;
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
@@ -263,7 +338,8 @@
     left: 0;
     top: 0;
     width: 100%;
-    min-height: 300px;
+    height: 400px;
+    min-height: 400px;
     z-index: 10;
     pointer-events: none;
 }
@@ -299,6 +375,7 @@
 .home-testimonial-content {
     width: 100%;
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -307,18 +384,22 @@
 
 .home-testimonial-quote {
     margin: 0 0 1rem;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     line-height: 1.6;
     color: #CCCCCC;
     font-style: normal;
     flex: 1;
+    min-height: 0;
+    overflow: visible;
 }
 
 .home-testimonial-attribution {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    margin-bottom: 0.75rem;
+    /* gap: 0.2rem; */
+    /* margin-bottom: 0.15rem; */
+    flex-shrink: 0;
+    /* margin-top: 3.5rem; */
 }
 
 .home-testimonial-name {
@@ -337,6 +418,8 @@
     display: flex;
     gap: 0.5rem;
     margin-left: auto;
+    flex-shrink: 0;
+    margin-top: auto;
 }
 
 .home-testimonial-arrow {
@@ -393,18 +476,33 @@
 @media (max-width: 768px) {
     .home-testimonials {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
+        grid-template-rows: auto 1fr;
         padding: 2rem 1rem;
+        min-height: 520px;
     }
 
     .home-testimonials-heading {
         grid-column: 1;
+        grid-row: 1;
         text-align: left;
+        z-index: 2;
+        margin-bottom: 0.5rem;
     }
 
     .home-testimonials-stack {
         grid-column: 1;
+        grid-row: 2;
         max-width: 100%;
+    }
+
+    .home-testimonial-quote {
+        font-size: 1.08rem;
+    }
+
+    /* Long quotes: smaller font so text doesn't overlap name (class added by JS when quote length > threshold) */
+    .home-testimonial-quote.home-testimonial-quote--shrunk {
+        font-size: 0.9rem;
+        line-height: 1.5;
     }
 }
 
@@ -453,7 +551,7 @@
 
 .home-vision-para {
     margin: 0 0 1.5rem;
-    font-size: 1rem;
+    font-size: 1.25rem;
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.9);
 }
@@ -461,7 +559,7 @@
 .home-vision-link {
     color: #e01e3d;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     text-decoration: none;
 }
 
@@ -547,6 +645,7 @@
     height: calc(100vh - 10vw);
     max-height: calc(100vh - 10vw);
     background: #000;
+    z-index: 10000.
 }
 
 .portfolio-hero-video-close {

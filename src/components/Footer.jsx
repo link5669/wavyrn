@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "../hooks/useTranslation";
 import { FaFacebook, FaLinkedin, FaTwitter, FaInstagram } from "react-icons/fa";
@@ -23,6 +24,34 @@ const SOCIAL_LINKS = [
 
 const Footer = () => {
     const { t } = useTranslation();
+    const [email, setEmail] = useState("");
+    const [status, setStatus] = useState("idle"); // idle | loading | success | error
+
+    const handleNewsletterSubmit = async (e) => {
+        e.preventDefault();
+        const trimmed = email.trim();
+        if (!trimmed) return;
+
+        setStatus("loading");
+        try {
+            const base = import.meta.env.VITE_REACT_APP_BACKEND_URL || "";
+            const res = await fetch(`${base}/api/newsletter/subscribe`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: trimmed }),
+            });
+            const data = await res.json().catch(() => ({}));
+
+            if (res.ok) {
+                setEmail("");
+                setStatus("success");
+            } else {
+                setStatus("error");
+            }
+        } catch {
+            setStatus("error");
+        }
+    };
 
     return (
         <footer className="site-footer">
@@ -48,24 +77,67 @@ const Footer = () => {
                     <ul className="site-footer-list">
                         {QUICK_LINKS.map(({ to, labelKey }) => (
                             <li key={labelKey}>
-                                <Link to={to}>{t(labelKey)}</Link>
+                                <Link
+                                    to={to}
+                                    onClick={to === "/blog" ? () => {
+                                        const scrollToTop = () => {
+                                            const el = document.scrollingElement || document.documentElement;
+                                            if (el) el.scrollTop = 0;
+                                            window.scrollTo(0, 0);
+                                            document.documentElement.scrollTop = 0;
+                                            document.body.scrollTop = 0;
+                                        };
+                                        scrollToTop();
+                                        requestAnimationFrame(scrollToTop);
+                                        setTimeout(scrollToTop, 0);
+                                        setTimeout(scrollToTop, 100);
+                                        setTimeout(scrollToTop, 300);
+                                    } : undefined}
+                                >
+                                    {t(labelKey)}
+                                </Link>
                             </li>
                         ))}
                     </ul>
                 </div>
                 <div className="site-footer-newsletter">
                     <h3 className="site-footer-heading">{t("footer.joinNewsletter")}</h3>
-                    <form className="site-footer-form" onSubmit={(e) => e.preventDefault()}>
+                    <form className="site-footer-form" onSubmit={handleNewsletterSubmit}>
                         <input
                             type="email"
                             placeholder={t("footer.enterEmail")}
                             className="site-footer-input"
                             aria-label={t("footer.enterEmail")}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={status === "loading"}
+                            required
                         />
-                        <button type="submit" className="site-footer-submit">
-                            {t("footer.subscribe")}
-                        </button>
+                        <div className="site-footer-submit-wrap">
+                            <button
+                                type="submit"
+                                className={`site-footer-submit-btn ${status === "loading" ? "site-footer-submit-btn--loading" : ""} ${status === "success" ? "site-footer-submit-btn--success" : ""}`}
+                                disabled={status === "loading"}
+                            >
+                                <span className="site-footer-submit-text">
+                                    {status === "loading" ? "..." : t("footer.subscribe")}
+                                </span>
+                                <span className="site-footer-submit-done" aria-hidden="true">
+                                    Subscribed!
+                                </span>
+                            </button>
+                        </div>
                     </form>
+                    {status === "success" && (
+                        <p className="site-footer-newsletter-message site-footer-newsletter-message--success">
+                            {t("footer.newsletterSuccess")}
+                        </p>
+                    )}
+                    {status === "error" && (
+                        <p className="site-footer-newsletter-message site-footer-newsletter-message--error">
+                            {t("footer.newsletterError")}
+                        </p>
+                    )}
                 </div>
             </div>
             <div className="site-footer-bottom">

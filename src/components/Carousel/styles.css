@@ -2,18 +2,39 @@
     position: relative;
     width: 80%;
     margin: auto;
-    min-height: 300px;
+    min-height: 330px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
 }
 
 .carousel-viewport {
+    position: relative;
     overflow: hidden;
     width: 744px; /* 3 slots (240px) + 2 gaps (12px) */
     max-width: 100%;
-    min-height: 350px;
+    min-height: 330px;
     margin: 0 auto;
+}
+
+/* Static edge gradients – fixed to viewport so they don’t move with the track */
+.carousel-edge-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.carousel-edge-fade--left {
+    left: 0;
+    background: linear-gradient(to right, #151515 0%, transparent 100%);
+}
+
+.carousel-edge-fade--right {
+    right: 0;
+    background: linear-gradient(to left, #151515 0%, transparent 100%);
 }
 
 .carousel-track {
@@ -21,8 +42,8 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 12px;
-    min-height: 300px;
-    height: 300px;
+    min-height: 330px;
+    height: 330px;
     position: relative;
     flex-shrink: 0;
 }
@@ -43,7 +64,7 @@
     flex-direction: column;
     align-items: center;
     flex-shrink: 0;
-    height: 300px;
+    height: 330px;
     box-sizing: border-box;
     position: relative;
 }
@@ -51,28 +72,6 @@
 /* Vertically center side albums: offset = (centerSize - sideSize) / 2. 250 & 205 → 22.5px */
 .carousel-album-wrap:not(.carousel-album-wrap--center) {
     margin-top: 23px;
-}
-
-/* Gradient only on the visible side album covers (left edge of left album, right edge of right album) */
-.carousel-album-wrap--left-edge::after,
-.carousel-album-wrap--right-edge::after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    width: 48px;
-    height: 205px;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.carousel-album-wrap--left-edge::after {
-    left: 17.5px; /* (240 - 205) / 2 = cover left edge */
-    background: linear-gradient(to right, #151515 0%, transparent 100%);
-}
-
-.carousel-album-wrap--right-edge::after {
-    right: 17.5px;
-    background: linear-gradient(to left, #151515 0%, transparent 100%);
 }
 
 .carousel-item__cover {
@@ -85,7 +84,7 @@
 
 .carousel-item__play-row {
     margin-top: 10px;
-    width: 100%;
+    width: 80%;
     max-width: 100%;
     padding: 10px 14px;
     background: #CE0036;
@@ -96,10 +95,6 @@
     cursor: pointer;
     transition: background 0.2s;
     box-sizing: border-box;
-}
-
-.carousel-item__play-row:hover {
-    background: #a8002d;
 }
 
 .carousel-item__play-btn {
@@ -140,7 +135,8 @@
 
 .arrow {
     position: absolute;
-    top: 125px; /* center of center album (250px) so arrows align with albums only */
+    /* Center on album row only (center cover is 250px), not the full carousel including play controls */
+    top: 125px;
     transform: translateY(-50%);
     width: 44px;
     height: 44px;
@@ -162,12 +158,25 @@
 }
 
 .arrow.left {
-    left: 12px;
+    left: clamp(80px, 10%, 106px);
+    right: auto;
+    z-index: 100;
 }
 
 .arrow.right {
-    right: 12px;
+    right: clamp(80px, 10%, 106px);
     left: auto;
+}
+
+@media (max-width: 768px) {
+    .arrow.left {
+        left: 16px;
+        right: auto;
+    }
+    .arrow.right {
+        right: 16px;
+        left: auto;
+    }
 }
 
 .arrow svg {
@@ -179,7 +188,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 300px;
+    min-height: 330px;
     width: 100%;
 }
 

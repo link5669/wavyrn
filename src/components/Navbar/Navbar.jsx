@@ -1,7 +1,7 @@
 // Navbar.jsx
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin } from "react-icons/fa";
+import { FaInstagram, FaTwitter, FaFacebook, FaLinkedin, FaBars, FaTimes } from "react-icons/fa";
 import { SiBluesky } from "react-icons/si";
 import "./Navbar.css";
 import { IconContext } from "react-icons";
@@ -12,6 +12,14 @@ const Navbar = ({ showLogo }) => {
     const location = useLocation();
     const [hoveredButton, setHoveredButton] = useState(null);
     const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen((prev) => !prev);
+        if (!isMenuOpen) setIsLanguageDropdownOpen(false);
+    };
+
+    const closeMenu = () => setIsMenuOpen(false);
     const { language, changeLanguage } = useLanguage();
     const { t } = useTranslation();
 
@@ -48,9 +56,16 @@ const Navbar = ({ showLogo }) => {
     ];
 
     return (
-        <div style={{ position: "fixed", zIndex: 150, width: "100%", left: 0, right: 0 }}>
+        <div className="navbar-wrapper" style={{ position: "fixed", zIndex: 150, width: "100%", left: 0, right: 0 }}>
+            {/* Overlay when mobile menu is open */}
+            <div
+                className={`navbar-overlay ${isMenuOpen ? "active" : ""}`}
+                onClick={closeMenu}
+                aria-hidden="true"
+            />
+
             <nav className="navbar">
-                <div className="nav-left">
+                <div className="nav-left nav-links-desktop">
                     {navLinks.map(({ path, labelKey }) => (
                         <Link
                             key={path}
@@ -74,7 +89,20 @@ const Navbar = ({ showLogo }) => {
                         </Link>
                     </div>
                 )}
-                <div className="nav-right">
+                <button
+                    type="button"
+                    className="navbar-hamburger"
+                    onClick={toggleMenu}
+                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    aria-expanded={isMenuOpen}
+                >
+                    {isMenuOpen ? (
+                        <FaTimes size={24} color="white" />
+                    ) : (
+                        <FaBars size={24} color="white" />
+                    )}
+                </button>
+                <div className="nav-right nav-links-desktop">
                     <a
                         href="https://www.instagram.com/wavyrnaudio/"
                         target="_blank"
@@ -131,6 +159,7 @@ const Navbar = ({ showLogo }) => {
                         </IconContext.Provider>
                     </a>
 
+                    {/* Language menu - commented out
                     <div className="language-dropdown-container">
                         <div className="language-trigger" onClick={toggleLanguageDropdown}>
                             <span className="flag">{selectedLang?.flag}</span>
@@ -152,8 +181,31 @@ const Navbar = ({ showLogo }) => {
                             </div>
                         )}
                     </div>
+                    */}
                 </div>
             </nav>
+
+            {/* Mobile slide-out menu */}
+            <div className={`navbar-slide-out ${isMenuOpen ? "open" : ""}`}>
+                <button
+                    type="button"
+                    className="navbar-slide-out-close"
+                    onClick={closeMenu}
+                    aria-label="Close menu"
+                >
+                    <FaTimes size={24} color="white" />
+                </button>
+                {navLinks.map(({ path, labelKey }) => (
+                    <Link
+                        key={path}
+                        to={path}
+                        className="navbar-slide-out-link"
+                        onClick={closeMenu}
+                    >
+                        {t(labelKey)}
+                    </Link>
+                ))}
+            </div>
         </div>
     );
 };

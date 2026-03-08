@@ -4,11 +4,27 @@
     pointer-events: none;
 }
 
+@media (max-width: 768px) {
+    .trapezoid-frame-wrapper .trapezoid-frame-corner--left,
+    .trapezoid-frame-wrapper .trapezoid-frame-corner--right,
+    .trapezoid-frame-wrapper .trapezoid-frame {
+        display: none;
+    }
+}
+
+.trapezoid-frame-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(40, 40, 45, 0.8);
+    z-index: 0;
+}
+
 .trapezoid-frame-corner {
     position: absolute;
     top: 0;
     bottom: 0;
     height: 100%;
+    z-index: 1;
 }
 
 .trapezoid-frame-corner--left {
@@ -31,6 +47,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 }
 
 .trapezoid-frame-svg {

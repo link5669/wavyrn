@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import Preview from "./preview";
 import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -171,6 +171,47 @@ const Blog = ({ isMobile }) => {
         fetchTags();
     }, []);
 
+    const scrollToTop = () => {
+        const el = document.scrollingElement || document.documentElement;
+        if (el) el.scrollTop = 0;
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+    };
+
+    useLayoutEffect(() => {
+        if (typeof window.history.scrollRestoration === "string") {
+            window.history.scrollRestoration = "manual";
+        }
+        scrollToTop();
+    }, []);
+
+    useEffect(() => {
+        scrollToTop();
+        const intervalMs = 40;
+        const durationMs = 1200;
+        const intervalId = setInterval(scrollToTop, intervalMs);
+        const timeoutId = setTimeout(() => clearInterval(intervalId), durationMs);
+        return () => {
+            clearInterval(intervalId);
+            clearTimeout(timeoutId);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!loading) {
+            scrollToTop();
+            const intervalMs = 40;
+            const durationMs = 1200;
+            const intervalId = setInterval(scrollToTop, intervalMs);
+            const timeoutId = setTimeout(() => clearInterval(intervalId), durationMs);
+            return () => {
+                clearInterval(intervalId);
+                clearTimeout(timeoutId);
+            };
+        }
+    }, [loading]);
+
     const featuredPost = useMemo(() => {
         if (!posts.length) return null;
         const sorted = [...posts].sort((a, b) => {
@@ -206,7 +247,7 @@ const Blog = ({ isMobile }) => {
                 {/* Featured Stories banner */}
                 <section className="blog-featured-banner">
                     <DarkOverlay className="blog-featured-banner-overlay" opacity={1} />
-                    <TrapezoidFrame className="blog-featured-trapezoid" />
+                    <TrapezoidFrame topWidthPercent={62} className="blog-featured-trapezoid" />
                     <div className="blog-featured-banner-inner">
                         <h1 className="blog-featured-title">{t("blog.featuredStories")}</h1>
                         <div className="blog-featured-title-line" aria-hidden="true" />

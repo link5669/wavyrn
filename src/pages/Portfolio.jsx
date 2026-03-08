@@ -9,9 +9,8 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "../hooks/useTranslation";
 import Footer from "../components/Footer";
 
-const PORTFOLIO_HERO_BG =
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Blog/20260221%20Blog.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
-const PORTFOLIO_VIDEO_PLACEHOLDER = "https://www.w3schools.com/html/mov_bbb.mp4";
+const PORTFOLIO_DEMO_REEL_URL =
+  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
 
 function Portfolio({ title, dividerStyle, isMobile }) {
   const { t } = useTranslation();
@@ -27,6 +26,28 @@ function Portfolio({ title, dividerStyle, isMobile }) {
   const [animatingSfxId, setAnimatingSfxId] = useState(null);
   const heroVideoRef = useRef(null);
   const heroVideoBackdropRef = useRef(null);
+  const heroVideoWrapRef = useRef(null);
+  const modalVideoKeyRef = useRef(0);
+  const [videoMuted] = useState(true);
+
+  const startModalVideoWithSound = () => {
+    const el = heroVideoRef.current;
+    if (!el) return;
+    el.defaultMuted = false;
+    el.muted = false;
+    el.volume = 1;
+    el.play().catch(() => {});
+  };
+
+  const openHeroVideo = () => {
+    modalVideoKeyRef.current += 1;
+    setHeroVideoOpen(true);
+  };
+
+  const closeHeroVideo = () => {
+    if (heroVideoRef.current) heroVideoRef.current.pause();
+    setHeroVideoOpen(false);
+  };
 
   const SfxWaveformIcon = () => {
     const viewHeight = 14;
@@ -115,10 +136,10 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         prevButtons.map((btn) =>
           btn.id === id
             ? {
-                ...btn,
-                text: getRandomSfx().name,
-                visible: true,
-              }
+              ...btn,
+              text: getRandomSfx().name,
+              visible: true,
+            }
             : btn,
         ),
       );
@@ -198,12 +219,18 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     } finally {
       setLoadingPortfolio(false);
     }
-  }, []);
+  }, []);  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+
 
   useEffect(() => {
     if (heroVideoOpen) {
       const el = heroVideoBackdropRef.current;
-      if (el) requestAnimationFrame(() => el.focus());
+      if (el) {
+        requestAnimationFrame(() => {
+          el.focus();
+          startModalVideoWithSound();
+        });
+      }
     }
   }, [heroVideoOpen]);
 
@@ -214,7 +241,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
       <div className={`navbar-fade-in ${isVisible ? "visible" : ""}`}>
         <WavNavbar showLogo={true} />
       </div>
-      
+
       <div
         className={`content-wrapper ${isVisible ? "fade-in" : ""}`}
         style={{
@@ -227,36 +254,57 @@ function Portfolio({ title, dividerStyle, isMobile }) {
       >
         {/* Hero Section */}
         <section className="portfolio-hero">
-          <div
-            className="portfolio-hero-bg"
-            style={{ backgroundImage: `url(${PORTFOLIO_HERO_BG})` }}
+          <video
+            className="portfolio-hero-bg-video"
+            src={PORTFOLIO_DEMO_REEL_URL}
+            autoPlay
+            loop
+            muted={videoMuted}
+            playsInlinehttps://www.dropbox.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0
+            aria-hidden
+            onClick={openHeroVideo}
           />
-          <DarkOverlay opacity={0.3} className="portfolio-hero-overlay" />
+          <DarkOverlay
+            opacity={0.3}
+            className="portfolio-hero-overlay"
+            onClick={openHeroVideo}
+          />
           <TrapezoidFrame className="portfolio-hero-trapezoid" />
           <div className="portfolio-hero-inner">
             <h1 className="portfolio-hero-title">
               {t("portfolio.heroTitleMain")}{" "}
               <span className="portfolio-hero-title-accent">{t("portfolio.heroTitleAccent")}</span>
             </h1>
+            {/* Always play icon: opens fullscreen video with sound; independent of background video */}
             <button
               type="button"
               className="portfolio-hero-play"
-              onClick={() => setHeroVideoOpen(true)}
+              onClick={openHeroVideo}
               aria-label="Play video"
             >
               <span className="portfolio-hero-play-icon" aria-hidden />
             </button>
-            <p className="portfolio-hero-subtitle">{t("portfolio.heroSubtitle")}</p>
+            <p className="portfolio-hero-subtitle"><i>{t("portfolio.heroSubtitle")}</i></p>
           </div>
         </section>
 
-        {/* Hero video modal: full screen with 5vw margin */}
+        {/* Separate video instance for modal only (not the hero video); new key each open to avoid autoplay rules. */}
         {heroVideoOpen && (
           <div
             ref={heroVideoBackdropRef}
             className="portfolio-hero-video-backdrop"
-            onClick={() => setHeroVideoOpen(false)}
-            onKeyDown={(e) => e.key === "Escape" && setHeroVideoOpen(false)}
+            style={{ display: "flex" }}
+            onClick={(e) => {
+              const wrap = heroVideoWrapRef.current;
+              if (!wrap) {
+                closeHeroVideo();
+                return;
+              }
+              const path = e.nativeEvent.composedPath?.() ?? [];
+              if (path.includes(wrap) || wrap.contains(e.target)) return;
+              closeHeroVideo();
+            }}
+            onKeyDown={(e) => e.key === "Escape" && closeHeroVideo()}
             role="dialog"
             aria-modal="true"
             aria-label="Video"
@@ -267,23 +315,26 @@ function Portfolio({ title, dividerStyle, isMobile }) {
               className="portfolio-hero-video-close"
               onClick={(e) => {
                 e.stopPropagation();
-                setHeroVideoOpen(false);
+                closeHeroVideo();
               }}
               aria-label="Close video"
             >
               ×
             </button>
             <div
+              ref={heroVideoWrapRef}
               className="portfolio-hero-video-wrap"
               onClick={(e) => e.stopPropagation()}
             >
               <video
+                key={`portfolio-modal-video-${modalVideoKeyRef.current}`}
                 ref={heroVideoRef}
                 className="portfolio-hero-video"
-                src={PORTFOLIO_VIDEO_PLACEHOLDER}
+                src={PORTFOLIO_DEMO_REEL_URL}
                 controls
                 autoPlay
                 playsInline
+                onCanPlay={startModalVideoWithSound}
                 onEnded={() => heroVideoRef.current?.pause()}
               />
             </div>
@@ -293,61 +344,62 @@ function Portfolio({ title, dividerStyle, isMobile }) {
         {/* Video Section */}
         <section className="video-section">
           <div className="section-header">
-          <div className="music-container">
-            <div className="portfolio-carousel-header">
-              <h2 className="portfolio-carousel-title">{t("portfolio.carouselTitle")}</h2>
-              <p className="portfolio-carousel-subtitle">{t("portfolio.carouselSubtitle")}</p>
+            <div className="music-container">
+              <div className="portfolio-carousel-header">
+                <h2 className="portfolio-carousel-title">{t("portfolio.carouselTitle")}</h2>
+                <p className="portfolio-carousel-subtitle">{t("portfolio.carouselSubtitle")}</p>
+              </div>
+              {albums.length > 0 && (
+                <MusicCarousel
+                  albums={albums}
+                  buttonStyle={{
+                    backgroundColor: "#CE0036",
+                    padding: "10px",
+                    borderRadius: "15px",
+                    cursor: "pointer",
+                  }}
+                  portfolio={true}
+                  isMobile={isMobile}
+                />
+              )}
             </div>
-            {albums.length > 0 && (
-              <MusicCarousel
-                albums={albums}
-                buttonStyle={{
-                  backgroundColor: "#CE0036",
-                  padding: "10px",
-                  borderRadius: "15px",
-                  cursor: "pointer",
-                }}
-                portfolio={true}
-              />
-            )}
+            <div className="sfx-grid">
+              {allSfx.length > 0 &&
+                buttons.slice(0, 4).map((button) => (
+                  <button
+                    key={button.id}
+                    type="button"
+                    className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""} ${animatingSfxId === button.id ? "waveform-animate" : ""}`}
+                    data-text={button.text}
+                    onClick={() => handleButtonClick(button.id)}
+                  >
+                    <span className="sfx-waveform-wrap">
+                      <SfxWaveformIcon />
+                    </span>
+                    <span className="sfx-button-label">{button.text}</span>
+                  </button>
+                ))}
+            </div>
+
+            <div className="sfx-grid">
+              {allSfx.length > 0 &&
+                buttons.slice(4, 8).map((button) => (
+                  <button
+                    key={button.id}
+                    type="button"
+                    className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""} ${animatingSfxId === button.id ? "waveform-animate" : ""}`}
+                    data-text={button.text}
+                    onClick={() => handleButtonClick(button.id)}
+                  >
+                    <span className="sfx-waveform-wrap">
+                      <SfxWaveformIcon />
+                    </span>
+                    <span className="sfx-button-label">{button.text}</span>
+                  </button>
+                ))}
+            </div>
           </div>
-          <div className="sfx-grid">
-            {allSfx.length > 0 &&
-              buttons.slice(0, 4).map((button) => (
-                <button
-                  key={button.id}
-                  type="button"
-                  className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""} ${animatingSfxId === button.id ? "waveform-animate" : ""}`}
-                  data-text={button.text}
-                  onClick={() => handleButtonClick(button.id)}
-                >
-                  <span className="sfx-waveform-wrap">
-                    <SfxWaveformIcon />
-                  </span>
-                  <span className="sfx-button-label">{button.text}</span>
-                </button>
-              ))}
-          </div>
-          
-          <div className="sfx-grid">
-            {allSfx.length > 0 &&
-              buttons.slice(4, 8).map((button) => (
-                <button
-                  key={button.id}
-                  type="button"
-                  className={`sfx-button ${button.visible ? "" : "fade-out"} ${button.shake ? "shake" : ""} ${animatingSfxId === button.id ? "waveform-animate" : ""}`}
-                  data-text={button.text}
-                  onClick={() => handleButtonClick(button.id)}
-                >
-                  <span className="sfx-waveform-wrap">
-                    <SfxWaveformIcon />
-                  </span>
-                  <span className="sfx-button-label">{button.text}</span>
-                </button>
-              ))}
-          </div>
-          </div>
-          
+
         </section>
 
         {/* Portfolio Section */}
@@ -357,7 +409,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             {/* <p className="section-subtitle">Explore our diverse portfolio of audio projects</p> */}
             {/* <div className="section-divider"></div> */}
           </div>
-          
+
           <div className="portfolio-grid">
             {loadingPortfolio ? (
               <div className="loading-skeleton">
@@ -379,8 +431,8 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             )}
           </div>
         </section>
-        <Footer/>
-        </div>
+        <Footer />
+      </div>
     </div>
   );
 }

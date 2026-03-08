@@ -279,6 +279,8 @@ export const en = {
         joinNewsletter: "Join our newsletter!",
         enterEmail: "Enter your email",
         subscribe: "Subscribe",
+        newsletterSuccess: "Thanks!",
+        newsletterError: "Something went wrong. Please try again.",
         aboutUs: "About Us",
         privacyPolicy: "Privacy Policy",
         termsOfService: "Terms of Service",

@@ -279,6 +279,8 @@ export const jp = {
         joinNewsletter: "ニュースレターに登録",
         enterEmail: "メールアドレスを入力",
         subscribe: "登録",
+        newsletterSuccess: "登録ありがとうございます。",
+        newsletterError: "エラーが発生しました。もう一度お試しください。",
         aboutUs: "ウェイヴァーンについて",
         privacyPolicy: "プライバシーポリシー",
         termsOfService: "利用規約",

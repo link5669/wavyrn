@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "@obinesto/react-infinite-scroll-carousel/dist/index.css";
 import { Carousel } from "@obinesto/react-infinite-scroll-carousel";
 import Footer from "../components/Footer";
+import TrapezoidFrame from "../components/TrapezoidFrame/TrapezoidFrame";
 import "./Home.css";
 import Navbar from "../components/Navbar/Navbar";
 
@@ -10,23 +11,46 @@ const DEFAULT_ALBUM_COVER = "https://placehold.co/400x400/2a2520/5c4a3d?text=Alb
 
 const TESTIMONIALS = [
     {
-        quote: "Hexany Audio is the ultimate example of a truly reliable partner... the quality level that they're consistently able to hit, their ability to very quickly iterate on feedback, their deep knowledge of every single aspect of game audio, and their willingness to consistently go the extra mile. All those aspects make working with Hexany a real pleasure.",
-        name: "Michael Tanner",
-        company: "Hidden Cat Games",
+        quote: "Working with Wavyrn has been nothing short of a phenomenal experience. They are a group of great people and professionals. Their deep knowledge of all things audio has been a great asset to our game and our studio. They are more than just a group of contractors they are truly equal partners. I'd recommend them to anyone in need of audio expertise at any budget and any level.",
+        name: "Carlos Ortiz",
+        company: "Towering Stairway",
     },
     {
-        quote: "Cool audio studio",
-        name: "Miles Acquaviva",
-        company: "Everett Public Schools",
+        quote: "I hired Wavyrn Audio to make a few tracks for my horror game lily's world XD. I appreciated their professionalism and receptiveness to feedback; they care a lot about their songs fitting the tone of your game well. Because of their clear communication and quality of work, I came back to them for even more work.",
+        name: "Emily Pitcher",
+        company: "Sondering Studio",
     },
-     {
-        quote: "beep boop",
-        name: "Jenna Brown",
-        company: "JP Licks",
+    {
+        quote: "Their composer (Austin) is a remarkably bright and cheerful collaborator who truly went above and beyond to ensure every one of my ideas was perfectly implemented. He took all the time in the world to provide me with a result I loved, responding to every question or take almost instantly. What stood out most was his genuine understanding and patience, making the entire process feel supportive and stress-free.",
+        name: "Ethan Kim",
+        company: "ethanpiefan",
+    },
+    {
+        quote: "I've had an incredibly positive and insightful experience working with Wavyrn. Their team maintains exceptional professionalism and consistently provides thoughtful, high-quality feedback. Through their expertise and guidance, they significantly elevate every aspect of the production quality, offering invaluable advice and creative support at any stage of development!",
+        name: "Parama B.",
+        company: "",
+    },
+    {
+        quote: "Working with Wavyrn was an absolute delight. Talented and professional, my music composition and audio editing needs were expedient and exceptional. I didn't have to compromise my vision because Wavyrn captured it and brought it to life with their expert sound design and truly incredible music.",
+        name: "Hunter Kea",
+        company: "",
+    },
+    {
+        quote: "Working with the amazingly talented folks at Wavyrn, I have had nothing but positive experiences. They breathed so much life to my projects, all of which would not have been the same without Wavyrn!",
+        name: "Addison Fujimoto",
+        company: "tortietoons",
+    },
+    {
+        quote: "Wavyrn worked with me to refine and realize those ideas, offering revisions and suggestions while taking my reviews and making an audio product that fit the theme perfectly. Audio really brings a film together, especially one that relies so heavily on musical cues-- and having such a professional team that could work on my level made the finished product better than I could've hoped for!",
+        name: "Sam Holovacs",
+        company: "Puddle",
     },
 ];
 
 /* Carousel uses album art from the same API as Portfolio Projects section (api/albums) */
+
+const HOME_HERO_VIDEO =
+    "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Home%20Page/WAV%20Website%20Video%20v3.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
 
 const HOME_VISION_VIDEO =
     "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Misc.%20Media/TEKHA%20T01%20Full%20Character%20Showcase.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
@@ -40,6 +64,13 @@ const SLOT_POSITIONS = [
 
 function Home() {
     const n = TESTIMONIALS.length;
+    const isMobileViewport = typeof window !== "undefined" ? window.matchMedia("(max-width: 768px)").matches : false;
+    const prefersReducedMotion = typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+    const lowDeviceMemory =
+        typeof navigator !== "undefined" &&
+        typeof navigator.deviceMemory === "number" &&
+        navigator.deviceMemory <= 4;
+    const useLiteCarousel = isMobileViewport || prefersReducedMotion || lowDeviceMemory;
     const [albums, setAlbums] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [transitionDir, setTransitionDir] = useState(null); // 'next' | 'prev' | null
@@ -54,6 +85,9 @@ function Home() {
     const visionVideoRef = useRef(null);
     const visionVideoBackdropRef = useRef(null);
     const parallaxRate = 0.80; /* background moves at 35% of scroll speed */
+
+    /* Long-quote threshold for mobile: shrink quote font so it doesn't overlap name (mobile CSS only) */
+    const LONG_QUOTE_CHARS = 260;
 
     useEffect(() => {
         const url = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums`;
@@ -116,6 +150,16 @@ function Home() {
         <div className="home-page-wrap">
             <Navbar showLogo={true}/>
             <section className="home-hero">
+                <video
+                    className="home-hero-video"
+                    src={HOME_HERO_VIDEO}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    aria-hidden
+                />
+                <TrapezoidFrame className="home-hero-trapezoid" widthPercent={62} topWidthPercent={62} />
                 <div className="home-hero-content">
                     <h1 className="home-hero-title">
                         <span className="home-hero-title-accent">Audio</span> made fantastic.
@@ -142,12 +186,14 @@ function Home() {
                                 src={album.coverUrl || DEFAULT_ALBUM_COVER}
                                 alt=""
                                 className="home-carousel-img"
+                                loading="lazy"
+                                decoding="async"
                             />
                         )}
                         itemClassName="home-carousel-item"
                         containerClassName="home-carousel-container"
-                        scrollInterval={20}
-                        scrollAmount={8}
+                        scrollInterval={useLiteCarousel ? 32 : 20}
+                        scrollAmount={useLiteCarousel ? 4 : 8}
                         loadMoreThreshold={5}
                     />
                 </section>
@@ -168,6 +214,7 @@ function Home() {
                     {cards.map((card, cardIndex) => {
                         const testimonial = TESTIMONIALS[card.contentIndex];
                         const isFront = card.slot === 0;
+                        const isLongQuote = testimonial.quote.length > LONG_QUOTE_CHARS;
                         const pos = SLOT_POSITIONS[card.slot];
                         return (
                             <div
@@ -180,7 +227,9 @@ function Home() {
                             >
                                 <div className={`home-testimonial-card ${isFront ? "home-testimonial-card-front" : "home-testimonial-card-mid"}`}>
                                     <div className="home-testimonial-content">
-                                        <blockquote className="home-testimonial-quote">
+                                        <blockquote
+                                            className={`home-testimonial-quote ${isFront && isLongQuote ? "home-testimonial-quote--shrunk" : ""}`}
+                                        >
                                             {testimonial.quote}
                                         </blockquote>
                                         <footer className="home-testimonial-attribution">
@@ -219,13 +268,17 @@ function Home() {
             <section className="home-vision">
                 <div className="home-vision-inner">
                     <div className="home-vision-header">
-                        <h2 className="home-vision-heading">Let's talk about your vision.</h2>
+                        <h2 className="home-vision-heading">
+                            Let's talk about
+                            <br />
+                            your vision.
+                        </h2>
                         <div className="home-vision-line" aria-hidden="true" />
                     </div>
                     <div className="home-vision-content">
                         <div className="home-vision-text">
                             <p className="home-vision-para">
-                                We partner with our clients to work as a true extension of their team. We help you develop your vision and strategy, design and build your team, manage budgets and schedules, and provide ongoing support throughout production. And then we stay in the trenches with you until it's time to celebrate.
+                            Every project has its own sound—we’re here to help you find it. We work closely with you and your team to understand your project’s audio needs and craft a sound that brings it to life. Whether you’re just starting out or deep in production, we can step in wherever you need us. From shaping a signature sound early on to integrating seamlessly with your existing workflow, we stay with you from first conversation to final release. And if you’re still exploring ideas, that’s perfectly fine—no obligation.
                             </p>
                             <Link to="/contact" className="home-vision-link">
                                 Let's chat.
