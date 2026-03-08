@@ -227,12 +227,24 @@ const AustinB = (isMobile) => {
                         width="750"
                         height="300"
                         controls
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                     ></video>
                 ) : (
                     <ReactPlayer
                         style={{ margin: "auto", maxWidth: "80vw" }}
                         playing={false}
                         controls={true}
+                        config={{
+                            file: {
+                                attributes: {
+                                    controlsList: "nodownload noplaybackrate noremoteplayback",
+                                    disablePictureInPicture: true,
+                                    onContextMenu: (e) => e.preventDefault(),
+                                },
+                            },
+                        }}
                         url={"Audio_Redesign_Reel_Austin_Burkett.mov"}
                         isMobile={isMobile}
                     />
@@ -563,12 +575,24 @@ const Julian = (isMobile) => {
                         width="750"
                         height="300"
                         controls
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                     ></video>
                 ) : (
                     <ReactPlayer
                         style={{ margin: "auto", maxWidth: "80vw" }}
                         playing={false}
                         controls={true}
+                        config={{
+                            file: {
+                                attributes: {
+                                    controlsList: "nodownload noplaybackrate noremoteplayback",
+                                    disablePictureInPicture: true,
+                                    onContextMenu: (e) => e.preventDefault(),
+                                },
+                            },
+                        }}
                         url={"Julian Cabrera Sound Design Demo Reel.mov"}
                         isMobile={isMobile}
                     />

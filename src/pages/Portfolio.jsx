@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 
 const PORTFOLIO_DEMO_REEL_URL =
   "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+const HERO_TRAPEZOID_WIDTH = 62;
 
 function Portfolio({ title, dividerStyle, isMobile }) {
   const { t } = useTranslation();
@@ -269,7 +270,11 @@ function Portfolio({ title, dividerStyle, isMobile }) {
             className="portfolio-hero-overlay"
             onClick={openHeroVideo}
           />
-          <TrapezoidFrame className="portfolio-hero-trapezoid" />
+          <TrapezoidFrame
+            className="portfolio-hero-trapezoid"
+            widthPercent={HERO_TRAPEZOID_WIDTH}
+            topWidthPercent={HERO_TRAPEZOID_WIDTH}
+          />
           <div className="portfolio-hero-inner">
             <h1 className="portfolio-hero-title">
               {t("portfolio.heroTitleMain")}{" "}
@@ -332,8 +337,11 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                 className="portfolio-hero-video"
                 src={PORTFOLIO_DEMO_REEL_URL}
                 controls
+                controlsList="nodownload noplaybackrate noremoteplayback"
+                disablePictureInPicture
                 autoPlay
                 playsInline
+                onContextMenu={(e) => e.preventDefault()}
                 onCanPlay={startModalVideoWithSound}
                 onEnded={() => heroVideoRef.current?.pause()}
               />

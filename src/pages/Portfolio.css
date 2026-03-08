@@ -30,7 +30,7 @@
 .portfolio-hero {
     position: relative;
     width: 100%;
-    min-height: 60vh;
+    height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -68,8 +68,8 @@
 .portfolio-hero-inner {
     position: relative;
     z-index: 1;
-    max-width: 720px;
-    width: 100%;
+    width: min(92vw, 58rem);
+    max-width: 58rem;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -109,6 +109,8 @@
 
 .portfolio-hero-play:hover {
     background: rgba(255, 255, 255, 0.1);
+    border-color: #CE0036;    color: #CE0036;
+
 }
 
 /* Always show play icon (opens modal with sound); background video state is independent */
@@ -332,9 +334,9 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
-    max-width: 60%;
-    margin: 40px 15%;
-    padding: 0 40px;
+    width: min(100%, 760px);
+    margin: 40px auto;
+    padding: 0;
 }
 
 .sfx-button {
@@ -349,7 +351,7 @@
     background: #3d1515;
     border: 1px solid #CE0036;
     border-radius: 8px;
-    font-size: 0.85rem;
+    font-size: 1rem;
     font-weight: 500;
     color: #fff;
     cursor: pointer;
@@ -379,6 +381,7 @@
 
 .sfx-button-label {
     text-align: center;
+    font-size: 1rem;
     line-height: 1.2;
 }
 
@@ -491,8 +494,8 @@
     }
     
     .sfx-grid {
-        padding: 0 80px;
-        margin: 40px 20%;
+        width: min(100%, 820px);
+        margin: 40px auto;
     }
     
     .portfolio-grid {
@@ -508,22 +511,22 @@
 /* Responsive SFX Grid for zoom levels */
 @media (max-width: 1400px) {
     .sfx-grid {
-        margin: 40px 12%;
         gap: 15px;
+        margin: 40px auto;
     }
 }
 
 @media (max-width: 1200px) {
     .sfx-grid {
-        margin: 40px 10%;
         gap: 12px;
+        margin: 40px auto;
     }
 }
 
 @media (max-width: 1000px) {
     .sfx-grid {
-        margin: 40px 8%;
         gap: 10px;
+        margin: 40px auto;
     }
     
     .portfolio-grid {
@@ -534,8 +537,8 @@
 
 @media (max-width: 900px) {
     .sfx-grid {
-        margin: 40px 5%;
         gap: 8px;
+        margin: 40px auto;
     }
     
     .portfolio-grid {
@@ -661,7 +664,7 @@
     .sfx-button {
         padding: 0.85rem 0.65rem;
         min-height: 62px;
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
 
     .sfx-waveform {
@@ -670,8 +673,8 @@
     }
 
     .sfx-button-label {
-        font-size: 0.85rem;
-        line-height: 1.15;
+        font-size: 1rem;
+        line-height: 1.2;
     }
 
     .portfolio-grid {
@@ -684,6 +687,12 @@
 
 /* Desktop: no narrow viewport, no scaling */
 @media (min-width: 769px) {
+    .portfolio-hero {
+        height: auto;
+        min-height: clamp(32rem, 60vh, 44rem);
+        box-sizing: border-box;
+    }
+
     .video-section .carousel-track-scaler { transform: none; }
 }
 

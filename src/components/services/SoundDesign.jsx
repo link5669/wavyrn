@@ -3,6 +3,7 @@ import HRDiv from "../HRDiv";
 import { Col, Row } from "react-bootstrap";
 import { useRef, useEffect } from "react";
 import { useTranslation } from "../../hooks/useTranslation";
+import { FiCheck } from "react-icons/fi";
 
 const SoundDesign = ({ isMobile }) => {
     const { t } = useTranslation();
@@ -115,10 +116,9 @@ const SoundDesign = ({ isMobile }) => {
                 <ul
                     style={{
                         textAlign: "left",
-                        listStyleType: "square",
-                        listStylePosition: "outside",
+                        listStyle: "none",
                         margin: 0,
-                        paddingLeft: "10%",
+                        paddingLeft: "4%",
                         paddingRight: "3%",
                         lineHeight: `${lineHeight}px`, // Fixed line height
                         fontSize: "15px", // Fixed font size
@@ -129,7 +129,20 @@ const SoundDesign = ({ isMobile }) => {
                     }}
                 >
                     {t('about.services.soundDesign.checklist').map((item, index) => (
-                        <li key={index}>{item}</li>
+                        <li key={index} style={{ display: "flex", alignItems: "flex-start", gap: "10px", marginBottom: "4px", listStyle: "none" }}>
+                            <FiCheck
+                                aria-hidden="true"
+                                style={{
+                                    color: "#fff",
+                                    fontSize: "16px",
+                                    lineHeight: 1,
+                                    minWidth: "16px",
+                                    marginTop: "1px",
+                                    flexShrink: 0,
+                                }}
+                            />
+                            <span>{item}</span>
+                        </li>
                     ))}
                 </ul>
             </div>

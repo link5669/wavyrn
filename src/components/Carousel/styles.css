@@ -158,13 +158,13 @@
 }
 
 .arrow.left {
-    left: clamp(80px, 10%, 106px);
+    left: clamp(50px, 6%, 76px);
     right: auto;
     z-index: 100;
 }
 
 .arrow.right {
-    right: clamp(80px, 10%, 106px);
+    right: clamp(50px, 6%, 76px);
     left: auto;
 }
 

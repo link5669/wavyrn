@@ -50,6 +50,17 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false, isMobile = fals
         return [idx(-2), idx(-1), idx(0), idx(1), idx(2)].map((i) => albums[i]);
     };
 
+    const getPlayIndex = () => {
+        const n = albums.length;
+        const baseIndex =
+            slideOffset === 0
+                ? currentIndex
+                : slideOffset === 1
+                  ? (currentIndex + 1) % n
+                  : (currentIndex - 1 + n) % n;
+        return isMobile ? (baseIndex + 1) % n : baseIndex;
+    };
+
     const handleLeftClick = () => {
         if (isTransitioning) return;
         setIsTransitioning(true);
@@ -79,10 +90,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false, isMobile = fals
 
     useEffect(() => {
         if (slideOffset === 0) return;
-        const n = albums.length;
-        const newIndex = slideOffset === 1
-            ? (currentIndex + 1) % n
-            : (currentIndex - 1 + n) % n;
+        const newIndex = getPlayIndex();
         if (isPlaying && audioRef.current) {
             let volume = audioRef.current.volume;
             const fadeOutInterval = setInterval(() => {
@@ -241,8 +249,7 @@ const MusicCarousel = ({ buttonStyle, albums, portfolio = false, isMobile = fals
                                         }}
                                     />
                                     {isCenter && (() => {
-                                        const n = albums.length;
-                                        const playIndex = slideOffset === 0 ? currentIndex : slideOffset === 1 ? (currentIndex + 1) % n : (currentIndex - 1 + n) % n;
+                                        const playIndex = getPlayIndex();
                                         return (
                                         <div
                                             className="carousel-item__play-row"

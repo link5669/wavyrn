@@ -384,7 +384,7 @@
 }
 
 .about-services-mobile .about-mobile-service-checklist {
-    list-style: none;
+    list-style: none !important;
     padding: 0;
     margin: 0 0 12px 0;
     text-align: left;
@@ -392,6 +392,7 @@
 }
 
 .about-services-mobile .about-mobile-service-checklist li {
+    list-style: none !important;
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -402,9 +403,25 @@
 }
 
 .about-services-mobile .about-mobile-service-checklist .checkbox {
-    color: #CE0036;
-    font-size: 1.1em;
+    color: #fff;
+    font-size: 0;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.05em;
+    min-width: 1.05em;
     flex-shrink: 0;
+}
+
+.about-services-mobile .about-mobile-service-checklist .checkbox::before {
+    content: "";
+    width: 0.34em;
+    height: 0.65em;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+    transform-origin: center;
 }
 
 .about-services-mobile .about-mobile-service-description {
@@ -557,6 +574,26 @@
     .about-team-heading-line {
         width: calc(100vw - 48px);
     }
+
+    .about-team-section .team-grid .profile-pic-info {
+        padding: 12px 18px 16px 8px !important;
+        padding-inline: 8px 18px !important;
+    }
+
+    .about-team-section .team-grid .profile-pic-name {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .about-team-section .team-grid .profile-pic-title {
+        padding-left: 0;
+        padding-right: 0;
+        margin-top: 4px;
+    }
+
+    .about-services-mobile .about-mobile-service-checklist .checkbox {
+        color: #fff;
+    }
 }
 
 /* Profile cards: image fills container; name card floats on top, inset from all edges */
@@ -615,11 +652,11 @@
     bottom: 12px !important;
     width: auto !important;
     background-color: rgba(47, 47, 47, 0.85);
-    padding: 14px 32px 18px 14px !important;
-    padding-inline: 14px 32px !important;
+    padding: 10px 14px 12px 12px !important;
+    padding-inline: 12px 14px !important;
     margin: 0 !important;
-    height: 66px;
-    min-height: 66px;
+    height: auto;
+    min-height: 74px;
     z-index: 2;
     border: 2px solid #CE0036;
     border-radius: 10px;
@@ -627,9 +664,10 @@
     display: flex;
     text-align: left;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    gap: 4px;
     box-sizing: border-box;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .about-team-section .team-grid .profile-pic-name {
@@ -676,7 +714,7 @@
 /* Team Grid – gap scales with viewport; minmax(0,1fr) lets columns shrink so grid stays inside container */
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: clamp(14px, 2.2vw, 28px);
     padding: 0;
     width: 100%;
@@ -702,7 +740,7 @@
         padding-right: 5%;
     }
     .team-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 

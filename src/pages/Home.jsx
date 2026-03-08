@@ -54,6 +54,7 @@ const HOME_HERO_VIDEO =
 
 const HOME_VISION_VIDEO =
     "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Misc.%20Media/TEKHA%20T01%20Full%20Character%20Showcase.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
+const HERO_TRAPEZOID_WIDTH = 62;
 
 const CARD_OFFSET = 12;
 const SLOT_POSITIONS = [
@@ -64,13 +65,19 @@ const SLOT_POSITIONS = [
 
 function Home() {
     const n = TESTIMONIALS.length;
-    const isMobileViewport = typeof window !== "undefined" ? window.matchMedia("(max-width: 768px)").matches : false;
     const prefersReducedMotion = typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
     const lowDeviceMemory =
         typeof navigator !== "undefined" &&
         typeof navigator.deviceMemory === "number" &&
         navigator.deviceMemory <= 4;
-    const useLiteCarousel = isMobileViewport || prefersReducedMotion || lowDeviceMemory;
+    const isIOS =
+        typeof navigator !== "undefined" &&
+        (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+
+    const carouselScrollInterval = prefersReducedMotion || lowDeviceMemory ? 32 : isIOS ? 120 : 24;
+    const carouselScrollAmount = prefersReducedMotion || lowDeviceMemory ? 4 : isIOS ? 24 : 8;
+    const carouselSectionClassName = `home-carousel-section home-carousel-section--auto-only${isIOS ? " home-carousel-section--ios-fast" : ""}`;
     const [albums, setAlbums] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [transitionDir, setTransitionDir] = useState(null); // 'next' | 'prev' | null
@@ -159,7 +166,7 @@ function Home() {
                     playsInline
                     aria-hidden
                 />
-                <TrapezoidFrame className="home-hero-trapezoid" widthPercent={62} topWidthPercent={62} />
+                <TrapezoidFrame className="home-hero-trapezoid" widthPercent={HERO_TRAPEZOID_WIDTH} topWidthPercent={HERO_TRAPEZOID_WIDTH} />
                 <div className="home-hero-content">
                     <h1 className="home-hero-title">
                         <span className="home-hero-title-accent">Audio</span> made fantastic.
@@ -177,7 +184,7 @@ function Home() {
             </section>
 
             {albums.length > 0 && (
-                <section className="home-carousel-section home-carousel-section--auto-only" aria-label="Project album art">
+                <section className={carouselSectionClassName} aria-label="Project album art">
                     <Carousel
                         items={albums}
                         keyExtractor={(item, index) => item.docId || item.id || index}
@@ -192,8 +199,8 @@ function Home() {
                         )}
                         itemClassName="home-carousel-item"
                         containerClassName="home-carousel-container"
-                        scrollInterval={useLiteCarousel ? 32 : 20}
-                        scrollAmount={useLiteCarousel ? 4 : 8}
+                        scrollInterval={carouselScrollInterval}
+                        scrollAmount={carouselScrollAmount}
                         loadMoreThreshold={5}
                     />
                 </section>
@@ -234,7 +241,7 @@ function Home() {
                                         </blockquote>
                                         <footer className="home-testimonial-attribution">
                                             <span className="home-testimonial-name">{testimonial.name}</span>
-                                            <span className="home-testimonial-company"><i>{testimonial.company}</i></span>
+                                            <span className="home-testimonial-company">{testimonial.company}</span>
                                         </footer>
                                         {isFront && (
                                             <div className="home-testimonial-nav">
@@ -269,9 +276,9 @@ function Home() {
                 <div className="home-vision-inner">
                     <div className="home-vision-header">
                         <h2 className="home-vision-heading">
-                            Let's talk about
-                            <br />
-                            your vision.
+                            <span className="home-vision-heading-line1">Let's talk about </span>
+                            <br className="home-vision-heading-break" />
+                            <span className="home-vision-heading-line2">your vision.</span>
                         </h2>
                         <div className="home-vision-line" aria-hidden="true" />
                     </div>
@@ -334,8 +341,11 @@ function Home() {
                                         className="portfolio-hero-video"
                                         src={HOME_VISION_VIDEO}
                                         controls
+                                        controlsList="nodownload noplaybackrate noremoteplayback"
+                                        disablePictureInPicture
                                         autoPlay
                                         playsInline
+                                        onContextMenu={(e) => e.preventDefault()}
                                         onEnded={() => visionVideoRef.current?.pause()}
                                     />
                                 </div>

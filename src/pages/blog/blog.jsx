@@ -14,6 +14,7 @@ const POSTS_PER_PAGE = 5;
 
 const BLOG_HERO_IMAGE =
     "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Blog/20260221%20Blog.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+const HERO_TRAPEZOID_WIDTH = 62;
 
 function getFirstImageFromPost(post) {
     if (post.previewImage && post.previewImage.trim() !== "") return post.previewImage;
@@ -241,21 +242,21 @@ const Blog = ({ isMobile }) => {
                     width: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    paddingTop: "65px",
                 }}
             >
                 {/* Featured Stories banner */}
                 <section className="blog-featured-banner">
                     <DarkOverlay className="blog-featured-banner-overlay" opacity={1} />
-                    <TrapezoidFrame topWidthPercent={62} className="blog-featured-trapezoid" />
+                    <TrapezoidFrame
+                        widthPercent={HERO_TRAPEZOID_WIDTH}
+                        topWidthPercent={HERO_TRAPEZOID_WIDTH}
+                        className="blog-featured-trapezoid"
+                    />
                     <div className="blog-featured-banner-inner">
                         <h1 className="blog-featured-title">{t("blog.featuredStories")}</h1>
                         <div className="blog-featured-title-line" aria-hidden="true" />
                         {featuredPost && (
-                            <Link
-                                to={featuredPost.slug ? `/blog/${featuredPost.slug}` : `/blog/${featuredPost.docId}`}
-                                className="blog-featured-card"
-                            >
+                            <div className="blog-featured-card">
                                 <h2 className="blog-featured-card-title">{featuredPost.title}</h2>
                                 {featuredPost.topics && featuredPost.topics.length > 0 && (
                                     <div className="blog-featured-tags">
@@ -269,11 +270,14 @@ const Blog = ({ isMobile }) => {
                                 {featuredExcerpt && (
                                     <p className="blog-featured-excerpt">{featuredExcerpt}</p>
                                 )}
-                                <span className="blog-featured-play" aria-label="Read story">
-                                    {/* <span className="blog-featured-play-icon" /> */}
+                                <Link
+                                    to={featuredPost.slug ? `/blog/${featuredPost.slug}` : `/blog/${featuredPost.docId}`}
+                                    className="blog-featured-play"
+                                    aria-label={`Read story: ${featuredPost.title}`}
+                                >
                                     →
-                                </span>
-                            </Link>
+                                </Link>
+                            </div>
                         )}
                     </div>
                 </section>

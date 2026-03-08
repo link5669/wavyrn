@@ -7,6 +7,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
   const { t } = useTranslation();
   const wrapperRef = useRef(null);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  const hasBio = name !== "Josh Trochet" && name !== "Miles Acquaviva";
 
   const handleMouseMove = useCallback((e) => {
     const el = wrapperRef.current;
@@ -24,11 +25,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
   }, []);
 
   const handleClick = () => {
-    if (
-      name == "Josh Trochet" ||
-      name == "Miles Acquaviva"
-    )
-      return;
+    if (!hasBio) return;
 
     if (onClick) {
       onClick();
@@ -43,10 +40,11 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
     <div className="profile-pic-container">
       <div
         ref={wrapperRef}
-        className="profile-pic-wrapper"
+        className={`profile-pic-wrapper ${hasBio ? "" : "profile-pic-wrapper--disabled"}`}
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        aria-disabled={!hasBio}
       >
         <div
           className="profile-pic-backdrop"
@@ -69,9 +67,11 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
             }}
           />
         </div>
-        <div className="profile-pic-overlay">
-          <span className="overlay-text">{t('common.learnMore')}...</span>
-        </div>
+        {hasBio && (
+          <div className="profile-pic-overlay">
+            <span className="overlay-text">{t('common.learnMore')}...</span>
+          </div>
+        )}
       </div>
       <div className="profile-pic-info">
         <h4 className="profile-pic-name">{t(`team.members.${name}.name`) || name}</h4>

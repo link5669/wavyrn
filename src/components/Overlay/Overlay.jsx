@@ -89,6 +89,15 @@ const Overlay = ({ isVisible, onClose, children, profileInfo }) => {
         };
     }, [isVisible]);
 
+    useEffect(() => {
+        if (!isVisible) return;
+        const onKeyDown = (e) => {
+            if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", onKeyDown);
+        return () => window.removeEventListener("keydown", onKeyDown);
+    }, [isVisible, onClose]);
+
     return (
         <div className={`overlay ${isVisible ? "visible" : ""}`}>
             <div className="overlay-content">

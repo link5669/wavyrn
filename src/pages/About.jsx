@@ -29,6 +29,7 @@ import Overlay from "../components/Overlay/Overlay";
 import { getPfpImage } from "../utilities/utilities";
 import Footer from "../components/Footer";
 import SingleCarousel from "../components/Carousel/SingleCarousel/SingleCarousel";
+import { FiCheck } from "react-icons/fi";
 
 const About = ({ isMobile }) => {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -274,7 +275,17 @@ const About = ({ isMobile }) => {
                                         <ul className="about-mobile-service-checklist">
                                             {service.checklist.map((item, idx) => (
                                                 <li key={idx}>
-                                                    <span className="checkbox">✔</span>
+                                                    <FiCheck
+                                                        aria-hidden="true"
+                                                        style={{
+                                                            color: "#fff",
+                                                            fontSize: "16px",
+                                                            lineHeight: 1,
+                                                            minWidth: "16px",
+                                                            marginTop: "1px",
+                                                            flexShrink: 0,
+                                                        }}
+                                                    />
                                                     {item}
                                                 </li>
                                             ))}

@@ -266,7 +266,7 @@ const Post = ({ isMobile, e }) => {
                                     // Replace {video:URL} with HTML video element
                                     processed = processed.replace(
                                         /\{video:([^}]+)\}/g,
-                                        '<video style="width: 100%; max-width: 560px; height: auto; margin: 20px 0;" controls><source src="$1" type="video/mp4">Your browser does not support the video tag.</video>'
+                                        '<video style="width: 100%; max-width: 560px; height: auto; margin: 20px 0;" controls controlsList="nodownload noplaybackrate noremoteplayback" disablePictureInPicture oncontextmenu="return false;"><source src="$1" type="video/mp4">Your browser does not support the video tag.</video>'
                                     );
                                     
                                     // Replace {image:URL} with HTML img element
@@ -302,6 +302,15 @@ const Post = ({ isMobile, e }) => {
                                                                     width="100%" 
                                                                     height="315px"
                                                                     controls={true}
+                                                                    config={{
+                                                                        file: {
+                                                                            attributes: {
+                                                                                controlsList: "nodownload noplaybackrate noremoteplayback",
+                                                                                disablePictureInPicture: true,
+                                                                                onContextMenu: (e) => e.preventDefault(),
+                                                                            },
+                                                                        },
+                                                                    }}
                                                                 />
                                                             </div>
                                                         </div>

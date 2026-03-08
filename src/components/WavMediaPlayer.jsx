@@ -103,6 +103,15 @@ const WavMediaPlayer = ({ imgSrc, title, videoId, isMobile }) => {
         <ReactPlayer
           playing={false}
           controls={true}
+          config={{
+            file: {
+              attributes: {
+                controlsList: "nodownload noplaybackrate noremoteplayback",
+                disablePictureInPicture: true,
+                onContextMenu: (e) => e.preventDefault(),
+              },
+            },
+          }}
           url={
             isFirefox
               ? "https://www.dropbox.com/scl/fi/hbc6lhg03u391x07mzr0d/Wavyrn-Demo-Reel-2024.mp4?rlkey=yyut32tlye3syg7bjpw0q2p76&dl=1"

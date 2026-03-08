@@ -7,14 +7,22 @@
 /* Hero section – top of home page */
 .home-hero {
     position: relative;
+    width: 100%;
     height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    padding-top: 10rem;
+    padding: 100px 2rem 60px;
     background-color: #0d0d0d;
     overflow: hidden;
+}
+
+@media (min-width: 769px) {
+    .home-hero {
+        height: auto;
+        min-height: clamp(32rem, 60vh, 44rem);
+        box-sizing: border-box;
+    }
 }
 
 .home-hero-video {
@@ -34,16 +42,22 @@
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 640px;
+    width: min(92vw, 58rem);
+    max-width: 58rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .home-hero-title {
-    margin: 0 0 1.5rem 0;
+    margin: 0;
     font-size: clamp(1rem, 3.5vw, 3.5rem);
     font-weight: 600;
     color: #fff;
     line-height: 1.15;
     letter-spacing: 0.02em;
+    padding-top: 1.5rem;
 }
 
 .home-hero-title-accent {
@@ -52,7 +66,7 @@
 
 .home-hero-line {
     width: 100%;
-    max-width: 880px;
+    max-width: 550px;
     height: 1px;
     background-color: #999;
     margin: 2.25rem auto 2.25rem;
@@ -69,12 +83,13 @@
 .home-hero-button {
     display: inline-block;
     margin-top: 3rem;
+    margin-bottom: 1rem;
     padding: 12px 24px;
     border: 1px solid #fff;
     border-radius: 999px;
     background: transparent;
     color: #fff;
-    font-size: 2.0em;
+    font-size: 1.8em;
     font-weight: 500;
     text-decoration: none;
     transition: background-color 0.2s ease, color 0.2s ease;
@@ -115,6 +130,7 @@
         height: 1px;
         transform: scaleY(0.5);
         transform-origin: center;
+        /* max-width: 580px; */
     }
 
     .home-hero-button {
@@ -179,6 +195,11 @@
     max-width: 100%;
     will-change: transform;
     transform: translateZ(0);
+}
+
+/* iOS Safari: avoid smooth-scroll + timer interaction that can crawl */
+.home-carousel-section--ios-fast .infinite-scroll-carousel-container {
+    scroll-behavior: auto !important;
 }
 
 .home-carousel-item {
@@ -412,6 +433,7 @@
     color: #fff;
     font-size: 0.9rem;
     color: #CCCCCC;
+    font-style: italic;
 }
 
 .home-testimonial-nav {
@@ -528,6 +550,11 @@
     font-weight: 200;
     color: #fff;
     text-align: left;
+    white-space: nowrap;
+}
+
+.home-vision-heading-break {
+    display: none;
 }
 
 /* Bar sits below heading, stretches further into the image area (above the video) */
@@ -682,6 +709,20 @@
     .home-vision-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+    }
+
+    .home-vision-heading {
+        font-size: clamp(1.9rem, 8vw, 2.35rem);
+        line-height: 1.2;
+        white-space: normal;
+    }
+
+    .home-vision-heading-line1 {
+        white-space: nowrap;
+    }
+
+    .home-vision-heading-break {
+        display: block;
     }
 
     .home-vision-line {

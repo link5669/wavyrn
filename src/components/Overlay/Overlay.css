@@ -104,6 +104,12 @@
     color: #fff;
 }
 
+.social-links-header a:hover,
+.social-links-header a:hover svg {
+    color: #fff !important;
+    fill: #fff !important;
+}
+
 .overlay-divider {
     height: 1px;
     background-color: #CE0036;
@@ -131,7 +137,9 @@
 
 .close-button:hover {
     border-width: 2px;
-    background: rgba(255, 255, 255, 0.08);
+    border-color: #CE0036;
+    color: #CE0036;
+    background: rgba(206, 0, 54, 0.12);
 }
 
 .close-button svg {

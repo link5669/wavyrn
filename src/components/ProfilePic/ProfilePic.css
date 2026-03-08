@@ -19,6 +19,10 @@
     transition: box-shadow 0.3s ease;
 }
 
+.profile-pic-wrapper--disabled {
+    cursor: default;
+}
+
 .profile-pic-backdrop {
     position: absolute;
     inset: 0;
@@ -59,6 +63,10 @@
     filter: brightness(0.7);
 }
 
+.profile-pic-wrapper--disabled:hover .profile-pic-image {
+    filter: none;
+}
+
 .profile-pic-overlay {
     position: absolute;
     top: 0;
@@ -76,6 +84,10 @@
 
 .profile-pic-wrapper:hover .profile-pic-overlay {
     opacity: 1;
+}
+
+.profile-pic-wrapper--disabled:hover .profile-pic-overlay {
+    opacity: 0;
 }
 
 .overlay-text {

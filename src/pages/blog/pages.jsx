@@ -275,6 +275,9 @@ const BLOG_PAGES = [
                 <div style={{ textAlign: "center" }}>
                     <video 
                         controls 
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                         style={{ 
                             maxWidth: "100%", 
                             width: "100%", 
@@ -380,6 +383,9 @@ const BLOG_PAGES = [
                 <div style={{ textAlign: "center" }}>
                     <video 
                         controls 
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                         style={{ 
                             maxWidth: "100%", 
                             width: "100%", 
@@ -403,6 +409,9 @@ const BLOG_PAGES = [
                 <div style={{ textAlign: "center" }}>
                     <video
                         controls
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                         style={{ 
                             maxWidth: "100%", 
                             width: "100%", 
@@ -428,6 +437,9 @@ const BLOG_PAGES = [
                         type="video/mp4"
                         src="https://www.dl.dropboxusercontent.com/scl/fi/nr6ldpmh4jros3vyh19fl/CLIP-3.mp4?rlkey=kaon7gvpncnit6f13vnhtw237&dl=1"
                         controls
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                         style={{ 
                             maxWidth: "100%", 
                             width: "100%", 
@@ -452,6 +464,9 @@ const BLOG_PAGES = [
                         type="video/mp4"
                         src="https://www.dl.dropboxusercontent.com/scl/fi/ccn6pjaehloumbb76q8uo/CLIP-4.mp4?rlkey=e1j881ptu6sz7dplaru329r82&dl=1"
                         controls
+                        controlsList="nodownload noplaybackrate noremoteplayback"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
                         style={{ 
                             maxWidth: "100%", 
                             width: "100%", 
