@@ -407,6 +407,16 @@ body:has(.blog-page-wrap) #root {
 }
 
 @media (max-width: 768px) {
+    .blog-featured-title {
+        margin-top: 0.25rem;
+    }
+
+    .blog-featured-card {
+        width: 100%;
+        max-width: calc(100vw - 2rem);
+        box-sizing: border-box;
+    }
+
     .blog-featured-title-line {
         width: 100%;
         max-width: calc(100vw - 3rem);
