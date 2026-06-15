@@ -70,7 +70,7 @@ const getUserSocialLinks = (userName) => {
             <WebsiteLink key="youtube" link="https://www.youtube.com/@enbeatsu" />,
             <WebsiteLink key="bandcamp" link="https://enbeatsu.bandcamp.com/" />,
             <WebsiteLink key="soundcloud" link="https://soundcloud.com/enbeatsu" />,
-            <LinkedinLink key="linkedin" handle="in/quinne-houck/" />
+            <LinkedinLink key="linkedin" handle="quinne-houck/" />
         ]
     };
     

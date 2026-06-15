@@ -153,7 +153,7 @@ const BlueskyLink = ({ address }) => {
 
 const LinkedinLink = ({ handle }) => {
     return (
-        <a href={`http://linkedin.net/${handle}`}>
+        <a href={`https://www.linkedin.com/in/${handle}`}>
             <svg
                 stroke="currentColor"
                 fill="currentColor"
