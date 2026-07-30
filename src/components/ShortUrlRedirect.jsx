@@ -9,7 +9,7 @@ const ShortUrlRedirect = () => {
       try {
         // Instead of calling the redirect endpoint, we need a new endpoint that returns the URL data
         const response = await fetch(
-          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/urls/redirect/${slug}`
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/urls/redirect/${slug.toLowerCase()}`
         );
         
         if (response.ok) {
