@@ -249,7 +249,7 @@ const URLShortenerEditor = () => {
             type="text"
             value={formData.customSlug}
             onChange={(e) =>
-              setFormData({ ...formData, customSlug: e.target.value })
+              setFormData({ ...formData, customSlug: e.target.value.toLocaleLowerCase() })
             }
             placeholder="my-custom-link"
             style={{
