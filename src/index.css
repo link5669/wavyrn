@@ -98,3 +98,9 @@ button:focus-visible {
     justify-content: center;
     align-items: center;
 }
+
+/* Quicksand has no italic face; allow the browser to synthesize one */
+em,
+i {
+    font-synthesis: style;
+}
