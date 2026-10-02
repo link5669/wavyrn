@@ -401,8 +401,8 @@ const Post = ({ isMobile, e }) => {
                         {children}
                       </pre>
                     ),
-                    ul: ({ children }) => <ul style={{ marginBottom: "12px", paddingLeft: "18px", listStyleType: "disc" }}>{children}</ul>,
-                    ol: ({ children }) => <ol style={{ marginBottom: "12px", paddingLeft: "18px", listStyleType: "decimal" }}>{children}</ol>,
+                    ul: ({ children }) => <ul style={{ marginBottom: "12px", paddingLeft: "18px", listStyleType: "disc", fontSize: "inherit" }}>{children}</ul>,
+                    ol: ({ children }) => <ol style={{ marginBottom: "12px", paddingLeft: "18px", listStyleType: "decimal", fontSize: "inherit" }}>{children}</ol>,
                     li: ({ children }) => <li style={{ marginBottom: "4px" }}>{children}</li>,
                       }}
                     >
