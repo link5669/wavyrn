@@ -237,6 +237,7 @@ const Preview = ({ isMobile, title, author, date, tags, link, content, allTags }
                                 
                                 // Clean up any problematic patterns that might cause asterisks to appear
                                 processedContent = processedContent
+                                    .replace(/\{tab(?::\d+)?\}/g, '') // Strip first-line indent markers
                                     .replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>') // Handle bold+italic
                                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Handle bold
                                     .replace(/\*(.*?)\*/g, '<em>$1</em>') // Handle italic

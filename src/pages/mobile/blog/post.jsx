@@ -273,6 +273,12 @@ const Post = ({ isMobile, e }) => {
                       '<div style="padding-left: $1px; margin: 5px 0;">$2</div>'
                     );
                     
+                    // Replace {tab} / {tab:48} with a first-line indent spacer
+                    processed = processed.replace(
+                      /\{tab(?::(\d+))?\}/g,
+                      (_, width) => `<span style="display: inline-block; width: ${width || 48}px;"></span>`
+                    );
+                    
                     // Replace {youtube:VIDEO_ID} with YouTube iframe
                     processed = processed.replace(
                       /\{youtube:([a-zA-Z0-9_-]+)\}/g,
@@ -395,8 +401,8 @@ const Post = ({ isMobile, e }) => {
                         {children}
                       </pre>
                     ),
-                    ul: ({ children }) => <ul style={{ marginBottom: "12px", paddingLeft: "18px" }}>{children}</ul>,
-                    ol: ({ children }) => <ol style={{ marginBottom: "12px", paddingLeft: "18px" }}>{children}</ol>,
+                    ul: ({ children }) => <ul style={{ marginBottom: "12px", paddingLeft: "18px", listStyleType: "disc" }}>{children}</ul>,
+                    ol: ({ children }) => <ol style={{ marginBottom: "12px", paddingLeft: "18px", listStyleType: "decimal" }}>{children}</ol>,
                     li: ({ children }) => <li style={{ marginBottom: "4px" }}>{children}</li>,
                       }}
                     >

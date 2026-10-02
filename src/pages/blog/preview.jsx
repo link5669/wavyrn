@@ -35,6 +35,7 @@ const Preview = ({ isMobile, title, image, author, date, tags, content, link, al
         .replace(/\{video:[^}]+\}/g, "")
         .replace(/\{color:#[A-Fa-f0-9]{6}\}(.*?)\{\/color\}/gs, "$1")
         .replace(/\{indent:\d+\}(.*?)\{\/indent\}/gs, "$1")
+        .replace(/\{tab(?::\d+)?\}/g, "")
         .trim();
 
     // Convert bold/italic markdown (asterisks) to HTML so asterisks never show (handles truncated or unclosed ** / *)

@@ -784,6 +784,8 @@ const BlogEditor = () => {
               <strong>Inline Colors:</strong> Use {`{color:#FF5733}colored text{/color}`} for specific text colors
               <br />
               <strong>Indentation:</strong> Use {`{indent:20}indented text{/indent}`} to indent blocks of text
+              <br />
+              <strong>First-line Indent:</strong> Start a paragraph with {`{tab}`} (or {`{tab:48}`} for a custom width) to indent only its first line
             </small>
           </div>
 
