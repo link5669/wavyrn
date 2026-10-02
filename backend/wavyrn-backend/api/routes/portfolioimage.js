@@ -21,7 +21,9 @@ export default function portfolioRoute(firebaseApp) {
   // POST route to upload portfolio image
   router.post("/", async (req, res) => {
     try {
-      const { title, subtitle, imgSrc, position } = req.body;
+      const { title, subtitle, imgSrc } = req.body;
+      // Form inputs send strings; ids must be numbers or Firestore sorts them after all numeric ids
+      const position = req.body.position ? Number(req.body.position) : undefined;
 
       // Validate required fields
       if (!title || !subtitle || !imgSrc) {

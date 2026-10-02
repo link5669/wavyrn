@@ -1,6 +1,16 @@
 const projects = [
   {
     subtitle: "Short Film",
+    imgSrc: "/images/moon-stole-my-stripes.png",
+    title: "The Moon Stole my Stripes",
+  },
+  {
+    subtitle: "Short Film",
+    imgSrc: "/images/roger-williams.png",
+    title: "Roger Williams",
+  },
+  {
+    subtitle: "Short Film",
     imgSrc:
       "https://www.dl.dropboxusercontent.com/scl/fi/e4zjy774i7thgp8n0kmek/SRVR-Album-Cover.png?rlkey=j7lxe9pgyn0swu56261o09gu9&e=1&dl=0",
     title: "Survivors",
@@ -64,6 +74,11 @@ const projects = [
     imgSrc:
       "https://link5669.github.io/wavyrn-media/portfolio/9%20Arena%20Crunch%20-%20Video%20Game.webp",
     title: "Arena Crunch",
+  },
+  {
+    subtitle: "Short Film",
+    imgSrc: "/images/reach.png",
+    title: "Reach",
   },
   {
     subtitle: "TTRPG Showcase",
