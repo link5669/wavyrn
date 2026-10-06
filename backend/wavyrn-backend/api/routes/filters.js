@@ -11,6 +11,8 @@ import {
   updateDoc,
   writeBatch,
   getDoc,
+  where,
+  arrayRemove,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
@@ -301,11 +303,20 @@ export default function filtersRoute(firebaseApp) {
         }
       });
 
+      // Remove the tag from every blog post that uses it
+      const postsSnapshot = await getDocs(
+        query(collection(db, "blogPosts"), where("topics", "array-contains", tagData.name))
+      );
+      postsSnapshot.forEach((postDoc) => {
+        batch.update(postDoc.ref, { topics: arrayRemove(tagData.name) });
+      });
+
       await batch.commit();
 
       res.status(200).json({
         success: true,
         message: "Tag deleted successfully",
+        postsUpdated: postsSnapshot.size,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });

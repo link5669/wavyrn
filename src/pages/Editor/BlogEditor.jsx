@@ -1,4 +1,210 @@
 import { useState, useEffect } from "react";
+import TagSelector from "./TagSelector";
+import GoogleDocContent from "../../components/GoogleDocContent";
+import { importGoogleDocZip } from "../../utilities/googleDocImport";
+
+const BACKEND_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
+
+const EMPTY_FORM = {
+  title: "",
+  author: "",
+  date: "",
+  topics: [],
+  content: "",
+  preview: "",
+  slug: "",
+  previewImage: "",
+};
+
+const labelStyle = { display: "block", marginBottom: "5px", fontWeight: "bold" };
+const inputStyle = {
+  width: "100%",
+  padding: "8px",
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+};
+const readOnlyStyle = { ...inputStyle, backgroundColor: "#f5f5f5", color: "#555", minHeight: "38px" };
+
+const uploadImage = async (uploadId, blob, fileName) => {
+  const params = new URLSearchParams({ uploadId, fileName });
+  const response = await fetch(`${BACKEND_URL}/api/blog/images?${params}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": blob.type,
+      Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+    },
+    body: blob,
+  });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.error || `Failed to upload ${fileName}`);
+  }
+  return data.url;
+};
+
+// Fields shared by the create and edit forms
+const PostFields = ({ values, setValues, tags, onAddTag, onDeleteTag, setMessage }) => {
+  const [importStatus, setImportStatus] = useState("");
+  const [importWarnings, setImportWarnings] = useState([]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleArchive = async (e) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    setImportWarnings([]);
+    setImportStatus("Reading archive...");
+    try {
+      const uploadId = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      const { warnings, ...imported } = await importGoogleDocZip(
+        file,
+        (blob, name) => uploadImage(uploadId, blob, name),
+        setImportStatus,
+      );
+      setValues((prev) => ({ ...prev, ...imported }));
+      setImportWarnings(warnings);
+      setImportStatus(`Imported ${file.name}`);
+    } catch (error) {
+      setImportStatus("");
+      setMessage("Import failed: " + error.message, "error");
+    }
+  };
+
+  const handlePreviewImageFile = (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = () => setValues((prev) => ({ ...prev, previewImage: reader.result }));
+    reader.readAsDataURL(file);
+    e.target.value = "";
+  };
+
+  const handleTopicToggle = (topicName) => {
+    setValues((prev) => ({
+      ...prev,
+      topics: prev.topics.includes(topicName)
+        ? prev.topics.filter((t) => t !== topicName)
+        : [...prev.topics, topicName],
+    }));
+  };
+
+  const handleAddTag = async (category, name) => {
+    const added = await onAddTag(category, name);
+    if (added && !values.topics.includes(name)) handleTopicToggle(name);
+    return added;
+  };
+
+  return (
+    <>
+      <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Google Doc archive (.zip):</label>
+        <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
+          In Google Docs, choose File → Download → Web Page (.html, zipped). The title, subtitle,
+          "Author:" and "Date:" are read from the document; the post body starts after the page break.
+        </p>
+        <input type="file" accept=".zip,application/zip" onChange={handleArchive} style={{ fontSize: "14px" }} />
+        {importStatus && (
+          <div style={{ fontSize: "13px", color: "#155724", marginTop: "6px" }}>{importStatus}</div>
+        )}
+        {importWarnings.map((w) => (
+          <div key={w} style={{ fontSize: "13px", color: "#856404", marginTop: "4px" }}>
+            ⚠ {w}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Title:</label>
+        <div style={readOnlyStyle}>{values.title}</div>
+      </div>
+
+      <div style={{ display: "flex", gap: "15px", marginBottom: "15px" }}>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle}>Author:</label>
+          <div style={readOnlyStyle}>{values.author}</div>
+        </div>
+        <div style={{ flex: 1 }}>
+          <label style={labelStyle}>Date:</label>
+          <div style={readOnlyStyle}>{values.date}</div>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Preview Text:</label>
+        <div style={readOnlyStyle}>{values.preview}</div>
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Slug:</label>
+        <input
+          type="text"
+          name="slug"
+          value={values.slug}
+          onChange={handleChange}
+          style={inputStyle}
+          placeholder="e.g., my-awesome-blog-post (leave empty to auto-generate from title)"
+        />
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Topics:</label>
+        <TagSelector
+          tags={tags}
+          selected={values.topics}
+          onToggle={handleTopicToggle}
+          onAdd={handleAddTag}
+          onDelete={onDeleteTag}
+        />
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Preview image (blog card):</label>
+        <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
+          Upload an image or paste a URL. This image is shown on the blog listing.
+        </p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "flex-start" }}>
+          <input type="file" accept="image/*" onChange={handlePreviewImageFile} style={{ fontSize: "14px" }} />
+          <input
+            type="url"
+            name="previewImage"
+            value={values.previewImage?.startsWith("data:") ? "" : values.previewImage || ""}
+            onChange={handleChange}
+            placeholder="Or paste image URL"
+            style={{ ...inputStyle, flex: "1", width: "auto", minWidth: "200px" }}
+          />
+        </div>
+        {values.previewImage && (
+          <div style={{ marginTop: "10px" }}>
+            <img
+              src={values.previewImage}
+              alt="Preview"
+              style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
+            />
+          </div>
+        )}
+      </div>
+
+      {values.contentType === "html" && values.content && (
+        <details style={{ marginBottom: "15px" }}>
+          <summary style={{ cursor: "pointer", fontWeight: "bold" }}>Preview post body</summary>
+          <div style={{ border: "1px solid #ccc", borderRadius: "4px", padding: "15px", marginTop: "8px", backgroundColor: "white" }}>
+            <GoogleDocContent
+              html={values.content}
+              styles={values.contentStyles}
+              bodyClass={values.contentBodyClass}
+              bodyStyle={values.contentBodyStyle}
+            />
+          </div>
+        </details>
+      )}
+    </>
+  );
+};
 
 const BlogEditor = () => {
   const [posts, setPosts] = useState([]);
@@ -10,68 +216,20 @@ const BlogEditor = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  
-  // Form state
-  const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    date: "",
-    topics: [],
-    content: "",
-    preview: "",
-    fontColor: "#000000",
-    slug: "",
-    previewImage: "",
-  });
-  
-  // Edit states
-  const [editingPost, setEditingPost] = useState(null);
-  const [editFormData, setEditFormData] = useState({
-    title: "",
-    author: "",
-    date: "",
-    topics: [],
-    content: "",
-    preview: "",
-    fontColor: "#000000",
-    slug: "",
-    previewImage: "",
-  });
-  
-  // UI states
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTopicDropdown, setShowTopicDropdown] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Format date to "March 30th, 2025" format
-  const formatDate = (date) => {
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
-    
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    const year = date.getFullYear();
-    
-    // Add ordinal suffix
-    const getOrdinalSuffix = (day) => {
-      if (day >= 11 && day <= 13) return "th";
-      switch (day % 10) {
-        case 1: return "st";
-        case 2: return "nd";
-        case 3: return "rd";
-        default: return "th";
-      }
-    };
-    
-    return `${month} ${day}${getOrdinalSuffix(day)}, ${year}`;
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [editingPost, setEditingPost] = useState(null);
+  const [editFormData, setEditFormData] = useState(EMPTY_FORM);
+
+  const showMessage = (text, type) => {
+    setMessage(text);
+    setMessageType(type);
   };
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog`);
+      const response = await fetch(`${BACKEND_URL}/api/blog`);
       const data = await response.json();
       if (response.ok) {
         setPosts(data.posts || []);
@@ -87,7 +245,7 @@ const BlogEditor = () => {
 
   const fetchTags = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/tags`);
+      const response = await fetch(`${BACKEND_URL}/api/filters/tags`);
       const data = await response.json();
       if (response.ok) {
         setTags(data.tags || { TOPIC: [], PROJECT: [], GENRE: [] });
@@ -104,78 +262,67 @@ const BlogEditor = () => {
     fetchTags();
   }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleAddTag = async (category, name) => {
+    const exists = Object.values(tags).flat().some((t) => t.name.toLowerCase() === name.toLowerCase());
+    if (exists) {
+      showMessage(`A tag named "${name}" already exists`, "error");
+      return false;
+    }
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/filters/tags`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, category }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        showMessage(data.error || "Failed to add tag", "error");
+        return false;
+      }
+      await fetchTags();
+      return true;
+    } catch (error) {
+      showMessage("Network error: " + error.message, "error");
+      return false;
+    }
   };
 
-  const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleDeleteTag = async (tag) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/filters/tags/${tag.docId}`, { method: "DELETE" });
+      const data = await response.json();
+      if (!response.ok) {
+        showMessage(data.error || "Failed to delete tag", "error");
+        return;
+      }
+      const removeTag = (prev) => ({ ...prev, topics: prev.topics.filter((t) => t !== tag.name) });
+      setFormData(removeTag);
+      setEditFormData(removeTag);
+      setPosts((prev) => prev.map((p) => (p.topics ? removeTag(p) : p)));
+      showMessage(`Tag "${tag.name}" deleted`, "success");
+      fetchTags();
+    } catch (error) {
+      showMessage("Network error: " + error.message, "error");
+    }
   };
 
-  const handlePreviewImageFile = (e, isEdit = false) => {
-    const file = e.target.files?.[0];
-    if (!file || !file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = reader.result;
-      if (isEdit) setEditFormData((prev) => ({ ...prev, previewImage: dataUrl }));
-      else setFormData((prev) => ({ ...prev, previewImage: dataUrl }));
-    };
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  };
-
-  const handleTopicToggle = (topicName) => {
-    setFormData((prev) => ({
-      ...prev,
-      topics: prev.topics.includes(topicName)
-        ? prev.topics.filter(t => t !== topicName)
-        : [...prev.topics, topicName]
-    }));
-  };
-
-  const handleEditTopicToggle = (topicName) => {
-    setEditFormData((prev) => ({
-      ...prev,
-      topics: prev.topics.includes(topicName)
-        ? prev.topics.filter(t => t !== topicName)
-        : [...prev.topics, topicName]
-    }));
-  };
-
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
-    setFormData((prev) => ({
-      ...prev,
-      date: formatDate(date),
-    }));
-    setShowDatePicker(false);
-  };
-
-  const handleEditDateSelect = (date) => {
-    setSelectedDate(date);
-    setEditFormData((prev) => ({
-      ...prev,
-      date: formatDate(date),
-    }));
-    setShowDatePicker(false);
+  const validate = (values) => {
+    if (!values.content) return "Upload a Google Doc archive first.";
+    if (!values.title) return 'The document needs an element with the "title" class.';
+    if (!values.author) return 'The document needs an "Author:" line.';
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const error = validate(formData);
+    if (error) return showMessage(error, "error");
+
     setLoading(true);
     setMessage("");
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog`, {
+      const response = await fetch(`${BACKEND_URL}/api/blog`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -186,27 +333,14 @@ const BlogEditor = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Blog post created successfully!");
-        setMessageType("success");
-        setFormData({
-          title: "",
-          author: "",
-          date: "",
-          topics: [],
-          content: "",
-          preview: "",
-          fontColor: "#000000",
-          slug: "",
-          previewImage: "",
-        });
+        showMessage("Blog post created successfully!", "success");
+        setFormData(EMPTY_FORM);
         fetchPosts();
       } else {
-        setMessage(data.error || "Failed to create blog post");
-        setMessageType("error");
+        showMessage(data.error || "Failed to create blog post", "error");
       }
     } catch (error) {
-      setMessage("Network error: " + error.message);
-      setMessageType("error");
+      showMessage("Network error: " + error.message, "error");
     } finally {
       setLoading(false);
     }
@@ -214,46 +348,33 @@ const BlogEditor = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    const error = validate(editFormData);
+    if (error) return showMessage(error, "error");
+
     setLoading(true);
     setMessage("");
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog/${editingPost}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editFormData),
+      const response = await fetch(`${BACKEND_URL}/api/blog/${editingPost}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(editFormData),
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Blog post updated successfully!");
-        setMessageType("success");
+        showMessage("Blog post updated successfully!", "success");
         setEditingPost(null);
-        setEditFormData({
-          title: "",
-          author: "",
-          date: "",
-          topics: [],
-          content: "",
-          preview: "",
-          fontColor: "#000000",
-          slug: "",
-          previewImage: "",
-        });
+        setEditFormData(EMPTY_FORM);
         fetchPosts();
       } else {
-        setMessage(data.error || "Failed to update blog post");
-        setMessageType("error");
+        showMessage(data.error || "Failed to update blog post", "error");
       }
     } catch (error) {
-      setMessage("Network error: " + error.message);
-      setMessageType("error");
+      showMessage("Network error: " + error.message, "error");
     } finally {
       setLoading(false);
     }
@@ -268,9 +389,13 @@ const BlogEditor = () => {
       topics: post.topics || [],
       content: post.content,
       preview: post.preview || "",
-      fontColor: post.fontColor || "#000000",
+      fontColor: post.fontColor,
       slug: post.slug || "",
       previewImage: post.previewImage || "",
+      contentType: post.contentType,
+      contentStyles: post.contentStyles,
+      contentBodyClass: post.contentBodyClass,
+      contentBodyStyle: post.contentBodyStyle,
     });
   };
 
@@ -281,26 +406,20 @@ const BlogEditor = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/blog/${docId}`,
-        {
-          method: "DELETE",
-        },
-      );
+      const response = await fetch(`${BACKEND_URL}/api/blog/${docId}`, {
+        method: "DELETE",
+      });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Blog post deleted successfully!");
-        setMessageType("success");
+        showMessage("Blog post deleted successfully!", "success");
         fetchPosts();
       } else {
-        setMessage(data.error || "Failed to delete blog post");
-        setMessageType("error");
+        showMessage(data.error || "Failed to delete blog post", "error");
       }
     } catch (error) {
-      setMessage("Network error: " + error.message);
-      setMessageType("error");
+      showMessage("Network error: " + error.message, "error");
     } finally {
       setLoading(false);
     }
@@ -308,85 +427,8 @@ const BlogEditor = () => {
 
   const cancelEdit = () => {
     setEditingPost(null);
-    setEditFormData({
-      title: "",
-      author: "",
-      date: "",
-      topics: [],
-      content: "",
-      preview: "",
-      fontColor: "#000000",
-      slug: "",
-      previewImage: "",
-    });
+    setEditFormData(EMPTY_FORM);
     setMessage("");
-  };
-
-  // Generate calendar days
-  const generateCalendarDays = () => {
-    const year = selectedDate.getFullYear();
-    const month = selectedDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startDate = new Date(firstDay);
-    startDate.setDate(startDate.getDate() - firstDay.getDay());
-    
-    const days = [];
-    const currentDate = new Date(startDate);
-    
-    for (let i = 0; i < 42; i++) {
-      days.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    
-    return days;
-  };
-
-  const getMonthName = (date) => {
-    const months = [
-      "January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"
-    ];
-    return months[date.getMonth()];
-  };
-
-  const navigateMonth = (direction) => {
-    const newDate = new Date(selectedDate);
-    newDate.setMonth(newDate.getMonth() + direction);
-    setSelectedDate(newDate);
-  };
-
-  const isToday = (date) => {
-    const today = new Date();
-    return date.toDateString() === today.toDateString();
-  };
-
-  const isSelected = (date) => {
-    return date.toDateString() === selectedDate.toDateString();
-  };
-
-  const isCurrentMonth = (date) => {
-    return date.getMonth() === selectedDate.getMonth();
-  };
-
-  // Get all available topics from tags
-  const getAllTopics = () => {
-    const allTopics = [];
-    Object.values(tags).forEach(categoryTags => {
-      categoryTags.forEach(tag => {
-        allTopics.push({
-          name: tag.name,
-          category: tag.category,
-          position: tag.position
-        });
-      });
-    });
-    return allTopics.sort((a, b) => {
-      if (a.category !== b.category) {
-        return a.category.localeCompare(b.category);
-      }
-      return a.position - b.position;
-    });
   };
 
   return (
@@ -416,409 +458,14 @@ const BlogEditor = () => {
       <div style={{ marginBottom: "40px" }}>
         <h3>Create New Blog Post</h3>
         <form onSubmit={handleSubmit} style={{ marginBottom: "30px" }}>
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="title"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Title:
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleInputChange}
-              required
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-              placeholder="Enter blog post title"
-            />
-          </div>
-
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="author"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Author:
-            </label>
-            <input
-              type="text"
-              id="author"
-              name="author"
-              value={formData.author}
-              onChange={handleInputChange}
-              required
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-              placeholder="Enter author name"
-            />
-          </div>
-
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="slug"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Slug:
-            </label>
-            <input
-              type="text"
-              id="slug"
-              name="slug"
-              value={formData.slug}
-              onChange={handleInputChange}
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-              }}
-              placeholder="e.g., my-awesome-blog-post (leave empty to auto-generate from title)"
-            />
-          </div>
-
-          <div style={{ marginBottom: "15px", position: "relative" }}>
-            <label
-              htmlFor="date"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Date:
-            </label>
-            <input
-              type="text"
-              id="date"
-              name="date"
-              value={formData.date}
-              onChange={handleInputChange}
-              onClick={() => setShowDatePicker(!showDatePicker)}
-              readOnly
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-              placeholder="Click to select date"
-            />
-            
-            {showDatePicker && (
-              <div style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                backgroundColor: "white",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                padding: "10px",
-                zIndex: 1000,
-                boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-                minWidth: "300px",
-              }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-                  <button
-                    type="button"
-                    onClick={() => navigateMonth(-1)}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      fontSize: "18px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    ‹
-                  </button>
-                  <h4 style={{ margin: 0 }}>
-                    {getMonthName(selectedDate)} {selectedDate.getFullYear()}
-                  </h4>
-                  <button
-                    type="button"
-                    onClick={() => navigateMonth(1)}
-                    style={{
-                      background: "none",
-                      border: "none",
-                      fontSize: "18px",
-                      cursor: "pointer",
-                    }}
-                  >
-                    ›
-                  </button>
-                </div>
-                
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px", marginBottom: "10px" }}>
-                  {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(day => (
-                    <div key={day} style={{ textAlign: "center", fontWeight: "bold", padding: "5px" }}>
-                      {day}
-                    </div>
-                  ))}
-                </div>
-                
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "2px" }}>
-                  {generateCalendarDays().map((date, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      onClick={() => handleDateSelect(date)}
-                      style={{
-                        padding: "8px",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        backgroundColor: isSelected(date) ? "#007bff" : 
-                                       isToday(date) ? "#e3f2fd" : 
-                                       isCurrentMonth(date) ? "white" : "#f5f5f5",
-                        color: isSelected(date) ? "white" : 
-                               isCurrentMonth(date) ? "black" : "#999",
-                        fontWeight: isToday(date) ? "bold" : "normal",
-                      }}
-                    >
-                      {date.getDate()}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div style={{ marginBottom: "15px", position: "relative" }}>
-            <label
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Topics:
-            </label>
-            <div
-              onClick={() => setShowTopicDropdown(!showTopicDropdown)}
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                cursor: "pointer",
-                backgroundColor: "white",
-                minHeight: "20px",
-              }}
-            >
-              {formData.topics.length > 0 ? (
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-                  {formData.topics.map(topic => (
-                    <span
-                      key={topic}
-                      style={{
-                        backgroundColor: "#007bff",
-                        color: "white",
-                        padding: "2px 8px",
-                        borderRadius: "12px",
-                        fontSize: "12px",
-                      }}
-                    >
-                      {topic}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <span style={{ color: "#999" }}>Click to select topics</span>
-              )}
-            </div>
-            
-            {showTopicDropdown && (
-              <div style={{
-                position: "absolute",
-                top: "100%",
-                left: 0,
-                right: 0,
-                backgroundColor: "white",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                maxHeight: "200px",
-                overflowY: "auto",
-                zIndex: 1000,
-                boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-              }}>
-                {getAllTopics().length > 0 ? (
-                  getAllTopics().map(topic => (
-                    <div
-                      key={topic.name}
-                      onClick={() => handleTopicToggle(topic.name)}
-                      style={{
-                        padding: "8px 12px",
-                        cursor: "pointer",
-                        backgroundColor: formData.topics.includes(topic.name) ? "#e3f2fd" : "white",
-                        borderBottom: "1px solid #eee",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                      }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={formData.topics.includes(topic.name)}
-                        onChange={() => {}}
-                        style={{ margin: 0 }}
-                      />
-                      <span>{topic.name}</span>
-                      <span style={{ fontSize: "12px", color: "#666", marginLeft: "auto" }}>
-                        {topic.category}
-                      </span>
-                    </div>
-                  ))
-                ) : (
-                  <div style={{ padding: "12px", color: "#666", textAlign: "center" }}>
-                    No topics available. Add topics in the Filter Editor first.
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="preview"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Preview Text:
-            </label>
-            <textarea
-              id="preview"
-              name="preview"
-              value={formData.preview}
-              onChange={handleInputChange}
-              rows="3"
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                resize: "vertical",
-              }}
-              placeholder="Enter preview text (optional)"
-            />
-          </div>
-
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-              Preview image (blog card):
-            </label>
-            <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
-              Upload an image or paste a URL. This image is shown on the blog listing.
-            </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "flex-start" }}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handlePreviewImageFile(e, false)}
-                style={{ fontSize: "14px" }}
-              />
-              <input
-                type="url"
-                name="previewImage"
-                value={formData.previewImage?.startsWith("data:") ? "" : (formData.previewImage || "")}
-                onChange={handleInputChange}
-                placeholder="Or paste image URL"
-                style={{
-                  flex: "1",
-                  minWidth: "200px",
-                  padding: "8px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                }}
-              />
-            </div>
-            {formData.previewImage && (
-              <div style={{ marginTop: "10px" }}>
-                <img
-                  src={formData.previewImage}
-                  alt="Preview"
-                  style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
-                />
-              </div>
-            )}
-          </div>
-
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="content"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Content:
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              value={formData.content}
-              onChange={handleInputChange}
-              rows="15"
-              required
-              style={{
-                width: "100%",
-                padding: "8px",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                resize: "vertical",
-                fontFamily: "monospace",
-              }}
-              placeholder="Enter blog post content (supports Markdown)"
-            />
-            <small style={{ color: "#666", fontSize: "12px", display: "block", marginTop: "5px" }}>
-              <strong>Markdown Support:</strong> Use **bold**, *italic*, [links](url), # headers, - lists, etc.
-              <br />
-              <strong>Media:</strong> Add images with ![alt](url) and videos with [video](url)
-              <br />
-              <strong>YouTube Embeds:</strong> Use {`{youtube:VIDEO_ID}`} to embed YouTube videos (e.g., {`{youtube:5kXOXbqihp0}`})
-              <br />
-              <strong>Video Player:</strong> Use {`{player:URL}`} for ReactPlayer (supports YouTube, Vimeo, Dropbox, etc.)
-              <br />
-              <strong>HTML Video:</strong> Use {`{video:URL}`} for direct video files (MP4, WebM, etc.)
-              <br />
-              <strong>Images:</strong> Use {`{image:URL}`} to embed images from any URL
-              <br />
-              <strong>Inline Colors:</strong> Use {`{color:#FF5733}colored text{/color}`} for specific text colors
-              <br />
-              <strong>Indentation:</strong> Use {`{indent:20}indented text{/indent}`} to indent blocks of text
-              <br />
-              <strong>First-line Indent:</strong> Start a paragraph with {`{tab}`} (or {`{tab:48}`} for a custom width) to indent only its first line
-            </small>
-          </div>
-
-          <div style={{ marginBottom: "15px" }}>
-            <label
-              htmlFor="fontColor"
-              style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
-            >
-              Font Color:
-            </label>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <input
-                type="color"
-                id="fontColor"
-                name="fontColor"
-                value={formData.fontColor}
-                onChange={handleInputChange}
-                style={{
-                  width: "60px",
-                  height: "40px",
-                  border: "1px solid #ccc",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-              />
-              <span style={{ fontSize: "14px", color: "#666" }}>
-                {formData.fontColor}
-              </span>
-            </div>
-            <small style={{ color: "#666", fontSize: "12px", display: "block", marginTop: "5px" }}>
-              Choose the default color for the main text content. Use inline color syntax for specific sections.
-            </small>
-          </div>
+          <PostFields
+            values={formData}
+            setValues={setFormData}
+            tags={tags}
+            onAddTag={handleAddTag}
+            onDeleteTag={handleDeleteTag}
+            setMessage={showMessage}
+          />
 
           <button
             type="submit"
@@ -840,7 +487,7 @@ const BlogEditor = () => {
       {/* Current Blog Posts */}
       <div>
         <h3>Current Blog Posts</h3>
-        
+
         {loading ? (
           <div style={{ textAlign: "center", padding: "20px" }}>
             Loading blog posts...
@@ -862,238 +509,15 @@ const BlogEditor = () => {
                   >
                     {editingPost === post.docId ? (
                       <form onSubmit={handleEditSubmit} style={{ marginBottom: "10px" }}>
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Title:
-                          </label>
-                          <input
-                            type="text"
-                            name="title"
-                            value={editFormData.title}
-                            onChange={handleEditInputChange}
-                            required
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                            }}
-                          />
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Author:
-                          </label>
-                          <input
-                            type="text"
-                            name="author"
-                            value={editFormData.author}
-                            onChange={handleEditInputChange}
-                            required
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                            }}
-                          />
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Slug (URL-friendly identifier):
-                          </label>
-                          <input
-                            type="text"
-                            name="slug"
-                            value={editFormData.slug}
-                            onChange={handleEditInputChange}
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                            }}
-                            placeholder="e.g., my-awesome-blog-post (leave empty to auto-generate from title)"
-                          />
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Date:
-                          </label>
-                          <input
-                            type="text"
-                            name="date"
-                            value={editFormData.date}
-                            onChange={handleEditInputChange}
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                            }}
-                          />
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Topics:
-                          </label>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: "5px", marginBottom: "5px" }}>
-                            {editFormData.topics.map(topic => (
-                              <span
-                                key={topic}
-                                style={{
-                                  backgroundColor: "#007bff",
-                                  color: "white",
-                                  padding: "2px 8px",
-                                  borderRadius: "12px",
-                                  fontSize: "12px",
-                                }}
-                              >
-                                {topic}
-                                <button
-                                  type="button"
-                                  onClick={() => handleEditTopicToggle(topic)}
-                                  style={{
-                                    background: "none",
-                                    border: "none",
-                                    color: "white",
-                                    marginLeft: "5px",
-                                    cursor: "pointer",
-                                  }}
-                                >
-                                  ×
-                                </button>
-                              </span>
-                            ))}
-                          </div>
-                          <select
-                            onChange={(e) => {
-                              if (e.target.value && !editFormData.topics.includes(e.target.value)) {
-                                handleEditTopicToggle(e.target.value);
-                              }
-                              e.target.value = "";
-                            }}
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            <option value="">Add topic...</option>
-                            {getAllTopics().map(topic => (
-                              <option key={topic.name} value={topic.name}>
-                                {topic.name} ({topic.category})
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Preview:
-                          </label>
-                          <textarea
-                            name="preview"
-                            value={editFormData.preview}
-                            onChange={handleEditInputChange}
-                            rows="2"
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              resize: "vertical",
-                            }}
-                          />
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Preview image (blog card):
-                          </label>
-                          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "flex-start" }}>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handlePreviewImageFile(e, true)}
-                              style={{ fontSize: "13px" }}
-                            />
-                            <input
-                              type="url"
-                              name="previewImage"
-                              value={editFormData.previewImage?.startsWith("data:") ? "" : (editFormData.previewImage || "")}
-                              onChange={handleEditInputChange}
-                              placeholder="Or paste image URL"
-                              style={{
-                                flex: "1",
-                                minWidth: "180px",
-                                padding: "6px",
-                                border: "1px solid #ccc",
-                                borderRadius: "4px",
-                              }}
-                            />
-                          </div>
-                          {editFormData.previewImage && (
-                            <div style={{ marginTop: "8px" }}>
-                              <img
-                                src={editFormData.previewImage}
-                                alt="Preview"
-                                style={{ maxWidth: "180px", maxHeight: "100px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
-                              />
-                            </div>
-                          )}
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Content:
-                          </label>
-                          <textarea
-                            name="content"
-                            value={editFormData.content}
-                            onChange={handleEditInputChange}
-                            rows="10"
-                            required
-                            style={{
-                              width: "100%",
-                              padding: "6px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              resize: "vertical",
-                              fontFamily: "monospace",
-                            }}
-                          />
-                        </div>
-                        
-                        <div style={{ marginBottom: "10px" }}>
-                          <label style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}>
-                            Font Color:
-                          </label>
-                          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                            <input
-                              type="color"
-                              name="fontColor"
-                              value={editFormData.fontColor}
-                              onChange={handleEditInputChange}
-                              style={{
-                                width: "50px",
-                                height: "30px",
-                                border: "1px solid #ccc",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                              }}
-                            />
-                            <span style={{ fontSize: "12px", color: "#666" }}>
-                              {editFormData.fontColor}
-                            </span>
-                          </div>
-                        </div>
-                        
+                        <PostFields
+                          values={editFormData}
+                          setValues={setEditFormData}
+                          tags={tags}
+                          onAddTag={handleAddTag}
+                          onDeleteTag={handleDeleteTag}
+                          setMessage={showMessage}
+                        />
+
                         <div style={{ display: "flex", gap: "10px" }}>
                           <button
                             type="submit"

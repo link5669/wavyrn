@@ -6,6 +6,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
+import GoogleDocContent from "../../../components/GoogleDocContent";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
@@ -256,6 +257,13 @@ const Post = ({ isMobile, e }) => {
               {e ? (
                 // Static content (legacy posts)
                 post.content
+              ) : post.contentType === "html" ? (
+                  <GoogleDocContent
+                      html={post.content}
+                      styles={post.contentStyles}
+                      bodyClass={post.contentBodyClass}
+                      bodyStyle={post.contentBodyStyle}
+                  />
               ) : (
                 // Dynamic content with markdown rendering
                 (() => {

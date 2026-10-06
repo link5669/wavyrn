@@ -42,7 +42,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json());
+// Imported Google Docs HTML (and data-URL preview images) can exceed the 100kb default
+app.use(express.json({ limit: "10mb" }));
 app.use("/api/auth", authRoute());
 
 app.get("/", (req, res) => {

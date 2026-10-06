@@ -1,6 +1,7 @@
 import WavNavbar from "../../components/Navbar/Navbar";
 import Footer from "../../components/Footer";
 import ReactMarkdown from "react-markdown";
+import GoogleDocContent from "../../components/GoogleDocContent";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeRaw from "rehype-raw";
@@ -232,6 +233,13 @@ const Post = ({ isMobile, e }) => {
                     {e ? (
                         // Static content (legacy posts) - render as JSX
                         <div style={{ minHeight: "100vh" }}>{post.content}</div>
+                    ) : post.contentType === "html" ? (
+                        <GoogleDocContent
+                            html={post.content}
+                            styles={post.contentStyles}
+                            bodyClass={post.contentBodyClass}
+                            bodyStyle={post.contentBodyStyle}
+                        />
                     ) : (
                         // Dynamic content with markdown rendering
                         <div style={{ minHeight: "100vh" }}>

@@ -13,15 +13,51 @@ import {
   where,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { requireAuth } from "../middleware/auth.js";
+
+const sanitizeStorageName = (name) =>
+  String(name || "").replace(/[^A-Za-z0-9._-]/g, "_").replace(/^\.+/, "").slice(0, 120);
 
 export default function blogRoute(firebaseApp) {
   const router = express.Router();
   const db = getFirestore(firebaseApp);
+  const storage = getStorage(firebaseApp);
+
+  // POST route to host an image referenced by an imported Google Doc.
+  // Body is the raw image; ?uploadId groups images from one import, ?fileName names the file.
+  router.post(
+    "/images",
+    requireAuth,
+    express.raw({ type: "image/*", limit: "25mb" }),
+    async (req, res) => {
+      try {
+        const uploadId = sanitizeStorageName(req.query.uploadId);
+        const fileName = sanitizeStorageName(req.query.fileName);
+        if (!uploadId || !fileName || !Buffer.isBuffer(req.body) || req.body.length === 0) {
+          return res.status(400).json({
+            error: "uploadId, fileName, and an image body are required",
+          });
+        }
+
+        const imageRef = ref(storage, `blog/${uploadId}/${fileName}`);
+        await uploadBytes(imageRef, req.body, { contentType: req.get("Content-Type") });
+        const url = await getDownloadURL(imageRef);
+
+        res.status(201).json({ success: true, url });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    }
+  );
 
   // POST route to create a new blog post
   router.post("/", async (req, res) => {
     try {
-      const { title, author, date, topics, content, preview, fontColor, slug, previewImage } = req.body;
+      const {
+        title, author, date, topics, content, preview, fontColor, slug, previewImage,
+        contentType, contentStyles, contentBodyClass, contentBodyStyle,
+      } = req.body;
 
       // Validate required fields
       if (!title || !author || !content) {
@@ -72,6 +108,10 @@ export default function blogRoute(firebaseApp) {
         fontColor: fontColor || "#000000", // Default to black if not specified
         slug: finalSlug,
         previewImage: previewImage || "",
+        contentType: contentType || "markdown",
+        contentStyles: contentStyles || "",
+        contentBodyClass: contentBodyClass || "",
+        contentBodyStyle: contentBodyStyle || "",
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
         published: true, // Instantly published as per requirements
@@ -164,7 +204,10 @@ export default function blogRoute(firebaseApp) {
   router.put("/:docId", async (req, res) => {
     try {
       const { docId } = req.params;
-      const { title, author, date, topics, content, preview, fontColor, slug, previewImage } = req.body;
+      const {
+        title, author, date, topics, content, preview, fontColor, slug, previewImage,
+        contentType, contentStyles, contentBodyClass, contentBodyStyle,
+      } = req.body;
 
       // Validate required fields
       if (!title || !author || !content) {
@@ -229,6 +272,16 @@ export default function blogRoute(firebaseApp) {
         previewImage: previewImage !== undefined ? previewImage : (docSnapshot.data().previewImage || ""),
         updatedAt: Timestamp.now(),
       };
+
+      // Only replace the imported document's styling when new content was imported
+      if (contentType !== undefined) {
+        Object.assign(updateData, {
+          contentType,
+          contentStyles: contentStyles || "",
+          contentBodyClass: contentBodyClass || "",
+          contentBodyStyle: contentBodyStyle || "",
+        });
+      }
 
       await updateDoc(docRef, updateData);
 
