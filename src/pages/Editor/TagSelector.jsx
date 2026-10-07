@@ -87,7 +87,7 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onDelete }) => {
             backgroundColor: "white",
             border: "1px solid #ccc",
             borderRadius: "4px",
-            zIndex: 1000,
+            zIndex: 50, // below the fixed navbar (150)
             boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
           }}
         >

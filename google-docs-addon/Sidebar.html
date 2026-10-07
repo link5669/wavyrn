@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_blank">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+      body { font-family: Arial, sans-serif; font-size: 13px; color: #222; margin: 12px; }
+      h3 { margin: 14px 0 6px; font-size: 13px; }
+      input[type="password"] { width: 100%; box-sizing: border-box; padding: 6px; margin-bottom: 8px; }
+      button { background: #ce0036; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; cursor: pointer; }
+      button:disabled { opacity: 0.5; cursor: default; }
+      label { display: block; margin: 3px 0; }
+      .muted { color: #666; font-size: 12px; }
+      .error { color: #b00020; }
+      .warning { color: #856404; }
+      .success { color: #155724; }
+      .linkish { background: none; color: #666; padding: 0; text-decoration: underline; font-size: 12px; }
+      #status { margin-top: 10px; }
+    </style>
+  </head>
+  <body>
+    <div id="loading" class="muted">Loading…</div>
+
+    <form id="login" hidden>
+      <p>Enter the blog editor password.</p>
+      <input type="password" id="password" autocomplete="current-password">
+      <button type="submit">Sign in</button>
+    </form>
+
+    <div id="main" hidden>
+      <p class="muted">
+        Title, subtitle, "Author:" and "Date:" are read from the document; the post body starts after the page break.
+      </p>
+      <div id="topics"></div>
+      <div id="existing" hidden style="margin-top: 12px;">
+        <label><input type="checkbox" id="update" checked> Update the post already published from this doc</label>
+      </div>
+      <p><button id="publish" type="button">Publish</button></p>
+      <button id="logout" class="linkish" type="button">Sign out</button>
+    </div>
+
+    <div id="status"></div>
+    <div id="warnings"></div>
+
+    <script>
+      const CONFIG = <?!= JSON.stringify(config) ?>;
+      const TAG_COLUMNS = [
+        { category: "GENRE", label: "Genre" },
+        { category: "TOPIC", label: "Topic" },
+        { category: "PROJECT", label: "Project" },
+      ];
+
+      let token = null;
+      let postId = null;
+
+      const $ = (id) => document.getElementById(id);
+
+      const run = (fn, ...args) =>
+        new Promise((resolve, reject) =>
+          google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[fn](...args),
+        );
+
+      const setStatus = (text, kind = "") => {
+        $("status").className = kind;
+        $("status").textContent = text;
+      };
+
+      const showWarnings = (warnings) => {
+        $("warnings").replaceChildren(
+          ...warnings.map((w) => {
+            const div = document.createElement("div");
+            div.className = "warning";
+            div.textContent = "⚠ " + w;
+            return div;
+          }),
+        );
+      };
+
+      const show = (section) => {
+        for (const id of ["loading", "login", "main"]) $(id).hidden = id !== section;
+      };
+
+      const api = async (path, options = {}) => {
+        const response = await fetch(CONFIG.backendUrl + path, {
+          ...options,
+          headers: { Authorization: `Bearer ${token}`, ...(options.headers || {}) },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          const error = new Error(data.error || `Request failed (${response.status})`);
+          error.status = response.status;
+          throw error;
+        }
+        return data;
+      };
+
+      // ---------- Google Doc parsing (copy of src/utilities/googleDocImport.js; keep in sync) ----------
+
+      const BLOCK_SELECTOR = "p, li, h1, h2, h3, h4, h5, h6, td, th";
+      const IMAGE_TYPES = {
+        png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", gif: "image/gif",
+        webp: "image/webp", svg: "image/svg+xml", bmp: "image/bmp",
+      };
+      const MAX_IMAGE_DIMENSION = 1600;
+      const WEBP_QUALITY = 0.82;
+      const SKIP_CONVERSION = new Set(["image/svg+xml", "image/gif"]);
+
+      const toWebp = async (blob, name) => {
+        if (SKIP_CONVERSION.has(blob.type)) return { blob, name };
+        const bitmap = await createImageBitmap(blob);
+        const scale = Math.min(1, MAX_IMAGE_DIMENSION / Math.max(bitmap.width, bitmap.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(bitmap.width * scale);
+        canvas.height = Math.round(bitmap.height * scale);
+        canvas.getContext("2d").drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+        bitmap.close();
+        const webp = await new Promise((resolve) => canvas.toBlob(resolve, "image/webp", WEBP_QUALITY));
+        if (!webp || webp.type !== "image/webp") return { blob, name };
+        return { blob: webp, name: name.replace(/\.[^.]+$/, "") + ".webp" };
+      };
+
+      const normalizePath = (path) => path.replace(/\\/g, "/").replace(/^\.\//, "").replace(/^\/+/, "");
+      const dirname = (path) => {
+        const i = path.lastIndexOf("/");
+        return i === -1 ? "" : path.slice(0, i + 1);
+      };
+      const basename = (path) => path.slice(path.lastIndexOf("/") + 1);
+
+      const findLabeledValue = (doc, label, otherLabels) => {
+        for (const el of doc.body.querySelectorAll(BLOCK_SELECTOR)) {
+          const text = el.textContent.replace(/ /g, " ");
+          const idx = text.indexOf(label);
+          if (idx === -1) continue;
+          let value = text.slice(idx + label.length);
+          for (const other of otherLabels) {
+            const cut = value.indexOf(other);
+            if (cut !== -1) value = value.slice(0, cut);
+          }
+          return value.trim();
+        }
+        return "";
+      };
+
+      const findPageBreak = (doc) =>
+        Array.from(doc.body.querySelectorAll("hr")).find((hr) =>
+          /page-break-before\s*:\s*always/i.test(hr.getAttribute("style") || ""),
+        );
+
+      async function importGoogleDocZip(file, uploadImage, onProgress = () => {}) {
+        const zip = await JSZip.loadAsync(file);
+        const entries = Object.values(zip.files).filter((f) => !f.dir && !f.name.startsWith("__MACOSX/"));
+
+        const htmlEntry = entries.find((f) => /\.html?$/i.test(f.name));
+        if (!htmlEntry) throw new Error("No .html file found in the archive.");
+
+        const htmlDir = dirname(normalizePath(htmlEntry.name));
+        const doc = new DOMParser().parseFromString(await htmlEntry.async("string"), "text/html");
+
+        const imageEntries = new Map();
+        for (const entry of entries) {
+          const path = normalizePath(entry.name);
+          const ext = path.split(".").pop().toLowerCase();
+          if (!IMAGE_TYPES[ext]) continue;
+          const relative = path.startsWith(htmlDir) ? path.slice(htmlDir.length) : path;
+          imageEntries.set(relative, entry);
+          if (!imageEntries.has(basename(relative))) imageEntries.set(basename(relative), entry);
+        }
+
+        const imgs = Array.from(doc.querySelectorAll("img[src]")).filter(
+          (img) => !/^(https?:|data:)/i.test(img.getAttribute("src")),
+        );
+        const total = new Set(imgs.map((img) => img.getAttribute("src"))).size;
+        const uploaded = new Map();
+        for (const img of imgs) {
+          const src = normalizePath(decodeURIComponent(img.getAttribute("src")));
+          const entry = imageEntries.get(src) || imageEntries.get(basename(src));
+          if (!entry) throw new Error(`Image "${src}" is referenced but missing from the archive.`);
+          if (!uploaded.has(entry.name)) {
+            const name = basename(normalizePath(entry.name));
+            const blob = new Blob([await entry.async("uint8array")], {
+              type: IMAGE_TYPES[name.split(".").pop().toLowerCase()],
+            });
+            onProgress(`Converting image ${uploaded.size + 1} of ${total}...`);
+            const converted = await toWebp(blob, name);
+            onProgress(`Uploading image ${uploaded.size + 1} of ${total}...`);
+            uploaded.set(entry.name, await uploadImage(converted.blob, converted.name));
+          }
+          img.setAttribute("src", uploaded.get(entry.name));
+        }
+
+        doc.querySelectorAll("script").forEach((s) => s.remove());
+
+        const title = doc.querySelector(".title")?.textContent.trim() || "";
+        const preview = doc.querySelector(".subtitle")?.textContent.trim() || "";
+        const author = findLabeledValue(doc, "Author:", ["Date:"]);
+        const date = findLabeledValue(doc, "Date:", ["Author:"]);
+
+        const pageBreak = findPageBreak(doc);
+        let content;
+        if (pageBreak) {
+          const range = doc.createRange();
+          range.setStartAfter(pageBreak);
+          range.setEndAfter(doc.body.lastChild);
+          const wrapper = doc.createElement("div");
+          wrapper.appendChild(range.cloneContents());
+          content = wrapper.innerHTML;
+        } else {
+          content = doc.body.innerHTML;
+        }
+
+        const contentStyles = Array.from(doc.querySelectorAll("style")).map((s) => s.textContent).join("\n");
+
+        return {
+          title, author, date, preview, content, contentStyles,
+          contentBodyClass: doc.body.getAttribute("class") || "",
+          contentBodyStyle: doc.body.getAttribute("style") || "",
+          contentType: "html",
+          warnings: [
+            !pageBreak && "No page break found; the entire document was used as the body.",
+            !title && 'No element with class "title" found.',
+            !preview && 'No element with class "subtitle" found.',
+            !author && 'No "Author:" found.',
+            !date && 'No "Date:" found.',
+          ].filter(Boolean),
+        };
+      }
+
+      // ---------- Sidebar flow ----------
+
+      const uploadImage = (uploadId) => async (blob, fileName) => {
+        const params = new URLSearchParams({ uploadId, fileName });
+        const data = await api(`/api/blog/images?${params}`, {
+          method: "POST",
+          headers: { "Content-Type": blob.type },
+          body: blob,
+        });
+        return data.url;
+      };
+
+      const renderTopics = (tags, selected) => {
+        const container = $("topics");
+        container.replaceChildren();
+        for (const { category, label } of TAG_COLUMNS) {
+          const list = tags[category] || [];
+          if (!list.length) continue;
+          const heading = document.createElement("h3");
+          heading.textContent = label;
+          container.appendChild(heading);
+          for (const tag of list) {
+            const row = document.createElement("label");
+            const box = document.createElement("input");
+            box.type = "checkbox";
+            box.name = "topic";
+            box.value = tag.name;
+            box.checked = selected.includes(tag.name);
+            row.append(box, " " + tag.name);
+            container.appendChild(row);
+          }
+        }
+      };
+
+      const selectedTopics = () =>
+        Array.from(document.querySelectorAll('input[name="topic"]:checked')).map((b) => b.value);
+
+      const decodeBase64 = (b64) => {
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+        return bytes;
+      };
+
+      async function showMain(savedTopics) {
+        const { tags } = await api("/api/filters/tags");
+        renderTopics(tags || {}, savedTopics);
+        $("existing").hidden = !postId;
+        show("main");
+      }
+
+      async function publish() {
+        $("publish").disabled = true;
+        showWarnings([]);
+        try {
+          setStatus("Exporting document...");
+          const zip = decodeBase64(await run("exportDocZip"));
+
+          const uploadId = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+          const { warnings, ...imported } = await importGoogleDocZip(zip, uploadImage(uploadId), setStatus);
+          showWarnings(warnings);
+
+          if (!imported.title) throw new Error('The document needs text styled as "Title".');
+          if (!imported.author) throw new Error('The document needs an "Author:" line.');
+          if (!imported.content) throw new Error("The document has no body content.");
+
+          const topics = selectedTopics();
+          const body = JSON.stringify({ ...imported, topics });
+          const headers = { "Content-Type": "application/json" };
+
+          setStatus("Publishing...");
+          let result;
+          if (postId && $("update").checked) {
+            try {
+              result = await api(`/api/blog/${postId}`, { method: "PUT", headers, body });
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              postId = null; // the post was deleted on the site; publish a new one
+            }
+          }
+          if (!result) {
+            result = await api("/api/blog", { method: "POST", headers, body });
+            postId = result.id;
+          }
+          await run("savePost", postId, topics);
+          $("existing").hidden = false;
+
+          const link = document.createElement("a");
+          link.href = `${CONFIG.siteUrl}/blog/${encodeURIComponent(result.data.slug)}`;
+          link.textContent = "View post";
+          setStatus("Published. ", "success");
+          $("status").appendChild(link);
+        } catch (error) {
+          if (error.status === 401) {
+            token = null;
+            await run("saveToken", null);
+            show("login");
+            setStatus("Your session expired. Sign in and publish again.", "error");
+          } else {
+            setStatus(error.message || String(error), "error");
+          }
+        } finally {
+          $("publish").disabled = false;
+        }
+      }
+
+      $("login").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        setStatus("Signing in...");
+        try {
+          const response = await fetch(`${CONFIG.backendUrl}/api/auth/verify`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: $("password").value }),
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(data.error || "Sign-in failed");
+          token = data.token;
+          $("password").value = "";
+          await run("saveToken", token);
+          const state = await run("getState");
+          setStatus("");
+          await showMain(state.topics);
+        } catch (error) {
+          setStatus(error.message || String(error), "error");
+        }
+      });
+
+      $("publish").addEventListener("click", publish);
+
+      $("logout").addEventListener("click", async () => {
+        token = null;
+        await run("saveToken", null);
+        setStatus("");
+        show("login");
+      });
+
+      (async () => {
+        try {
+          const state = await run("getState");
+          postId = state.postId;
+          token = state.token;
+          const valid = token && (await api("/api/auth/verify-token").then(() => true, () => false));
+          if (valid) return await showMain(state.topics);
+          if (token) {
+            token = null;
+            await run("saveToken", null);
+          }
+          show("login");
+        } catch (error) {
+          show("login");
+          setStatus(error.message || String(error), "error");
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -21,7 +21,7 @@ const firebaseConfig = {
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGING_SENDER_ID,
   appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
+  measurementId: process.env.MEASUREMENT_ID 
 };
 
 if (!firebaseConfig.projectId || !firebaseConfig.apiKey) {
@@ -31,7 +31,7 @@ if (!firebaseConfig.projectId || !firebaseConfig.apiKey) {
   );
 }
 
-const firebaseapp = initializeApp(firebaseConfig);
+const firebaseapp = initializeApp(firebaseConfig)
 
 const port = process.env.PORT || 5001;
 const app = express();
