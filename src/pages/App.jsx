@@ -15,6 +15,7 @@ import GeneralUseRedirect from "./GeneralUseRedirect";
 import PatreonRedirect from "./PatreonCatalogRedirect";
 import NewsletterRedirect from "./NewsletterRedirect";
 import ShortUrlRedirect from "../components/ShortUrlRedirect";
+import AddonPrivacy from "./AddonPrivacy";
 import BLOG_PAGES from "./blog/pages";
 import GenreTemplate from "./GenreTemplate";
 import {
@@ -236,6 +237,7 @@ function App() {
           <Route path="/GeneralUse" element={<GeneralUseRedirect />} />
           <Route path="/PatreonCatalogue" element={<PatreonRedirect />} />
           <Route path="/editor" element={<Editor />} />
+          <Route path="/add-in/privacy" element={<AddonPrivacy />} />
           
           {/* Catch-all route for potential short URLs at root level */}
           <Route path="/:slug" element={<ShortUrlRedirect />} />

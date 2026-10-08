@@ -1,0 +1,76 @@
+/* Add-on privacy policy – dark page, readable text column, red accent */
+
+/* body normally centers content (index.css); a long text page should fill the width */
+body:has(.privacy-page) {
+    display: block;
+    place-items: unset;
+    background-color: #0d0d0d;
+}
+
+body:has(.privacy-page) #root {
+    width: 100%;
+    max-width: 100%;
+}
+
+.privacy-page {
+    min-height: 100vh;
+    padding: 140px 1rem 4rem;
+    background-color: #0d0d0d;
+    color: rgba(255, 255, 255, 0.85);
+    box-sizing: border-box;
+}
+
+.privacy-content {
+    max-width: 46rem;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 1.7;
+    font-size: 1rem;
+}
+
+.privacy-content h1 {
+    color: #fff;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+}
+
+.privacy-effective {
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0 0 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #ce0036;
+}
+
+.privacy-content h2 {
+    color: #fff;
+    font-size: 1.3rem;
+    margin: 2.25rem 0 0.75rem;
+}
+
+.privacy-content p {
+    margin: 0 0 1rem;
+}
+
+.privacy-content ul {
+    margin: 0 0 1rem;
+    padding-left: 1.25rem;
+    list-style: disc;
+}
+
+.privacy-content li {
+    margin-bottom: 0.6rem;
+}
+
+.privacy-content strong {
+    color: #fff;
+}
+
+.privacy-content a {
+    color: #ff4d73;
+    text-decoration: underline;
+}
+
+.privacy-content a:hover {
+    color: #fff;
+}

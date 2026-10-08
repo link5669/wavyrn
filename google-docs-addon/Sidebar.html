@@ -5,7 +5,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
       body { font-family: Arial, sans-serif; font-size: 13px; color: #222; margin: 12px; }
-      h3 { margin: 14px 0 6px; font-size: 13px; }
       input[type="password"] { width: 100%; box-sizing: border-box; padding: 6px; margin-bottom: 8px; }
       button { background: #ce0036; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; cursor: pointer; }
       button:disabled { opacity: 0.5; cursor: default; }
@@ -16,6 +15,25 @@
       .success { color: #155724; }
       .linkish { background: none; color: #666; padding: 0; text-decoration: underline; font-size: 12px; }
       #status { margin-top: 10px; }
+
+      /* Topic picker: same look as the web editor's TagSelector, with the columns stacked */
+      .field-label { display: block; margin: 12px 0 5px; font-weight: bold; }
+      .tag-summary { padding: 8px; border: 1px solid #ccc; border-radius: 4px; background: #fff; cursor: pointer; min-height: 20px; display: flex; flex-wrap: wrap; gap: 5px; }
+      .tag-summary .placeholder { color: #999; }
+      .chip { background: #007bff; color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+      .tag-panel { margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; background: #fff; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); overflow: hidden; }
+      .tag-section + .tag-section { border-top: 1px solid #ccc; }
+      .tag-header { padding: 8px 12px; font-weight: bold; border-bottom: 1px solid #ccc; background: #f5f5f5; }
+      .tag-list { max-height: 160px; overflow-y: auto; }
+      .tag-row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid #eee; cursor: pointer; }
+      .tag-row:hover { background: #f7fbff; }
+      .tag-row.selected { background: #e3f2fd; }
+      .tag-row input { margin: 0; pointer-events: none; }
+      .tag-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .tag-empty { padding: 12px; color: #666; text-align: center; font-size: 13px; }
+      .tag-add-row { display: flex; gap: 4px; padding: 8px; border-top: 1px solid #ccc; }
+      .tag-add-row input { flex: 1; min-width: 0; padding: 4px 6px; border: 1px solid #ccc; border-radius: 4px; }
+      .tag-add { background: #007bff; padding: 4px 10px; }
     </style>
   </head>
   <body>
@@ -31,7 +49,9 @@
       <p class="muted">
         Title, subtitle, "Author:" and "Date:" are read from the document; the post body starts after the page break.
       </p>
-      <div id="topics"></div>
+      <span class="field-label">Topics:</span>
+      <div id="tagSummary" class="tag-summary" title="Show or hide tags"></div>
+      <div id="tagPanel" class="tag-panel" hidden></div>
       <div id="existing" hidden style="margin-top: 12px;">
         <label><input type="checkbox" id="update" checked> Update the post already published from this doc</label>
       </div>
@@ -237,30 +257,102 @@
         return data.url;
       };
 
-      const renderTopics = (tags, selected) => {
-        const container = $("topics");
-        container.replaceChildren();
-        for (const { category, label } of TAG_COLUMNS) {
-          const list = tags[category] || [];
-          if (!list.length) continue;
-          const heading = document.createElement("h3");
-          heading.textContent = label;
-          container.appendChild(heading);
-          for (const tag of list) {
-            const row = document.createElement("label");
-            const box = document.createElement("input");
-            box.type = "checkbox";
-            box.name = "topic";
-            box.value = tag.name;
-            box.checked = selected.includes(tag.name);
-            row.append(box, " " + tag.name);
-            container.appendChild(row);
-          }
+      let tags = {};
+      let selected = [];
+
+      const el = (tag, props = {}, ...children) => {
+        const node = Object.assign(document.createElement(tag), props);
+        node.append(...children);
+        return node;
+      };
+
+      const loadTags = async () => {
+        tags = (await api("/api/filters/tags")).tags || {};
+      };
+
+      const renderSummary = () => {
+        $("tagSummary").replaceChildren(
+          ...(selected.length
+            ? selected.map((name) => el("span", { className: "chip" }, name))
+            : [el("span", { className: "placeholder" }, "Click to select topics")]),
+        );
+      };
+
+      // Toggling updates the row in place so scroll position and typed tag names survive.
+      const toggleTag = (name, row) => {
+        selected = selected.includes(name) ? selected.filter((t) => t !== name) : [...selected, name];
+        const on = selected.includes(name);
+        row.classList.toggle("selected", on);
+        row.querySelector("input").checked = on;
+        renderSummary();
+      };
+
+      const addTag = async (category, input, button) => {
+        const name = input.value.trim();
+        if (!name) return;
+        if (Object.values(tags).flat().some((t) => t.name.toLowerCase() === name.toLowerCase())) {
+          return setStatus(`A tag named "${name}" already exists`, "error");
+        }
+        button.disabled = true;
+        try {
+          await api("/api/filters/tags", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, category }),
+          });
+          await loadTags();
+          if (!selected.includes(name)) selected = [...selected, name];
+          renderSummary();
+          renderPanel();
+          setStatus(`Added tag "${name}"`, "success");
+        } catch (error) {
+          setStatus(error.message || String(error), "error");
+          button.disabled = false;
         }
       };
 
-      const selectedTopics = () =>
-        Array.from(document.querySelectorAll('input[name="topic"]:checked')).map((b) => b.value);
+      const renderPanel = () => {
+        $("tagPanel").replaceChildren(
+          ...TAG_COLUMNS.map(({ category, label }) => {
+            const list = tags[category] || [];
+            const rows = list.length
+              ? list.map((tag) => {
+                  const on = selected.includes(tag.name);
+                  const row = el(
+                    "div",
+                    { className: "tag-row" + (on ? " selected" : ""), title: tag.name },
+                    el("input", { type: "checkbox", checked: on, tabIndex: -1 }),
+                    el("span", { className: "tag-name" }, tag.name),
+                  );
+                  row.addEventListener("click", () => toggleTag(tag.name, row));
+                  return row;
+                })
+              : [el("div", { className: "tag-empty" }, `No ${label.toLowerCase()} tags yet.`)];
+
+            const input = el("input", { type: "text", placeholder: `New ${label.toLowerCase()} tag` });
+            const button = el("button", { type: "button", className: "tag-add" }, "Add");
+            button.addEventListener("click", () => addTag(category, input, button));
+            input.addEventListener("keydown", (e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                addTag(category, input, button);
+              }
+            });
+
+            return el(
+              "div",
+              { className: "tag-section" },
+              el("div", { className: "tag-header" }, label),
+              el("div", { className: "tag-list" }, ...rows),
+              el("div", { className: "tag-add-row" }, input, button),
+            );
+          }),
+        );
+      };
+
+      $("tagSummary").addEventListener("click", () => {
+        $("tagPanel").hidden = !$("tagPanel").hidden;
+      });
 
       const decodeBase64 = (b64) => {
         const binary = atob(b64);
@@ -270,8 +362,12 @@
       };
 
       async function showMain(savedTopics) {
-        const { tags } = await api("/api/filters/tags");
-        renderTopics(tags || {}, savedTopics);
+        await loadTags();
+        // Drop saved topics whose tag has since been deleted on the site.
+        const existing = new Set(Object.values(tags).flat().map((t) => t.name));
+        selected = savedTopics.filter((name) => existing.has(name));
+        renderSummary();
+        renderPanel();
         $("existing").hidden = !postId;
         show("main");
       }
@@ -291,7 +387,7 @@
           if (!imported.author) throw new Error('The document needs an "Author:" line.');
           if (!imported.content) throw new Error("The document has no body content.");
 
-          const topics = selectedTopics();
+          const topics = selected;
           const body = JSON.stringify({ ...imported, topics });
           const headers = { "Content-Type": "application/json" };
 

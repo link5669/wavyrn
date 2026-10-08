@@ -18,26 +18,49 @@ function onInstall(e) {
 }
 
 function showSidebar() {
+  if (BACKEND_URL.includes("YOUR-BACKEND-HOST")) {
+    throw new Error("Set BACKEND_URL at the top of Code.gs to the blog backend's address.");
+  }
   const template = HtmlService.createTemplateFromFile("Sidebar");
   template.config = { backendUrl: BACKEND_URL, siteUrl: SITE_URL };
   DocumentApp.getUi().showSidebar(template.evaluate().setTitle("Publish to Wavyrn blog"));
 }
 
 // Same file as File → Download → Web Page (.html, zipped), returned base64-encoded.
-// Drive caps exports at 10 MB.
+// Uses the Docs download URL rather than the Drive API, so the Drive API doesn't
+// need to be enabled in the add-on's Cloud project.
 function exportDocZip() {
   const id = DocumentApp.getActiveDocument().getId();
   const response = UrlFetchApp.fetch(
-    `https://www.googleapis.com/drive/v3/files/${id}/export?mimeType=application/zip`,
+    `https://docs.google.com/document/d/${id}/export?format=zip`,
     {
       headers: { Authorization: `Bearer ${ScriptApp.getOAuthToken()}` },
       muteHttpExceptions: true,
     },
   );
-  if (response.getResponseCode() !== 200) {
-    throw new Error(`Export failed (${response.getResponseCode()}): ${response.getContentText()}`);
+  const type = String(response.getHeaders()["Content-Type"] || "");
+  if (response.getResponseCode() !== 200 || type.startsWith("text/html")) {
+    // A sign-in page comes back as 200 text/html, so check the type too.
+    throw new Error(
+      `Export failed (${response.getResponseCode()}, ${type}). Token scopes: ${tokenScopes_()}. ` +
+        response.getContentText().slice(0, 500),
+    );
   }
   return Utilities.base64Encode(response.getBlob().getBytes());
+}
+
+// Scopes the script's OAuth token actually carries. These come from the running version's
+// manifest, which can differ from what the account page lists as granted.
+function tokenScopes_() {
+  const response = UrlFetchApp.fetch(
+    `https://oauth2.googleapis.com/tokeninfo?access_token=${ScriptApp.getOAuthToken()}`,
+    { muteHttpExceptions: true },
+  );
+  try {
+    return JSON.parse(response.getContentText()).scope || "unknown";
+  } catch (e) {
+    return "unknown";
+  }
 }
 
 // The editor token is per user; the published post id and topics are per document,
