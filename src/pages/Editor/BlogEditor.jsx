@@ -75,15 +75,6 @@ const PostFields = ({ values, setValues, tags, onAddTag, onDeleteTag, setMessage
     }
   };
 
-  const handlePreviewImageFile = (e) => {
-    const file = e.target.files?.[0];
-    if (!file || !file.type.startsWith("image/")) return;
-    const reader = new FileReader();
-    reader.onload = () => setValues((prev) => ({ ...prev, previewImage: reader.result }));
-    reader.readAsDataURL(file);
-    e.target.value = "";
-  };
-
   const handleTopicToggle = (topicName) => {
     setValues((prev) => ({
       ...prev,
@@ -140,6 +131,30 @@ const PostFields = ({ values, setValues, tags, onAddTag, onDeleteTag, setMessage
       </div>
 
       <div style={{ marginBottom: "15px" }}>
+        <label style={labelStyle}>Preview image (blog card):</label>
+        <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
+          Paste an image URL. This image is shown on the blog listing.
+        </p>
+        <input
+          type="url"
+          name="previewImage"
+          value={values.previewImage || ""}
+          onChange={handleChange}
+          placeholder="Image URL"
+          style={inputStyle}
+        />
+        {values.previewImage && (
+          <div style={{ marginTop: "10px" }}>
+            <img
+              src={values.previewImage}
+              alt="Preview"
+              style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
+            />
+          </div>
+        )}
+      </div>
+
+      <div style={{ marginBottom: "15px" }}>
         <label style={labelStyle}>Slug:</label>
         <input
           type="text"
@@ -160,33 +175,6 @@ const PostFields = ({ values, setValues, tags, onAddTag, onDeleteTag, setMessage
           onAdd={handleAddTag}
           onDelete={onDeleteTag}
         />
-      </div>
-
-      <div style={{ marginBottom: "15px" }}>
-        <label style={labelStyle}>Preview image (blog card):</label>
-        <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
-          Upload an image or paste a URL. This image is shown on the blog listing.
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "flex-start" }}>
-          <input type="file" accept="image/*" onChange={handlePreviewImageFile} style={{ fontSize: "14px" }} />
-          <input
-            type="url"
-            name="previewImage"
-            value={values.previewImage?.startsWith("data:") ? "" : values.previewImage || ""}
-            onChange={handleChange}
-            placeholder="Or paste image URL"
-            style={{ ...inputStyle, flex: "1", width: "auto", minWidth: "200px" }}
-          />
-        </div>
-        {values.previewImage && (
-          <div style={{ marginTop: "10px" }}>
-            <img
-              src={values.previewImage}
-              alt="Preview"
-              style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
-            />
-          </div>
-        )}
       </div>
 
       {values.contentType === "html" && values.content && (

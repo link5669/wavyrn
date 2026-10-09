@@ -15,6 +15,7 @@ import {
 import { Timestamp } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { requireAuth } from "../middleware/auth.js";
+import { replaceDropboxUrl } from "../utilities.js";
 
 const sanitizeStorageName = (name) =>
   String(name || "").replace(/[^A-Za-z0-9._-]/g, "_").replace(/^\.+/, "").slice(0, 120);
@@ -107,7 +108,7 @@ export default function blogRoute(firebaseApp) {
         preview: preview || "",
         fontColor: fontColor || "#000000", // Default to black if not specified
         slug: finalSlug,
-        previewImage: previewImage || "",
+        previewImage: replaceDropboxUrl(previewImage || ""),
         contentType: contentType || "markdown",
         contentStyles: contentStyles || "",
         contentBodyClass: contentBodyClass || "",
@@ -269,7 +270,7 @@ export default function blogRoute(firebaseApp) {
         preview: preview || "",
         slug: finalSlug,
         fontColor: fontColor || "#000000", // Default to black if not specified
-        previewImage: previewImage !== undefined ? previewImage : (docSnapshot.data().previewImage || ""),
+        previewImage: previewImage !== undefined ? replaceDropboxUrl(previewImage) : (docSnapshot.data().previewImage || ""),
         updatedAt: Timestamp.now(),
       };
 
