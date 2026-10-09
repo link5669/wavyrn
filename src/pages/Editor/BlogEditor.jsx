@@ -43,7 +43,7 @@ const uploadImage = async (uploadId, blob, fileName) => {
 };
 
 // Fields shared by the create and edit forms
-const PostFields = ({ values, setValues, tags, onAddTag, onDeleteTag, setMessage }) => {
+const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onDeleteTag, setMessage }) => {
   const [importStatus, setImportStatus] = useState("");
   const [importWarnings, setImportWarnings] = useState([]);
 
@@ -167,12 +167,13 @@ const PostFields = ({ values, setValues, tags, onAddTag, onDeleteTag, setMessage
       </div>
 
       <div style={{ marginBottom: "15px" }}>
-        <label style={labelStyle}>Topics:</label>
+        <label style={labelStyle}>Filters:</label>
         <TagSelector
           tags={tags}
           selected={values.topics}
           onToggle={handleTopicToggle}
           onAdd={handleAddTag}
+          onRename={onRenameTag}
           onDelete={onDeleteTag}
         />
       </div>
@@ -291,6 +292,42 @@ const BlogEditor = () => {
       fetchTags();
     } catch (error) {
       showMessage("Network error: " + error.message, "error");
+    }
+  };
+
+  const handleRenameTag = async (tag, name) => {
+    if (name === tag.name) return true;
+    const exists = Object.values(tags)
+      .flat()
+      .some((t) => t.docId !== tag.docId && t.name.toLowerCase() === name.toLowerCase());
+    if (exists) {
+      showMessage(`A tag named "${name}" already exists`, "error");
+      return false;
+    }
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/filters/tags/${tag.docId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, category: tag.category }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        showMessage(data.error || "Failed to rename tag", "error");
+        return false;
+      }
+      const renameTag = (prev) => ({
+        ...prev,
+        topics: prev.topics.map((t) => (t === tag.name ? name : t)),
+      });
+      setFormData(renameTag);
+      setEditFormData(renameTag);
+      setPosts((prev) => prev.map((p) => (p.topics ? renameTag(p) : p)));
+      showMessage(`Tag "${tag.name}" renamed to "${name}"`, "success");
+      fetchTags();
+      return true;
+    } catch (error) {
+      showMessage("Network error: " + error.message, "error");
+      return false;
     }
   };
 
@@ -451,6 +488,7 @@ const BlogEditor = () => {
             setValues={setFormData}
             tags={tags}
             onAddTag={handleAddTag}
+            onRenameTag={handleRenameTag}
             onDeleteTag={handleDeleteTag}
             setMessage={showMessage}
           />
@@ -502,6 +540,7 @@ const BlogEditor = () => {
                           setValues={setEditFormData}
                           tags={tags}
                           onAddTag={handleAddTag}
+                          onRenameTag={handleRenameTag}
                           onDeleteTag={handleDeleteTag}
                           setMessage={showMessage}
                         />

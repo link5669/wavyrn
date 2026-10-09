@@ -384,8 +384,8 @@ const Blog = ({ isMobile }) => {
                         <div className="blog-filter-category" style={{ marginBottom: "30px" }}>
                             <h3 style={{ 
                                 color: "#CE0036", 
-                                fontSize: "1.5em", 
-                                marginBottom: "8px",
+                                fontSize: "1.2em",
+                                marginBottom: "15px",
                                 fontWeight: "600"
                             }}>
                                 {t('blog.topic')}

@@ -248,12 +248,30 @@ export default function filtersRoute(firebaseApp) {
         updatedAt: Timestamp.now()
       };
 
-      await updateDoc(docRef, updateData);
+      const batch = writeBatch(db);
+      batch.update(docRef, updateData);
+
+      // Posts reference tags by name, so carry a rename over to every post that uses it
+      const oldName = docSnapshot.data().name;
+      let postsUpdated = 0;
+      if (oldName !== name) {
+        const postsSnapshot = await getDocs(
+          query(collection(db, "blogPosts"), where("topics", "array-contains", oldName))
+        );
+        postsSnapshot.forEach((postDoc) => {
+          const topics = postDoc.data().topics.map((t) => (t === oldName ? name : t));
+          batch.update(postDoc.ref, { topics: [...new Set(topics)] });
+        });
+        postsUpdated = postsSnapshot.size;
+      }
+
+      await batch.commit();
 
       res.status(200).json({
         success: true,
         message: "Tag updated successfully",
-        data: updateData
+        data: updateData,
+        postsUpdated,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });

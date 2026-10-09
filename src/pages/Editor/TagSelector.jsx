@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { FiTrash2 } from "react-icons/fi";
+import { FiTrash2, FiEdit2 } from "react-icons/fi";
 
 const COLUMNS = [
-  { category: "GENRE", label: "Genre" },
   { category: "TOPIC", label: "Topic" },
   { category: "PROJECT", label: "Project" },
+  { category: "GENRE", label: "Genre" },
 ];
 
-const TagSelector = ({ tags, selected, onToggle, onAdd, onDelete }) => {
+const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) => {
   const [open, setOpen] = useState(false);
   const [newTags, setNewTags] = useState({ GENRE: "", TOPIC: "", PROJECT: "" });
+  const [editing, setEditing] = useState(null); // { docId, name } while a tag is being renamed
   const containerRef = useRef(null);
 
   // Retract when the user clicks anywhere outside the selector
@@ -30,6 +31,17 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onDelete }) => {
     if (await onAdd(category, name)) {
       setNewTags((prev) => ({ ...prev, [category]: "" }));
     }
+  };
+
+  const startEdit = (e, tag) => {
+    e.stopPropagation();
+    setEditing({ docId: tag.docId, name: tag.name });
+  };
+
+  const handleRename = async (tag) => {
+    const name = editing.name.trim();
+    if (!name || name === tag.name) return setEditing(null);
+    if (await onRename(tag, name)) setEditing(null);
   };
 
   const handleDelete = (e, tag) => {
@@ -107,7 +119,48 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onDelete }) => {
 
               <div style={{ maxHeight: "250px", overflowY: "auto", flex: 1 }}>
                 {(tags[category] || []).length > 0 ? (
-                  tags[category].map((tag) => (
+                  tags[category].map((tag) => editing?.docId === tag.docId ? (
+                    <div
+                      key={tag.docId}
+                      style={{ display: "flex", gap: "4px", padding: "6px 8px", borderBottom: "1px solid #eee" }}
+                    >
+                      <input
+                        type="text"
+                        autoFocus
+                        value={editing.name}
+                        onChange={(e) => setEditing((prev) => ({ ...prev, name: e.target.value }))}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleRename(tag);
+                          } else if (e.key === "Escape") {
+                            setEditing(null);
+                          }
+                        }}
+                        style={{
+                          flex: 1,
+                          minWidth: 0,
+                          padding: "4px 6px",
+                          border: "1px solid #ccc",
+                          borderRadius: "4px",
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRename(tag)}
+                        style={{
+                          backgroundColor: "#007bff",
+                          color: "white",
+                          padding: "4px 10px",
+                          border: "none",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Save
+                      </button>
+                    </div>
+                  ) : (
                     <div
                       key={tag.docId}
                       onClick={() => onToggle(tag.name)}
@@ -130,10 +183,25 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onDelete }) => {
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{tag.name}</span>
                       <button
                         type="button"
+                        title="Rename tag"
+                        onClick={(e) => startEdit(e, tag)}
+                        style={{
+                          marginLeft: "auto",
+                          background: "none",
+                          border: "none",
+                          color: "#555",
+                          cursor: "pointer",
+                          padding: "2px",
+                          display: "flex",
+                        }}
+                      >
+                        <FiEdit2 />
+                      </button>
+                      <button
+                        type="button"
                         title="Delete tag"
                         onClick={(e) => handleDelete(e, tag)}
                         style={{
-                          marginLeft: "auto",
                           background: "none",
                           border: "none",
                           color: "#dc3545",

@@ -18,3 +18,6 @@ for tags, three columns, all genre, all projects, all topics
 able to add new tags in category in the column
 trash can to delete, confirmation window saying it will delete from all other posts
 use page break for post body
+
+reorder tags in blog, topic, project, genre
+add up down arrows to move tags 
