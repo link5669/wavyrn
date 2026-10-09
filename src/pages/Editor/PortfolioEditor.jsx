@@ -25,6 +25,11 @@ const PortfolioEditor = () => {
   });
   const [moveToIndexValues, setMoveToIndexValues] = useState({});
 
+  const normalizeDropboxUrl = (url) => {
+    if (!url) return url;
+    return url.replace("https://www.dropbox.com", "https://www.dl.dropboxusercontent.com").replace("https://dropbox.com", "https://www.dl.dropboxusercontent.com");
+  };
+
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
     try {
@@ -48,17 +53,19 @@ const PortfolioEditor = () => {
 
   const handlePortfolioInputChange = (e) => {
     const { name, value } = e.target;
+    const normalizedValue = name === "imgSrc" ? normalizeDropboxUrl(value) : value;
     setPortfolioFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: normalizedValue,
     }));
   };
 
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
+    const normalizedValue = name === "imgSrc" ? normalizeDropboxUrl(value) : value;
     setEditFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: normalizedValue,
     }));
   };
 
@@ -73,7 +80,10 @@ const PortfolioEditor = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(portfolioFormData),
+        body: JSON.stringify({
+          ...portfolioFormData,
+          imgSrc: normalizeDropboxUrl(portfolioFormData.imgSrc),
+        }),
       });
 
       const data = await response.json();
@@ -112,7 +122,7 @@ const PortfolioEditor = () => {
           body: JSON.stringify({
             title: editFormData.title,
             subtitle: editFormData.subtitle,
-            imgSrc: editFormData.imgSrc,
+            imgSrc: normalizeDropboxUrl(editFormData.imgSrc),
           }),
         },
       );

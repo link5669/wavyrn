@@ -13,6 +13,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
+import { replaceDropboxUrl } from "../utilities.js";
 
 export default function portfolioRoute(firebaseApp) {
   const router = express.Router();
@@ -22,6 +23,7 @@ export default function portfolioRoute(firebaseApp) {
   router.post("/", async (req, res) => {
     try {
       const { title, subtitle, imgSrc } = req.body;
+      const directImgSrc = replaceDropboxUrl(imgSrc);
       // Form inputs send strings; ids must be numbers or Firestore sorts them after all numeric ids
       const position = req.body.position ? Number(req.body.position) : undefined;
 
@@ -61,7 +63,7 @@ export default function portfolioRoute(firebaseApp) {
         id: insertPosition,
         title: title,
         subtitle: subtitle,
-        imgSrc: imgSrc,
+        imgSrc: directImgSrc,
         createdAt: Timestamp.now(),
       };
 
@@ -290,7 +292,7 @@ export default function portfolioRoute(firebaseApp) {
       const updateData = {
         title,
         subtitle,
-        imgSrc,
+        imgSrc: replaceDropboxUrl(imgSrc),
         updatedAt: Timestamp.now(),
       };
 
