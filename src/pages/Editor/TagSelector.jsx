@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { FiTrash2, FiEdit2 } from "react-icons/fi";
+import { FiTrash2, FiEdit2, FiArrowUp, FiArrowDown } from "react-icons/fi";
 
 const COLUMNS = [
   { category: "TOPIC", label: "Topic" },
@@ -7,7 +7,17 @@ const COLUMNS = [
   { category: "GENRE", label: "Genre" },
 ];
 
-const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) => {
+const iconButtonStyle = {
+  background: "none",
+  border: "none",
+  color: "#555",
+  cursor: "pointer",
+  padding: "2px",
+  display: "flex",
+};
+
+// `selected` holds tag doc ids
+const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onMove, onDelete }) => {
   const [open, setOpen] = useState(false);
   const [newTags, setNewTags] = useState({ GENRE: "", TOPIC: "", PROJECT: "" });
   const [editing, setEditing] = useState(null); // { docId, name } while a tag is being renamed
@@ -44,6 +54,11 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
     if (await onRename(tag, name)) setEditing(null);
   };
 
+  const handleMove = (e, tag, position) => {
+    e.stopPropagation();
+    onMove(tag, position);
+  };
+
   const handleDelete = (e, tag) => {
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this tag? It will be deleted from all blog posts!")) {
@@ -67,9 +82,9 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
       >
         {selected.length > 0 ? (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-            {selected.map((topic) => (
+            {selected.map((tagId) => (
               <span
-                key={topic}
+                key={tagId}
                 style={{
                   backgroundColor: "#007bff",
                   color: "white",
@@ -78,7 +93,7 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
                   fontSize: "12px",
                 }}
               >
-                {topic}
+                {Object.values(tags).flat().find((t) => t.docId === tagId)?.name ?? tagId}
               </span>
             ))}
           </div>
@@ -119,7 +134,7 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
 
               <div style={{ maxHeight: "250px", overflowY: "auto", flex: 1 }}>
                 {(tags[category] || []).length > 0 ? (
-                  tags[category].map((tag) => editing?.docId === tag.docId ? (
+                  tags[category].map((tag, index) => editing?.docId === tag.docId ? (
                     <div
                       key={tag.docId}
                       style={{ display: "flex", gap: "4px", padding: "6px 8px", borderBottom: "1px solid #eee" }}
@@ -163,11 +178,11 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
                   ) : (
                     <div
                       key={tag.docId}
-                      onClick={() => onToggle(tag.name)}
+                      onClick={() => onToggle(tag.docId)}
                       style={{
                         padding: "8px 12px",
                         cursor: "pointer",
-                        backgroundColor: selected.includes(tag.name) ? "#e3f2fd" : "white",
+                        backgroundColor: selected.includes(tag.docId) ? "#e3f2fd" : "white",
                         borderBottom: "1px solid #eee",
                         display: "flex",
                         alignItems: "center",
@@ -176,24 +191,34 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
                     >
                       <input
                         type="checkbox"
-                        checked={selected.includes(tag.name)}
+                        checked={selected.includes(tag.docId)}
                         onChange={() => {}}
                         style={{ margin: 0 }}
                       />
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{tag.name}</span>
                       <button
                         type="button"
+                        title="Move up"
+                        disabled={index === 0}
+                        onClick={(e) => handleMove(e, tag, index)}
+                        style={{ ...iconButtonStyle, marginLeft: "auto", opacity: index === 0 ? 0.3 : 1 }}
+                      >
+                        <FiArrowUp />
+                      </button>
+                      <button
+                        type="button"
+                        title="Move down"
+                        disabled={index === tags[category].length - 1}
+                        onClick={(e) => handleMove(e, tag, index + 2)}
+                        style={{ ...iconButtonStyle, opacity: index === tags[category].length - 1 ? 0.3 : 1 }}
+                      >
+                        <FiArrowDown />
+                      </button>
+                      <button
+                        type="button"
                         title="Rename tag"
                         onClick={(e) => startEdit(e, tag)}
-                        style={{
-                          marginLeft: "auto",
-                          background: "none",
-                          border: "none",
-                          color: "#555",
-                          cursor: "pointer",
-                          padding: "2px",
-                          display: "flex",
-                        }}
+                        style={iconButtonStyle}
                       >
                         <FiEdit2 />
                       </button>
@@ -201,14 +226,7 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onDelete }) =>
                         type="button"
                         title="Delete tag"
                         onClick={(e) => handleDelete(e, tag)}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          color: "#dc3545",
-                          cursor: "pointer",
-                          padding: "2px",
-                          display: "flex",
-                        }}
+                        style={{ ...iconButtonStyle, color: "#dc3545" }}
                       >
                         <FiTrash2 />
                       </button>

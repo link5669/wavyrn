@@ -47,7 +47,7 @@
 
     <div id="main" hidden>
       <p class="muted">
-        Title, subtitle, "Author:" and "Date:" are read from the document; the post body starts after the page break.
+        Title, subtitle, "Author:" (or "Authors:") and "Date:" are read from the document; the post body starts after the page break.
       </p>
       <span class="field-label">Topics:</span>
       <div id="tagSummary" class="tag-summary" title="Show or hide tags"></div>
@@ -149,11 +149,11 @@
       const findLabeledValue = (doc, label, otherLabels) => {
         for (const el of doc.body.querySelectorAll(BLOCK_SELECTOR)) {
           const text = el.textContent.replace(/ /g, " ");
-          const idx = text.indexOf(label);
-          if (idx === -1) continue;
-          let value = text.slice(idx + label.length);
+          const match = text.match(label);
+          if (!match) continue;
+          let value = text.slice(match.index + match[0].length);
           for (const other of otherLabels) {
-            const cut = value.indexOf(other);
+            const cut = value.search(other);
             if (cut !== -1) value = value.slice(0, cut);
           }
           return value.trim();
@@ -212,8 +212,8 @@
 
         const title = doc.querySelector(".title")?.textContent.trim() || "";
         const preview = doc.querySelector(".subtitle")?.textContent.trim() || "";
-        const author = findLabeledValue(doc, "Author:", ["Date:"]);
-        const date = findLabeledValue(doc, "Date:", ["Author:"]);
+        const author = findLabeledValue(doc, /Authors?:/, [/Date:/]);
+        const date = findLabeledValue(doc, /Date:/, [/Authors?:/]);
 
         const pageBreak = findPageBreak(doc);
         let content;
@@ -239,7 +239,7 @@
             !pageBreak && "No page break found; the entire document was used as the body.",
             !title && 'No element with class "title" found.',
             !preview && 'No element with class "subtitle" found.',
-            !author && 'No "Author:" found.',
+            !author && 'No "Author:" or "Authors:" found.',
             !date && 'No "Date:" found.',
           ].filter(Boolean),
         };
@@ -258,7 +258,9 @@
       };
 
       let tags = {};
-      let selected = [];
+      let selected = []; // tag doc ids
+
+      const findTag = (id) => Object.values(tags).flat().find((t) => t.docId === id);
 
       const el = (tag, props = {}, ...children) => {
         const node = Object.assign(document.createElement(tag), props);
@@ -273,15 +275,15 @@
       const renderSummary = () => {
         $("tagSummary").replaceChildren(
           ...(selected.length
-            ? selected.map((name) => el("span", { className: "chip" }, name))
+            ? selected.map((id) => el("span", { className: "chip" }, findTag(id)?.name ?? id))
             : [el("span", { className: "placeholder" }, "Click to select topics")]),
         );
       };
 
       // Toggling updates the row in place so scroll position and typed tag names survive.
-      const toggleTag = (name, row) => {
-        selected = selected.includes(name) ? selected.filter((t) => t !== name) : [...selected, name];
-        const on = selected.includes(name);
+      const toggleTag = (id, row) => {
+        selected = selected.includes(id) ? selected.filter((t) => t !== id) : [...selected, id];
+        const on = selected.includes(id);
         row.classList.toggle("selected", on);
         row.querySelector("input").checked = on;
         renderSummary();
@@ -295,13 +297,13 @@
         }
         button.disabled = true;
         try {
-          await api("/api/filters/tags", {
+          const { id } = await api("/api/filters/tags", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, category }),
           });
           await loadTags();
-          if (!selected.includes(name)) selected = [...selected, name];
+          if (!selected.includes(id)) selected = [...selected, id];
           renderSummary();
           renderPanel();
           setStatus(`Added tag "${name}"`, "success");
@@ -317,14 +319,14 @@
             const list = tags[category] || [];
             const rows = list.length
               ? list.map((tag) => {
-                  const on = selected.includes(tag.name);
+                  const on = selected.includes(tag.docId);
                   const row = el(
                     "div",
                     { className: "tag-row" + (on ? " selected" : ""), title: tag.name },
                     el("input", { type: "checkbox", checked: on, tabIndex: -1 }),
                     el("span", { className: "tag-name" }, tag.name),
                   );
-                  row.addEventListener("click", () => toggleTag(tag.name, row));
+                  row.addEventListener("click", () => toggleTag(tag.docId, row));
                   return row;
                 })
               : [el("div", { className: "tag-empty" }, `No ${label.toLowerCase()} tags yet.`)];
@@ -363,9 +365,16 @@
 
       async function showMain(savedTopics) {
         await loadTags();
-        // Drop saved topics whose tag has since been deleted on the site.
-        const existing = new Set(Object.values(tags).flat().map((t) => t.name));
-        selected = savedTopics.filter((name) => existing.has(name));
+        // Saved topics are tag ids (or names, from older versions of the add-on).
+        // Drop any whose tag has since been deleted on the site.
+        const all = Object.values(tags).flat();
+        selected = [
+          ...new Set(
+            savedTopics
+              .map((saved) => (all.find((t) => t.docId === saved) || all.find((t) => t.name === saved))?.docId)
+              .filter(Boolean),
+          ),
+        ];
         renderSummary();
         renderPanel();
         $("existing").hidden = !postId;
@@ -384,11 +393,11 @@
           showWarnings(warnings);
 
           if (!imported.title) throw new Error('The document needs text styled as "Title".');
-          if (!imported.author) throw new Error('The document needs an "Author:" line.');
+          if (!imported.author) throw new Error('The document needs an "Author:" or "Authors:" line.');
           if (!imported.content) throw new Error("The document has no body content.");
 
-          const topics = selected;
-          const body = JSON.stringify({ ...imported, topics });
+          const tagIds = selected;
+          const body = JSON.stringify({ ...imported, tagIds });
           const headers = { "Content-Type": "application/json" };
 
           setStatus("Publishing...");
@@ -405,7 +414,7 @@
             result = await api("/api/blog", { method: "POST", headers, body });
             postId = result.id;
           }
-          await run("savePost", postId, topics);
+          await run("savePost", postId, tagIds);
           $("existing").hidden = false;
 
           const link = document.createElement("a");

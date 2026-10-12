@@ -46,16 +46,16 @@ const dirname = (path) => {
 
 const basename = (path) => path.slice(path.lastIndexOf("/") + 1);
 
-// Returns the text following the first occurrence of `label` (e.g. "Author:"),
+// Returns the text following the first match of the `label` regex (e.g. /Authors?:/),
 // limited to the block element it appears in and cut off at any other label.
 const findLabeledValue = (doc, label, otherLabels) => {
   for (const el of doc.body.querySelectorAll(BLOCK_SELECTOR)) {
     const text = el.textContent.replace(/ /g, " ");
-    const idx = text.indexOf(label);
-    if (idx === -1) continue;
-    let value = text.slice(idx + label.length);
+    const match = text.match(label);
+    if (!match) continue;
+    let value = text.slice(match.index + match[0].length);
     for (const other of otherLabels) {
-      const cut = value.indexOf(other);
+      const cut = value.search(other);
       if (cut !== -1) value = value.slice(0, cut);
     }
     return value.trim();
@@ -124,8 +124,8 @@ export async function importGoogleDocZip(file, uploadImage, onProgress = () => {
 
   const title = doc.querySelector(".title")?.textContent.trim() || "";
   const preview = doc.querySelector(".subtitle")?.textContent.trim() || "";
-  const author = findLabeledValue(doc, "Author:", ["Date:"]);
-  const date = findLabeledValue(doc, "Date:", ["Author:"]);
+  const author = findLabeledValue(doc, /Authors?:/, [/Date:/]);
+  const date = findLabeledValue(doc, /Date:/, [/Authors?:/]);
 
   // The post body is everything after the page break.
   const pageBreak = findPageBreak(doc);
@@ -159,7 +159,7 @@ export async function importGoogleDocZip(file, uploadImage, onProgress = () => {
       !pageBreak && "No page break found; the entire document was used as the body.",
       !title && 'No element with class "title" found.',
       !preview && 'No element with class "subtitle" found.',
-      !author && 'No "Author:" found.',
+      !author && 'No "Author:" or "Authors:" found.',
       !date && 'No "Date:" found.',
     ].filter(Boolean),
   };

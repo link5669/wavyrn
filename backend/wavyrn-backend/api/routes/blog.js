@@ -11,6 +11,7 @@ import {
   updateDoc,
   getDoc,
   where,
+  deleteField,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -24,6 +25,49 @@ export default function blogRoute(firebaseApp) {
   const router = express.Router();
   const db = getFirestore(firebaseApp);
   const storage = getStorage(firebaseApp);
+
+  const loadTags = async () => {
+    const snapshot = await getDocs(collection(db, "tags"));
+    return snapshot.docs.map((tagDoc) => ({ docId: tagDoc.id, ...tagDoc.data() }));
+  };
+
+  // Posts store tag doc ids in `tagIds`. Clients may send ids or tag names (older
+  // versions of the Google Docs add-on send names), so accept either.
+  const resolveTagIds = (values, tags) => {
+    const ids = [];
+    const unknown = [];
+    for (const value of values) {
+      const tag = tags.find((t) => t.docId === value) || tags.find((t) => t.name === value);
+      if (tag) ids.push(tag.docId);
+      else unknown.push(value);
+    }
+    return { ids: [...new Set(ids)], unknown };
+  };
+
+  // Adds `topics` (the current tag names) so readers never see stale names after a rename.
+  // Posts saved before `tagIds` existed only have `topics` names; map those to ids.
+  const withTagNames = (post, tags) => {
+    const tagIds = post.tagIds || resolveTagIds(post.topics || [], tags).ids;
+    const topics = tagIds
+      .map((id) => tags.find((t) => t.docId === id)?.name)
+      .filter(Boolean);
+    return { ...post, tagIds, topics };
+  };
+
+  // Reads the post's tags from the request body as `tagIds`, or `topics` from older clients
+  const readTagIds = async (body, res) => {
+    const values = body.tagIds ?? body.topics;
+    if (!Array.isArray(values)) {
+      res.status(400).json({ error: "tagIds must be an array" });
+      return null;
+    }
+    const { ids, unknown } = resolveTagIds(values, await loadTags());
+    if (unknown.length > 0) {
+      res.status(400).json({ error: `Unknown tags: ${unknown.join(", ")}` });
+      return null;
+    }
+    return ids;
+  };
 
   // POST route to host an image referenced by an imported Google Doc.
   // Body is the raw image; ?uploadId groups images from one import, ?fileName names the file.
@@ -56,7 +100,7 @@ export default function blogRoute(firebaseApp) {
   router.post("/", async (req, res) => {
     try {
       const {
-        title, author, date, topics, content, preview, fontColor, slug, previewImage,
+        title, author, date, content, preview, fontColor, slug, previewImage,
         contentType, contentStyles, contentBodyClass, contentBodyStyle,
       } = req.body;
 
@@ -67,12 +111,8 @@ export default function blogRoute(firebaseApp) {
         });
       }
 
-      // Validate topics array
-      if (!Array.isArray(topics)) {
-        return res.status(400).json({
-          error: "Topics must be an array",
-        });
-      }
+      const tagIds = await readTagIds(req.body, res);
+      if (!tagIds) return;
 
       // Generate slug if not provided
       let finalSlug = slug;
@@ -103,7 +143,7 @@ export default function blogRoute(firebaseApp) {
         title: title,
         author: author,
         date: date || new Date().toISOString(),
-        topics: topics,
+        tagIds: tagIds,
         content: content,
         preview: preview || "",
         fontColor: fontColor || "#000000", // Default to black if not specified
@@ -135,17 +175,14 @@ export default function blogRoute(firebaseApp) {
   // GET route to retrieve all blog posts
   router.get("/", async (req, res) => {
     try {
-      const querySnapshot = await getDocs(
-        query(collection(db, "blogPosts"), orderBy("createdAt", "desc"))
+      const [querySnapshot, tags] = await Promise.all([
+        getDocs(query(collection(db, "blogPosts"), orderBy("createdAt", "desc"))),
+        loadTags(),
+      ]);
+
+      const posts = querySnapshot.docs.map((doc) =>
+        withTagNames({ docId: doc.id, ...doc.data() }, tags)
       );
-      
-      const posts = [];
-      querySnapshot.forEach((doc) => {
-        posts.push({
-          docId: doc.id,
-          ...doc.data(),
-        });
-      });
 
       res.status(200).json({ posts });
     } catch (error) {
@@ -170,10 +207,9 @@ export default function blogRoute(firebaseApp) {
       }
 
       const docSnapshot = querySnapshot.docs[0];
-      res.status(200).json({
-        docId: docSnapshot.id,
-        ...docSnapshot.data()
-      });
+      res.status(200).json(
+        withTagNames({ docId: docSnapshot.id, ...docSnapshot.data() }, await loadTags())
+      );
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -192,10 +228,9 @@ export default function blogRoute(firebaseApp) {
         });
       }
 
-      res.status(200).json({
-        docId: docSnapshot.id,
-        ...docSnapshot.data()
-      });
+      res.status(200).json(
+        withTagNames({ docId: docSnapshot.id, ...docSnapshot.data() }, await loadTags())
+      );
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -206,7 +241,7 @@ export default function blogRoute(firebaseApp) {
     try {
       const { docId } = req.params;
       const {
-        title, author, date, topics, content, preview, fontColor, slug, previewImage,
+        title, author, date, content, preview, fontColor, slug, previewImage,
         contentType, contentStyles, contentBodyClass, contentBodyStyle,
       } = req.body;
 
@@ -217,12 +252,8 @@ export default function blogRoute(firebaseApp) {
         });
       }
 
-      // Validate topics array
-      if (!Array.isArray(topics)) {
-        return res.status(400).json({
-          error: "Topics must be an array",
-        });
-      }
+      const tagIds = await readTagIds(req.body, res);
+      if (!tagIds) return;
 
       // Check if document exists
       const docRef = doc(db, "blogPosts", docId);
@@ -265,7 +296,8 @@ export default function blogRoute(firebaseApp) {
         title: title,
         author: author,
         date: date,
-        topics: topics,
+        tagIds: tagIds,
+        topics: deleteField(), // replaced by tagIds
         content: content,
         preview: preview || "",
         slug: finalSlug,
@@ -289,7 +321,7 @@ export default function blogRoute(firebaseApp) {
       res.status(200).json({
         success: true,
         message: "Blog post updated successfully",
-        data: updateData
+        data: { ...updateData, topics: undefined },
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -333,22 +365,25 @@ export default function blogRoute(firebaseApp) {
   router.get("/topic/:topic", async (req, res) => {
     try {
       const { topic } = req.params;
-      
+
+      // `topic` may be a tag id or a tag name
+      const tags = await loadTags();
+      const [tagId] = resolveTagIds([topic], tags).ids;
+      if (!tagId) {
+        return res.status(200).json({ posts: [] });
+      }
+
       const querySnapshot = await getDocs(
         query(
           collection(db, "blogPosts"),
-          where("topics", "array-contains", topic),
+          where("tagIds", "array-contains", tagId),
           orderBy("createdAt", "desc")
         )
       );
-      
-      const posts = [];
-      querySnapshot.forEach((doc) => {
-        posts.push({
-          docId: doc.id,
-          ...doc.data(),
-        });
-      });
+
+      const posts = querySnapshot.docs.map((doc) =>
+        withTagNames({ docId: doc.id, ...doc.data() }, tags)
+      );
 
       res.status(200).json({ posts });
     } catch (error) {

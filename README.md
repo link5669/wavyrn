@@ -19,5 +19,10 @@ able to add new tags in category in the column
 trash can to delete, confirmation window saying it will delete from all other posts
 use page break for post body
 
-reorder tags in blog, topic, project, genre
-add up down arrows to move tags 
+- add up down arrows to move tags 
+- reference tags through tag table in database
+- have blog editor also take "Authors:"
+- fix image preview for dropbox
+- if click image preview, have image blow up and have 1:1 cropper let you crop, then upload cropped image to firebase
+- youtube video embed not working
+- blog editor not posting html

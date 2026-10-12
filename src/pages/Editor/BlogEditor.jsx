@@ -9,7 +9,7 @@ const EMPTY_FORM = {
   title: "",
   author: "",
   date: "",
-  topics: [],
+  tagIds: [],
   content: "",
   preview: "",
   slug: "",
@@ -43,7 +43,7 @@ const uploadImage = async (uploadId, blob, fileName) => {
 };
 
 // Fields shared by the create and edit forms
-const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onDeleteTag, setMessage }) => {
+const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag, onDeleteTag, setMessage }) => {
   const [importStatus, setImportStatus] = useState("");
   const [importWarnings, setImportWarnings] = useState([]);
 
@@ -75,19 +75,19 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onDeleteTa
     }
   };
 
-  const handleTopicToggle = (topicName) => {
+  const handleTagToggle = (tagId) => {
     setValues((prev) => ({
       ...prev,
-      topics: prev.topics.includes(topicName)
-        ? prev.topics.filter((t) => t !== topicName)
-        : [...prev.topics, topicName],
+      tagIds: prev.tagIds.includes(tagId)
+        ? prev.tagIds.filter((id) => id !== tagId)
+        : [...prev.tagIds, tagId],
     }));
   };
 
   const handleAddTag = async (category, name) => {
-    const added = await onAddTag(category, name);
-    if (added && !values.topics.includes(name)) handleTopicToggle(name);
-    return added;
+    const tagId = await onAddTag(category, name);
+    if (tagId && !values.tagIds.includes(tagId)) handleTagToggle(tagId);
+    return Boolean(tagId);
   };
 
   return (
@@ -96,7 +96,7 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onDeleteTa
         <label style={labelStyle}>Google Doc archive (.zip):</label>
         <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
           In Google Docs, choose File → Download → Web Page (.html, zipped). The title, subtitle,
-          "Author:" and "Date:" are read from the document; the post body starts after the page break.
+          "Author:" (or "Authors:") and "Date:" are read from the document; the post body starts after the page break.
         </p>
         <input type="file" accept=".zip,application/zip" onChange={handleArchive} style={{ fontSize: "14px" }} />
         {importStatus && (
@@ -170,10 +170,11 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onDeleteTa
         <label style={labelStyle}>Filters:</label>
         <TagSelector
           tags={tags}
-          selected={values.topics}
-          onToggle={handleTopicToggle}
+          selected={values.tagIds}
+          onToggle={handleTagToggle}
           onAdd={handleAddTag}
           onRename={onRenameTag}
+          onMove={onMoveTag}
           onDelete={onDeleteTag}
         />
       </div>
@@ -269,7 +270,7 @@ const BlogEditor = () => {
         return false;
       }
       await fetchTags();
-      return true;
+      return data.id;
     } catch (error) {
       showMessage("Network error: " + error.message, "error");
       return false;
@@ -284,12 +285,12 @@ const BlogEditor = () => {
         showMessage(data.error || "Failed to delete tag", "error");
         return;
       }
-      const removeTag = (prev) => ({ ...prev, topics: prev.topics.filter((t) => t !== tag.name) });
+      const removeTag = (prev) => ({ ...prev, tagIds: prev.tagIds.filter((id) => id !== tag.docId) });
       setFormData(removeTag);
       setEditFormData(removeTag);
-      setPosts((prev) => prev.map((p) => (p.topics ? removeTag(p) : p)));
       showMessage(`Tag "${tag.name}" deleted`, "success");
       fetchTags();
+      fetchPosts();
     } catch (error) {
       showMessage("Network error: " + error.message, "error");
     }
@@ -315,15 +316,9 @@ const BlogEditor = () => {
         showMessage(data.error || "Failed to rename tag", "error");
         return false;
       }
-      const renameTag = (prev) => ({
-        ...prev,
-        topics: prev.topics.map((t) => (t === tag.name ? name : t)),
-      });
-      setFormData(renameTag);
-      setEditFormData(renameTag);
-      setPosts((prev) => prev.map((p) => (p.topics ? renameTag(p) : p)));
       showMessage(`Tag "${tag.name}" renamed to "${name}"`, "success");
       fetchTags();
+      fetchPosts();
       return true;
     } catch (error) {
       showMessage("Network error: " + error.message, "error");
@@ -331,10 +326,28 @@ const BlogEditor = () => {
     }
   };
 
+  const handleMoveTag = async (tag, position) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/filters/tags/position`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ docId: tag.docId, position }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        showMessage(data.error || "Failed to move tag", "error");
+        return;
+      }
+      fetchTags();
+    } catch (error) {
+      showMessage("Network error: " + error.message, "error");
+    }
+  };
+
   const validate = (values) => {
     if (!values.content) return "Upload a Google Doc archive first.";
     if (!values.title) return 'The document needs an element with the "title" class.';
-    if (!values.author) return 'The document needs an "Author:" line.';
+    if (!values.author) return 'The document needs an "Author:" or "Authors:" line.';
     return null;
   };
 
@@ -411,7 +424,7 @@ const BlogEditor = () => {
       title: post.title,
       author: post.author,
       date: post.date,
-      topics: post.topics || [],
+      tagIds: post.tagIds || [],
       content: post.content,
       preview: post.preview || "",
       fontColor: post.fontColor,
@@ -489,6 +502,7 @@ const BlogEditor = () => {
             tags={tags}
             onAddTag={handleAddTag}
             onRenameTag={handleRenameTag}
+            onMoveTag={handleMoveTag}
             onDeleteTag={handleDeleteTag}
             setMessage={showMessage}
           />
@@ -541,6 +555,7 @@ const BlogEditor = () => {
                           tags={tags}
                           onAddTag={handleAddTag}
                           onRenameTag={handleRenameTag}
+                          onMoveTag={handleMoveTag}
                           onDeleteTag={handleDeleteTag}
                           setMessage={showMessage}
                         />
