@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { toDirectDropboxUrl } from "../utilities/dropbox";
 
 const IMPORT_RE = /@import\s+url\(\s*['"]?([^'")]+)['"]?\s*\)\s*;?/gi;
 
@@ -10,18 +11,24 @@ const parseStartTime = (t) => {
   return Number(h) * 3600 + Number(m) * 60 + Number(sec);
 };
 
-// Returns the embed URL for a link to a YouTube video, or null. Google Docs exports wrap
-// every link in https://www.google.com/url?q=<target>, so that is unwrapped first.
-const youTubeEmbedUrl = (href) => {
-  let url;
+// Parses an http(s) link, or returns null. Google Docs exports wrap every link in
+// https://www.google.com/url?q=<target>, so that is unwrapped first.
+const parseLink = (href) => {
   try {
-    url = new URL(href);
+    let url = new URL(href);
     if (url.hostname === "www.google.com" && url.pathname === "/url") {
       url = new URL(url.searchParams.get("q"));
     }
+    return /^https?:$/.test(url.protocol) ? url : null;
   } catch {
     return null;
   }
+};
+
+// Returns the embed URL for a link to a YouTube video, or null.
+const youTubeEmbedUrl = (href) => {
+  const url = parseLink(href);
+  if (!url) return null;
 
   const host = url.hostname.replace(/^(www|m)\./, "");
   let id = null;
@@ -38,6 +45,71 @@ const youTubeEmbedUrl = (href) => {
   return `https://www.youtube.com/embed/${id}${start ? `?start=${start}` : ""}`;
 };
 
+const AUDIO_EXTENSIONS = /\.(mp3|wav|m4a|aac|ogg|oga|flac|opus)$/i;
+
+const youTubePlayer = (src) => {
+  const player = document.createElement("div");
+  player.style.cssText = "width: 100%; max-width: 640px; aspect-ratio: 16 / 9; margin: 16px 0;";
+  const iframe = document.createElement("iframe");
+  iframe.src = src;
+  iframe.title = "YouTube video player";
+  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+  iframe.allowFullscreen = true;
+  iframe.style.cssText = "width: 100%; height: 100%; border: 0;";
+  player.appendChild(iframe);
+  return player;
+};
+
+const filePlayer = (url) => {
+  const kind = AUDIO_EXTENSIONS.test(url.pathname) ? "audio" : "video";
+  const player = document.createElement(kind);
+  player.src = toDirectDropboxUrl(url.href);
+  player.controls = true;
+  player.preload = "metadata";
+  if (kind === "video") player.playsInline = true;
+  player.style.cssText = `display: block; width: 100%; max-width: 640px; margin: ${kind === "video" ? 16 : 8}px 0;`;
+  return player;
+};
+
+const EMBED_FILE_RE = /\[EmbedFile\]\(\s*([^)]*?)\s*\)/g;
+
+// Range covering characters [start, end) of `el.textContent`
+const textRange = (el, start, end) => {
+  const range = document.createRange();
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let offset = 0;
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const length = node.data.length;
+    if (offset <= start && start <= offset + length) range.setStart(node, start - offset);
+    if (offset <= end && end <= offset + length) {
+      range.setEnd(node, end - offset);
+      break;
+    }
+    offset += length;
+  }
+  return range;
+};
+
+// Replaces each "[EmbedFile](link)" typed in the document with an audio or video player.
+// The text may be split across spans, and the link is either typed out or a hyperlink
+// (e.g. "[EmbedFile](here)" with "here" linked), so matching is done on the block's text.
+const embedFiles = (body) => {
+  for (const block of body.querySelectorAll("p, li, h1, h2, h3, h4, h5, h6")) {
+    const matches = [...block.textContent.matchAll(EMBED_FILE_RE)];
+    // Last match first so earlier offsets stay valid as text is removed
+    for (const match of matches.reverse()) {
+      const range = textRange(block, match.index, match.index + match[0].length);
+      const linked = [...block.querySelectorAll("a[href]")].find((a) => range.intersectsNode(a));
+      const url = parseLink(match[1]) || (linked && parseLink(linked.getAttribute("href")));
+      if (!url) continue;
+
+      const youTubeSrc = youTubeEmbedUrl(url.href);
+      range.deleteContents();
+      range.insertNode(youTubeSrc ? youTubePlayer(youTubeSrc) : filePlayer(url));
+    }
+  }
+};
+
 // Adds a player for every YouTube link. A paragraph holding only the link is replaced by
 // the player; otherwise the player goes after the paragraph so the surrounding text stays.
 const embedYouTubeLinks = (body) => {
@@ -50,16 +122,7 @@ const embedYouTubeLinks = (body) => {
     let block = link;
     while (block.parentElement !== body) block = block.parentElement;
 
-    const player = document.createElement("div");
-    player.style.cssText = "width: 100%; max-width: 640px; aspect-ratio: 16 / 9; margin: 16px 0;";
-    const iframe = document.createElement("iframe");
-    iframe.src = src;
-    iframe.title = "YouTube video player";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-    iframe.allowFullscreen = true;
-    iframe.style.cssText = "width: 100%; height: 100%; border: 0;";
-    player.appendChild(iframe);
-
+    const player = youTubePlayer(src);
     if (block.textContent.trim() === link.textContent.trim() && !block.querySelector("img")) {
       block.replaceWith(player);
     } else {
@@ -104,6 +167,7 @@ const GoogleDocContent = ({ html, styles = "", bodyClass = "", bodyStyle = "" })
     body.style.padding = "0";
     body.style.maxWidth = "none";
     body.innerHTML = html;
+    embedFiles(body);
     embedYouTubeLinks(body);
     root.appendChild(body);
   }, [html, styles, bodyClass, bodyStyle]);
