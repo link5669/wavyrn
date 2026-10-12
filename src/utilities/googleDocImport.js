@@ -50,7 +50,7 @@ const basename = (path) => path.slice(path.lastIndexOf("/") + 1);
 // limited to the block element it appears in and cut off at any other label.
 const findLabeledValue = (doc, label, otherLabels) => {
   for (const el of doc.body.querySelectorAll(BLOCK_SELECTOR)) {
-    const text = el.textContent.replace(/ /g, " ");
+    const text = el.textContent.replace(/\u00a0/g, " ");
     const match = text.match(label);
     if (!match) continue;
     let value = text.slice(match.index + match[0].length);

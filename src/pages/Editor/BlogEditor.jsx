@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import TagSelector from "./TagSelector";
 import PreviewImageCropper from "./PreviewImageCropper";
+import { toDirectDropboxUrl } from "../../utilities/dropbox";
 import GoogleDocContent from "../../components/GoogleDocContent";
 import { importGoogleDocZip } from "../../utilities/googleDocImport";
 
@@ -67,7 +68,9 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag,
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues((prev) => ({ ...prev, [name]: value }));
+    // Dropbox share links open a web page, not the image, so the preview needs the direct link
+    const normalizedValue = name === "previewImage" ? toDirectDropboxUrl(value) : value;
+    setValues((prev) => ({ ...prev, [name]: normalizedValue }));
   };
 
   const handleArchive = async (e) => {

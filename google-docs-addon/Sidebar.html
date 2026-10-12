@@ -3,7 +3,10 @@
   <head>
     <base target="_blank">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
     <style>
+      [hidden] { display: none !important; }
       body { font-family: Arial, sans-serif; font-size: 13px; color: #222; margin: 12px; }
       input[type="password"] { width: 100%; box-sizing: border-box; padding: 6px; margin-bottom: 8px; }
       button { background: #ce0036; color: #fff; border: none; border-radius: 4px; padding: 8px 14px; cursor: pointer; }
@@ -34,6 +37,20 @@
       .tag-add-row { display: flex; gap: 4px; padding: 8px; border-top: 1px solid #ccc; }
       .tag-add-row input { flex: 1; min-width: 0; padding: 4px 6px; border: 1px solid #ccc; border-radius: 4px; }
       .tag-add { background: #007bff; padding: 4px 10px; }
+
+      .text-input { width: 100%; box-sizing: border-box; padding: 6px; border: 1px solid #ccc; border-radius: 4px; }
+      .hint { margin: 4px 0 0; }
+      #previewThumb { display: block; margin-top: 8px; max-width: 100%; max-height: 120px; border: 1px solid #ccc; border-radius: 4px; cursor: pointer; }
+
+      /* Crop view: covers the whole sidebar, like the web editor's crop dialog */
+      #cropView { position: fixed; inset: 0; z-index: 10; background: #fff; padding: 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; }
+      #cropView h3 { margin: 0; font-size: 15px; }
+      .crop-area { flex: 1; min-height: 0; background: #333; border-radius: 4px; overflow: hidden; }
+      .crop-area img { display: block; max-width: 100%; }
+      .zoom-row { display: flex; align-items: center; gap: 8px; }
+      .zoom-row input { flex: 1; }
+      .crop-buttons { display: flex; justify-content: flex-end; gap: 8px; }
+      button.secondary { background: #6c757d; }
     </style>
   </head>
   <body>
@@ -49,6 +66,14 @@
       <p class="muted">
         Title, subtitle, "Author:" (or "Authors:") and "Date:" are read from the document; the post body starts after the page break.
       </p>
+      <span class="field-label">Preview image (blog card):</span>
+      <input type="url" id="previewImage" class="text-input" placeholder="Image URL">
+      <p class="muted hint">Shown on the blog listing. Click the preview to crop it to a square.</p>
+      <img id="previewThumb" alt="Preview" title="Click to crop" hidden>
+
+      <span class="field-label">Slug:</span>
+      <input type="text" id="slug" class="text-input" placeholder="Leave empty to generate from the title">
+
       <span class="field-label">Topics:</span>
       <div id="tagSummary" class="tag-summary" title="Show or hide tags"></div>
       <div id="tagPanel" class="tag-panel" hidden></div>
@@ -62,16 +87,28 @@
     <div id="status"></div>
     <div id="warnings"></div>
 
+    <div id="cropView" hidden>
+      <h3>Crop preview image</h3>
+      <div class="crop-area"><img id="cropImage" alt=""></div>
+      <label class="zoom-row">Zoom <input type="range" id="cropZoom" min="1" max="3" step="0.01" value="1"></label>
+      <div id="cropError" class="error"></div>
+      <div class="crop-buttons">
+        <button type="button" id="cropCancel" class="secondary">Cancel</button>
+        <button type="button" id="cropSave">Crop &amp; upload</button>
+      </div>
+    </div>
+
     <script>
       const CONFIG = <?!= JSON.stringify(config) ?>;
       const TAG_COLUMNS = [
-        { category: "GENRE", label: "Genre" },
         { category: "TOPIC", label: "Topic" },
         { category: "PROJECT", label: "Project" },
+        { category: "GENRE", label: "Genre" },
       ];
 
       let token = null;
       let postId = null;
+      let publishedSlug = ""; // slug of the post this doc already published, if any
 
       const $ = (id) => document.getElementById(id);
 
@@ -148,7 +185,7 @@
 
       const findLabeledValue = (doc, label, otherLabels) => {
         for (const el of doc.body.querySelectorAll(BLOCK_SELECTOR)) {
-          const text = el.textContent.replace(/ /g, " ");
+          const text = el.textContent.replace(/\u00a0/g, " ");
           const match = text.match(label);
           if (!match) continue;
           let value = text.slice(match.index + match[0].length);
@@ -356,6 +393,117 @@
         $("tagPanel").hidden = !$("tagPanel").hidden;
       });
 
+      // ---------- Preview image + cropping ----------
+
+      const MAX_CROP_SIZE = 1200; // px; larger crops are scaled down
+      let cropper = null;
+      let cropUrl = null;
+      let cropType = "image/jpeg";
+      let baseZoom = 1; // Cropper's zoom ratio when the image first fits the view
+
+      const updateThumb = () => {
+        const url = $("previewImage").value.trim();
+        $("previewThumb").hidden = !url;
+        if (url) $("previewThumb").src = url;
+      };
+
+      // Remote images go through the backend so the canvas isn't tainted by cross-origin pixels
+      const loadImageBlob = async (src) => {
+        if (src.startsWith("data:")) return (await fetch(src)).blob();
+        const response = await fetch(
+          `${CONFIG.backendUrl}/api/blog/image-proxy?${new URLSearchParams({ url: src })}`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data.error || "Could not load the image");
+        }
+        return response.blob();
+      };
+
+      const closeCropper = () => {
+        if (cropper) cropper.destroy();
+        cropper = null;
+        if (cropUrl) URL.revokeObjectURL(cropUrl);
+        cropUrl = null;
+        $("cropImage").removeAttribute("src");
+        $("cropView").hidden = true;
+      };
+
+      async function openCropper() {
+        $("cropError").textContent = "";
+        $("cropSave").disabled = true;
+        $("cropZoom").value = 1;
+        $("cropView").hidden = false;
+        try {
+          const blob = await loadImageBlob($("previewImage").value.trim());
+          if ($("cropView").hidden) return; // cancelled while loading
+          // Keep PNG transparency; everything else becomes JPEG
+          cropType = blob.type === "image/png" ? "image/png" : "image/jpeg";
+          cropUrl = URL.createObjectURL(blob);
+          $("cropImage").src = cropUrl;
+          cropper = new Cropper($("cropImage"), {
+            aspectRatio: 1,
+            viewMode: 1,
+            dragMode: "move", // drag and zoom the image under a fixed square
+            autoCropArea: 1,
+            cropBoxMovable: false,
+            cropBoxResizable: false,
+            toggleDragModeOnDblclick: false,
+            background: false,
+            ready() {
+              const image = cropper.getImageData();
+              baseZoom = image.width / image.naturalWidth;
+              $("cropSave").disabled = false;
+            },
+          });
+        } catch (error) {
+          $("cropError").textContent = error.message || String(error);
+        }
+      }
+
+      async function saveCrop() {
+        $("cropSave").disabled = true;
+        $("cropCancel").disabled = true;
+        $("cropError").textContent = "";
+        try {
+          const canvas = cropper.getCroppedCanvas({
+            maxWidth: MAX_CROP_SIZE,
+            maxHeight: MAX_CROP_SIZE,
+            imageSmoothingQuality: "high",
+          });
+          const blob = await new Promise((resolve, reject) =>
+            canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Could not crop the image"))), cropType, 0.9),
+          );
+          const uploadId = `preview-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+          const url = await uploadImage(uploadId)(blob, cropType === "image/png" ? "preview.png" : "preview.jpg");
+          $("previewImage").value = url;
+          updateThumb();
+          closeCropper();
+          setStatus("Preview image cropped. Publish to save it to the post.", "success");
+        } catch (error) {
+          $("cropError").textContent = error.message || String(error);
+          $("cropSave").disabled = false;
+        } finally {
+          $("cropCancel").disabled = false;
+        }
+      }
+
+      $("previewImage").addEventListener("input", updateThumb);
+      $("previewThumb").addEventListener("click", openCropper);
+      $("cropCancel").addEventListener("click", closeCropper);
+      $("cropSave").addEventListener("click", saveCrop);
+      $("cropZoom").addEventListener("input", (e) => {
+        if (cropper) cropper.zoomTo(baseZoom * Number(e.target.value));
+      });
+
+      // A new post can't reuse the published post's slug, so clear it when not updating
+      $("update").addEventListener("change", () => {
+        const slug = $("slug").value.trim();
+        if (!$("update").checked && slug === publishedSlug) $("slug").value = "";
+        if ($("update").checked && !slug) $("slug").value = publishedSlug;
+      });
+
       const decodeBase64 = (b64) => {
         const binary = atob(b64);
         const bytes = new Uint8Array(binary.length);
@@ -377,6 +525,20 @@
         ];
         renderSummary();
         renderPanel();
+
+        // Start from the published post's preview image and slug so republishing keeps them
+        if (postId) {
+          try {
+            const post = await api(`/api/blog/${postId}`);
+            $("previewImage").value = post.previewImage || "";
+            $("slug").value = publishedSlug = post.slug || "";
+          } catch (error) {
+            if (error.status !== 404) throw error;
+            postId = null; // the post was deleted on the site
+          }
+        }
+        updateThumb();
+
         $("existing").hidden = !postId;
         show("main");
       }
@@ -397,7 +559,12 @@
           if (!imported.content) throw new Error("The document has no body content.");
 
           const tagIds = selected;
-          const body = JSON.stringify({ ...imported, tagIds });
+          const body = JSON.stringify({
+            ...imported,
+            tagIds,
+            previewImage: $("previewImage").value.trim(),
+            slug: $("slug").value.trim(),
+          });
           const headers = { "Content-Type": "application/json" };
 
           setStatus("Publishing...");
@@ -416,6 +583,8 @@
           }
           await run("savePost", postId, tagIds);
           $("existing").hidden = false;
+          $("update").checked = true;
+          $("slug").value = publishedSlug = result.data.slug; // shows the generated slug, if any
 
           const link = document.createElement("a");
           link.href = `${CONFIG.siteUrl}/blog/${encodeURIComponent(result.data.slug)}`;

@@ -1,5 +1,6 @@
 import renderPaginationControls from "./PaginationControls";
 import { useState, useEffect } from "react";
+import { toDirectDropboxUrl } from "../../utilities/dropbox";
 
 const PortfolioEditor = () => {
   const [portfolioFormData, setPortfolioFormData] = useState({
@@ -25,15 +26,6 @@ const PortfolioEditor = () => {
   });
   const [moveToIndexValues, setMoveToIndexValues] = useState({});
 
-  const normalizeDropboxUrl = (url) => {
-    if (!url) return url;
-    // Same as the backend's replaceDropboxUrl; www.dl.dropboxusercontent.com fails TLS
-    return url.replace(
-      /^(?:https?:\/\/)?(?:www\.)?(?:dl\.)?dropbox(?:usercontent)?\.com(?=[/?#]|$)/i,
-      "https://dl.dropboxusercontent.com",
-    );
-  };
-
   const fetchPortfolioList = async () => {
     setLoadingPortfolio(true);
     try {
@@ -57,7 +49,7 @@ const PortfolioEditor = () => {
 
   const handlePortfolioInputChange = (e) => {
     const { name, value } = e.target;
-    const normalizedValue = name === "imgSrc" ? normalizeDropboxUrl(value) : value;
+    const normalizedValue = name === "imgSrc" ? toDirectDropboxUrl(value) : value;
     setPortfolioFormData((prev) => ({
       ...prev,
       [name]: normalizedValue,
@@ -66,7 +58,7 @@ const PortfolioEditor = () => {
 
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
-    const normalizedValue = name === "imgSrc" ? normalizeDropboxUrl(value) : value;
+    const normalizedValue = name === "imgSrc" ? toDirectDropboxUrl(value) : value;
     setEditFormData((prev) => ({
       ...prev,
       [name]: normalizedValue,
@@ -86,7 +78,7 @@ const PortfolioEditor = () => {
         },
         body: JSON.stringify({
           ...portfolioFormData,
-          imgSrc: normalizeDropboxUrl(portfolioFormData.imgSrc),
+          imgSrc: toDirectDropboxUrl(portfolioFormData.imgSrc),
         }),
       });
 
@@ -126,7 +118,7 @@ const PortfolioEditor = () => {
           body: JSON.stringify({
             title: editFormData.title,
             subtitle: editFormData.subtitle,
-            imgSrc: normalizeDropboxUrl(editFormData.imgSrc),
+            imgSrc: toDirectDropboxUrl(editFormData.imgSrc),
           }),
         },
       );
