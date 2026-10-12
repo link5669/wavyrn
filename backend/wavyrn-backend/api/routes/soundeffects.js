@@ -61,7 +61,9 @@ export default function soundEffectsRoute(firebaseApp) {
       querySnapshot.forEach((doc) => {
         soundEffects.push({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
+          // Repairs links saved before replaceDropboxUrl handled every Dropbox host
+          link: replaceDropboxUrl(doc.data().link),
         });
       });
 
@@ -86,7 +88,8 @@ export default function soundEffectsRoute(firebaseApp) {
 
       res.status(200).json({
         id: docSnapshot.id,
-        ...docSnapshot.data()
+        ...docSnapshot.data(),
+        link: replaceDropboxUrl(docSnapshot.data().link),
       });
     } catch (error) {
       res.status(500).json({ error: error.message });

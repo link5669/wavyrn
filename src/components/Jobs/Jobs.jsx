@@ -29,7 +29,7 @@ const Jobs = ({ selected, setSelected }) => {
                             selected={selected == 0 ? true : false}
                             title="Audio Directing"
                             subtitle="Project Management & Coordination"
-                            imageName="https://www.dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/AFwotJtNsDI6BmtoO5tia_M/Services%20-%20Audio%20Directing.jpg?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
+                            imageName="https://dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/AFwotJtNsDI6BmtoO5tia_M/Services%20-%20Audio%20Directing.jpg?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
                         />
                     </Col>
                     <Col
@@ -45,7 +45,7 @@ const Jobs = ({ selected, setSelected }) => {
                             selected={selected == 1 ? true : false}
                             title="Production"
                             subtitle="Mixing, Mastering, & Music Editing"
-                            imageName="https://www.dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/AEaWTRrOJOEPU-mj-F5OI2Q/Services%20-%20Production.png?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
+                            imageName="https://dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/AEaWTRrOJOEPU-mj-F5OI2Q/Services%20-%20Production.png?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
                         />
                     </Col>
                 </Row>
@@ -65,7 +65,7 @@ const Jobs = ({ selected, setSelected }) => {
                             selected={selected == 2}
                             title="Sound Design"
                             subtitle="Sound Effects, Ambiences, Foley, & Sonic Branding"
-                            imageName="https://www.dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/ADH5NYZVhydXIWbvm82mkNI/Services%20-%20Sound%20Design.jpg?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
+                            imageName="https://dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/ADH5NYZVhydXIWbvm82mkNI/Services%20-%20Sound%20Design.jpg?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
                             backgroundPosition="center 30%" // Move Sound Design image up
                         />
                     </Col>
@@ -82,7 +82,7 @@ const Jobs = ({ selected, setSelected }) => {
                             selected={selected == 3}
                             title="Music"
                             subtitle="Film, Games, Theme Parks, Trailers, & Interactive Media"
-                            imageName="https://www.dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/AKK1cD493aHirAoU0KU6Fzg/Services%20-%20Music.png?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
+                            imageName="https://dl.dropboxusercontent.com/scl/fo/a3fkjiwf82shfmcfkxldd/AKK1cD493aHirAoU0KU6Fzg/Services%20-%20Music.png?rlkey=h4gcwkyxfih2njqoxl8zl4f00&e=1&dl=0"
                         />
                     </Col>
                     <Col
@@ -98,7 +98,7 @@ const Jobs = ({ selected, setSelected }) => {
                             selected={selected == 4}
                             title="Voice Acting"
                             subtitle="Writing, Casting, Editing & Voice Acting"
-                            imageName="https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Photos/Services%20-%20Voiceover.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"
+                            imageName="https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Photos/Services%20-%20Voiceover.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"
                             backgroundPosition="center 50%" // Move Production image down
                         />
                     </Col>

@@ -80,7 +80,7 @@ const AudioDirecting = ({ isMobile }) => {
           }}
         >
           <img
-            src="https://www.dl.dropboxusercontent.com/scl/fi/ttxnaayqifzxvmuw472ow/Asset-6-4x-8.png?rlkey=3im1plyj5z0225vcg2nsgh0pt&e=1&dl=0"
+            src="https://dl.dropboxusercontent.com/scl/fi/ttxnaayqifzxvmuw472ow/Asset-6-4x-8.png?rlkey=3im1plyj5z0225vcg2nsgh0pt&e=1&dl=0"
             alt="Audio Direction"
             style={{
               width: "45px",

@@ -104,31 +104,31 @@ const About = ({ isMobile }) => {
     const services = [
         {
             title: t('about.services.audioDirection.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fi/ttxnaayqifzxvmuw472ow/Asset-6-4x-8.png?rlkey=3im1plyj5z0225vcg2nsgh0pt&e=1&dl=0",
+            icon: "https://dl.dropboxusercontent.com/scl/fi/ttxnaayqifzxvmuw472ow/Asset-6-4x-8.png?rlkey=3im1plyj5z0225vcg2nsgh0pt&e=1&dl=0",
             checklist: t('about.services.audioDirection.checklist'),
             description: t('about.services.audioDirection.description')
         },
         {
             title: t('about.services.soundDesign.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_waveform_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            icon: "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_waveform_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.soundDesign.checklist'),
             description: t('about.services.soundDesign.description')
         },
         {
             title: t('about.services.voiceOver.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_microphone_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            icon: "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_microphone_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.voiceOver.checklist'),
             description: t('about.services.voiceOver.description')
         },
         {
             title: t('about.services.music.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_semiquaver_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            icon: "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_semiquaver_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.music.checklist'),
             description: t('about.services.music.description')
         },
         {
             title: t('about.services.production.title'),
-            icon: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_headphones_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+            icon: "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/icon_headphones_white.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
             checklist: t('about.services.production.checklist'),
             description: t('about.services.production.description')
         }

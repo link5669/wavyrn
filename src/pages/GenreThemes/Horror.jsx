@@ -190,17 +190,17 @@ const horrorDividerStyle = {
 };
 
 const horrorLeftImage =
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/_Annie.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/_Annie.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
 const horrorLeftAudioFiles = [
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line16.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line18.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line23.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line24.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line25.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line4a.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line5.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line6.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241215%20Line31.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line16.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line18.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line23.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line24.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line25.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line4a.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line5.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241214%20Line6.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Demo%20Reels/Animation/Voiceover/ANNIE%20Annie's%20Asylum/ANNIE%20VO%20241215%20Line31.wav?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
 ];
 
 const horrorRightImage =

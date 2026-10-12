@@ -35,7 +35,7 @@
 .about-hero-and-services {
     position: relative;
     background-color: #fff;
-    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/SHRB%20Banner.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
+    background-image: url("https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/SHRB%20Banner.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -89,7 +89,7 @@
 
 /* Service cards in hero section – dark red gradient, glow border, red checkmarks */
 .about-hero-and-services .service-card {
-    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"),
+    background-image: url("https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"),
         linear-gradient(180deg, rgba(120, 30, 40, 0.4) 0%, rgba(80, 20, 30, 0.6) 50%, rgba(50, 15, 22, 0.85) 100%);
     background-size: cover, cover;
     background-position: center, center;
@@ -144,7 +144,7 @@
     width: 100%;
     min-width: 0; /* Allow cards to shrink */
     background-color: white;
-    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
+    background-image: url("https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -332,7 +332,7 @@
     min-height: 0;
     padding: 20px 18px 28px 18px;
     box-sizing: border-box;
-    background-image: url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"),
+    background-image: url("https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/About/Service%20Square.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0"),
         linear-gradient(180deg, rgba(120, 30, 40, 0.4) 0%, rgba(80, 20, 30, 0.6) 50%, rgba(50, 15, 22, 0.85) 100%);
     background-size: cover, cover;
     background-position: center, center;

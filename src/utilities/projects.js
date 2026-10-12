@@ -12,7 +12,7 @@ const projects = [
   {
     subtitle: "Short Film",
     imgSrc:
-      "https://www.dl.dropboxusercontent.com/scl/fi/e4zjy774i7thgp8n0kmek/SRVR-Album-Cover.png?rlkey=j7lxe9pgyn0swu56261o09gu9&e=1&dl=0",
+      "https://dl.dropboxusercontent.com/scl/fi/e4zjy774i7thgp8n0kmek/SRVR-Album-Cover.png?rlkey=j7lxe9pgyn0swu56261o09gu9&e=1&dl=0",
     title: "Survivors",
   },
   {
@@ -36,7 +36,7 @@ const projects = [
   {
     subtitle: "Short Film",
     imgSrc:
-      "https://www.dl.dropboxusercontent.com/scl/fi/9dof8u7nckq9h5xujy8lm/52-Puddle-Short-Film.png?rlkey=it3625t0lqnasndy4f3uahdek&dl=0",
+      "https://dl.dropboxusercontent.com/scl/fi/9dof8u7nckq9h5xujy8lm/52-Puddle-Short-Film.png?rlkey=it3625t0lqnasndy4f3uahdek&dl=0",
     title: "Puddle",
   },
   {
@@ -54,7 +54,7 @@ const projects = [
   {
     subtitle: "Rhythm Game",
     imgSrc:
-      "https://www.dl.dropboxusercontent.com/scl/fo/vr6dpzwpn6bipk2hals48/AKbo6JwiqxmK34wuLbQysxw/Graphics/BTND%20Album%20Cover%20(Original).png?rlkey=gfxraq20oorf9szpvey5r3zgo&e=1&dl=0",
+      "https://dl.dropboxusercontent.com/scl/fo/vr6dpzwpn6bipk2hals48/AKbo6JwiqxmK34wuLbQysxw/Graphics/BTND%20Album%20Cover%20(Original).png?rlkey=gfxraq20oorf9szpvey5r3zgo&e=1&dl=0",
     title: "Beat Tender",
   },
   {

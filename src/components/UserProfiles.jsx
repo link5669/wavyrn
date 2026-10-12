@@ -628,7 +628,7 @@ const Michelle = () => {
                     <img
                         style={{ width: "100%" }}
                         src={
-                            "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ADxYI2mAEloptkdeBKjq9lE/Michelle%20Lai/Media/IMG_9489.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                            "https://dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ADxYI2mAEloptkdeBKjq9lE/Michelle%20Lai/Media/IMG_9489.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
                         }
                     />
                 </Col>
@@ -636,7 +636,7 @@ const Michelle = () => {
                     <img
                         style={{ width: "100%" }}
                         src={
-                            "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/APK0W3jhydONlrj0feevPoE/Michelle%20Lai/Media/IMG_9490.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                            "https://dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/APK0W3jhydONlrj0feevPoE/Michelle%20Lai/Media/IMG_9490.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
                         }
                     />
                 </Col>
@@ -644,7 +644,7 @@ const Michelle = () => {
                     <img
                         style={{ width: "100%" }}
                         src={
-                            "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/AEIk1Bhe27D9iLUUnvDWWN4/Michelle%20Lai/Media/IMG_9492.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
+                            "https://dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/AEIk1Bhe27D9iLUUnvDWWN4/Michelle%20Lai/Media/IMG_9492.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0"
                         }
                     />
                 </Col>

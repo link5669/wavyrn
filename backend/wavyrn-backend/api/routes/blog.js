@@ -51,7 +51,8 @@ export default function blogRoute(firebaseApp) {
     const topics = tagIds
       .map((id) => tags.find((t) => t.docId === id)?.name)
       .filter(Boolean);
-    return { ...post, tagIds, topics };
+    // Also repairs Dropbox links saved before replaceDropboxUrl handled every Dropbox host
+    return { ...post, tagIds, topics, previewImage: replaceDropboxUrl(post.previewImage) };
   };
 
   // Reads the post's tags from the request body as `tagIds`, or `topics` from older clients
@@ -95,6 +96,28 @@ export default function blogRoute(firebaseApp) {
       }
     }
   );
+
+  // GET route that relays a remote image so the editor can crop it: browsers won't let
+  // a canvas export pixels from another origin unless that origin allows CORS.
+  router.get("/image-proxy", requireAuth, async (req, res) => {
+    try {
+      const url = new URL(replaceDropboxUrl(String(req.query.url || "")));
+      if (url.protocol !== "https:" && url.protocol !== "http:") {
+        return res.status(400).json({ error: "url must be an http(s) URL" });
+      }
+
+      const response = await fetch(url);
+      const contentType = response.headers.get("content-type") || "";
+      if (!response.ok || !contentType.startsWith("image/")) {
+        return res.status(502).json({ error: "Could not load an image from that URL" });
+      }
+
+      res.set("Content-Type", contentType);
+      res.send(Buffer.from(await response.arrayBuffer()));
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 
   // POST route to create a new blog post
   router.post("/", async (req, res) => {

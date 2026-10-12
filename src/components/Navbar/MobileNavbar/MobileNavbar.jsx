@@ -110,7 +110,7 @@ function Navbar() {
                 <div className="nav-logo">
                     <Link to="/portfolio" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
                         <img
-                            src="https://www.dl.dropboxusercontent.com/scl/fo/8tncy3sxsivuxhnu4f5ss/ADPj2yAPHytKhsgF_ePkxr0/Logo%20files/PNGs%20-%20SVGs/2x/Asset%203%402x-8.png?rlkey=30rz3mieb7fb53lp5n6jr8quz&e=1&dl=0"
+                            src="https://dl.dropboxusercontent.com/scl/fo/8tncy3sxsivuxhnu4f5ss/ADPj2yAPHytKhsgF_ePkxr0/Logo%20files/PNGs%20-%20SVGs/2x/Asset%203%402x-8.png?rlkey=30rz3mieb7fb53lp5n6jr8quz&e=1&dl=0"
                             alt="Logo"
                         />
                         <span style={{ 

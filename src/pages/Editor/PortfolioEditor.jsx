@@ -27,7 +27,11 @@ const PortfolioEditor = () => {
 
   const normalizeDropboxUrl = (url) => {
     if (!url) return url;
-    return url.replace("https://www.dropbox.com", "https://www.dl.dropboxusercontent.com").replace("https://dropbox.com", "https://www.dl.dropboxusercontent.com");
+    // Same as the backend's replaceDropboxUrl; www.dl.dropboxusercontent.com fails TLS
+    return url.replace(
+      /^(?:https?:\/\/)?(?:www\.)?(?:dl\.)?dropbox(?:usercontent)?\.com(?=[/?#]|$)/i,
+      "https://dl.dropboxusercontent.com",
+    );
   };
 
   const fetchPortfolioList = async () => {

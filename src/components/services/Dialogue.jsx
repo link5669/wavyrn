@@ -78,7 +78,7 @@ const Dialogue = ({ isMobile }) => {
           }}
         >
           <img
-            src="https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/ABL84ZQNHZV0BcftDVrhgYo/icon_microphone_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0"
+            src="https://dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/ABL84ZQNHZV0BcftDVrhgYo/icon_microphone_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0"
             alt="Voice-Over"
             style={{
               width: "45px",

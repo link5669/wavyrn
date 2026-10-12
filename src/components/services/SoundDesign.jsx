@@ -81,7 +81,7 @@ const SoundDesign = ({ isMobile }) => {
                     }}
                 >
                     <img
-                        src="https://www.dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AA0AEMcKF11NgdtOdI0RUu8/icon_waveform_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0"
+                        src="https://dl.dropboxusercontent.com/scl/fo/dmpml0cjyyu0yef8s934a/AA0AEMcKF11NgdtOdI0RUu8/icon_waveform_red.png?rlkey=oxxt37u5hacydqej14j8eq235&e=1&dl=0"
                         alt="Sound Design"
                         style={{
                             width: "45px",

@@ -50,10 +50,10 @@ const TESTIMONIALS = [
 /* Carousel uses album art from the same API as Portfolio Projects section (api/albums) */
 
 const HOME_HERO_VIDEO =
-    "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Home%20Page/WAV%20Website%20Video%20v3.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
+    "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Home%20Page/WAV%20Website%20Video%20v3.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
 
 const HOME_VISION_VIDEO =
-    "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Misc.%20Media/TEKHA%20T01%20Full%20Character%20Showcase.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
+    "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Misc.%20Media/TEKHA%20T01%20Full%20Character%20Showcase.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1";
 const HERO_TRAPEZOID_WIDTH = 62;
 
 const CARD_OFFSET = 12;
@@ -212,7 +212,7 @@ function Home() {
                     className="home-testimonials-bg"
                     aria-hidden="true"
                     style={{
-                        backgroundImage: `url("https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Services/Services%20-%20Production.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1")`,
+                        backgroundImage: `url("https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Services/Services%20-%20Production.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=1")`,
                     }}
                 />
                 <div className="home-testimonials-bg-overlay" aria-hidden="true" />

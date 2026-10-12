@@ -108,6 +108,8 @@ export default function albumRoute(firebaseApp) {
         albums.push({
           docId: doc.id,
           ...doc.data(),
+          // Repairs links saved before replaceDropboxUrl handled every Dropbox host
+          coverUrl: replaceDropboxUrl(doc.data().coverUrl),
         });
       });
       res.status(200).json({ albums });
@@ -131,7 +133,8 @@ export default function albumRoute(firebaseApp) {
 
       res.status(200).json({
         docId: docSnapshot.id,
-        ...docSnapshot.data()
+        ...docSnapshot.data(),
+        coverUrl: replaceDropboxUrl(docSnapshot.data().coverUrl),
       });
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -13,7 +13,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 const POSTS_PER_PAGE = 5;
 
 const BLOG_HERO_IMAGE =
-    "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Blog/20260221%20Blog.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+    "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Blog/20260221%20Blog.jpg?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
 const HERO_TRAPEZOID_WIDTH = 62;
 
 function getFirstImageFromPost(post) {

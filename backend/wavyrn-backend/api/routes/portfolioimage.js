@@ -111,6 +111,8 @@ export default function portfolioRoute(firebaseApp) {
         portfolioImages.push({
           docId: doc.id,
           ...doc.data(),
+          // Repairs links saved before replaceDropboxUrl handled every Dropbox host
+          imgSrc: replaceDropboxUrl(doc.data().imgSrc),
         });
       });
       res.status(200).json({ portfolioImages });

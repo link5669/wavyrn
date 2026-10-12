@@ -10,7 +10,7 @@ import { useTranslation } from "../hooks/useTranslation";
 import Footer from "../components/Footer";
 
 const PORTFOLIO_DEMO_REEL_URL =
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mp4?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
 const HERO_TRAPEZOID_WIDTH = 62;
 
 function Portfolio({ title, dividerStyle, isMobile }) {
@@ -220,7 +220,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
     } finally {
       setLoadingPortfolio(false);
     }
-  }, []);  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
+  }, []);  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Website%20Assets/Portfolio/Demo%20Reel/2026%20Reel%20v4.0%20MY.mov?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
 
 
   useEffect(() => {

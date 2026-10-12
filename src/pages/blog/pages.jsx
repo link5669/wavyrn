@@ -285,7 +285,7 @@ const BLOG_PAGES = [
                         }}
                     >
                         <source
-                            src="https://www.dl.dropboxusercontent.com/scl/fi/z383xcakbz68p2cpatbp5/20250103-ROTS-DELTA-VO-BTS.mp4?rlkey=yvybmur15j8slvzp7r2nrv587&e=3&st=milmvzi7&dl=0"
+                            src="https://dl.dropboxusercontent.com/scl/fi/z383xcakbz68p2cpatbp5/20250103-ROTS-DELTA-VO-BTS.mp4?rlkey=yvybmur15j8slvzp7r2nrv587&e=3&st=milmvzi7&dl=0"
                             type="video/mp4"
                         />
                         Your browser does not support the video tag.
@@ -307,7 +307,7 @@ const BLOG_PAGES = [
             </>
         ),
         tags: [[  "VideoGame",  "PROJECT" ], [ "MOBA",  "GENRE"], ["SoundDesign", "TOPIC"]],
-        image: "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Blog%20Posts/20240810%20ROTS-DELTA%20SFX%20BTS/Logo%20New%20Fix%203840x2160.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
+        image: "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Blog%20Posts/20240810%20ROTS-DELTA%20SFX%20BTS/Logo%20New%20Fix%203840x2160.png?rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0",
         preview: (
             <>
                 I'm Caleb Skelly, and I'm the Lead Sound Designer for Delta
@@ -393,7 +393,7 @@ const BLOG_PAGES = [
                         }}
                     >
                         <source
-                            src="https://www.dl.dropboxusercontent.com/scl/fi/yuvidf97uuilabd7l6gbw/CLIP-1.mp4?rlkey=83yo6wwywwjhcdcgvolfdrusb&dl=0"
+                            src="https://dl.dropboxusercontent.com/scl/fi/yuvidf97uuilabd7l6gbw/CLIP-1.mp4?rlkey=83yo6wwywwjhcdcgvolfdrusb&dl=0"
                             type="video/mp4"
                         />
                         Your browser does not support the video tag.
@@ -421,7 +421,7 @@ const BLOG_PAGES = [
                         crossOrigin="anonymous"
                     >
                         <source
-                            src="https://www.dl.dropboxusercontent.com/scl/fi/93jmerneqtx53xfuvpcm5/CLIP-2.mp4?rlkey=ppe0lmz78jc3v90dvcb83m52b&dl=0"
+                            src="https://dl.dropboxusercontent.com/scl/fi/93jmerneqtx53xfuvpcm5/CLIP-2.mp4?rlkey=ppe0lmz78jc3v90dvcb83m52b&dl=0"
                             type="video/mp4"
                         />
                         Your browser does not support the video tag.
@@ -435,7 +435,7 @@ const BLOG_PAGES = [
                 <div style={{ textAlign: "center" }}>
                     <video
                         type="video/mp4"
-                        src="https://www.dl.dropboxusercontent.com/scl/fi/nr6ldpmh4jros3vyh19fl/CLIP-3.mp4?rlkey=kaon7gvpncnit6f13vnhtw237&dl=1"
+                        src="https://dl.dropboxusercontent.com/scl/fi/nr6ldpmh4jros3vyh19fl/CLIP-3.mp4?rlkey=kaon7gvpncnit6f13vnhtw237&dl=1"
                         controls
                         controlsList="nodownload noplaybackrate noremoteplayback"
                         disablePictureInPicture
@@ -462,7 +462,7 @@ const BLOG_PAGES = [
                 <div style={{ textAlign: "center" }}>
                     <video
                         type="video/mp4"
-                        src="https://www.dl.dropboxusercontent.com/scl/fi/ccn6pjaehloumbb76q8uo/CLIP-4.mp4?rlkey=e1j881ptu6sz7dplaru329r82&dl=1"
+                        src="https://dl.dropboxusercontent.com/scl/fi/ccn6pjaehloumbb76q8uo/CLIP-4.mp4?rlkey=e1j881ptu6sz7dplaru329r82&dl=1"
                         controls
                         controlsList="nodownload noplaybackrate noremoteplayback"
                         disablePictureInPicture
@@ -492,7 +492,7 @@ const BLOG_PAGES = [
                         grey={[206, 0, 54]}
                         accent={[255, 0, 0]}d
                         src={
-                            "https://www.dl.dropboxusercontent.com/scl/fi/qcoehhyzfpr209itpet1s/CLIP-5.wav?rlkey=jc6zxrrdmywaxwm9ldl2rhetx&dl=1"
+                            "https://dl.dropboxusercontent.com/scl/fi/qcoehhyzfpr209itpet1s/CLIP-5.wav?rlkey=jc6zxrrdmywaxwm9ldl2rhetx&dl=1"
                         }
                         height={30}
                         style={{ 

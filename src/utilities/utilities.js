@@ -1,12 +1,12 @@
 const PERSON_BASE =
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Headshots/Person";
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Headshots/Person";
 const BACKGROUND_BASE =
-  "https://www.dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Headshots/Background";
+  "https://dl.dropboxusercontent.com/scl/fo/tmx340km7moqr280v7if3/h/Headshots/Background";
 const RLKEY = "rlkey=rgp43tzu84ovmy10j9gni62q5&e=1&dl=0";
 
 const getPfpImage = (name) => {
   if (name === "Michelle Lai") {
-    return "https://www.dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ADv0rYvWSIqK3PVXpNuvhmU/Michelle%20Lai/2025%20Profile%20Picture.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0";
+    return "https://dl.dropboxusercontent.com/scl/fo/7de9q581pxdwcvcvu4qep/ADv0rYvWSIqK3PVXpNuvhmU/Michelle%20Lai/2025%20Profile%20Picture.jpg?rlkey=pdazvtkk2j75glkyqgsj4m7oz&e=1&dl=0";
   }
   const map = {
     "Marc Yu": "marc_.png",

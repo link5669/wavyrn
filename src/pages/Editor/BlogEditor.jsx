@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import TagSelector from "./TagSelector";
+import PreviewImageCropper from "./PreviewImageCropper";
 import GoogleDocContent from "../../components/GoogleDocContent";
 import { importGoogleDocZip } from "../../utilities/googleDocImport";
 
@@ -42,10 +43,27 @@ const uploadImage = async (uploadId, blob, fileName) => {
   return data.url;
 };
 
+const MessageBox = ({ message, type }) => (
+  <div
+    style={{
+      padding: "10px",
+      borderRadius: "4px",
+      backgroundColor: type === "success" ? "#d4edda" : "#f8d7da",
+      color: type === "success" ? "#155724" : "#721c24",
+      border: type === "success" ? "1px solid #c3e6cb" : "1px solid #f5c6cb",
+      marginBottom: "20px",
+    }}
+  >
+    {message}
+  </div>
+);
+
 // Fields shared by the create and edit forms
-const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag, onDeleteTag, setMessage }) => {
+const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag, onDeleteTag }) => {
   const [importStatus, setImportStatus] = useState("");
   const [importWarnings, setImportWarnings] = useState([]);
+  const [importError, setImportError] = useState("");
+  const [cropping, setCropping] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,6 +76,7 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag,
     if (!file) return;
 
     setImportWarnings([]);
+    setImportError("");
     setImportStatus("Reading archive...");
     try {
       const uploadId = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
@@ -70,8 +89,9 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag,
       setImportWarnings(warnings);
       setImportStatus(`Imported ${file.name}`);
     } catch (error) {
+      // Shown by the file input: the page-level message is off screen when editing a post lower down
       setImportStatus("");
-      setMessage("Import failed: " + error.message, "error");
+      setImportError("Import failed: " + error.message);
     }
   };
 
@@ -101,6 +121,9 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag,
         <input type="file" accept=".zip,application/zip" onChange={handleArchive} style={{ fontSize: "14px" }} />
         {importStatus && (
           <div style={{ fontSize: "13px", color: "#155724", marginTop: "6px" }}>{importStatus}</div>
+        )}
+        {importError && (
+          <div style={{ fontSize: "13px", color: "#721c24", marginTop: "6px" }}>{importError}</div>
         )}
         {importWarnings.map((w) => (
           <div key={w} style={{ fontSize: "13px", color: "#856404", marginTop: "4px" }}>
@@ -133,7 +156,8 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag,
       <div style={{ marginBottom: "15px" }}>
         <label style={labelStyle}>Preview image (blog card):</label>
         <p style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
-          Paste an image URL. This image is shown on the blog listing.
+          Paste an image URL. This image is shown on the blog listing. Click the preview to crop it
+          to a square.
         </p>
         <input
           type="url"
@@ -148,9 +172,23 @@ const PostFields = ({ values, setValues, tags, onAddTag, onRenameTag, onMoveTag,
             <img
               src={values.previewImage}
               alt="Preview"
-              style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc" }}
+              title="Click to crop"
+              onClick={() => setCropping(true)}
+              style={{ maxWidth: "200px", maxHeight: "120px", objectFit: "cover", borderRadius: "4px", border: "1px solid #ccc", cursor: "pointer" }}
             />
           </div>
+        )}
+        {cropping && (
+          <PreviewImageCropper
+            src={values.previewImage}
+            onCancel={() => setCropping(false)}
+            onSave={async (blob, type) => {
+              const uploadId = `preview-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+              const url = await uploadImage(uploadId, blob, type === "image/png" ? "preview.png" : "preview.jpg");
+              setValues((prev) => ({ ...prev, previewImage: url }));
+              setCropping(false);
+            }}
+          />
         )}
       </div>
 
@@ -419,6 +457,7 @@ const BlogEditor = () => {
   };
 
   const startEdit = (post) => {
+    setMessage("");
     setEditingPost(post.docId);
     setEditFormData({
       title: post.title,
@@ -473,24 +512,7 @@ const BlogEditor = () => {
     <div>
       <h2>Blog Editor</h2>
 
-      {message && (
-        <div
-          style={{
-            padding: "10px",
-            borderRadius: "4px",
-            backgroundColor:
-              messageType === "success" ? "#d4edda" : "#f8d7da",
-            color: messageType === "success" ? "#155724" : "#721c24",
-            border:
-              messageType === "success"
-                ? "1px solid #c3e6cb"
-                : "1px solid #f5c6cb",
-            marginBottom: "20px",
-          }}
-        >
-          {message}
-        </div>
-      )}
+      {message && !editingPost && <MessageBox message={message} type={messageType} />}
 
       {/* Create New Blog Post Form */}
       <div style={{ marginBottom: "40px" }}>
@@ -504,7 +526,6 @@ const BlogEditor = () => {
             onRenameTag={handleRenameTag}
             onMoveTag={handleMoveTag}
             onDeleteTag={handleDeleteTag}
-            setMessage={showMessage}
           />
 
           <button
@@ -557,8 +578,9 @@ const BlogEditor = () => {
                           onRenameTag={handleRenameTag}
                           onMoveTag={handleMoveTag}
                           onDeleteTag={handleDeleteTag}
-                          setMessage={showMessage}
                         />
+
+                        {message && <MessageBox message={message} type={messageType} />}
 
                         <div style={{ display: "flex", gap: "10px" }}>
                           <button
