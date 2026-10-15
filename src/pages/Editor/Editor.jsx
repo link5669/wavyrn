@@ -5,6 +5,7 @@ import PortfolioEditor from "./PortfolioEditor";
 import AlbumEditor from "./CarouselEditor";
 import FilterEditor from "./FilterEditor";
 import BlogEditor from "./BlogEditor";
+import TeamEditor from "./TeamEditor";
 import PasswordProtection from "../../components/EditorLogin";
 import URLShortenerEditor from "../../components/URLShortener";
 
@@ -148,6 +149,21 @@ const Editor = () => {
             >
               Blog Editor
             </button>
+            <button
+              onClick={() => setActiveTab("team")}
+              style={{
+                backgroundColor:
+                  activeTab === "team" ? "#007bff" : "transparent",
+                color: activeTab === "team" ? "white" : "#007bff",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "4px 4px 0 0",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              Team
+            </button>
           </div>
 
           {activeTab === "sfx" && <SFXEditor />}
@@ -162,6 +178,8 @@ const Editor = () => {
           {activeTab === "filters" && <FilterEditor />}
 
           {activeTab === "blog" && <BlogEditor />}
+
+          {activeTab === "team" && <TeamEditor />}
         </div>
       )}
     </div>

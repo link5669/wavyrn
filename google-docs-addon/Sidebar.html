@@ -297,8 +297,6 @@
       let tags = {};
       let selected = []; // tag doc ids
 
-      const findTag = (id) => Object.values(tags).flat().find((t) => t.docId === id);
-
       const el = (tag, props = {}, ...children) => {
         const node = Object.assign(document.createElement(tag), props);
         node.append(...children);
@@ -309,10 +307,14 @@
         tags = (await api("/api/filters/tags")).tags || {};
       };
 
+      // Chips follow the picker's order (category, then position), not the order clicked
       const renderSummary = () => {
+        const chosen = TAG_COLUMNS.flatMap(({ category }) => tags[category] || []).filter((t) =>
+          selected.includes(t.docId),
+        );
         $("tagSummary").replaceChildren(
-          ...(selected.length
-            ? selected.map((id) => el("span", { className: "chip" }, findTag(id)?.name ?? id))
+          ...(chosen.length
+            ? chosen.map((t) => el("span", { className: "chip" }, t.name))
             : [el("span", { className: "placeholder" }, "Click to select topics")]),
         );
       };

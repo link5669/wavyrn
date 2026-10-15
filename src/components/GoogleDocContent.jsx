@@ -1,64 +1,10 @@
 import { useEffect, useRef } from "react";
 import { toDirectDropboxUrl } from "../utilities/dropbox";
+import { parseLink, getEmbedInfo, createEmbedElement } from "../utilities/embeds";
 
 const IMPORT_RE = /@import\s+url\(\s*['"]?([^'")]+)['"]?\s*\)\s*;?/gi;
 
-// "90", "1m30s", "1h2m3s" -> seconds
-const parseStartTime = (t) => {
-  if (!t) return 0;
-  if (/^\d+$/.test(t)) return Number(t);
-  const [, h = 0, m = 0, sec = 0] = t.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/) || [];
-  return Number(h) * 3600 + Number(m) * 60 + Number(sec);
-};
-
-// Parses an http(s) link, or returns null. Google Docs exports wrap every link in
-// https://www.google.com/url?q=<target>, so that is unwrapped first.
-const parseLink = (href) => {
-  try {
-    let url = new URL(href);
-    if (url.hostname === "www.google.com" && url.pathname === "/url") {
-      url = new URL(url.searchParams.get("q"));
-    }
-    return /^https?:$/.test(url.protocol) ? url : null;
-  } catch {
-    return null;
-  }
-};
-
-// Returns the embed URL for a link to a YouTube video, or null.
-const youTubeEmbedUrl = (href) => {
-  const url = parseLink(href);
-  if (!url) return null;
-
-  const host = url.hostname.replace(/^(www|m)\./, "");
-  let id = null;
-  if (host === "youtu.be") {
-    id = url.pathname.split("/")[1];
-  } else if (host === "youtube.com" || host === "youtube-nocookie.com") {
-    id = url.pathname === "/watch"
-      ? url.searchParams.get("v")
-      : url.pathname.match(/^\/(?:embed|shorts|live)\/([^/]+)/)?.[1];
-  }
-  if (!/^[A-Za-z0-9_-]{11}$/.test(id || "")) return null;
-
-  const start = parseStartTime(url.searchParams.get("t") || url.searchParams.get("start"));
-  return `https://www.youtube.com/embed/${id}${start ? `?start=${start}` : ""}`;
-};
-
 const AUDIO_EXTENSIONS = /\.(mp3|wav|m4a|aac|ogg|oga|flac|opus)$/i;
-
-const youTubePlayer = (src) => {
-  const player = document.createElement("div");
-  player.style.cssText = "width: 100%; max-width: 640px; aspect-ratio: 16 / 9; margin: 16px 0;";
-  const iframe = document.createElement("iframe");
-  iframe.src = src;
-  iframe.title = "YouTube video player";
-  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-  iframe.allowFullscreen = true;
-  iframe.style.cssText = "width: 100%; height: 100%; border: 0;";
-  player.appendChild(iframe);
-  return player;
-};
 
 const filePlayer = (url) => {
   const kind = AUDIO_EXTENSIONS.test(url.pathname) ? "audio" : "video";
@@ -90,7 +36,8 @@ const textRange = (el, start, end) => {
   return range;
 };
 
-// Replaces each "[EmbedFile](link)" typed in the document with an audio or video player.
+// Replaces each "[EmbedFile](link)" typed in the document with a player: the service's own
+// player for YouTube/Spotify/SoundCloud links, otherwise an audio or video player for the file.
 // The text may be split across spans, and the link is either typed out or a hyperlink
 // (e.g. "[EmbedFile](here)" with "here" linked), so matching is done on the block's text.
 const embedFiles = (body) => {
@@ -103,26 +50,27 @@ const embedFiles = (body) => {
       const url = parseLink(match[1]) || (linked && parseLink(linked.getAttribute("href")));
       if (!url) continue;
 
-      const youTubeSrc = youTubeEmbedUrl(url.href);
+      const embed = getEmbedInfo(url.href);
       range.deleteContents();
-      range.insertNode(youTubeSrc ? youTubePlayer(youTubeSrc) : filePlayer(url));
+      range.insertNode(embed ? createEmbedElement(embed) : filePlayer(url));
     }
   }
 };
 
-// Adds a player for every YouTube link. A paragraph holding only the link is replaced by
-// the player; otherwise the player goes after the paragraph so the surrounding text stays.
-const embedYouTubeLinks = (body) => {
+// Adds a player for every YouTube, Spotify or SoundCloud link. A paragraph holding only the
+// link is replaced by the player; otherwise the player goes after the paragraph so the
+// surrounding text stays.
+const embedLinks = (body) => {
   const lastInserted = new Map(); // top-level block -> last player placed after it
   for (const link of body.querySelectorAll("a[href]")) {
-    const src = youTubeEmbedUrl(link.getAttribute("href"));
+    const embed = getEmbedInfo(link.getAttribute("href"));
     // Skip links inside a paragraph an earlier player already replaced
-    if (!src || !body.contains(link)) continue;
+    if (!embed || !body.contains(link)) continue;
 
     let block = link;
     while (block.parentElement !== body) block = block.parentElement;
 
-    const player = youTubePlayer(src);
+    const player = createEmbedElement(embed);
     if (block.textContent.trim() === link.textContent.trim() && !block.querySelector("img")) {
       block.replaceWith(player);
     } else {
@@ -168,7 +116,7 @@ const GoogleDocContent = ({ html, styles = "", bodyClass = "", bodyStyle = "" })
     body.style.maxWidth = "none";
     body.innerHTML = html;
     embedFiles(body);
-    embedYouTubeLinks(body);
+    embedLinks(body);
     root.appendChild(body);
   }, [html, styles, bodyClass, bodyStyle]);
 

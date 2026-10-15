@@ -169,7 +169,24 @@ const LinkedinLink = ({ handle }) => {
     );
 };
 
+// A team profile's social link, stored as { platform, value }
+const SocialLink = ({ platform, value }) => {
+    switch (platform) {
+        case "website": return <WebsiteLink link={value} />;
+        case "instagram": return <InstaLink handle={value} />;
+        case "twitter": return <TwitterLink handle={value} />;
+        case "tiktok": return <TikTokLink handle={value} />;
+        case "facebook": return <FacebookLink handle={value} />;
+        case "threads": return <ThreadsLink handle={value} />;
+        case "email": return <MailLink address={value} />;
+        case "bluesky": return <BlueskyLink address={value} />;
+        case "linkedin": return <LinkedinLink handle={value} />;
+        default: return null;
+    }
+};
+
 export {
+    SocialLink,
     FacebookLink,
     ThreadsLink,
     MailLink,

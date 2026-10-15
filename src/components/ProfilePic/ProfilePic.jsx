@@ -1,13 +1,12 @@
 import "./ProfilePic.css";
-import { getPfpImage, getPfpBackground } from "../../utilities/utilities";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useState, useRef, useCallback } from "react";
 
-const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick }) => {
+// `hasBio` is false for profiles with nothing to show when clicked
+const ProfilePic = ({ name, title, headshot, background, hasBio, onClick }) => {
   const { t } = useTranslation();
   const wrapperRef = useRef(null);
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
-  const hasBio = name !== "Josh Trochet" && name !== "Miles Acquaviva";
 
   const handleMouseMove = useCallback((e) => {
     const el = wrapperRef.current;
@@ -25,16 +24,10 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
   }, []);
 
   const handleClick = () => {
-    if (!hasBio) return;
-
-    if (onClick) {
-      onClick();
-    } else {
-      setSelectedUser({ name: name, title: title });
-    }
+    if (hasBio) onClick();
   };
 
-  const bgUrl = getPfpBackground(name);
+  const bgUrl = background;
 
   return (
     <div className="profile-pic-container">
@@ -56,7 +49,7 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
         />
         <div className="profile-pic-image-wrap">
           <img
-            src={getPfpImage(name)}
+            src={headshot || "https://via.placeholder.com/150"}
             alt={name}
             className="profile-pic-image"
             style={{
@@ -74,8 +67,8 @@ const ProfilePic = ({ name, title, setSelectedUser, isMobile, pfpImage, onClick 
         )}
       </div>
       <div className="profile-pic-info">
-        <h4 className="profile-pic-name">{t(`team.members.${name}.name`) || name}</h4>
-        <p className="profile-pic-title">{t(`team.members.${name}.title`) || title}</p>
+        <h4 className="profile-pic-name">{name}</h4>
+        <p className="profile-pic-title">{title}</p>
       </div>
     </div>
   );

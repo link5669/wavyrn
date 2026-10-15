@@ -11,28 +11,10 @@ import DesktopNav from "../../components/Navbar/Navbar";
 import MobileNav from "../../components/Navbar/MobileNavbar/MobileNavbar";
 import autoAnimate from "@formkit/auto-animate";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { allUsers } from "../../utilities/users";
 import "../AboutUs.css";
-import {
-    Ananta,
-    Angelica,
-    AustinB,
-    AustinL,
-    Marc,
-    Gret,
-    Max,
-    Sam,
-    Zionna,
-    Caleb,
-    Julian,
-    Michelle,
-    Neil,
-    Quinne,
-    Miguel,
-    Grace
-} from "../../components/UserProfiles";
+import TeamProfileBody from "../../components/TeamProfileBody";
+import { useTeamProfiles } from "../../hooks/useTeamProfiles";
 import Overlay from "../../components/Overlay/Overlay";
-import { getPfpImage } from "../../utilities/utilities";
 import { useTranslation } from "../../hooks/useTranslation";
 
 const About = ({ isMobile }) => {
@@ -42,7 +24,7 @@ const About = ({ isMobile }) => {
     const serviceRefs = useRef({});
     const parent = useRef(null);
     const [selectedUser, setSelectedUser] = useState(null);
-    const [visibleUsers, setVisibleUsers] = useState(allUsers);
+    const { profiles: visibleUsers } = useTeamProfiles();
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
     const [activeTab, setActiveTab] = useState("Services"); // State for active tab
 
@@ -237,7 +219,7 @@ const About = ({ isMobile }) => {
                             >
                                 {visibleUsers.map((user, index) => (
                                     <div
-                                        key={user.name}
+                                        key={user.docId}
                                         style={{
                                             position: "relative",
                                             border: "2px solid white",
@@ -245,13 +227,14 @@ const About = ({ isMobile }) => {
                                             overflow: "hidden",
                                         }}
                                         onClick={() => {
+                                            if (!user.hasDetails) return;
                                             setIsOverlayVisible(true);
                                             setSelectedUser(user);
                                         }}
                                     >
                                         <img
-                                            src={getPfpImage(user.name)}
-                                            alt={user.name}
+                                            src={user.headshot || "https://via.placeholder.com/150"}
+                                            alt={user.displayName}
                                             style={{
                                                 width: "45vw",
                                                 height: isMobile
@@ -259,12 +242,7 @@ const About = ({ isMobile }) => {
                                                     : "35vh", // Increased height (was 30vh)
                                                 display: "block",
                                                 objectFit: "cover",
-                                                objectPosition:
-                                                    user.name == "Sam Leigh"
-                                                        ? "0% 40%"
-                                                        : "0% 15%",
-                                                transform: user.name == "Miguel Meneses" ? "scale(1.2)" : "none",
-                                                transformOrigin: "center center"
+                                                objectPosition: user.headshotPosition || "0% 15%",
                                             }}
                                         />
                                         <div
@@ -280,10 +258,8 @@ const About = ({ isMobile }) => {
                                                 fontSize: ".75em", // Made smaller (was .9em)
                                             }}
                                         >
-                                            <b>{t(`team.members.${user.name}.name`) || user.name}</b>
-                                            <p style={{ margin: 0 }}>
-                                                {t(`team.members.${user.name}.title`) || user.title}
-                                            </p>
+                                            <b>{user.displayName}</b>
+                                            <p style={{ margin: 0 }}>{user.displayTitle}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -292,58 +268,24 @@ const About = ({ isMobile }) => {
                     )}
                 </div>
 
-                {selectedUser &&
-                    selectedUser.name != "Miles Acquaviva" &&
-                    selectedUser.name != "Josh Trochet" && (
-                        <Overlay
-                            isVisible={isOverlayVisible}
-                            onClose={() => {
-                                setIsOverlayVisible(false);
-                                setTimeout(() => setSelectedUser(null), 300); // Wait for fade out
-                            }}
-                            profileInfo={{
-                                name: t(`team.members.${selectedUser.name}.name`) || selectedUser.name,
-                                title: t(`team.members.${selectedUser.name}.title`) || selectedUser.title,
-                                image: getPfpImage(selectedUser.name),
-                            }}
-                        >
-                            {selectedUser.name == "Sam Leigh" ? (
-                                <Sam />
-                            ) : selectedUser.name == "Max Jaime" ? (
-                                <Max />
-                            ) : selectedUser.name == "Marc Yu" ? (
-                                <Marc isMobile={isMobile} />
-                            ) : selectedUser.name == "Austin Leshock" ? (
-                                <AustinL />
-                            ) : selectedUser.name == "Austin Burkett" ? (
-                                <AustinB isMobile={isMobile} />
-                            ) : selectedUser.name == "Ananta Arora" ? (
-                                <Ananta />
-                            ) : selectedUser.name == "Gret Price" ? (
-                                <Gret />
-                            ) : selectedUser.name == "Angelica Ramos" ? (
-                                <Angelica />
-                            ) : selectedUser.name == "Zionna Brown" ? (
-                                <Zionna />
-                            ) : selectedUser.name == "Caleb Skelly" ? (
-                                <Caleb />
-                            ) : selectedUser.name == "Michelle Lai" ? (
-                                <Michelle />
-                            ) : selectedUser.name == "Neil Small" ? (
-                                <Neil />
-                            ) : selectedUser.name == "Julian Cabrera" ? (
-                                <Julian isMobile={isMobile} />
-                            ) : selectedUser.name == "Quinne Houck" ? (
-                                <Quinne isMobile={isMobile} />
-                            ) : selectedUser.name == "Miguel Meneses" ? (
-                                <Miguel />
-                            ) : selectedUser.name == "Grace Pehrman" ? (
-                                <Grace />
-                            ) : (
-                                <p>No bio yet!</p>
-                            )}
-                        </Overlay>
-                    )}
+                {selectedUser && (
+                    <Overlay
+                        isVisible={isOverlayVisible}
+                        onClose={() => {
+                            setIsOverlayVisible(false);
+                            setTimeout(() => setSelectedUser(null), 300); // Wait for fade out
+                        }}
+                        profileInfo={{
+                            name: selectedUser.displayName,
+                            title: selectedUser.displayTitle,
+                            image: selectedUser.headshot,
+                            imagePosition: selectedUser.headshotPosition,
+                            socials: selectedUser.socials,
+                        }}
+                    >
+                        <TeamProfileBody profile={selectedUser} isMobile={isMobile} />
+                    </Overlay>
+                )}
             </div>
             <BottomSection />
         </div>

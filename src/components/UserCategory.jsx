@@ -2,9 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "../hooks/useTranslation";
 
 const UserCategory = ({
-  setVisibleUsers,
   setSelectedCat,
-  categoryList,
   category,
   selectedCat,
   buttonClassName,
@@ -39,10 +37,7 @@ const UserCategory = ({
   return (
     <p
       className={buttonClassName ? `${buttonClassName}${isActive ? ` ${buttonClassName}--active` : ''}`.trim() : undefined}
-      onClick={() => {
-        setVisibleUsers(categoryList);
-        setSelectedCat(category);
-      }}
+      onClick={() => setSelectedCat(category)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={baseStyle}

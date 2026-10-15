@@ -2,31 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import WavNavbar from "../components/Navbar/Navbar";
 import ProfilePic from "../components/ProfilePic/ProfilePic";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { allUsers, categories } from "../utilities/users";
 import UserCategory from "../components/UserCategory";
 import "./AboutUs.css";
 import { useTranslation } from "../hooks/useTranslation";
-import {
-    Ananta,
-    Angelica,
-    AustinB,
-    AustinL,
-    Marc,
-    Gret,
-    Max,
-    Sam,
-    Zionna,
-    Caleb,
-    Julian,
-    Michelle,
-    Neil,
-    Quinne,
-    Miguel,
-    Grace
-} from "../components/UserProfiles";
+import TeamProfileBody from "../components/TeamProfileBody";
+import { useTeamProfiles } from "../hooks/useTeamProfiles";
 import { useLocation } from "react-router-dom";
 import Overlay from "../components/Overlay/Overlay";
-import { getPfpImage } from "../utilities/utilities";
 import Footer from "../components/Footer";
 import SingleCarousel from "../components/Carousel/SingleCarousel/SingleCarousel";
 import { FiCheck } from "react-icons/fi";
@@ -34,7 +16,7 @@ import { FiCheck } from "react-icons/fi";
 const About = ({ isMobile }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedCat, setSelectedCat] = useState("All");
-    const [visibleUsers, setVisibleUsers] = useState(allUsers);
+    const { profiles, categories } = useTeamProfiles();
     const [isOverlayVisible, setIsOverlayVisible] = useState(false);
     const { state } = useLocation();
     const { t } = useTranslation();
@@ -133,7 +115,9 @@ const About = ({ isMobile }) => {
             description: t('about.services.production.description')
         }
     ];
-    const displayedUsers = isMobile ? allUsers : visibleUsers;
+    const displayedUsers = isMobile || selectedCat === "All"
+        ? profiles
+        : profiles.filter((p) => p.categories.includes(selectedCat));
 
     return (
         <>
@@ -310,16 +294,14 @@ const About = ({ isMobile }) => {
                     {!isMobile && (
                         <div className="about-team-filters-wrap">
                             <div className="about-team-filters">
-                            {categories.map((category) => (
+                            {["All", ...categories].map((category) => (
                                 <UserCategory
-                                    key={category.category}
-                                    setVisibleUsers={setVisibleUsers}
+                                    key={category}
                                     setSelectedCat={setSelectedCat}
-                                    categoryList={category.categoryList}
-                                    category={category.category}
+                                    category={category}
                                     selectedCat={selectedCat}
                                     buttonClassName="about-filter-btn"
-                                    isActive={selectedCat === category.category}
+                                    isActive={selectedCat === category}
                                 />
                             ))}
                             </div>
@@ -331,12 +313,12 @@ const About = ({ isMobile }) => {
                         <div ref={pfpParent} className="team-grid">
                         {displayedUsers.map((user) => (
                             <ProfilePic
-                                key={user.name}
-                                name={user.name}
-                                title={user.title}
-                                setSelectedUser={setSelectedUser}
-                                isMobile={isMobile}
-                                pfpImage={getPfpImage(user.name)}
+                                key={user.docId}
+                                name={user.displayName}
+                                title={user.displayTitle}
+                                headshot={user.headshot}
+                                background={user.background}
+                                hasBio={user.hasDetails}
                                 onClick={() => {
                                     setSelectedUser(user);
                                     setIsOverlayVisible(true);
@@ -356,47 +338,14 @@ const About = ({ isMobile }) => {
                         setTimeout(() => setSelectedUser(null), 300);
                     }}
                     profileInfo={{
-                        name: t(`team.members.${selectedUser.name}.name`) || selectedUser.name,
-                        title: t(`team.members.${selectedUser.name}.title`) || selectedUser.title,
-                        image: getPfpImage(selectedUser.name),
-                        userKey: selectedUser.name,
+                        name: selectedUser.displayName,
+                        title: selectedUser.displayTitle,
+                        image: selectedUser.headshot,
+                        imagePosition: selectedUser.headshotPosition,
+                        socials: selectedUser.socials,
                     }}
                 >
-                    {selectedUser.name == "Sam Leigh" ? (
-                        <Sam />
-                    ) : selectedUser.name == "Max Jaime" ? (
-                        <Max />
-                    ) : selectedUser.name == "Marc Yu" ? (
-                        <Marc isMobile={isMobile} />
-                    ) : selectedUser.name == "Austin Leshock" ? (
-                        <AustinL />
-                    ) : selectedUser.name == "Austin Burkett" ? (
-                        <AustinB isMobile={isMobile} />
-                    ) : selectedUser.name == "Ananta Arora" ? (
-                        <Ananta />
-                    ) : selectedUser.name == "Gret Price" ? (
-                        <Gret />
-                    ) : selectedUser.name == "Angelica Ramos" ? (
-                        <Angelica />
-                    ) : selectedUser.name == "Zionna Brown" ? (
-                        <Zionna />
-                    ) : selectedUser.name == "Caleb Skelly" ? (
-                        <Caleb />
-                    ) : selectedUser.name == "Michelle Lai" ? (
-                        <Michelle />
-                    ) : selectedUser.name == "Neil Small" ? (
-                        <Neil />
-                    ) : selectedUser.name == "Julian Cabrera" ? (
-                        <Julian isMobile={isMobile} />
-                    ) : selectedUser.name == "Quinne Houck" ? (
-                        <Quinne isMobile={isMobile} />
-                    ) : selectedUser.name == "Miguel Meneses" ? (
-                        <Miguel />
-                    ) : selectedUser.name == "Grace Pehrman" ? (
-                        <Grace />
-                    ) : (
-                        <p>No bio yet!</p>
-                    )}
+                    <TeamProfileBody profile={selectedUser} isMobile={isMobile} />
                 </Overlay>
             )}
             <Footer />

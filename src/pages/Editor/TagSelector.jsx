@@ -66,6 +66,11 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onMove, onDele
     }
   };
 
+  // Chips follow the dropdown's order (category, then position), not the order clicked
+  const selectedTags = COLUMNS.flatMap(({ category }) => tags[category] || []).filter((t) =>
+    selected.includes(t.docId),
+  );
+
   return (
     <div ref={containerRef} style={{ position: "relative" }}>
       <div
@@ -80,11 +85,11 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onMove, onDele
           minHeight: "20px",
         }}
       >
-        {selected.length > 0 ? (
+        {selectedTags.length > 0 ? (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
-            {selected.map((tagId) => (
+            {selectedTags.map((tag) => (
               <span
-                key={tagId}
+                key={tag.docId}
                 style={{
                   backgroundColor: "#007bff",
                   color: "white",
@@ -93,7 +98,7 @@ const TagSelector = ({ tags, selected, onToggle, onAdd, onRename, onMove, onDele
                   fontSize: "12px",
                 }}
               >
-                {Object.values(tags).flat().find((t) => t.docId === tagId)?.name ?? tagId}
+                {tag.name}
               </span>
             ))}
           </div>

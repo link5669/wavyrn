@@ -14,7 +14,7 @@ import {
   deleteField,
 } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, listAll, deleteObject } from "firebase/storage";
 import { requireAuth } from "../middleware/auth.js";
 import { replaceDropboxUrl } from "../utilities.js";
 
@@ -26,31 +26,79 @@ export default function blogRoute(firebaseApp) {
   const db = getFirestore(firebaseApp);
   const storage = getStorage(firebaseApp);
 
+  // Storage folders (blog/<uploadId>) holding a post's images. Posts don't record their
+  // upload ids, but every image URL encodes its storage path:
+  // https://firebasestorage.googleapis.com/v0/b/<bucket>/o/blog%2F<uploadId>%2F<file>?alt=media...
+  const STORAGE_PATH_RE = /firebasestorage\.googleapis\.com\/v0\/b\/[^/]+\/o\/([^?"'\s)&]+)/g;
+  const imageFolders = (post) => {
+    const folders = new Set();
+    const text = `${post.content || ""} ${post.previewImage || ""}`;
+    for (const [, encoded] of text.matchAll(STORAGE_PATH_RE)) {
+      const path = decodeURIComponent(encoded);
+      const folder = path.slice(0, path.lastIndexOf("/"));
+      if (folder.startsWith("blog/")) folders.add(folder);
+    }
+    return folders;
+  };
+
+  // Deletes the image folders `oldPost` used, unless a post still in the database uses them
+  // (the updated version of the same post, or another post). Failures are only logged:
+  // the post itself was already saved or deleted.
+  const deleteUnusedImages = async (oldPost) => {
+    try {
+      const candidates = imageFolders(oldPost);
+      if (candidates.size === 0) return;
+
+      const inUse = new Set();
+      for (const postDoc of (await getDocs(collection(db, "blogPosts"))).docs) {
+        for (const folder of imageFolders(postDoc.data())) inUse.add(folder);
+      }
+
+      for (const folder of candidates) {
+        if (inUse.has(folder)) continue;
+        const { items } = await listAll(ref(storage, folder));
+        await Promise.all(items.map((item) => deleteObject(item)));
+      }
+    } catch (error) {
+      console.error("Failed to delete unused blog images:", error);
+    }
+  };
+
+  // Tags in display order: by category as the editor's picker lists them, then by position
+  const CATEGORY_ORDER = ["TOPIC", "PROJECT", "GENRE"];
   const loadTags = async () => {
     const snapshot = await getDocs(collection(db, "tags"));
-    return snapshot.docs.map((tagDoc) => ({ docId: tagDoc.id, ...tagDoc.data() }));
+    const rank = (tag) => {
+      const i = CATEGORY_ORDER.indexOf(tag.category);
+      return i === -1 ? CATEGORY_ORDER.length : i;
+    };
+    return snapshot.docs
+      .map((tagDoc) => ({ docId: tagDoc.id, ...tagDoc.data() }))
+      .sort((a, b) => rank(a) - rank(b) || (a.position ?? 0) - (b.position ?? 0));
   };
 
   // Posts store tag doc ids in `tagIds`. Clients may send ids or tag names (older
   // versions of the Google Docs add-on send names), so accept either.
+  // Ids come back in display order (the order of `tags`), not the order they were picked.
   const resolveTagIds = (values, tags) => {
-    const ids = [];
+    const found = new Set();
     const unknown = [];
     for (const value of values) {
       const tag = tags.find((t) => t.docId === value) || tags.find((t) => t.name === value);
-      if (tag) ids.push(tag.docId);
+      if (tag) found.add(tag.docId);
       else unknown.push(value);
     }
-    return { ids: [...new Set(ids)], unknown };
+    return { ids: tags.filter((t) => found.has(t.docId)).map((t) => t.docId), unknown };
   };
 
   // Adds `topics` (the current tag names) so readers never see stale names after a rename.
   // Posts saved before `tagIds` existed only have `topics` names; map those to ids.
   const withTagNames = (post, tags) => {
-    const tagIds = post.tagIds || resolveTagIds(post.topics || [], tags).ids;
-    const topics = tagIds
-      .map((id) => tags.find((t) => t.docId === id)?.name)
-      .filter(Boolean);
+    const postTags = post.tagIds
+      ? tags.filter((t) => post.tagIds.includes(t.docId))
+      : resolveTagIds(post.topics || [], tags).ids.map((id) => tags.find((t) => t.docId === id));
+    const tagIds = postTags.map((t) => t.docId);
+    const topics = postTags.map((t) => t.name);
     // Also repairs Dropbox links saved before replaceDropboxUrl handled every Dropbox host
     return { ...post, tagIds, topics, previewImage: replaceDropboxUrl(post.previewImage) };
   };
@@ -340,6 +388,8 @@ export default function blogRoute(firebaseApp) {
       }
 
       await updateDoc(docRef, updateData);
+      // Images from the replaced version are no longer referenced
+      await deleteUnusedImages(docSnapshot.data());
 
       res.status(200).json({
         success: true,
@@ -374,6 +424,7 @@ export default function blogRoute(firebaseApp) {
 
       // Delete the document from Firestore
       await deleteDoc(docRef);
+      await deleteUnusedImages(docSnapshot.data());
 
       res.status(200).json({
         success: true,
