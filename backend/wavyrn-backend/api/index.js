@@ -14,6 +14,7 @@ import filtersRoute from './routes/filters.js';
 import blogRoute from './routes/blog.js';
 import teamRoute from './routes/team.js';
 import newsletterRoute from './routes/newsletter.js';
+import mailRoute from './routes/mail.js';
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
@@ -60,5 +61,6 @@ app.use('/api/filters', filtersRoute(firebaseapp));
 app.use('/api/blog', blogRoute(firebaseapp));
 app.use('/api/team', teamRoute(firebaseapp));
 app.use('/api/newsletter', newsletterRoute);
+app.use('/api/mail', mailRoute);
 app.use('/s', redirectRoute(firebaseapp));
 app.listen(port, () => console.log(`Server listening on port ${port}`));

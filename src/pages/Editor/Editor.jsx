@@ -6,6 +6,7 @@ import AlbumEditor from "./CarouselEditor";
 import FilterEditor from "./FilterEditor";
 import BlogEditor from "./BlogEditor";
 import TeamEditor from "./TeamEditor";
+import MassEmailEditor from "./MassEmailEditor";
 import PasswordProtection from "../../components/EditorLogin";
 import URLShortenerEditor from "../../components/URLShortener";
 
@@ -164,6 +165,21 @@ const Editor = () => {
             >
               Team
             </button>
+            <button
+              onClick={() => setActiveTab("email")}
+              style={{
+                backgroundColor:
+                  activeTab === "email" ? "#007bff" : "transparent",
+                color: activeTab === "email" ? "white" : "#007bff",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "4px 4px 0 0",
+                cursor: "pointer",
+                fontWeight: "bold",
+              }}
+            >
+              Mass Email
+            </button>
           </div>
 
           {activeTab === "sfx" && <SFXEditor />}
@@ -180,6 +196,8 @@ const Editor = () => {
           {activeTab === "blog" && <BlogEditor />}
 
           {activeTab === "team" && <TeamEditor />}
+
+          {activeTab === "email" && <MassEmailEditor />}
         </div>
       )}
     </div>
