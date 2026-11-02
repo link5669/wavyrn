@@ -19,6 +19,22 @@ const button = (backgroundColor) => ({
 const escapeHtml = (value) =>
   value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+// Appended to the message when "Add signature" is checked
+const SIGNATURE_HTML = `<div style="font-family:Arial,Helvetica,sans-serif;font-size:small;line-height:1.5;color:#888888;margin-top:16px">
+<div>--</div>
+<div><b>The Casting Team @</b> <a href="https://wavyrn.com/portfolio" style="color:#0000ee">Wavyrn</a></div>
+<div>e: <a href="mailto:casting@wavyrn.com" style="color:#1155cc">casting@wavyrn.com</a></div>
+<div><img src="https://wavyrn.com/images/logo_red.png" alt="Wavyrn" width="200" height="49" style="display:block;margin-top:4px;border:0"></div>
+</div>`;
+
+// The signature needs HTML for its links and logo, so a plain-text body is
+// converted to HTML (keeping its line breaks) when the signature is on
+const buildEmail = (body, isHtml, signature) => {
+  if (!signature) return { body, isHtml };
+  const html = isHtml ? body : `<div style="white-space:pre-wrap">${escapeHtml(body)}</div>`;
+  return { body: html + SIGNATURE_HTML, isHtml: true };
+};
+
 const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
 
 const api = async (path, options = {}) => {
@@ -150,7 +166,7 @@ const MassEmailEditor = () => {
       try {
         const { results } = await api("/send", {
           method: "POST",
-          body: JSON.stringify({ subject, body, isHtml, signature, recipients: batch }),
+          body: JSON.stringify({ subject, ...buildEmail(body, isHtml, signature), recipients: batch }),
         });
         for (const result of results) {
           if (result.ok) sent++;
@@ -177,7 +193,7 @@ const MassEmailEditor = () => {
     try {
       const { results } = await api("/send", {
         method: "POST",
-        body: JSON.stringify({ subject, body, isHtml, signature, recipients: [{ email: testEmail.trim(), name: contacts[0]?.name || "" }] }),
+        body: JSON.stringify({ subject, ...buildEmail(body, isHtml, signature), recipients: [{ email: testEmail.trim(), name: contacts[0]?.name || "" }] }),
       });
       if (results[0].ok) showMessage(`Test email sent to ${testEmail.trim()}`, "success");
       else showMessage(`Test failed: ${results[0].error}`, "error");
@@ -338,10 +354,7 @@ const MassEmailEditor = () => {
             <label style={labelStyle}>Preview:</label>
             <iframe
               title="Email preview"
-              srcDoc={
-                (isHtml ? body : `<div style="white-space:pre-wrap">${escapeHtml(body)}</div>`) +
-                (signature ? config?.signatureHtml || "" : "")
-              }
+              srcDoc={buildEmail(body, isHtml, signature).body}
               sandbox=""
               style={{ width: "100%", height: "300px", border: "1px solid #ccc", borderRadius: "4px", background: "white" }}
             />
