@@ -16,6 +16,9 @@ const button = (backgroundColor) => ({
   backgroundColor, color: "white", padding: "8px 16px", border: "none", borderRadius: "4px", cursor: "pointer",
 });
 
+const escapeHtml = (value) =>
+  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
 const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
 
 const api = async (path, options = {}) => {
@@ -96,6 +99,7 @@ const MassEmailEditor = () => {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
   const [isHtml, setIsHtml] = useState(false);
+  const [signature, setSignature] = useState(true);
   const [testEmail, setTestEmail] = useState("");
   const [sending, setSending] = useState(false);
   const [progress, setProgress] = useState(null); // { sent, failed: [{email, error}], total }
@@ -146,7 +150,7 @@ const MassEmailEditor = () => {
       try {
         const { results } = await api("/send", {
           method: "POST",
-          body: JSON.stringify({ subject, body, isHtml, recipients: batch }),
+          body: JSON.stringify({ subject, body, isHtml, signature, recipients: batch }),
         });
         for (const result of results) {
           if (result.ok) sent++;
@@ -173,7 +177,7 @@ const MassEmailEditor = () => {
     try {
       const { results } = await api("/send", {
         method: "POST",
-        body: JSON.stringify({ subject, body, isHtml, recipients: [{ email: testEmail.trim(), name: contacts[0]?.name || "" }] }),
+        body: JSON.stringify({ subject, body, isHtml, signature, recipients: [{ email: testEmail.trim(), name: contacts[0]?.name || "" }] }),
       });
       if (results[0].ok) showMessage(`Test email sent to ${testEmail.trim()}`, "success");
       else showMessage(`Test failed: ${results[0].error}`, "error");
@@ -325,12 +329,19 @@ const MassEmailEditor = () => {
           <input type="checkbox" checked={isHtml} onChange={(e) => setIsHtml(e.target.checked)} />
           Body is HTML
         </label>
-        {isHtml && body.trim() && (
+        <label style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: "bold", marginTop: "8px" }}>
+          <input type="checkbox" checked={signature} onChange={(e) => setSignature(e.target.checked)} />
+          Add signature
+        </label>
+        {(isHtml ? body.trim() : signature) && (
           <div style={{ marginTop: "10px" }}>
             <label style={labelStyle}>Preview:</label>
             <iframe
               title="Email preview"
-              srcDoc={body}
+              srcDoc={
+                (isHtml ? body : `<div style="white-space:pre-wrap">${escapeHtml(body)}</div>`) +
+                (signature ? config?.signatureHtml || "" : "")
+              }
               sandbox=""
               style={{ width: "100%", height: "300px", border: "1px solid #ccc", borderRadius: "4px", background: "white" }}
             />
