@@ -7,6 +7,7 @@ const PortfolioEditor = () => {
     title: "",
     subtitle: "",
     imgSrc: "",
+    hoverText: "",
     position: "",
   });
   const [portfolioLoading, setPortfolioLoading] = useState(false);
@@ -22,6 +23,7 @@ const PortfolioEditor = () => {
     title: "",
     subtitle: "",
     imgSrc: "",
+    hoverText: "",
     position: "",
   });
   const [moveToIndexValues, setMoveToIndexValues] = useState({});
@@ -87,7 +89,7 @@ const PortfolioEditor = () => {
       if (response.ok) {
         setPortfolioMessage("Portfolio image added successfully!");
         setPortfolioMessageType("success");
-        setPortfolioFormData({ title: "", subtitle: "", imgSrc: "", position: "" });
+        setPortfolioFormData({ title: "", subtitle: "", imgSrc: "", hoverText: "", position: "" });
         fetchPortfolioList();
       } else {
         setPortfolioMessage(data.error || "Failed to add portfolio image");
@@ -119,6 +121,7 @@ const PortfolioEditor = () => {
             title: editFormData.title,
             subtitle: editFormData.subtitle,
             imgSrc: toDirectDropboxUrl(editFormData.imgSrc),
+            hoverText: editFormData.hoverText,
           }),
         },
       );
@@ -160,7 +163,7 @@ const PortfolioEditor = () => {
       setPortfolioMessage("Portfolio image updated successfully!");
       setPortfolioMessageType("success");
       setEditingPortfolio(null);
-      setEditFormData({ title: "", subtitle: "", imgSrc: "", position: "" });
+      setEditFormData({ title: "", subtitle: "", imgSrc: "", hoverText: "", position: "" });
       fetchPortfolioList();
     } catch (error) {
       setPortfolioMessage("Network error: " + error.message);
@@ -176,13 +179,14 @@ const PortfolioEditor = () => {
       title: portfolio.title,
       subtitle: portfolio.subtitle,
       imgSrc: portfolio.imgSrc,
+      hoverText: portfolio.hoverText || "",
       position: portfolio.id,
     });
   };
 
   const cancelEdit = () => {
     setEditingPortfolio(null);
-    setEditFormData({ title: "", subtitle: "", imgSrc: "", position: "" });
+    setEditFormData({ title: "", subtitle: "", imgSrc: "", hoverText: "", position: "" });
   };
 
   const handlePortfolioDelete = async (docId) => {
@@ -389,6 +393,33 @@ const PortfolioEditor = () => {
 
         <div style={{ marginBottom: "15px" }}>
           <label
+            htmlFor="hoverText"
+            style={{ display: "block", marginBottom: "5px" }}
+          >
+            Hover-over Text (optional):
+          </label>
+          <textarea
+            id="hoverText"
+            name="hoverText"
+            value={portfolioFormData.hoverText}
+            onChange={handlePortfolioInputChange}
+            rows={3}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              resize: "vertical",
+            }}
+            placeholder="e.g. Created by ..."
+          />
+          <small style={{ color: "#666", fontSize: "12px", display: "block", marginTop: "5px" }}>
+            Shown in a box that follows the cursor when hovering the project. Press Enter for a line break.
+          </small>
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+          <label
             htmlFor="position"
             style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
           >
@@ -577,6 +608,33 @@ const PortfolioEditor = () => {
                                 fontWeight: "bold",
                               }}
                             >
+                              Hover-over Text (optional):
+                            </label>
+                            <textarea
+                              name="hoverText"
+                              value={editFormData.hoverText}
+                              onChange={handleEditInputChange}
+                              rows={3}
+                              style={{
+                                width: "100%",
+                                padding: "6px",
+                                border: "1px solid #ccc",
+                                borderRadius: "4px",
+                                resize: "vertical",
+                              }}
+                            />
+                            <small style={{ color: "#666", fontSize: "11px" }}>
+                              Press Enter for a line break. Leave empty for no tooltip.
+                            </small>
+                          </div>
+                          <div style={{ marginBottom: "10px" }}>
+                            <label
+                              style={{
+                                display: "block",
+                                marginBottom: "5px",
+                                fontWeight: "bold",
+                              }}
+                            >
                               Position:
                             </label>
                             <input
@@ -640,6 +698,11 @@ const PortfolioEditor = () => {
                           <p style={{ margin: "5px 0", color: "#666" }}>
                             {portfolio.subtitle}
                           </p>
+                          {portfolio.hoverText && (
+                            <p style={{ margin: "5px 0", fontSize: "0.9em", whiteSpace: "pre-line" }}>
+                              <strong>Hover Text:</strong> {portfolio.hoverText}
+                            </p>
+                          )}
                           <p
                             style={{
                               margin: "5px 0",

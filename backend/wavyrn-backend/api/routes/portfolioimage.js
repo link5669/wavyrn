@@ -15,6 +15,10 @@ import {
 import { Timestamp } from "firebase/firestore";
 import { replaceDropboxUrl } from "../utilities.js";
 
+// Optional credit text shown in a cursor-following tooltip; newlines are kept as line breaks
+const normalizeHoverText = (value) =>
+  typeof value === "string" ? value.replace(/\r\n/g, "\n").trim() : "";
+
 export default function portfolioRoute(firebaseApp) {
   const router = express.Router();
   const db = getFirestore(firebaseApp);
@@ -23,6 +27,7 @@ export default function portfolioRoute(firebaseApp) {
   router.post("/", async (req, res) => {
     try {
       const { title, subtitle, imgSrc } = req.body;
+      const hoverText = normalizeHoverText(req.body.hoverText);
       const directImgSrc = replaceDropboxUrl(imgSrc);
       // Form inputs send strings; ids must be numbers or Firestore sorts them after all numeric ids
       const position = req.body.position ? Number(req.body.position) : undefined;
@@ -64,6 +69,7 @@ export default function portfolioRoute(firebaseApp) {
         title: title,
         subtitle: subtitle,
         imgSrc: directImgSrc,
+        hoverText,
         createdAt: Timestamp.now(),
       };
 
@@ -264,13 +270,12 @@ export default function portfolioRoute(firebaseApp) {
     }
   });
 
-  // PUT route to update a portfolio image
-  router.put("/update", async (req, res) => {
-    console.log("hit /api/portfolio/update endpoint");
-
+  // Updates title/subtitle/imgSrc/hoverText. Reached via PUT /update (docId in body)
+  // and PUT /:docId (what the editor calls).
+  const updatePortfolioImage = async (req, res) => {
     try {
-      const { docId, title, subtitle, imgSrc } = req.body;
-      console.log("docId:", docId);
+      const docId = req.params.docId || req.body.docId;
+      const { title, subtitle, imgSrc } = req.body;
 
       // Validate required fields
       if (!docId || !title || !subtitle || !imgSrc) {
@@ -297,6 +302,10 @@ export default function portfolioRoute(firebaseApp) {
         imgSrc: replaceDropboxUrl(imgSrc),
         updatedAt: Timestamp.now(),
       };
+      // Only touch hoverText when the client sends it, so older clients don't wipe it
+      if (req.body.hoverText !== undefined) {
+        updateData.hoverText = normalizeHoverText(req.body.hoverText);
+      }
 
       await updateDoc(docRef, updateData);
 
@@ -308,8 +317,11 @@ export default function portfolioRoute(firebaseApp) {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  });
+  };
 
+  router.put("/update", updatePortfolioImage);
+  // Must stay after /position, /reorder and /update so those aren't captured as a docId
+  router.put("/:docId", updatePortfolioImage);
 
   // DELETE route to delete a portfolio image
   router.delete("/:docId", async (req, res) => {

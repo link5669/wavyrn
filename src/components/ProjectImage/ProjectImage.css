@@ -249,3 +249,19 @@
 .project-image:hover .project-image__text {
     opacity: 1;
 }
+
+/* Cursor-following credit box (rendered in a portal on document.body) */
+.project-image__tooltip {
+    position: fixed;
+    z-index: 10000002;
+    pointer-events: none;
+    max-width: 320px;
+    padding: 8px 12px;
+    background: #000;
+    color: #fff;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    border-radius: 6px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    white-space: pre-line;
+}

@@ -433,6 +433,7 @@ function Portfolio({ title, dividerStyle, isMobile }) {
                     subtitle={project.subtitle}
                     imgSrc={project.imgSrc}
                     title={project.title}
+                    hoverText={project.hoverText}
                   />
                 </div>
               ))
