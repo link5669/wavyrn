@@ -1,4 +1,5 @@
 import express from "express";
+import { requireAuth } from "../middleware/auth.js";
 import {
   getFirestore,
   collection,
@@ -45,7 +46,7 @@ export default function urlShortenerRoute(firebaseApp) {
   };
 
   // POST route to create shortened URL
-  router.post("/", async (req, res) => {
+  router.post("/", requireAuth, async (req, res) => {
     try {
       const { originalUrl, customSlug, title } = req.body;
 
@@ -196,7 +197,7 @@ export default function urlShortenerRoute(firebaseApp) {
   });
 
   // PUT route to update a shortened URL
-  router.put("/:id", async (req, res) => {
+  router.put("/:id", requireAuth, async (req, res) => {
     try {
       const { id } = req.params;
       const { originalUrl, customSlug, title } = req.body;
@@ -266,7 +267,7 @@ export default function urlShortenerRoute(firebaseApp) {
   });
 
   // DELETE route to delete a shortened URL
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", requireAuth, async (req, res) => {
     try {
       const { id } = req.params;
 

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
+
 const FilterEditor = () => {
   const [tags, setTags] = useState({
     TOPIC: [],
@@ -103,7 +105,7 @@ const FilterEditor = () => {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/tags`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", ...authHeaders(),
         },
         body: JSON.stringify(tagFormData),
       });
@@ -136,7 +138,7 @@ const FilterEditor = () => {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/categories`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", ...authHeaders(),
         },
         body: JSON.stringify(categoryFormData),
       });
@@ -179,7 +181,7 @@ const FilterEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify(requestBody),
         },
@@ -235,7 +237,7 @@ const FilterEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify(editTagData),
         },
@@ -272,7 +274,7 @@ const FilterEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify(editCategoryData),
         },
@@ -309,6 +311,7 @@ const FilterEditor = () => {
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/filters/tags/${docId}`,
         {
           method: "DELETE",
+          headers: authHeaders(),
         },
       );
 

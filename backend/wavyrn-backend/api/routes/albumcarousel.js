@@ -1,4 +1,5 @@
 import express from "express";
+import { requireAuth } from "../middleware/auth.js";
 import {
   getFirestore,
   collection,
@@ -20,7 +21,7 @@ export default function albumRoute(firebaseApp) {
   const db = getFirestore(firebaseApp);
 
   // POST route to add album
-  router.post("/", async (req, res) => {
+  router.post("/", requireAuth, async (req, res) => {
     try {
       const { title, track, coverUrl, position } = req.body;
 
@@ -142,7 +143,7 @@ export default function albumRoute(firebaseApp) {
   });
 
   // PUT route to set specific position for album
-  router.put("/position", async (req, res) => {
+  router.put("/position", requireAuth, async (req, res) => {
     try {
       const { docId, position } = req.body;
       
@@ -211,7 +212,7 @@ export default function albumRoute(firebaseApp) {
   });
 
   // PUT route to update an album
-  router.put("/:docId", async (req, res) => {
+  router.put("/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
       const { title, track, coverUrl } = req.body;
@@ -254,7 +255,7 @@ export default function albumRoute(firebaseApp) {
   });
 
   // PUT route to reorder albums
-  router.put("/reorder", async (req, res) => {
+  router.put("/reorder", requireAuth, async (req, res) => {
     try {
       const { docId, direction } = req.body;
 
@@ -329,7 +330,7 @@ export default function albumRoute(firebaseApp) {
   });
 
   // DELETE route to delete an album
-  router.delete("/:docId", async (req, res) => {
+  router.delete("/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
 

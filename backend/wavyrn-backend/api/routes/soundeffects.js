@@ -1,4 +1,5 @@
 import express from "express";
+import { requireAuth } from "../middleware/auth.js";
 import {
   getFirestore,
   collection,
@@ -17,7 +18,7 @@ export default function soundEffectsRoute(firebaseApp) {
   const db = getFirestore(firebaseApp);
 
   // POST route to upload SFX name and link
-  router.post("/", async (req, res) => {
+  router.post("/", requireAuth, async (req, res) => {
     try {
       const { name, link } = req.body;
 
@@ -97,7 +98,7 @@ export default function soundEffectsRoute(firebaseApp) {
   });
 
   // PUT route to update a sound effect
-  router.put("/:id", async (req, res) => {
+  router.put("/:id", requireAuth, async (req, res) => {
     try {
       const { id } = req.params;
       const { name, link } = req.body;
@@ -140,7 +141,7 @@ export default function soundEffectsRoute(firebaseApp) {
   });
 
   // DELETE route to delete a sound effect
-  router.delete("/:id", async (req, res) => {
+  router.delete("/:id", requireAuth, async (req, res) => {
     try {
       const { id } = req.params;
 

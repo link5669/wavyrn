@@ -1,6 +1,8 @@
 import renderPaginationControls from "./PaginationControls";
 import { useState, useEffect } from "react";
 
+const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
+
 const AlbumEditor = () => {
   const [albumFormData, setAlbumFormData] = useState({
     title: "",
@@ -103,7 +105,7 @@ const AlbumEditor = () => {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", ...authHeaders(),
         },
         body: JSON.stringify(albumFormData),
       });
@@ -147,7 +149,7 @@ const AlbumEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify({
             title: editFormData.title,
@@ -173,7 +175,7 @@ const AlbumEditor = () => {
           {
             method: "PUT",
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
             },
             body: JSON.stringify({
               docId: editingAlbum,
@@ -232,6 +234,7 @@ const AlbumEditor = () => {
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/albums/${docId}`,
         {
           method: "DELETE",
+          headers: authHeaders(),
         },
       );
 
@@ -262,7 +265,7 @@ const AlbumEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify({ docId, direction }),
         },
@@ -309,7 +312,7 @@ const AlbumEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify(requestBody),
         },

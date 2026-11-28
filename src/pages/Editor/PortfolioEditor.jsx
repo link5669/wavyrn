@@ -2,6 +2,8 @@ import renderPaginationControls from "./PaginationControls";
 import { useState, useEffect } from "react";
 import { toDirectDropboxUrl } from "../../utilities/dropbox";
 
+const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
+
 const PortfolioEditor = () => {
   const [portfolioFormData, setPortfolioFormData] = useState({
     title: "",
@@ -76,7 +78,7 @@ const PortfolioEditor = () => {
       const response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", ...authHeaders(),
         },
         body: JSON.stringify({
           ...portfolioFormData,
@@ -115,7 +117,7 @@ const PortfolioEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify({
             title: editFormData.title,
@@ -142,7 +144,7 @@ const PortfolioEditor = () => {
           {
             method: "PUT",
             headers: {
-              "Content-Type": "application/json",
+              "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
             },
             body: JSON.stringify({
               docId: editingPortfolio,
@@ -202,6 +204,7 @@ const PortfolioEditor = () => {
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/${docId}`,
         {
           method: "DELETE",
+          headers: authHeaders(),
         },
       );
 
@@ -232,7 +235,7 @@ const PortfolioEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify({ docId, direction }),
         },
@@ -279,7 +282,7 @@ const PortfolioEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(), ...authHeaders(),
           },
           body: JSON.stringify(requestBody),
         },

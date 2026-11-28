@@ -1,4 +1,5 @@
 import express from "express";
+import { requireAuth } from "../middleware/auth.js";
 import {
   getFirestore,
   collection,
@@ -24,7 +25,7 @@ export default function portfolioRoute(firebaseApp) {
   const db = getFirestore(firebaseApp);
 
   // POST route to upload portfolio image
-  router.post("/", async (req, res) => {
+  router.post("/", requireAuth, async (req, res) => {
     try {
       const { title, subtitle, imgSrc } = req.body;
       const hoverText = normalizeHoverText(req.body.hoverText);
@@ -128,7 +129,7 @@ export default function portfolioRoute(firebaseApp) {
   });
 
   // PUT route to set specific position for portfolio image
-  router.put("/position", async (req, res) => {
+  router.put("/position", requireAuth, async (req, res) => {
     try {
       const { docId, position } = req.body;
       
@@ -196,7 +197,7 @@ export default function portfolioRoute(firebaseApp) {
     }
   });
 
-  router.put("/reorder", async (req, res) => {
+  router.put("/reorder", requireAuth, async (req, res) => {
     try {
       const { docId, direction } = req.body;
 
@@ -319,12 +320,12 @@ export default function portfolioRoute(firebaseApp) {
     }
   };
 
-  router.put("/update", updatePortfolioImage);
+  router.put("/update", requireAuth, updatePortfolioImage);
   // Must stay after /position, /reorder and /update so those aren't captured as a docId
-  router.put("/:docId", updatePortfolioImage);
+  router.put("/:docId", requireAuth, updatePortfolioImage);
 
   // DELETE route to delete a portfolio image
-  router.delete("/:docId", async (req, res) => {
+  router.delete("/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
 

@@ -168,7 +168,7 @@ export default function blogRoute(firebaseApp) {
   });
 
   // POST route to create a new blog post
-  router.post("/", async (req, res) => {
+  router.post("/", requireAuth, async (req, res) => {
     try {
       const {
         title, author, date, content, preview, fontColor, slug, previewImage,
@@ -308,7 +308,7 @@ export default function blogRoute(firebaseApp) {
   });
 
   // PUT route to update a blog post
-  router.put("/:docId", async (req, res) => {
+  router.put("/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
       const {
@@ -402,7 +402,7 @@ export default function blogRoute(firebaseApp) {
   });
 
   // DELETE route to delete a blog post
-  router.delete("/:docId", async (req, res) => {
+  router.delete("/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
 

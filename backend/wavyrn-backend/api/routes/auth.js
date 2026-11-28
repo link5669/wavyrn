@@ -6,7 +6,10 @@ export default function authRoute() {
   const router = express.Router();
 
   const HASHED_PASSWORD = process.env.EDITOR_PASSWORD
-  const JWT_SECRET = process.env.JWT_SECRET || "your-jwt-secret-key";
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET environment variable is required");
+  }
 
   // POST route to verify password
   router.post("/verify", async (req, res) => {

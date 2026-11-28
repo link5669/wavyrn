@@ -1,6 +1,8 @@
 import renderPaginationControls from "./PaginationControls";
 import { useState, useEffect } from "react";
 
+const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
+
 const SFXEditor = () => {
   const [sfxFormData, setSfxFormData] = useState({
     name: "",
@@ -101,7 +103,7 @@ const SFXEditor = () => {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(),
           },
           body: JSON.stringify(sfxFormData),
         },
@@ -145,7 +147,7 @@ const SFXEditor = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", ...authHeaders(),
           },
           body: JSON.stringify(editFormData),
         },
@@ -197,6 +199,7 @@ const SFXEditor = () => {
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/soundEffects/${id}`,
         {
           method: "DELETE",
+          headers: authHeaders(),
         },
       );
 

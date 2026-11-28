@@ -7,6 +7,8 @@ import { importGoogleDocZip } from "../../utilities/googleDocImport";
 
 const BACKEND_URL = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
+const authHeaders = () => ({ Authorization: `Bearer ${localStorage.getItem("authToken")}` });
+
 const EMPTY_FORM = {
   title: "",
   author: "",
@@ -302,7 +304,7 @@ const BlogEditor = () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/filters/tags`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({ name, category }),
       });
       const data = await response.json();
@@ -320,7 +322,7 @@ const BlogEditor = () => {
 
   const handleDeleteTag = async (tag) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/filters/tags/${tag.docId}`, { method: "DELETE" });
+      const response = await fetch(`${BACKEND_URL}/api/filters/tags/${tag.docId}`, { method: "DELETE", headers: authHeaders() });
       const data = await response.json();
       if (!response.ok) {
         showMessage(data.error || "Failed to delete tag", "error");
@@ -349,7 +351,7 @@ const BlogEditor = () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/filters/tags/${tag.docId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({ name, category: tag.category }),
       });
       const data = await response.json();
@@ -371,7 +373,7 @@ const BlogEditor = () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/filters/tags/position`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...authHeaders() },
         body: JSON.stringify({ docId: tag.docId, position }),
       });
       const data = await response.json();
@@ -404,7 +406,7 @@ const BlogEditor = () => {
       const response = await fetch(`${BACKEND_URL}/api/blog`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", ...authHeaders(),
         },
         body: JSON.stringify(formData),
       });
@@ -437,7 +439,7 @@ const BlogEditor = () => {
       const response = await fetch(`${BACKEND_URL}/api/blog/${editingPost}`, {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json", ...authHeaders(),
         },
         body: JSON.stringify(editFormData),
       });
@@ -488,6 +490,7 @@ const BlogEditor = () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/blog/${docId}`, {
         method: "DELETE",
+        headers: authHeaders(),
       });
 
       const data = await response.json();

@@ -1,4 +1,5 @@
 import express from "express";
+import { requireAuth } from "../middleware/auth.js";
 import {
   getFirestore,
   collection,
@@ -21,7 +22,7 @@ export default function filtersRoute(firebaseApp) {
   const db = getFirestore(firebaseApp);
 
   // POST route to add a new tag
-  router.post("/tags", async (req, res) => {
+  router.post("/tags", requireAuth, async (req, res) => {
     try {
       const { name, category, position } = req.body;
 
@@ -138,7 +139,7 @@ export default function filtersRoute(firebaseApp) {
   });
 
   // PUT route to set specific position for tag
-  router.put("/tags/position", async (req, res) => {
+  router.put("/tags/position", requireAuth, async (req, res) => {
     try {
       const { docId, position } = req.body;
       
@@ -211,7 +212,7 @@ export default function filtersRoute(firebaseApp) {
   });
 
   // PUT route to update a tag
-  router.put("/tags/:docId", async (req, res) => {
+  router.put("/tags/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
       const { name, category } = req.body;
@@ -262,7 +263,7 @@ export default function filtersRoute(firebaseApp) {
   });
 
   // DELETE route to delete a tag
-  router.delete("/tags/:docId", async (req, res) => {
+  router.delete("/tags/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
 
@@ -325,7 +326,7 @@ export default function filtersRoute(firebaseApp) {
   });
 
   // POST route to add a new category
-  router.post("/categories", async (req, res) => {
+  router.post("/categories", requireAuth, async (req, res) => {
     try {
       const { name, displayName, color } = req.body;
 
@@ -398,7 +399,7 @@ export default function filtersRoute(firebaseApp) {
   });
 
   // PUT route to update a category
-  router.put("/categories/:docId", async (req, res) => {
+  router.put("/categories/:docId", requireAuth, async (req, res) => {
     try {
       const { docId } = req.params;
       const { displayName, color } = req.body;
