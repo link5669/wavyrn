@@ -15,7 +15,6 @@ const Editor = () => {
   const [activeTab, setActiveTab] = useState("sfx");
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_REACT_APP_BACKEND_URL)
     // Check if user is already authenticated
     const token = localStorage.getItem("authToken");
     if (token) {

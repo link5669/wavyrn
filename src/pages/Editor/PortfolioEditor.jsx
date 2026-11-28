@@ -228,7 +228,7 @@ const PortfolioEditor = () => {
 
   const handlePortfolioReorder = async (docId, direction) => {
     setReorderingPortfolio(docId);
-
+console.log(authHeaders())
     try {
       const response = await fetch(
         `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/api/portfolio/reorder`,

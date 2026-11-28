@@ -36,7 +36,7 @@ export default function authRoute() {
       const token = jwt.sign(
         { authenticated: true, timestamp: Date.now() },
         JWT_SECRET,
-        { expiresIn: "24h" }
+        { expiresIn: "2h" }
       );
 
       res.status(200).json({
